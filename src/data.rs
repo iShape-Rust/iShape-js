@@ -1,36 +1,53 @@
 use i_float::{fix_vec::FixVec, fix_float::FixFloat};
 use i_shape::{fix_shape::FixShape, fix_path::FixPath};
 use serde::{Deserialize, Serialize};
+use wasm_bindgen::JsValue;
 
 #[derive(Serialize, Deserialize)]
 pub struct ShapeListData {
-    pub shapes: ShapeData
+    pub shapes: Vec<ShapeData>
+}
+
+impl ShapeListData {
+    pub (crate) fn create(shapes: &Vec<FixShape>) -> Self {
+        let mut list = Vec::with_capacity(shapes.len());
+        for shape in shapes.iter() {
+            let shape_data = ShapeData::create(shape);
+            list.push(shape_data);
+        }
+
+        Self { shapes: list }
+    }
+
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct ShapeData {
-    pub paths: Vec<Vec<Vec<f64>>>
+    pub paths: Vec<PathData>
 }
 
 impl ShapeData {
 
-    pub (crate) fn shape(&self) -> FixShape {
+    pub (super) fn shape(&self) -> FixShape {
         let n = self.paths.len();
         let mut paths = Vec::with_capacity(n);
 
-        for sequence in self.paths.iter() {
-            let path = PathData::points_to_path(sequence);
-            paths.push(path);
+        for path_data in self.paths.iter() {
+            paths.push(path_data.path());
         }
 
         FixShape::new(paths)
     }
 
-    pub (crate) fn create(shape: &FixShape) -> Self {
+    pub (super) fn create_from_json(js_value: JsValue) -> Self {
+        serde_wasm_bindgen::from_value(js_value).unwrap()
+    }
+
+    pub (super) fn create(shape: &FixShape) -> Self {
         let mut paths = Vec::with_capacity(shape.paths_count());
         for path in shape.paths().iter() {
             let path_data = PathData::create(path);
-            paths.push(path_data.points);
+            paths.push(path_data);
         }
         Self { paths }
     }
@@ -38,17 +55,21 @@ impl ShapeData {
 }
 
 #[derive(Serialize, Deserialize)]
-pub (super) struct PathData {
+pub struct PathData {
     pub points: Vec<Vec<f64>>
 }
 
 impl PathData {
 
-    pub (crate) fn path(&self) -> FixPath {
+    pub (super) fn path(&self) -> FixPath {
         Self::points_to_path(&self.points)
     }
 
-    pub (crate) fn create(path: &FixPath) -> Self {
+    pub (super) fn create_from_json(js_value: JsValue) -> Self {
+        serde_wasm_bindgen::from_value(js_value).unwrap()
+    }
+
+    pub (super) fn create(path: &FixPath) -> Self {
         let mut points = Vec::with_capacity(path.len());
         for fix_vec in path.iter() {
             let x = fix_vec.x.double();
