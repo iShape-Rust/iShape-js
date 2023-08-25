@@ -1,8 +1,19 @@
 [package]
 name = "i_shape_js"
 version = "0.1.0"
+authors = ["Nail Sharipov <nailxsharipov@gmail.com>"]
 edition = "2021"
+description = "A poly-bool library that supports main operations such as union, intersection, difference, xor, and self-intersection by the even-odd rule. This algorithm is based on Vatti clipping ideas but is an original implementation."
+license = "MIT"
+repository = "https://github.com/iShape-Rust/i_shape_js"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+crate-type = ["cdylib"]
 
 [dependencies]
+i_float = { path = "../i_float" }
+i_shape = { path = "../i_shape" }
+i_overlay = { path = "../i_overlay" }
+wasm-bindgen = "0.2"
+serde = { version = "1.0", features = ["derive"] }
+serde-wasm-bindgen = "0.5"
