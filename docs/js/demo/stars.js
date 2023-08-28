@@ -1,4 +1,4 @@
-import init, { JsOverlay, JsOverlayGraph, JsShapeType, JsFillRule} from '/js/i_shape/i_shape_js.js';
+import init, { JsOverlay, JsOverlayGraph, JsShapeType, JsFillRule} from '../i_shape/i_shape_js.js';
 
 const canvas = document.getElementById('starCanvas');
 const ctx = canvas.getContext('2d');
