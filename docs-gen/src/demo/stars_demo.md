@@ -67,6 +67,7 @@
 }
 
 .operation-selection select {
+	-webkit-appearance: none;
     padding-left: 4px;
     flex: none;
     width: 150px;
@@ -81,11 +82,11 @@
 	        <h3 class="title">Subject Star</h3>
 	        <div class="star-input-group">
 	            <label for="subjFirstRadius">First Radius: </label>
-	            <input type="range" id="subjFirstRadius" min="100" max="300" value="200">
+	            <input type="range" id="subjFirstRadius" min="10" max="100" value="60">
 	        </div>
 	        <div class="star-input-group">
 	            <label for="subjSecondRadius">Second Radius: </label>
-	            <input type="range" id="subjSecondRadius" min="100" max="300" value="100">
+	            <input type="range" id="subjSecondRadius" min="10" max="100" value="30">
 	        </div>
 	        <div class="star-input-group">
 	            <label for="subjRotationSpeed">Rotation Speed: </label>
@@ -100,11 +101,11 @@
 	        <h3 class="title">Clip Star</h3>
 	        <div class="star-input-group">
 	            <label for="clipFirstRadius">First Radius: </label>
-	            <input type="range" id="clipFirstRadius" min="100" max="300" value="200">
+	            <input type="range" id="clipFirstRadius" min="10" max="100" value="60">
 	        </div>
 	        <div class="star-input-group">
 	            <label for="clipSecondRadius">Second Radius: </label>
-	            <input type="range" id="clipSecondRadius" min="100" max="300" value="100">
+	            <input type="range" id="clipSecondRadius" min="10" max="100" value="30">
 	        </div>
 	        <div class="star-input-group">
 	            <label for="clipRotationSpeed">Rotation Speed: </label>
@@ -119,10 +120,10 @@
     <div class="operation-selection">
         <label for="operationType">Operation: </label>
         <select id="operationType">
+            <option value="Xor">Xor</option>
             <option value="Union">Union</option>
             <option value="Intersect">Intersect</option>
             <option value="Difference">Difference</option>
-            <option value="Xor">Xor</option>
             <option value="Subject">Subject</option>
             <option value="Clip">Clip</option>
 		</select>

@@ -1,23 +1,11 @@
 import init, { JsOverlay, JsOverlayGraph, JsShapeType, JsFillRule} from '../i_shape/i_shape_js.js';
 
-const canvas = document.getElementById('starCanvas');
+const canvas = document.getElementById('editorCanvas');
 const ctx = canvas.getContext('2d');
-let subjAngle = 0;
-let clipAngle = 0;
 
 let lastFrameTime = 0;
 const maxFPS = 60;
 const frameDuration = 1000 / maxFPS;
-
-const subjFirstRadiusSlider = document.getElementById('subjFirstRadius');
-const subjSecondRadiusSlider = document.getElementById('subjSecondRadius');
-const subjRotationSpeedSlider = document.getElementById('subjRotationSpeed');
-const subjAngleCountSlider = document.getElementById('subjAngleCount');
-
-const clipFirstRadiusSlider = document.getElementById('clipFirstRadius');
-const clipSecondRadiusSlider = document.getElementById('clipSecondRadius');
-const clipRotationSpeedSlider = document.getElementById('clipRotationSpeed');
-const clipAngleCountSlider = document.getElementById('clipAngleCount');
 
 const operationTypeSelect = document.getElementById('operationType');
 

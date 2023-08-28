@@ -59,6 +59,8 @@ function resizeCanvas() {
 function draw(currentTime) {
     const deltaTime = currentTime - lastFrameTime;
 
+    const a = 0.45 * 0.01 * Math.min(canvas.width, canvas.height);
+
     if (deltaTime < frameDuration) {
         requestAnimationFrame(draw);
         return;
@@ -68,13 +70,13 @@ function draw(currentTime) {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
 
-    const subjFirstRadius = parseInt(subjFirstRadiusSlider.value, 10);
-    const subjSecondRadius = parseInt(subjSecondRadiusSlider.value, 10);
+    const subjFirstRadius = a * parseInt(subjFirstRadiusSlider.value, 10);
+    const subjSecondRadius = a * parseInt(subjSecondRadiusSlider.value, 10);
     const subjRotationSpeed = parseInt(subjRotationSpeedSlider.value, 10) * 0.0005;
     const subjAngleCount = parseInt(subjAngleCountSlider.value, 10);
     
-    const clipFirstRadius = parseInt(clipFirstRadiusSlider.value, 10);
-    const clipSecondRadius = parseInt(clipSecondRadiusSlider.value, 10);
+    const clipFirstRadius = a * parseInt(clipFirstRadiusSlider.value, 10);
+    const clipSecondRadius = a * parseInt(clipSecondRadiusSlider.value, 10);
     const clipRotationSpeed = parseInt(clipRotationSpeedSlider.value, 10) * 0.0005;
     const clipAngleCount = parseInt(clipAngleCountSlider.value, 10);
     
