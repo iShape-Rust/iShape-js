@@ -1,0 +1,6 @@
+[book]
+authors = ["Nail Sharipov"]
+language = "en"
+multilingual = false
+src = "src"
+title = "iShape"

@@ -11,9 +11,10 @@ repository = "https://github.com/iShape-Rust/i_shape_js"
 crate-type = ["cdylib"]
 
 [dependencies]
-i_float = { path = "../i_float" }
-i_shape = { path = "../i_shape" }
-i_overlay = { path = "../i_overlay" }
+i_float = "^0.1.0"
+i_shape = "^0.1.0"
+i_overlay = "^0.1.0"
+
 wasm-bindgen = "0.2"
 serde = { version = "1.0", features = ["derive"] }
 serde-wasm-bindgen = "0.5"
