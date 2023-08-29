@@ -276,12 +276,11 @@ function drawFill(ctx, data) {
         const fill = link.fill;
         const seg = new Segment(link);
 
-        const isFillSubjTop = fill & SegmentFill.subjTop == SegmentFill.subjTop;
-        const isFillClipTop = fill & SegmentFill.clipTop == SegmentFill.clipTop;
+        const isFillSubjTop = (fill & SegmentFill.subjTop) == SegmentFill.subjTop;
+        const isFillClipTop = (fill & SegmentFill.clipTop) == SegmentFill.clipTop;
 
-        const isFillClipBottom = fill & SegmentFill.clipBottom == SegmentFill.clipBottom;
-        const isFillSubjBottom = fill & SegmentFill.subjBottom == SegmentFill.subjBottom;
-
+        const isFillClipBottom = (fill & SegmentFill.clipBottom) == SegmentFill.clipBottom;
+        const isFillSubjBottom = (fill & SegmentFill.subjBottom) == SegmentFill.subjBottom;
 
         drawCircle(ctx, seg.subjTopPos, isFillSubjTop, subjStroke)
         drawCircle(ctx, seg.clipTopPos, isFillClipTop, clipStroke)
@@ -358,6 +357,67 @@ function drawPoints(ctx, shapes, color) {
         });
     });
 }
+
+function normalize(vector) {
+    const magnitude = Math.sqrt(vector.x ** 2 + vector.y ** 2);
+    return { x: vector.x / magnitude, y: vector.y / magnitude };
+}
+
+function subtractVectors(vectorA, vectorB) {
+    return { x: vectorA.x - vectorB.x, y: vectorA.y - vectorB.y };
+}
+
+function addVectors(vectorA, vectorB) {
+    return { x: vectorA.x + vectorB.x, y: vectorA.y + vectorB.y };
+}
+
+function multiplyVectorByScalar(vector, scalar) {
+    return { x: vector.x * scalar, y: vector.y * scalar };
+}
+
+class Segment {
+  constructor(link) {
+    this.start = { x: link.ax, y: link.ay };
+    this.end = { x: link.bx, y: link.by };
+  }
+
+  get subjTopPos() {
+    const n = normalize(subtractVectors(this.start, this.end));
+    const o = { x: n.y, y: -n.x };
+    return addVectors(
+      multiplyVectorByScalar(addVectors(this.start, this.end), 0.5),
+      addVectors(multiplyVectorByScalar(o, 6), multiplyVectorByScalar(n, 4))
+    );
+  }
+
+  get subjBottomPos() {
+    const n = normalize(subtractVectors(this.start, this.end));
+    const o = { x: -n.y, y: n.x };
+    return addVectors(
+      multiplyVectorByScalar(addVectors(this.start, this.end), 0.5),
+      addVectors(multiplyVectorByScalar(o, 6), multiplyVectorByScalar(n, 4))
+    );
+  }
+
+  get clipTopPos() {
+    const n = normalize(subtractVectors(this.start, this.end));
+    const o = { x: n.y, y: -n.x };
+    return addVectors(
+      multiplyVectorByScalar(addVectors(this.start, this.end), 0.5),
+      addVectors(multiplyVectorByScalar(o, 6), multiplyVectorByScalar(n, -4))
+    );
+  }
+
+  get clipBottomPos() {
+    const n = normalize(subtractVectors(this.start, this.end));
+    const o = { x: -n.y, y: n.x };
+    return addVectors(
+      multiplyVectorByScalar(addVectors(this.start, this.end), 0.5),
+      addVectors(multiplyVectorByScalar(o, 6), multiplyVectorByScalar(n, -4))
+    );
+  }
+}
+
 
 const testData = [
 {
@@ -445,65 +505,4 @@ const testData = [
     ]
 }
 ]
-
-function normalize(vector) {
-    const magnitude = Math.sqrt(vector.x ** 2 + vector.y ** 2);
-    return { x: vector.x / magnitude, y: vector.y / magnitude };
-}
-
-function subtractVectors(vectorA, vectorB) {
-    return { x: vectorA.x - vectorB.x, y: vectorA.y - vectorB.y };
-}
-
-function addVectors(vectorA, vectorB) {
-    return { x: vectorA.x + vectorB.x, y: vectorA.y + vectorB.y };
-}
-
-function multiplyVectorByScalar(vector, scalar) {
-    return { x: vector.x * scalar, y: vector.y * scalar };
-}
-
-class Segment {
-  constructor(link) {
-    this.start = { x: link.ax, y: link.ay };
-    this.end = { x: link.bx, y: link.by };
-  }
-
-  get subjTopPos() {
-    const n = normalize(subtractVectors(this.start, this.end));
-    const o = { x: -n.y, y: n.x };
-    return addVectors(
-      multiplyVectorByScalar(addVectors(this.start, this.end), 0.5),
-      addVectors(multiplyVectorByScalar(o, 6), multiplyVectorByScalar(n, 4))
-    );
-  }
-
-  get subjBottomPos() {
-    const n = normalize(subtractVectors(this.start, this.end));
-    const o = { x: n.y, y: -n.x };
-    return addVectors(
-      multiplyVectorByScalar(addVectors(this.start, this.end), 0.5),
-      addVectors(multiplyVectorByScalar(o, 6), multiplyVectorByScalar(n, 4))
-    );
-  }
-
-  get clipTopPos() {
-    const n = normalize(subtractVectors(this.start, this.end));
-    const o = { x: -n.y, y: n.x };
-    return addVectors(
-      multiplyVectorByScalar(addVectors(this.start, this.end), 0.5),
-      addVectors(multiplyVectorByScalar(o, 6), multiplyVectorByScalar(n, -4))
-    );
-  }
-
-  get clipBottomPos() {
-    const n = normalize(subtractVectors(this.start, this.end));
-    const o = { x: n.y, y: -n.x };
-    return addVectors(
-      multiplyVectorByScalar(addVectors(this.start, this.end), 0.5),
-      addVectors(multiplyVectorByScalar(o, 6), multiplyVectorByScalar(n, -4))
-    );
-  }
-}
-
 

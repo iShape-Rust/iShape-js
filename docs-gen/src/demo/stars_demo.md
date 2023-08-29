@@ -75,8 +75,8 @@
 }
 </style>
 <div class="sheet-container">
-	<!-- <script type="module" src="./js/demo/stars.js" defer></script> -->
-	<script type="module" src="/js/demo/stars.js" defer></script>
+	<script type="module" src="./js/demo/stars.js" defer></script>
+	<!-- <script type="module" src="/js/demo/stars.js" defer></script> -->
 	<h1 class="demo-title">Stars Rotation</h1>
 	<div class="rotating-stars-input-container">
 	    <div class="star-input-container">
