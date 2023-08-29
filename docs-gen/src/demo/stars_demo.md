@@ -75,7 +75,8 @@
 }
 </style>
 <div class="sheet-container">
-	<script type="module" src="./js/demo/stars.js" defer></script>
+	<!-- <script type="module" src="./js/demo/stars.js" defer></script> -->
+	<script type="module" src="/js/demo/stars.js" defer></script>
 	<h1 class="demo-title">Stars Rotation</h1>
 	<div class="rotating-stars-input-container">
 	    <div class="star-input-container">
@@ -128,5 +129,5 @@
             <option value="Clip">Clip</option>
 		</select>
     </div>
-    <canvas id="starCanvas" width="800" height="800"/>
+    <canvas id="starCanvas" width="1000" height="1000"/>
 </div>

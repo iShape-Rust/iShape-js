@@ -46,8 +46,8 @@ async function run() {
 }
 
 function resizeCanvas() {
-  const newWidth = Math.min(800, Math.floor(window.innerWidth * 0.8));
-  const newHeight = Math.min(800, Math.floor(window.innerWidth * 0.8));
+  const newWidth = Math.max(500, Math.floor(window.innerWidth));
+  const newHeight = Math.max(500, Math.floor(window.innerWidth));
 
   if (newWidth != canvas.width || newHeight != canvas.height) {
     canvas.width = newWidth;
@@ -68,7 +68,7 @@ function draw(currentTime) {
 
     lastFrameTime = currentTime;
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     const subjFirstRadius = a * parseInt(subjFirstRadiusSlider.value, 10);
     const subjSecondRadius = a * parseInt(subjSecondRadiusSlider.value, 10);

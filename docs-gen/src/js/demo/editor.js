@@ -2,12 +2,36 @@ import init, { JsOverlay, JsOverlayGraph, JsShapeType, JsFillRule} from '../i_sh
 
 const canvas = document.getElementById('editorCanvas');
 const ctx = canvas.getContext('2d');
-
-let lastFrameTime = 0;
-const maxFPS = 60;
-const frameDuration = 1000 / maxFPS;
+let testIndex = 0; // will be controlled
+const twoPI = 2 * Math.PI;
+let selectedPoint = null;
+let candidatePoint = null;
+let isSubjSelected = false;
+let isSubjCandidate = false;
+let isMousePressed = false;
 
 const operationTypeSelect = document.getElementById('operationType');
+const snapTextField = document.getElementById('snap');
+const fillTextField = document.getElementById('fill');
+const prevButton = document.getElementById('test-prev');
+const nextButton = document.getElementById('test-next');
+
+prevButton.addEventListener('click', function() {
+    const n = testData.length;
+    testIndex = (testIndex - 1 + n) % n;
+    requestAnimationFrame(draw);
+});
+
+nextButton.addEventListener('click', function() {
+    const n = testData.length;
+    testIndex = (testIndex + 1) % n;
+    requestAnimationFrame(draw);
+});
+
+operationTypeSelect.addEventListener('change', function(event) {
+   requestAnimationFrame(draw); 
+});
+
 
 const colorStore = [
     "#FF9500", // Orange
@@ -24,49 +48,127 @@ const colorStore = [
     "#FFD60A"  // Teal
 ];
 
-run();
-
 async function run() {
   await init(); // Initialize the wasm module
-  
-  window.addEventListener('resize', resizeCanvas);
   requestAnimationFrame(draw);
 }
 
-function resizeCanvas() {
-  const newWidth = Math.min(800, Math.floor(window.innerWidth * 0.8));
-  const newHeight = Math.min(800, Math.floor(window.innerWidth * 0.8));
+run();
 
-  if (newWidth != canvas.width || newHeight != canvas.height) {
-    canvas.width = newWidth;
-    canvas.height = newHeight;
-    requestAnimationFrame(draw);
-  }
-}
+canvas.addEventListener('mousedown', function(event) {
+    let x = event.clientX - canvas.getBoundingClientRect().left;
+    let y = event.clientY - canvas.getBoundingClientRect().top;
+  
+    let test = testData[testIndex];
+    isMousePressed = true;
 
-function draw(currentTime) {
-    const deltaTime = currentTime - lastFrameTime;
-
-    const a = 0.45 * 0.01 * Math.min(canvas.width, canvas.height);
-
-    if (deltaTime < frameDuration) {
-        requestAnimationFrame(draw);
-        return;
+    for(let i = 0; i < test.subjs.length; i++) {
+        let shape = test.subjs[i];
+        selectedPoint = findPoint(shape, x, y);
+        if (selectedPoint !== null) {
+            isSubjSelected = true;
+            candidatePoint = null;
+            isSubjCandidate = false;
+            return;
+        }
     }
 
-    lastFrameTime = currentTime;
+    for(let i = 0; i < test.clips.length; i++) {
+        let shape = test.clips[i];
+        selectedPoint = findPoint(shape, x, y);
+        if (selectedPoint !== null) {
+            isSubjSelected = false;
+            candidatePoint = null;
+            isSubjCandidate = false;
+            return;
+        }
+    }
+});
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+canvas.addEventListener('mousemove', function(event) {
+    if (isMousePressed) {
+        // Left mouse button was pressed
+        if (selectedPoint !== null) {
+            let isSnap = snapTextField.checked;
 
-    const subjFirstRadius = a * parseInt(subjFirstRadiusSlider.value, 10);
-    const subjSecondRadius = a * parseInt(subjSecondRadiusSlider.value, 10);
-    const subjRotationSpeed = parseInt(subjRotationSpeedSlider.value, 10) * 0.0005;
-    const subjAngleCount = parseInt(subjAngleCountSlider.value, 10);
-    
-    const clipFirstRadius = a * parseInt(clipFirstRadiusSlider.value, 10);
-    const clipSecondRadius = a * parseInt(clipSecondRadiusSlider.value, 10);
-    const clipRotationSpeed = parseInt(clipRotationSpeedSlider.value, 10) * 0.0005;
-    const clipAngleCount = parseInt(clipAngleCountSlider.value, 10);
+            let x = event.clientX - canvas.getBoundingClientRect().left;
+            let y = event.clientY - canvas.getBoundingClientRect().top;
+
+            if (isSnap) {
+                x = Math.round(x * 0.1) * 10;
+                y = Math.round(y * 0.1) * 10;
+            }
+
+
+            let minX = 50;
+            let maxX = canvas.width - 50;
+            let maxY = 0.5 * canvas.height;
+            let minY = 50;
+
+            selectedPoint[0] = Math.max(Math.min(x, maxX), minX);
+            selectedPoint[1] = Math.max(Math.min(y, maxY), minY);
+            
+            requestAnimationFrame(draw);
+        }
+    } else {
+        let wasCandidate = candidatePoint !== null;
+        let x = event.clientX - canvas.getBoundingClientRect().left;
+        let y = event.clientY - canvas.getBoundingClientRect().top;
+      
+        let test = testData[testIndex];
+
+        for(let i = 0; i < test.subjs.length; i++) {
+            let shape = test.subjs[i];
+            candidatePoint = findPoint(shape, x, y);
+            if (candidatePoint !== null) {
+                isSubjCandidate = true;
+                requestAnimationFrame(draw);
+                return;
+            }
+        }
+
+        for(let i = 0; i < test.clips.length; i++) {
+            let shape = test.clips[i];
+            candidatePoint = findPoint(shape, x, y);
+            if (candidatePoint !== null) {
+                isSubjCandidate = false;
+                requestAnimationFrame(draw);
+                return;
+            }
+        }
+
+        if (wasCandidate) {
+            requestAnimationFrame(draw);
+            candidatePoint = null;
+        }
+    }
+});
+
+canvas.addEventListener('mouseup', function(event) {
+    selectedPoint = null;
+    isMousePressed = false;
+});
+
+canvas.addEventListener('mouseout', function(event) {
+    selectedPoint = null;
+    candidatePoint = null;
+    isMousePressed = false;
+    requestAnimationFrame(draw);
+});
+
+function findPoint(shape, x, y) {
+    for (let path of shape.paths) {
+        for (let point of path.points) {
+            const [px, py] = point;
+            if (Math.abs(px - x) < 10 && Math.abs(py - y) < 10) {
+                return point;
+            }
+        }
+    }
+    return null;
+}
+
+function draw() {
     
     const selectedOperation = operationTypeSelect.value;
 
@@ -84,73 +186,103 @@ function draw(currentTime) {
         case 'Xor':
             fillRule = JsFillRule.Xor;
             break;
-        case 'Subject':
-            fillRule = JsFillRule.Subject;  // Replace with the actual value
-            break;
-        case 'Clip':
-            fillRule = JsFillRule.Clip;  // Replace with the actual value
-            break;
     }
 
-    let x0 = 0.5 * canvas.width;
-    let y0 = 0.5 * canvas.height;
-
-    const subj = createStar({ x: x0, y: y0 }, subjFirstRadius, subjSecondRadius, subjAngleCount, subjAngle);
-    const clip = createStar({ x: x0, y: y0 }, clipFirstRadius, clipSecondRadius, clipAngleCount, clipAngle);
+    let test = testData[testIndex];
 
     const overlay = new JsOverlay();
 
-    overlay.add_shape(subj, JsShapeType.Subject);
-    overlay.add_shape(clip, JsShapeType.Clip);
+    test.subjs.forEach((subj) => {
+        overlay.add_shape(subj, JsShapeType.Subject);
+    });
+
+    test.clips.forEach((clip) => {
+        overlay.add_shape(clip, JsShapeType.Clip);
+    });
 
     const graph = overlay.build_graph();
     const result = graph.extract_shapes(fillRule);
 
-    var index = 0;
-    result.shapes.forEach((shape) => {
-      const stroke = getColorByIndex(index);
-      const fill = getColorByIndex(index, 0.5);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#FAFAFAF8";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    drawWorkingAreaSplitLine(ctx);
 
-      drawShape(ctx, shape, fill, stroke, 8);
-      index += 1;
+    test.subjs.forEach((shape) => {
+      const stroke = "#ff0000ff";
+      const fill = "#FF3B3008";
+
+      drawShape(ctx, shape, fill, stroke, 1.6, 0.0);
     });
 
-    subjAngle += subjRotationSpeed;
-    clipAngle -= clipRotationSpeed;
+    drawPoints(ctx, test.subjs, "#ff0000ff");
 
-    requestAnimationFrame(draw);
+    test.clips.forEach((shape) => {
+      const stroke = "#0066ffff";
+      const fill = "#007AFF08";
+
+      drawShape(ctx, shape, fill, stroke, 1.6, 0.0);
+    });
+
+    drawPoints(ctx, test.clips, "#0066ffff");
+
+    if (selectedPoint !== null) {
+        let color = isSubjSelected ? "#ff0000ff" : "#0066ffff";
+        drawPoint(ctx, selectedPoint, color)
+    }
+    if (candidatePoint !== null) {
+        let color = isSubjCandidate ? "#ff0000ff" : "#0066ffff";
+        drawPoint(ctx, candidatePoint, color)
+    }
+
+    let maxY = 0.5 * canvas.height;
+
+    result.shapes.forEach((shape) => {
+      const stroke = "#FF9500";
+      const fill = "#FF950008";
+
+      drawShape(ctx, shape, fill, stroke, 1.6, maxY);
+    });
 }
 
-function createStar(center, r0, r1, count, angle) {
-  const da = Math.PI / count;
-  let a = angle;
-  const x0 = center.x;
-  const y0 = center.y;
+function drawWorkingAreaSplitLine(ctx) {
+    let minX = 50;
+    let maxX = canvas.width - 50;
+    let maxY = 0.5 * canvas.height;
+    let minY = 50;
 
-  const points = [];
-
-  for (let i = 0; i < count; i++) {
-    const xr0 = r0 * Math.cos(a);
-    const yr0 = r0 * Math.sin(a);
-
-    a += da;
-
-    const xr1 = r1 * Math.cos(a);
-    const yr1 = r1 * Math.sin(a);
-
-    a += da;
-
-    points.push([x0 + xr0, y0 + yr0]);
-    points.push([x0 + xr1, y0 + yr1]);
-  }
-
-  return {
-    paths: [{ points: points }]
-  };
+    ctx.setLineDash([4, 10]);
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = 'gray';
+    
+    ctx.beginPath();
+    ctx.moveTo(minX, minY);
+    ctx.lineTo(minX, maxY);
+    ctx.lineTo(maxX, maxY);
+    ctx.lineTo(maxX, minY);
+    ctx.closePath();
+    ctx.stroke();
+    ctx.setLineDash([]);
 }
 
-function drawShape(ctx, shape, fillColor, strokeColor, lineWidth) {
+function drawOperation(ctx, subj, clip) {
+
+}
+
+function drawFill(ctx, subj, clip) {
+    
+}
+
+function drawPoint(ctx, point, color) {
+    ctx.fillStyle = color;
+    ctx.lineWidth = null;
+    ctx.beginPath();
+    ctx.arc(point[0], point[1], 6, 0, twoPI);
+    ctx.fill();
+}
+
+function drawShape(ctx, shape, fillColor, strokeColor, lineWidth, dy) {
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
 
@@ -159,11 +291,11 @@ function drawShape(ctx, shape, fillColor, strokeColor, lineWidth) {
 
         const points = path.points;
         const [x0, y0] = points[0];
-        ctx.moveTo(x0, y0);
+        ctx.moveTo(x0, y0 + dy);
 
         for (let i = 1; i < points.length; i++) {
           const [x, y] = points[i];
-          ctx.lineTo(x, y);
+          ctx.lineTo(x, y + dy);
         }
 
         ctx.closePath();
@@ -183,6 +315,24 @@ function drawShape(ctx, shape, fillColor, strokeColor, lineWidth) {
     ctx.fill('evenodd');
 }
 
+function drawPoints(ctx, shapes, color) {
+    ctx.fillStyle = color;
+    ctx.lineWidth = null;
+
+    shapes.forEach((shape) => {
+        shape.paths.forEach((path) => {
+            const points = path.points;
+            for (let i = 0; i < points.length; i++) {
+                const [x, y] = points[i];
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, twoPI);
+                ctx.fill();
+            }
+        });
+    });
+}
+
+
 function getColorByIndex(index, opacity = 1) {
     const n = colorStore.length;
     const i = index % n;
@@ -201,3 +351,68 @@ function getColorByIndex(index, opacity = 1) {
     return color + alpha;
 }
 
+const testData = [
+{
+    name: "Squares 1",
+    subjs: [
+        {
+            paths: [
+            {
+                points: [[200, 300], [200, 100], [400, 100], [400, 300]]
+            }
+            ]
+        }
+    ],
+    clips: [
+        {
+            paths: [
+            {
+                points: [[300, 400], [300, 200], [500, 200], [500, 400]]
+            }
+            ]
+        }
+    ]
+},
+{
+    name: "Squares 2",
+    subjs: [
+        {
+            paths: [
+            {
+                points: [[200, 350], [200, 150], [400, 150], [400, 350]]
+            }
+            ]
+        }
+    ],
+    clips: [
+        {
+            paths: [
+            {
+                points: [[300, 350], [300, 150], [500, 150], [500, 350]]
+            }
+            ]
+        }
+    ]
+},
+{
+    name: "Hole",
+    subjs: [
+        {
+            paths: [
+            {
+                points: [[300, 150], [300, 350], [500, 350], [500, 150]]
+            }
+            ]
+        }
+    ],
+    clips: [
+        {
+            paths: [
+            {
+                points: [[350, 200], [350, 300], [450, 300], [450, 200]]
+            }
+            ]
+        }
+    ]
+}
+]
