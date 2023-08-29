@@ -91,7 +91,7 @@
 
 </style>
 <div class="sheet-container">
-	<script type="module" src="./js/demo/editor.js" defer></script>
+	<script type="module" src="../js/demo/editor.js" defer></script>
 	<!-- <script type="module" src="/js/demo/editor.js" defer></script> -->
 	<h1 class="demo-title">Shapes Editor</h1>
     <div class="operation-selection">
