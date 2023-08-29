@@ -10,60 +10,64 @@ let isSubjSelected = false;
 let isSubjCandidate = false;
 let isMousePressed = false;
 
+const subjStroke = "#ff0000ff";
+const subjFill = "#FF3B3008";
+const clipStroke = "#0066ffff";
+const clipFill = "#007AFF08";
+
 const operationTypeSelect = document.getElementById('operationType');
 const snapTextField = document.getElementById('snap');
 const fillTextField = document.getElementById('fill');
 const prevButton = document.getElementById('test-prev');
 const nextButton = document.getElementById('test-next');
+const testTitle = document.getElementById('test-name');
+
+const SegmentFill = {
+  subjTop: 0b0001,
+  subjBottom: 0b0010,
+  clipTop: 0b0100,
+  clipBottom: 0b1000
+};
 
 prevButton.addEventListener('click', function() {
     const n = testData.length;
     testIndex = (testIndex - 1 + n) % n;
     requestAnimationFrame(draw);
+    testTitle.textContent = testData[testIndex].name;
 });
 
 nextButton.addEventListener('click', function() {
     const n = testData.length;
     testIndex = (testIndex + 1) % n;
     requestAnimationFrame(draw);
+    testTitle.textContent = testData[testIndex].name;
 });
 
 operationTypeSelect.addEventListener('change', function(event) {
    requestAnimationFrame(draw); 
 });
 
-
-const colorStore = [
-    "#FF9500", // Orange
-    "#5856D6", // Purple
-    "#FF2D55", // Pink
-    "#5AC8FA", // Blue
-    "#4CD964", // Green
-    "#FFCC00", // Yellow
-    "#8E8E93", // Gray
-    "#FF3B30", // Red
-    "#34C759", // Green
-    "#007AFF", // Blue
-    "#AF52DE", // Indigo
-    "#FFD60A"  // Teal
-];
+fillTextField.addEventListener('change', function(event) {
+   requestAnimationFrame(draw); 
+});
 
 async function run() {
   await init(); // Initialize the wasm module
   requestAnimationFrame(draw);
+  testTitle.textContent = testData[testIndex].name;
 }
 
 run();
 
 canvas.addEventListener('mousedown', function(event) {
-    let x = event.clientX - canvas.getBoundingClientRect().left;
-    let y = event.clientY - canvas.getBoundingClientRect().top;
+    const x = event.clientX - canvas.getBoundingClientRect().left;
+    const y = event.clientY - canvas.getBoundingClientRect().top;
   
-    let test = testData[testIndex];
+    const test = testData[testIndex];
     isMousePressed = true;
 
     for(let i = 0; i < test.subjs.length; i++) {
-        let shape = test.subjs[i];
+        const shape = test.subjs[i];
         selectedPoint = findPoint(shape, x, y);
         if (selectedPoint !== null) {
             isSubjSelected = true;
@@ -74,7 +78,7 @@ canvas.addEventListener('mousedown', function(event) {
     }
 
     for(let i = 0; i < test.clips.length; i++) {
-        let shape = test.clips[i];
+        const shape = test.clips[i];
         selectedPoint = findPoint(shape, x, y);
         if (selectedPoint !== null) {
             isSubjSelected = false;
@@ -89,7 +93,7 @@ canvas.addEventListener('mousemove', function(event) {
     if (isMousePressed) {
         // Left mouse button was pressed
         if (selectedPoint !== null) {
-            let isSnap = snapTextField.checked;
+            const isSnap = snapTextField.checked;
 
             let x = event.clientX - canvas.getBoundingClientRect().left;
             let y = event.clientY - canvas.getBoundingClientRect().top;
@@ -99,11 +103,10 @@ canvas.addEventListener('mousemove', function(event) {
                 y = Math.round(y * 0.1) * 10;
             }
 
-
-            let minX = 50;
-            let maxX = canvas.width - 50;
-            let maxY = 0.5 * canvas.height;
-            let minY = 50;
+            const minX = 50;
+            const maxX = canvas.width - 50;
+            const maxY = 0.5 * canvas.height;
+            const minY = 50;
 
             selectedPoint[0] = Math.max(Math.min(x, maxX), minX);
             selectedPoint[1] = Math.max(Math.min(y, maxY), minY);
@@ -111,14 +114,14 @@ canvas.addEventListener('mousemove', function(event) {
             requestAnimationFrame(draw);
         }
     } else {
-        let wasCandidate = candidatePoint !== null;
-        let x = event.clientX - canvas.getBoundingClientRect().left;
-        let y = event.clientY - canvas.getBoundingClientRect().top;
+        const wasCandidate = candidatePoint !== null;
+        const x = event.clientX - canvas.getBoundingClientRect().left;
+        const y = event.clientY - canvas.getBoundingClientRect().top;
       
         let test = testData[testIndex];
 
         for(let i = 0; i < test.subjs.length; i++) {
-            let shape = test.subjs[i];
+            const shape = test.subjs[i];
             candidatePoint = findPoint(shape, x, y);
             if (candidatePoint !== null) {
                 isSubjCandidate = true;
@@ -128,7 +131,7 @@ canvas.addEventListener('mousemove', function(event) {
         }
 
         for(let i = 0; i < test.clips.length; i++) {
-            let shape = test.clips[i];
+            const shape = test.clips[i];
             candidatePoint = findPoint(shape, x, y);
             if (candidatePoint !== null) {
                 isSubjCandidate = false;
@@ -169,11 +172,8 @@ function findPoint(shape, x, y) {
 }
 
 function draw() {
-    
-    const selectedOperation = operationTypeSelect.value;
-
     let fillRule;
-    switch (selectedOperation) {
+    switch (operationTypeSelect.value) {
         case 'Union':
             fillRule = JsFillRule.Union;
             break;
@@ -188,7 +188,7 @@ function draw() {
             break;
     }
 
-    let test = testData[testIndex];
+    const test = testData[testIndex];
 
     const overlay = new JsOverlay();
 
@@ -210,47 +210,52 @@ function draw() {
     drawWorkingAreaSplitLine(ctx);
 
     test.subjs.forEach((shape) => {
-      const stroke = "#ff0000ff";
-      const fill = "#FF3B3008";
-
-      drawShape(ctx, shape, fill, stroke, 1.6, 0.0);
+      drawShape(ctx, shape, subjFill, subjStroke, 1.6, 0.0);
     });
 
-    drawPoints(ctx, test.subjs, "#ff0000ff");
+    drawPoints(ctx, test.subjs, subjStroke);
 
     test.clips.forEach((shape) => {
-      const stroke = "#0066ffff";
-      const fill = "#007AFF08";
+      const stroke = clipStroke;
+      const fill = clipFill;
 
       drawShape(ctx, shape, fill, stroke, 1.6, 0.0);
     });
 
-    drawPoints(ctx, test.clips, "#0066ffff");
+    drawPoints(ctx, test.clips, clipStroke);
 
     if (selectedPoint !== null) {
-        let color = isSubjSelected ? "#ff0000ff" : "#0066ffff";
+        const color = isSubjSelected ? subjStroke : clipStroke
         drawPoint(ctx, selectedPoint, color)
     }
     if (candidatePoint !== null) {
-        let color = isSubjCandidate ? "#ff0000ff" : "#0066ffff";
+        const color = isSubjCandidate ? subjStroke : clipStroke;
         drawPoint(ctx, candidatePoint, color)
     }
 
-    let maxY = 0.5 * canvas.height;
+    const maxY = 0.5 * canvas.height;
 
     result.shapes.forEach((shape) => {
       const stroke = "#FF9500";
-      const fill = "#FF950008";
+      const fill = "#FF950010";
 
       drawShape(ctx, shape, fill, stroke, 1.6, maxY);
     });
+
+
+    const isFill = fillTextField.checked;
+    if (isFill) {
+        const links = graph.links();
+        drawFill(ctx, links);
+    }
+
 }
 
 function drawWorkingAreaSplitLine(ctx) {
-    let minX = 50;
-    let maxX = canvas.width - 50;
-    let maxY = 0.5 * canvas.height;
-    let minY = 50;
+    const minX = 50;
+    const maxX = canvas.width - 50;
+    const maxY = 0.5 * canvas.height;
+    const minY = 50;
 
     ctx.setLineDash([4, 10]);
     ctx.lineWidth = 1;
@@ -266,12 +271,40 @@ function drawWorkingAreaSplitLine(ctx) {
     ctx.setLineDash([]);
 }
 
-function drawOperation(ctx, subj, clip) {
+function drawFill(ctx, data) {
+    data.links.forEach((link) => {
+        const fill = link.fill;
+        const seg = new Segment(link);
 
+        const isFillSubjTop = fill & SegmentFill.subjTop == SegmentFill.subjTop;
+        const isFillClipTop = fill & SegmentFill.clipTop == SegmentFill.clipTop;
+
+        const isFillClipBottom = fill & SegmentFill.clipBottom == SegmentFill.clipBottom;
+        const isFillSubjBottom = fill & SegmentFill.subjBottom == SegmentFill.subjBottom;
+
+
+        drawCircle(ctx, seg.subjTopPos, isFillSubjTop, subjStroke)
+        drawCircle(ctx, seg.clipTopPos, isFillClipTop, clipStroke)
+        drawCircle(ctx, seg.subjBottomPos, isFillSubjBottom, subjStroke)
+        drawCircle(ctx, seg.clipBottomPos, isFillClipBottom, clipStroke)
+    });
 }
 
-function drawFill(ctx, subj, clip) {
-    
+function drawCircle(ctx, p, isFill, color) {
+    ctx.beginPath();
+
+    if (isFill) {
+        ctx.arc(p.x, p.y, 3, 0, twoPI);
+        ctx.fillStyle = color;
+        ctx.fill();
+    } else {
+        ctx.arc(p.x, p.y, 2.6, 0, twoPI);
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = color;
+        ctx.stroke();
+    }
+
+    ctx.closePath();
 }
 
 function drawPoint(ctx, point, color) {
@@ -286,33 +319,27 @@ function drawShape(ctx, shape, fillColor, strokeColor, lineWidth, dy) {
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
 
-    shape.paths.forEach((path) => {
-        ctx.beginPath();
+    let region = new Path2D();
 
+    shape.paths.forEach((path) => {
         const points = path.points;
         const [x0, y0] = points[0];
-        ctx.moveTo(x0, y0 + dy);
+        region.moveTo(x0, y0 + dy);
 
         for (let i = 1; i < points.length; i++) {
           const [x, y] = points[i];
-          ctx.lineTo(x, y + dy);
+          region.lineTo(x, y + dy);
         }
 
-        ctx.closePath();
+        region.closePath();
     });
 
-    if (fillColor) {
-      ctx.fillStyle = fillColor;
-      ctx.fill();
-    }
+    ctx.fillStyle = fillColor;
+    ctx.strokeStyle = strokeColor;
+    ctx.lineWidth = lineWidth;
 
-    if (strokeColor) {
-      ctx.strokeStyle = strokeColor;
-      ctx.lineWidth = lineWidth;
-      ctx.stroke();
-    }
-
-    ctx.fill('evenodd');
+    ctx.stroke(region);
+    ctx.fill(region, 'evenodd');
 }
 
 function drawPoints(ctx, shapes, color) {
@@ -332,28 +359,9 @@ function drawPoints(ctx, shapes, color) {
     });
 }
 
-
-function getColorByIndex(index, opacity = 1) {
-    const n = colorStore.length;
-    const i = index % n;
-    const color = colorStore[i];
-  
-    if (opacity < 0 || opacity > 1) {
-        console.warn("Opacity should be between 0 and 1.");
-        opacity = 1;
-    }
-
-    if (opacity === 1) {
-        return color;
-    }
-
-    const alpha = Math.round(opacity * 255).toString(16).padStart(2, '0');
-    return color + alpha;
-}
-
 const testData = [
 {
-    name: "Squares 1",
+    name: "Simple",
     subjs: [
         {
             paths: [
@@ -374,7 +382,7 @@ const testData = [
     ]
 },
 {
-    name: "Squares 2",
+    name: "Overlap",
     subjs: [
         {
             paths: [
@@ -414,5 +422,88 @@ const testData = [
             ]
         }
     ]
+},
+{
+    name: "Separate",
+    subjs: [
+        {
+            paths: [
+            {
+                points: [[100, 150], [100, 350], [300, 350], [300, 150]]
+            }
+            ]
+        }
+    ],
+    clips: [
+        {
+            paths: [
+            {
+                points: [[450, 150], [450, 350], [650, 350], [650, 150]]
+            }
+            ]
+        }
+    ]
 }
 ]
+
+function normalize(vector) {
+    const magnitude = Math.sqrt(vector.x ** 2 + vector.y ** 2);
+    return { x: vector.x / magnitude, y: vector.y / magnitude };
+}
+
+function subtractVectors(vectorA, vectorB) {
+    return { x: vectorA.x - vectorB.x, y: vectorA.y - vectorB.y };
+}
+
+function addVectors(vectorA, vectorB) {
+    return { x: vectorA.x + vectorB.x, y: vectorA.y + vectorB.y };
+}
+
+function multiplyVectorByScalar(vector, scalar) {
+    return { x: vector.x * scalar, y: vector.y * scalar };
+}
+
+class Segment {
+  constructor(link) {
+    this.start = { x: link.ax, y: link.ay };
+    this.end = { x: link.bx, y: link.by };
+  }
+
+  get subjTopPos() {
+    const n = normalize(subtractVectors(this.start, this.end));
+    const o = { x: -n.y, y: n.x };
+    return addVectors(
+      multiplyVectorByScalar(addVectors(this.start, this.end), 0.5),
+      addVectors(multiplyVectorByScalar(o, 6), multiplyVectorByScalar(n, 4))
+    );
+  }
+
+  get subjBottomPos() {
+    const n = normalize(subtractVectors(this.start, this.end));
+    const o = { x: n.y, y: -n.x };
+    return addVectors(
+      multiplyVectorByScalar(addVectors(this.start, this.end), 0.5),
+      addVectors(multiplyVectorByScalar(o, 6), multiplyVectorByScalar(n, 4))
+    );
+  }
+
+  get clipTopPos() {
+    const n = normalize(subtractVectors(this.start, this.end));
+    const o = { x: -n.y, y: n.x };
+    return addVectors(
+      multiplyVectorByScalar(addVectors(this.start, this.end), 0.5),
+      addVectors(multiplyVectorByScalar(o, 6), multiplyVectorByScalar(n, -4))
+    );
+  }
+
+  get clipBottomPos() {
+    const n = normalize(subtractVectors(this.start, this.end));
+    const o = { x: n.y, y: -n.x };
+    return addVectors(
+      multiplyVectorByScalar(addVectors(this.start, this.end), 0.5),
+      addVectors(multiplyVectorByScalar(o, 6), multiplyVectorByScalar(n, -4))
+    );
+  }
+}
+
+

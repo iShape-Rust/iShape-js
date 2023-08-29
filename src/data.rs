@@ -1,5 +1,6 @@
 use i_float::{fix_vec::FixVec, fix_float::FixFloat};
 use i_shape::{fix_shape::FixShape, fix_path::FixPath};
+use i_overlay::layout::overlay_link::OverlayLink;
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::JsValue;
 
@@ -95,5 +96,36 @@ impl PathData {
         }
     
         path
+    }
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct LinkData {
+    pub ax: f64,
+    pub ay: f64,
+    pub bx: f64,
+    pub by: f64,
+    pub fill: u8
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct LinkListData {
+    pub links: Vec<LinkData>
+}
+
+impl LinkListData {
+    pub (super) fn create(links: &Vec<OverlayLink>) -> Self {
+        let mut list = Vec::with_capacity(links.len());
+        for link in links.iter() {
+            let ab = link.ab();
+            let ax = ab.0.x.double();
+            let ay = ab.0.y.double();
+            let bx = ab.1.x.double();
+            let by = ab.1.y.double();
+            let fill = link.fill().value();
+
+            list.push(LinkData { ax, ay, bx, by, fill } );
+        }
+        Self { links: list }
     }
 }

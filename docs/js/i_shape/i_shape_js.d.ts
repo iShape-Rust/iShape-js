@@ -53,6 +53,10 @@ export class JsOverlayGraph {
 * @returns {any}
 */
   extract_shapes_min_area(js_fill_rule: number, min_area_f64: number): any;
+/**
+* @returns {any}
+*/
+  links(): any;
 }
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -67,6 +71,7 @@ export interface InitOutput {
   readonly __wbg_jsoverlaygraph_free: (a: number) => void;
   readonly jsoverlaygraph_extract_shapes: (a: number, b: number) => number;
   readonly jsoverlaygraph_extract_shapes_min_area: (a: number, b: number, c: number) => number;
+  readonly jsoverlaygraph_links: (a: number) => number;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
   readonly __wbindgen_exn_store: (a: number) => void;

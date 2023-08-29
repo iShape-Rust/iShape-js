@@ -2,7 +2,7 @@ use i_float::fix_float::FixFloat;
 use wasm_bindgen::prelude::*;
 use i_overlay::{layout::overlay_graph::OverlayGraph, bool::fill_rule::FillRule};
 
-use crate::{fill_rule::JsFillRule, data::ShapeListData};
+use crate::{fill_rule::JsFillRule, data::{ShapeListData, LinkListData}};
 
 #[wasm_bindgen]
 pub struct JsOverlayGraph {
@@ -29,6 +29,12 @@ impl JsOverlayGraph {
         serde_wasm_bindgen::to_value(&data).unwrap()
     }
 
+    #[wasm_bindgen]
+    pub fn links(&self) -> JsValue {
+        let links = self.graph.links();
+        let data = LinkListData::create(links);
+        serde_wasm_bindgen::to_value(&data).unwrap()
+    }
 
 }
 

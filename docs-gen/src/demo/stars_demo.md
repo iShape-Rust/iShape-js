@@ -129,5 +129,5 @@
             <option value="Clip">Clip</option>
 		</select>
     </div>
-    <canvas id="starCanvas" width="1000" height="1000"/>
+    <canvas id="starCanvas" width="750" height="750"/>
 </div>

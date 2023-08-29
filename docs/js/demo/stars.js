@@ -40,20 +40,8 @@ run();
 
 async function run() {
   await init(); // Initialize the wasm module
-  
-  window.addEventListener('resize', resizeCanvas);
+
   requestAnimationFrame(draw);
-}
-
-function resizeCanvas() {
-  const newWidth = Math.max(500, Math.floor(window.innerWidth));
-  const newHeight = Math.max(500, Math.floor(window.innerWidth));
-
-  if (newWidth != canvas.width || newHeight != canvas.height) {
-    canvas.width = newWidth;
-    canvas.height = newHeight;
-    requestAnimationFrame(draw);
-  }
 }
 
 function draw(currentTime) {
@@ -166,44 +154,33 @@ function drawShape(ctx, shape, fillColor, strokeColor, lineWidth) {
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
 
-    shape.paths.forEach((path) => {
-        ctx.beginPath();
+    let region = new Path2D();
 
+    shape.paths.forEach((path) => {
         const points = path.points;
         const [x0, y0] = points[0];
-        ctx.moveTo(x0, y0);
+        region.moveTo(x0, y0);
 
         for (let i = 1; i < points.length; i++) {
           const [x, y] = points[i];
-          ctx.lineTo(x, y);
+          region.lineTo(x, y);
         }
 
-        ctx.closePath();
+        region.closePath();
     });
 
-    if (fillColor) {
-      ctx.fillStyle = fillColor;
-      ctx.fill();
-    }
+    ctx.fillStyle = fillColor;
+    ctx.strokeStyle = strokeColor;
+    ctx.lineWidth = lineWidth;
 
-    if (strokeColor) {
-      ctx.strokeStyle = strokeColor;
-      ctx.lineWidth = lineWidth;
-      ctx.stroke();
-    }
-
-    ctx.fill('evenodd');
+    ctx.stroke(region);
+    ctx.fill(region, 'evenodd');
 }
 
 function getColorByIndex(index, opacity = 1) {
     const n = colorStore.length;
     const i = index % n;
     const color = colorStore[i];
-  
-    if (opacity < 0 || opacity > 1) {
-        console.warn("Opacity should be between 0 and 1.");
-        opacity = 1;
-    }
 
     if (opacity === 1) {
         return color;

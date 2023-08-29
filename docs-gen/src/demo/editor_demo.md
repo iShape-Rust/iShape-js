@@ -1,12 +1,10 @@
 <style>
 
 .demo-title {
-    color: #333;
     text-align: center;
 }
 
 .test-title {
-    color: #333;
     text-align: center;
     margin-top: 0;
 }
@@ -115,13 +113,13 @@
         <div class="editor-input-group">
             <div class="input-wrapper">
                 <label for="fill">Fill Segments: </label>
-                <input type="checkbox" id="fill" name="fill" value="true">
+                <input type="checkbox" id="fill" name="fill" value="true" checked>
             </div>
         </div>
     </div>
     <div class="editor-input-container">
         <button type="button" class="nav-button" id="test-prev">Prev</button>
-        <h3 class="test-title">Title</h3>
+        <h3 class="test-title" id="test-name">Title</h3>
         <button type="button" class="nav-button" id="test-next">Next</button>
     </div>
     <canvas id="editorCanvas" width="750" height="900"/>
