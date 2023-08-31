@@ -1,0 +1,16 @@
+
+# In root directory
+
+cargo test
+cargo publish
+wasm-pack build --target web
+wasm-pack pack
+
+# In docs-gen
+
+mdbook serve --open
+mdbook build
+
+# pkg 
+npm login
+npm publish i_shape_js-0.1.0.tgz
