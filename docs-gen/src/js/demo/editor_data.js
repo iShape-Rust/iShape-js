@@ -273,7 +273,7 @@ export const tests = [
     ]
 },
 {
-    name: "Create a Hole",
+    name: "Self Intersections",
     subjs: [
         {
             paths: [
@@ -294,14 +294,3 @@ export const tests = [
     ]
 },
 ]
-
-                // CGPoint(x:   0, y:   5),
-                // CGPoint(x:   0, y:  -5),
-                // CGPoint(x:   5, y:  -5),
-                // CGPoint(x:   5, y:   0),
-                // CGPoint(x: -10, y:   0),
-                // CGPoint(x: -10, y:  10),
-                // CGPoint(x:  10, y:  10),
-                // CGPoint(x:  10, y: -10),
-                // CGPoint(x:  -5, y: -10),
-                // CGPoint(x:  -5, y:   5)
