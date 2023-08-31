@@ -91,16 +91,42 @@
 
 </style>
 <div class="sheet-container">
-	<script type="module" src="../js/demo/editor.js" defer></script>
-	<!-- <script type="module" src="/js/demo/editor.js" defer></script> -->
+	<script type="text/javascript">
+// in different environments the path is different
+const paths = [
+  '../js/demo/editor.js',
+  './js/demo/editor.js',
+  '/js/demo/editor.js'
+];
+async function fileExists(path) {
+  try {
+    const response = await fetch(path, { method: 'HEAD' });
+    return response.ok;
+  } catch (e) {
+    return false;
+  }
+}
+(async () => {
+  for (const path of paths) {
+    if (await fileExists(path)) {
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.src = path;
+      script.defer = true;
+      document.head.appendChild(script);
+      break;
+    }
+  }
+})();
+    </script>
 	<h1 class="demo-title">Shapes Editor</h1>
     <div class="operation-selection">
         <label for="operationType">Operation: </label>
         <select id="operationType">
             <option value="Union">Union</option>
-            <option value="Xor">Xor</option>
             <option value="Intersect">Intersect</option>
             <option value="Difference">Difference</option>
+            <option value="Xor">Xor</option>
         </select>
     </div>
     <div class="editor-input-tool">

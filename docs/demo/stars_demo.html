@@ -243,8 +243,34 @@
 }
 </style>
 <div class="sheet-container">
-	<script type="module" src="../js/demo/stars.js" defer></script>
-	<!-- <script type="module" src="/js/demo/stars.js" defer></script> -->
+	<script type="text/javascript">
+// in different environments the path is different
+const paths = [
+  '../js/demo/stars.js',
+  './js/demo/stars.js',
+  '/js/demo/stars.js'
+];
+async function fileExists(path) {
+  try {
+    const response = await fetch(path, { method: 'HEAD' });
+    return response.ok;
+  } catch (e) {
+    return false;
+  }
+}
+(async () => {
+  for (const path of paths) {
+    if (await fileExists(path)) {
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.src = path;
+      script.defer = true;
+      document.head.appendChild(script);
+      break;
+    }
+  }
+})();
+    </script>
 	<h1 id="stars-rotation" class="demo-title"><a class="header" href="#stars-rotation">Stars Rotation</a></h1>
 	<div class="rotating-stars-input-container">
 	    <div class="star-input-container">
