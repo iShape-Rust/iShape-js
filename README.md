@@ -1,2 +1,2 @@
-# i_shape_js
+# iShape-js
 Polygon Bool operations for js
