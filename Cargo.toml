@@ -5,7 +5,7 @@ authors = ["Nail Sharipov <nailxsharipov@gmail.com>"]
 edition = "2021"
 description = "A poly-bool library that supports main operations such as union, intersection, difference, xor, and self-intersection by the even-odd rule. This algorithm is based on Vatti clipping ideas but is an original implementation."
 license = "MIT"
-repository = "https://github.com/iShape-Rust/i_shape_js"
+repository = "https://github.com/iShape-Rust/iShape_js"
 
 [lib]
 crate-type = ["cdylib"]
@@ -14,7 +14,7 @@ crate-type = ["cdylib"]
 [dependencies]
 i_float = "^0.1.0"
 i_shape = "^0.1.0"
-i_overlay = { path = "../i_overlay" }
+i_overlay = "^0.1.0"
 
 
 wasm-bindgen = "0.2"
