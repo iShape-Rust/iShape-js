@@ -243,7 +243,7 @@
 }
 </style>
 <div class="sheet-container">
-	<script type="module" src="../js/demo/stars.js" defer></script>
+	<!-- <script type="module" src="../js/demo/stars.js" defer></script> -->
 	<script type="module" src="/js/demo/stars.js" defer></script>
 	<h1 id="stars-rotation" class="demo-title"><a class="header" href="#stars-rotation">Stars Rotation</a></h1>
 	<div class="rotating-stars-input-container">
@@ -323,6 +323,22 @@
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 
