@@ -108,14 +108,11 @@ Here is a simple HTML example that demonstrates how to use the iShape library fo
 Import classes and initialize the WebAssembly module using init().
 Use the imported classes to perform geometric operations.
 
-#### Output:
-
-The result of the union operation will be displayed in a <pre> tag with the ID result.
-
-### Note
+#### Note
 
 This is a basic example. You can extend it further to suit your application's specific needs.
 
+---
 
 ### Union
 <p align="left">
