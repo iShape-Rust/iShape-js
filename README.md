@@ -34,18 +34,48 @@ Utilizing the library within the recommended range ensures optimal accuracy in c
 
 ## Getting Started
 
-### Basic Usage (Direct include)
+
+
+### Direct include
 
 #### Download Library Files:
-- i_shape_js.js
-- i_shape_js_bg.wasm
+
+- *i_shape_js.js*
+- *i_shape_js_bg.wasm*
 
 You can find it at: [pkg](https://github.com/iShape-Rust/iShape-js/tree/main/pkg)
   
 #### Place Files:
-Put these files in a folder accessible by your HTML. In this example, we put them under the ishape/ directory.
+Place these files in a directory that your HTML file can access; in this example, the directory is named *./ishape*
 
-Example HTML Usage
+
+
+### NPM
+
+#### Installation
+You can install the iShape library from NPM:
+
+```bash
+npm install i_shape_js
+```
+
+The NPM package is available [here](https://www.npmjs.com/package/i_shape_js)
+
+
+#### Import and Usage
+
+After installing the NPM package, you can import it in your JavaScript or TypeScript file as follows:
+
+```javascript
+import init, { JsOverlay, JsOverlayGraph, JsShapeType, JsFillRule } from 'i_shape_js';
+
+// Your code here
+
+```
+
+
+### Example
+
 Here is a simple HTML example that demonstrates how to use the iShape library for geometric union operations.
 ```html
 <!DOCTYPE html>
