@@ -36,14 +36,14 @@ Utilizing the library within the recommended range ensures optimal accuracy in c
 
 ### Basic Usage (Direct include)
 
-1 **Download Library Files:**
+#### Download Library Files:
 - i_shape_js.js
 - i_shape_js_bg.wasm
-  
-2 **Place Files:** Put these files in a folder accessible by your HTML. In this example, we put them under the ishape/ directory.
-
 
 You can find it at: [pkg](https://github.com/iShape-Rust/iShape-js/tree/main/pkg)
+  
+#### Place Files:
+Put these files in a folder accessible by your HTML. In this example, we put them under the ishape/ directory.
 
 Example HTML Usage
 Here is a simple HTML example that demonstrates how to use the iShape library for geometric union operations.
@@ -112,10 +112,9 @@ Use the imported classes to perform geometric operations.
 
 The result of the union operation will be displayed in a <pre> tag with the ID result.
 
-#### Note
+### Note
 
 This is a basic example. You can extend it further to suit your application's specific needs.
-
 
 
 ### Union
