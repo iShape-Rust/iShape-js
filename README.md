@@ -7,7 +7,9 @@ The iShape-js is a WebAssembly library compiled from a Rust library for handling
 
 ## [Demo](https://ishape-rust.github.io/iShape-js/demo/stars_demo.html)
 Try out iShape with an interactive demo. The demo covers operations like union, intersection, and difference.
-[Demo](https://ishape-rust.github.io/iShape-js/demo/stars_demo.html)
+
+- [Stars Rotation](https://ishape-rust.github.io/iShape-js/demo/stars_demo.html)
+- [Shapes Editor](https://ishape-rust.github.io/iShape-js/demo/editor_demo.html)
 
 
 ## Features
