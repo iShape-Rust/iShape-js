@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iShape</title>
+    <style>
+        #result {
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            padding: 10px;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+    </style>
+    <script type="module">
+        import init, { JsOverlay, JsOverlayGraph, JsShapeType, JsFillRule} from './ishape/i_shape_js.js';
+        init();
+        document.getElementById('union').addEventListener('click', () => {
+            const subj = {
+                paths: [
+                    {
+                        points: [[200, 300], [200, 100], [400, 100], [400, 300]]
+                    }
+                ]
+            }
+
+            const clip = {
+                paths: [
+                    {
+                        points: [[300, 400], [300, 200], [500, 200], [500, 400]]
+                    }
+                ]
+            }
+
+            const overlay = new JsOverlay();
+
+            overlay.add_shape(subj, JsShapeType.Subject);
+            overlay.add_shape(clip, JsShapeType.Clip);
+
+            const graph = overlay.build_graph();
+            const result = graph.extract_shapes(JsFillRule.Union);
+
+            const resultText = JSON.stringify(result, null, 2);
+            document.getElementById('result').innerText = `Result:\n${resultText}`;
+        });
+    </script>
+</head>
+<body>
+    <button id="union">Union</button>
+    <pre id="result"></pre>
+</body>
+</html>
