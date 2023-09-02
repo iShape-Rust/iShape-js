@@ -68,9 +68,47 @@ fillTextField.addEventListener('change', function(event) {
    requestAnimationFrame(draw); 
 });
 
+canvas.addEventListener('touchstart', function(event) {
+    event.preventDefault();
+    const touch = event.touches[0];
+    pressDown(touch.clientX, touch.clientY);
+});
+
+canvas.addEventListener('touchmove', function(event) {
+    event.preventDefault();
+    const touch = event.touches[0];
+    move(touch.clientX, touch.clientY);
+});
+
+canvas.addEventListener('touchend', function(event) {
+    event.preventDefault(); // Prevent click emulation and scrolling
+    selectedPoint = null;
+    isMousePressed = false;
+});
+
 canvas.addEventListener('mousedown', function(event) {
-    const x = event.clientX - canvas.getBoundingClientRect().left;
-    const y = event.clientY - canvas.getBoundingClientRect().top;
+    pressDown(event.clientX, event.clientY);
+});
+
+canvas.addEventListener('mousemove', function(event) {
+    move(event.clientX, event.clientY);
+});
+
+canvas.addEventListener('mouseup', function(event) {
+    selectedPoint = null;
+    isMousePressed = false;
+});
+
+canvas.addEventListener('mouseout', function(event) {
+    selectedPoint = null;
+    candidatePoint = null;
+    isMousePressed = false;
+    requestAnimationFrame(draw);
+});
+
+function pressDown(eX, eY) {
+    const x = eX - canvas.getBoundingClientRect().left;
+    const y = eY - canvas.getBoundingClientRect().top;
   
     const test = data.tests[testIndex];
     isMousePressed = true;
@@ -96,16 +134,16 @@ canvas.addEventListener('mousedown', function(event) {
             return;
         }
     }
-});
+}
 
-canvas.addEventListener('mousemove', function(event) {
+function move(eX, eY) {
+    let x = eX - canvas.getBoundingClientRect().left;
+    let y = eY - canvas.getBoundingClientRect().top;
+
     if (isMousePressed) {
         // Left mouse button was pressed
         if (selectedPoint !== null) {
             const isSnap = snapTextField.checked;
-
-            let x = event.clientX - canvas.getBoundingClientRect().left;
-            let y = event.clientY - canvas.getBoundingClientRect().top;
 
             if (isSnap) {
                 x = Math.round(x * 0.1) * 10;
@@ -121,9 +159,6 @@ canvas.addEventListener('mousemove', function(event) {
         }
     } else {
         const wasCandidate = candidatePoint !== null;
-        const x = event.clientX - canvas.getBoundingClientRect().left;
-        const y = event.clientY - canvas.getBoundingClientRect().top;
-      
         const test = data.tests[testIndex];
 
         for(let i = 0; i < test.subjs.length; i++) {
@@ -151,19 +186,7 @@ canvas.addEventListener('mousemove', function(event) {
             candidatePoint = null;
         }
     }
-});
-
-canvas.addEventListener('mouseup', function(event) {
-    selectedPoint = null;
-    isMousePressed = false;
-});
-
-canvas.addEventListener('mouseout', function(event) {
-    selectedPoint = null;
-    candidatePoint = null;
-    isMousePressed = false;
-    requestAnimationFrame(draw);
-});
+}
 
 function findPoint(shape, x, y) {
     for (let path of shape.paths) {
