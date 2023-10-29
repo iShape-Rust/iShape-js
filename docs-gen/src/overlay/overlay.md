@@ -1,6 +1,6 @@
 # iOverlay
 
-![Balloons](/img/balloons.svg)
+![Balloons](balloons.svg)
 
 
 ## Introduction

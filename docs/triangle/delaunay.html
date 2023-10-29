@@ -218,7 +218,7 @@ window.addEventListener('DOMContentLoaded', function() {
 <h3 id="what-is-the-delaunay-condition"><a class="header" href="#what-is-the-delaunay-condition">What is the Delaunay Condition?</a></h3>
 <p>When creating a triangulation network, the Delaunay condition aims to form triangles such that their circumscribed circles do not contain any other points from the dataset. In simpler terms, it ensures that triangles are &quot;well-shaped&quot; rather than &quot;skinny,&quot; making the network more balanced and useful for various applications.</p>
 <br>
-<p><img src="/img/delaunay_condition.svg" alt="Delaunay condition" /></p>
+<p><img src="delaunay_condition.svg" alt="Delaunay condition" /></p>
 <br>
 <p>If the condition \(\alpha + \beta &lt; \pi\) holds, it implies that the point \(P_{0}\) will lie outside the circumscribed circle. This confirms that a pair of triangles satisfies the Delaunay condition.</p>
 <p>$$
@@ -272,6 +272,22 @@ $$</p>
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

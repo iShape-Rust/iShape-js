@@ -57,7 +57,7 @@ When creating a triangulation network, the Delaunay condition aims to form trian
 
 <br>
 
-![Delaunay condition](/img/delaunay_condition.svg)
+![Delaunay condition](delaunay_condition.svg)
 
 <br>
 

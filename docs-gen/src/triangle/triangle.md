@@ -1,6 +1,6 @@
 # iTriangle
 
-![Eagle triangulation](/img/eagle.svg)
+![Eagle triangulation](eagle.svg)
 
 
 ## Introduction
