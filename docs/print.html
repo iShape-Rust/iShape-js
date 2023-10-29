@@ -31,6 +31,8 @@
 
         <!-- Custom theme stylesheets -->
 
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     </head>
     <body>
     <div id="body-container">
@@ -84,7 +86,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Demo</li><li class="chapter-item expanded "><a href="demo/stars_demo.html"><strong aria-hidden="true">1.</strong> iOverlay</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="demo/stars_demo.html"><strong aria-hidden="true">1.1.</strong> Stars Rotation</a></li><li class="chapter-item expanded "><a href="demo/editor_demo.html"><strong aria-hidden="true">1.2.</strong> Shapes Editor</a></li><li class="chapter-item expanded "><a href="chapter_1.html"><strong aria-hidden="true">1.3.</strong> Chapter 1</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">iShape</li><li class="chapter-item expanded "><a href="overlay/overlay.html"><strong aria-hidden="true">1.</strong> iOverlay</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overlay/stars_demo.html"><strong aria-hidden="true">1.1.</strong> Stars Rotation</a></li><li class="chapter-item expanded "><a href="overlay/shapes_editor.html"><strong aria-hidden="true">1.2.</strong> Shapes Editor</a></li></ol></li><li class="chapter-item expanded "><a href="triangle/triangle.html"><strong aria-hidden="true">2.</strong> iTriangle</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="triangle/delaunay.html"><strong aria-hidden="true">2.1.</strong> Delaunay</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -167,165 +169,25 @@
 
                 <div id="content" class="content">
                     <main>
-                        <style>
-
-.demo-title {
-    color: #333;
-    text-align: center;
-}
-
-.sheet-container {
-    max-width: 1000px;
-    margin: auto;
- }
-
-.rotating-stars-input-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.star-input-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 10px;
-}
-
-.star-input-group {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.star-input-group label {
-    flex: none;
-    width: 150px;
-    white-space: nowrap;
-    text-align: right;
-    margin-right: 20px;
-}
-
-.star-input-group input {
-    flex: none;
-    width: 150px;
-}
-
-#starCanvas {
-    display: block;
-    margin: 20px auto;
-}
-
-.operation-selection {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-    margin-top: 20px;
-    font-size: 20px;
-}
-
-.operation-selection label {
-    flex: none;
-    width: 150px;
-    white-space: nowrap;
-    text-align: right;
-    margin-right: 20px;
-    font-size: 20px;
-}
-
-.operation-selection select {
-	-webkit-appearance: none;
-    padding-left: 4px;
-    flex: none;
-    width: 150px;
-    font-size: 20px;
-}
-</style>
-<div class="sheet-container">
-	<script type="text/javascript">
-// in different environments the path is different
-const paths = [
-  '../js/demo/stars.js',
-  './js/demo/stars.js',
-  '/js/demo/stars.js'
-];
-async function fileExists(path) {
-  try {
-    const response = await fetch(path, { method: 'HEAD' });
-    return response.ok;
-  } catch (e) {
-    return false;
-  }
-}
-(async () => {
-  for (const path of paths) {
-    if (await fileExists(path)) {
-      const script = document.createElement('script');
-      script.type = 'module';
-      script.src = path;
-      script.defer = true;
-      document.head.appendChild(script);
-      break;
-    }
-  }
-})();
-    </script>
-	<h1 id="stars-rotation" class="demo-title"><a class="header" href="#stars-rotation">Stars Rotation</a></h1>
-	<div class="rotating-stars-input-container">
-	    <div class="star-input-container">
-	        <h3 id="subject-star" class="title"><a class="header" href="#subject-star">Subject Star</a></h3>
-	        <div class="star-input-group">
-	            <label for="subjFirstRadius">First Radius: </label>
-	            <input type="range" id="subjFirstRadius" min="10" max="100" value="60">
-	        </div>
-	        <div class="star-input-group">
-	            <label for="subjSecondRadius">Second Radius: </label>
-	            <input type="range" id="subjSecondRadius" min="10" max="100" value="30">
-	        </div>
-	        <div class="star-input-group">
-	            <label for="subjRotationSpeed">Rotation Speed: </label>
-	            <input type="range" id="subjRotationSpeed" min="1" max="100" value="5">
-	        </div>
-	        <div class="star-input-group">
-	            <label for="subjAngleCount">Corners Count: </label>
-	            <input type="range" id="subjAngleCount" min="3" max="24" value="7">
-	        </div>
-	    </div>
-	    <div class="star-input-container">
-	        <h3 id="clip-star" class="title"><a class="header" href="#clip-star">Clip Star</a></h3>
-	        <div class="star-input-group">
-	            <label for="clipFirstRadius">First Radius: </label>
-	            <input type="range" id="clipFirstRadius" min="10" max="100" value="60">
-	        </div>
-	        <div class="star-input-group">
-	            <label for="clipSecondRadius">Second Radius: </label>
-	            <input type="range" id="clipSecondRadius" min="10" max="100" value="30">
-	        </div>
-	        <div class="star-input-group">
-	            <label for="clipRotationSpeed">Rotation Speed: </label>
-	            <input type="range" id="clipRotationSpeed" min="1" max="100" value="5">
-	        </div>
-	        <div class="star-input-group">
-	            <label for="clipAngleCount">Corners Count: </label>
-	            <input type="range" id="clipAngleCount" min="3" max="24" value="7">
-	        </div>
-	    </div>
-	</div>
-    <div class="operation-selection">
-        <label for="operationType">Operation: </label>
-        <select id="operationType">
-            <option value="Xor">Xor</option>
-            <option value="Union">Union</option>
-            <option value="Intersect">Intersect</option>
-            <option value="Difference">Difference</option>
-            <option value="Subject">Subject</option>
-            <option value="Clip">Clip</option>
-		</select>
-    </div>
-    <canvas id="starCanvas" width="750" height="750"/>
-</div>
+                        <h1 id="ioverlay"><a class="header" href="#ioverlay">iOverlay</a></h1>
+<p><img src="overlay//img/balloons.svg" alt="Balloons" /></p>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<ul>
+<li>The iOverlay is a poly-bool library that supports main operations such as union, intersection, difference, xor, and self-intersection by the even-odd rule. This algorithm is based on Vatti clipping ideas but is an original implementation.</li>
+</ul>
+<h2 id="features"><a class="header" href="#features">Features</a></h2>
+<ul>
+<li>Supports all basic operations union, intersection, difference, exclusion and self-intersection.</li>
+<li>Support any kind of polygons</li>
+<li>Remove removing unnecessary vertices and merging parallel edges</li>
+<li>Deterministic</li>
+</ul>
+<h2 id="source-code"><a class="header" href="#source-code">Source Code</a></h2>
+<ul>
+<li>Swift Version: <a href="https://github.com/iShape-Swift/iOverlay">iShape-Swift/iOverlay</a></li>
+<li>Rust Version: <a href="https://github.com/iShape-Rust/iOverlay">iShape-Rust/iOverlay</a></li>
+<li>JS Version: <a href="https://github.com/iShape-Rust/iShape-js">iShape-Rust/iShape-js</a></li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><style>
 
 .demo-title {
@@ -406,9 +268,9 @@ async function fileExists(path) {
 	<script type="text/javascript">
 // in different environments the path is different
 const paths = [
-  '../js/demo/stars.js',
-  './js/demo/stars.js',
-  '/js/demo/stars.js'
+  '../js/overlay/stars.js',
+  './js/overlay/stars.js',
+  '/js/overlay/stars.js'
 ];
 async function fileExists(path) {
   try {
@@ -431,10 +293,10 @@ async function fileExists(path) {
   }
 })();
     </script>
-	<h1 id="stars-rotation-1" class="demo-title"><a class="header" href="#stars-rotation-1">Stars Rotation</a></h1>
+	<h1 id="stars-rotation" class="demo-title"><a class="header" href="#stars-rotation">Stars Rotation</a></h1>
 	<div class="rotating-stars-input-container">
 	    <div class="star-input-container">
-	        <h3 id="subject-star-1" class="title"><a class="header" href="#subject-star-1">Subject Star</a></h3>
+	        <h3 id="subject-star" class="title"><a class="header" href="#subject-star">Subject Star</a></h3>
 	        <div class="star-input-group">
 	            <label for="subjFirstRadius">First Radius: </label>
 	            <input type="range" id="subjFirstRadius" min="10" max="100" value="60">
@@ -453,7 +315,7 @@ async function fileExists(path) {
 	        </div>
 	    </div>
 	    <div class="star-input-container">
-	        <h3 id="clip-star-1" class="title"><a class="header" href="#clip-star-1">Clip Star</a></h3>
+	        <h3 id="clip-star" class="title"><a class="header" href="#clip-star">Clip Star</a></h3>
 	        <div class="star-input-group">
 	            <label for="clipFirstRadius">First Radius: </label>
 	            <input type="range" id="clipFirstRadius" min="10" max="100" value="60">
@@ -581,9 +443,9 @@ async function fileExists(path) {
 	<script type="text/javascript">
 // in different environments the path is different
 const paths = [
-  '../js/demo/editor.js',
-  './js/demo/editor.js',
-  '/js/demo/editor.js'
+  '../js/overlay/editor.js',
+  './js/overlay/editor.js',
+  '/js/overlay/editor.js'
 ];
 async function fileExists(path) {
   try {
@@ -637,7 +499,104 @@ async function fileExists(path) {
     </div>
     <canvas id="editorCanvas" width="750" height="900"/>
 </div>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="chapter-1"><a class="header" href="#chapter-1">Chapter 1</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="itriangle"><a class="header" href="#itriangle">iTriangle</a></h1>
+<p><img src="triangle//img/eagle.svg" alt="Eagle triangulation" /></p>
+<h2 id="introduction-1"><a class="header" href="#introduction-1">Introduction</a></h2>
+<ul>
+<li>Easy way to get your triangulation!</li>
+</ul>
+<h2 id="features-1"><a class="header" href="#features-1">Features</a></h2>
+<ul>
+<li>Delaunay triangulation</li>
+<li>Break into convex polygons</li>
+<li>Support any kind of polygons</li>
+<li>Deterministic</li>
+</ul>
+<h2 id="source-code-1"><a class="header" href="#source-code-1">Source Code</a></h2>
+<ul>
+<li>Swift Version: <a href="https://github.com/iShape-Swift/iTriangle">iShape-Swift/iTriangle</a></li>
+<li>Rust Version: <a href="https://github.com/iShape-Rust/iTriangle">iShape-Rust/iTriangle</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><style>
+.MathJax_Display {
+  text-align: left !important;
+  margin-top: 40px;
+  margin-right: 40px;
+  margin-bottom: 40px;
+  margin-left: 40px;
+  font-weight: 700;
+  font-size: 1.2em;
+  opacity: 0.65;
+}
+
+#delaunayCanvas {
+    display: block;
+    border: 2px dotted #80808080;
+}
+</style>
+<script type="text/javascript">
+window.addEventListener('DOMContentLoaded', function() {
+  const paths = [
+    '../js/triangle/delaunay.js',
+    './js/triangle/delaunay.js',
+    '/js/triangle/delaunay.js'
+  ];
+  async function fileExists(path) {
+    try {
+      const response = await fetch(path, { method: 'HEAD' });
+      return response.ok;
+    } catch (e) {
+      return false;
+    }
+  }
+  (async () => {
+    for (const path of paths) {
+      if (await fileExists(path)) {
+        const script = document.createElement('script');
+        script.src = path;
+        document.head.appendChild(script);
+        break;
+      }
+    }
+  })();
+});
+</script>
+<p>Could you help add math formulas. And make my text more readable?</p>
+<h2 id="delaunay"><a class="header" href="#delaunay">Delaunay</a></h2>
+<p><canvas id="delaunayCanvas" width="500" height="500"></canvas></p>
+<h3 id="what-is-the-delaunay-condition"><a class="header" href="#what-is-the-delaunay-condition">What is the Delaunay Condition?</a></h3>
+<p>When creating a triangulation network, the Delaunay condition aims to form triangles such that their circumscribed circles do not contain any other points from the dataset. In simpler terms, it ensures that triangles are &quot;well-shaped&quot; rather than &quot;skinny,&quot; making the network more balanced and useful for various applications.</p>
+<br>
+<p><img src="triangle//img/delaunay_condition.svg" alt="Delaunay condition" /></p>
+<br>
+<p>If the condition \(\alpha + \beta &lt; \pi\) holds, it implies that the point \(P_{0}\) will lie outside the circumscribed circle. This confirms that a pair of triangles satisfies the Delaunay condition.</p>
+<p>$$
+\alpha + \beta &lt; \pi \Rightarrow \sin(\alpha + \beta) &gt; 0
+$$</p>
+<p>$$
+\sin(\alpha + \beta) = \sin(\alpha)\cos(\beta) + \cos(\alpha)\sin(\beta)
+$$</p>
+<p>Calculating \(\cos(\alpha)\) and \(\sin(\alpha)\): </p>
+<p>$$
+\cos(\alpha) = \frac{\vec{a} \cdot \vec{b}}{|a||b|} = \frac{a_{x}b_{x} + a_{y}b_{y}}{|a||b|}
+$$</p>
+<p>$$
+\sin(\alpha) = \sqrt{1- \cos^2} = ... = \frac{|a_{x}b_{y} - b_{x}a_{y}|}{|a||b|}
+$$</p>
+<p>Calculating \(\cos(\beta)\) and \(\sin(\beta)\): </p>
+<p>$$
+\cos(\beta) = \frac{c_{x}d_{x} + c_{y}d_{y}}{|c||d|}
+$$</p>
+<p>$$
+\sin(\beta) = \frac{c_{x}d_{x} + c_{y}d_{y}}{|c||d|}
+$$</p>
+<p>Final Equation:</p>
+<p>$$
+\sin(\alpha + \beta) = \frac{|a_{x}b_{y} - b_{x}a_{y}|\cdot(c_{x}d_{x} + c_{y}d_{y}) + (a_{x}b_{x} + a_{y}b_{y})\cdot|c_{x}d_{y} - c_{x}d_{y}|}{|a||b||c||d|} &gt; 0
+$$</p>
+<p>$$
+|a_{x}b_{y} - b_{x}a_{y}|\cdot(c_{x}d_{x} + c_{y}d_{y}) + (a_{x}b_{x} + a_{y}b_{y})\cdot|c_{x}d_{y} - c_{x}d_{y}| &gt; 0
+$$</p>
 
                     </main>
 
@@ -676,7 +635,9 @@ async function fileExists(path) {
 
         <script>
         window.addEventListener('load', function() {
-            window.setTimeout(window.print, 100);
+            MathJax.Hub.Register.StartupHook('End', function() {
+                window.setTimeout(window.print, 100);
+            });
         });
         </script>
 

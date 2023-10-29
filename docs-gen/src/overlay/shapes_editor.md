@@ -94,9 +94,9 @@
 	<script type="text/javascript">
 // in different environments the path is different
 const paths = [
-  '../js/demo/editor.js',
-  './js/demo/editor.js',
-  '/js/demo/editor.js'
+  '../js/overlay/editor.js',
+  './js/overlay/editor.js',
+  '/js/overlay/editor.js'
 ];
 async function fileExists(path) {
   try {

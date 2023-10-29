@@ -3,8 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Page not found - iShape</title>
-        <base href="/">
+        <title>Delaunay - iShape</title>
 
 
         <!-- Custom HTML head -->
@@ -13,21 +12,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        <link rel="icon" href="favicon.svg">
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="fonts/fonts.css">
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
 
@@ -38,7 +37,7 @@
     <div id="body-container">
         <!-- Provide site root to javascript -->
         <script>
-            var path_to_root = "";
+            var path_to_root = "../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
@@ -86,7 +85,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">iShape</li><li class="chapter-item expanded "><a href="overlay/overlay.html"><strong aria-hidden="true">1.</strong> iOverlay</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overlay/stars_demo.html"><strong aria-hidden="true">1.1.</strong> Stars Rotation</a></li><li class="chapter-item expanded "><a href="overlay/shapes_editor.html"><strong aria-hidden="true">1.2.</strong> Shapes Editor</a></li></ol></li><li class="chapter-item expanded "><a href="triangle/triangle.html"><strong aria-hidden="true">2.</strong> iTriangle</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="triangle/delaunay.html"><strong aria-hidden="true">2.1.</strong> Delaunay</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">iShape</li><li class="chapter-item expanded "><a href="../overlay/overlay.html"><strong aria-hidden="true">1.</strong> iOverlay</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../overlay/stars_demo.html"><strong aria-hidden="true">1.1.</strong> Stars Rotation</a></li><li class="chapter-item expanded "><a href="../overlay/shapes_editor.html"><strong aria-hidden="true">1.2.</strong> Shapes Editor</a></li></ol></li><li class="chapter-item expanded "><a href="../triangle/triangle.html"><strong aria-hidden="true">2.</strong> iTriangle</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../triangle/delaunay.html" class="active"><strong aria-hidden="true">2.1.</strong> Delaunay</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -140,7 +139,7 @@
                     <h1 class="menu-title">iShape</h1>
 
                     <div class="right-buttons">
-                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
 
@@ -169,13 +168,94 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="document-not-found-404"><a class="header" href="#document-not-found-404">Document not found (404)</a></h1>
-<p>This URL is invalid, sorry. Please use the navigation bar or search to continue.</p>
+                        <style>
+.MathJax_Display {
+  text-align: left !important;
+  margin-top: 40px;
+  margin-right: 40px;
+  margin-bottom: 40px;
+  margin-left: 40px;
+  font-weight: 700;
+  font-size: 1.2em;
+  opacity: 0.65;
+}
+
+#delaunayCanvas {
+    display: block;
+    border: 2px dotted #80808080;
+}
+</style>
+<script type="text/javascript">
+window.addEventListener('DOMContentLoaded', function() {
+  const paths = [
+    '../js/triangle/delaunay.js',
+    './js/triangle/delaunay.js',
+    '/js/triangle/delaunay.js'
+  ];
+  async function fileExists(path) {
+    try {
+      const response = await fetch(path, { method: 'HEAD' });
+      return response.ok;
+    } catch (e) {
+      return false;
+    }
+  }
+  (async () => {
+    for (const path of paths) {
+      if (await fileExists(path)) {
+        const script = document.createElement('script');
+        script.src = path;
+        document.head.appendChild(script);
+        break;
+      }
+    }
+  })();
+});
+</script>
+<p>Could you help add math formulas. And make my text more readable?</p>
+<h2 id="delaunay"><a class="header" href="#delaunay">Delaunay</a></h2>
+<p><canvas id="delaunayCanvas" width="500" height="500"></canvas></p>
+<h3 id="what-is-the-delaunay-condition"><a class="header" href="#what-is-the-delaunay-condition">What is the Delaunay Condition?</a></h3>
+<p>When creating a triangulation network, the Delaunay condition aims to form triangles such that their circumscribed circles do not contain any other points from the dataset. In simpler terms, it ensures that triangles are &quot;well-shaped&quot; rather than &quot;skinny,&quot; making the network more balanced and useful for various applications.</p>
+<br>
+<p><img src="/img/delaunay_condition.svg" alt="Delaunay condition" /></p>
+<br>
+<p>If the condition \(\alpha + \beta &lt; \pi\) holds, it implies that the point \(P_{0}\) will lie outside the circumscribed circle. This confirms that a pair of triangles satisfies the Delaunay condition.</p>
+<p>$$
+\alpha + \beta &lt; \pi \Rightarrow \sin(\alpha + \beta) &gt; 0
+$$</p>
+<p>$$
+\sin(\alpha + \beta) = \sin(\alpha)\cos(\beta) + \cos(\alpha)\sin(\beta)
+$$</p>
+<p>Calculating \(\cos(\alpha)\) and \(\sin(\alpha)\): </p>
+<p>$$
+\cos(\alpha) = \frac{\vec{a} \cdot \vec{b}}{|a||b|} = \frac{a_{x}b_{x} + a_{y}b_{y}}{|a||b|}
+$$</p>
+<p>$$
+\sin(\alpha) = \sqrt{1- \cos^2} = ... = \frac{|a_{x}b_{y} - b_{x}a_{y}|}{|a||b|}
+$$</p>
+<p>Calculating \(\cos(\beta)\) and \(\sin(\beta)\): </p>
+<p>$$
+\cos(\beta) = \frac{c_{x}d_{x} + c_{y}d_{y}}{|c||d|}
+$$</p>
+<p>$$
+\sin(\beta) = \frac{c_{x}d_{x} + c_{y}d_{y}}{|c||d|}
+$$</p>
+<p>Final Equation:</p>
+<p>$$
+\sin(\alpha + \beta) = \frac{|a_{x}b_{y} - b_{x}a_{y}|\cdot(c_{x}d_{x} + c_{y}d_{y}) + (a_{x}b_{x} + a_{y}b_{y})\cdot|c_{x}d_{y} - c_{x}d_{y}|}{|a||b||c||d|} &gt; 0
+$$</p>
+<p>$$
+|a_{x}b_{y} - b_{x}a_{y}|\cdot(c_{x}d_{x} + c_{y}d_{y}) + (a_{x}b_{x} + a_{y}b_{y})\cdot|c_{x}d_{y} - c_{x}d_{y}| &gt; 0
+$$</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../triangle/triangle.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
 
 
                         <div style="clear: both"></div>
@@ -184,6 +264,9 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../triangle/triangle.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
 
             </nav>
 
@@ -197,13 +280,13 @@
         </script>
 
 
-        <script src="elasticlunr.min.js"></script>
-        <script src="mark.min.js"></script>
-        <script src="searcher.js"></script>
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
 
-        <script src="clipboard.min.js"></script>
-        <script src="highlight.js"></script>
-        <script src="book.js"></script>
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
 
         <!-- Custom JS scripts -->
 

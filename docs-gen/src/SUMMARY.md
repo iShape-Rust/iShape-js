@@ -1,8 +1,10 @@
 # Summary
 
-# Demo
+# iShape
 
-- [iOverlay](./demo/stars_demo.md)
-	- [Stars Rotation](./demo/stars_demo.md)
-	- [Shapes Editor](./demo/editor_demo.md)
-	- [Chapter 1](./chapter_1.md)
+- [iOverlay](./overlay/overlay.md)
+	- [Stars Rotation](./overlay/stars_demo.md)
+	- [Shapes Editor](./overlay/shapes_editor.md)
+
+- [iTriangle](./triangle/triangle.md)
+	- [Delaunay](./triangle/delaunay.md)

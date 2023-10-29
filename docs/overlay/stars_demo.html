@@ -30,6 +30,8 @@
 
         <!-- Custom theme stylesheets -->
 
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     </head>
     <body>
     <div id="body-container">
@@ -83,7 +85,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">Demo</li><li class="chapter-item expanded "><a href="../demo/stars_demo.html" class="active"><strong aria-hidden="true">1.</strong> iOverlay</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../demo/stars_demo.html" class="active"><strong aria-hidden="true">1.1.</strong> Stars Rotation</a></li><li class="chapter-item expanded "><a href="../demo/editor_demo.html"><strong aria-hidden="true">1.2.</strong> Shapes Editor</a></li><li class="chapter-item expanded "><a href="../chapter_1.html"><strong aria-hidden="true">1.3.</strong> Chapter 1</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">iShape</li><li class="chapter-item expanded "><a href="../overlay/overlay.html"><strong aria-hidden="true">1.</strong> iOverlay</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../overlay/stars_demo.html" class="active"><strong aria-hidden="true">1.1.</strong> Stars Rotation</a></li><li class="chapter-item expanded "><a href="../overlay/shapes_editor.html"><strong aria-hidden="true">1.2.</strong> Shapes Editor</a></li></ol></li><li class="chapter-item expanded "><a href="../triangle/triangle.html"><strong aria-hidden="true">2.</strong> iTriangle</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../triangle/delaunay.html"><strong aria-hidden="true">2.1.</strong> Delaunay</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -246,9 +248,9 @@
 	<script type="text/javascript">
 // in different environments the path is different
 const paths = [
-  '../js/demo/stars.js',
-  './js/demo/stars.js',
-  '/js/demo/stars.js'
+  '../js/overlay/stars.js',
+  './js/overlay/stars.js',
+  '/js/overlay/stars.js'
 ];
 async function fileExists(path) {
   try {
@@ -330,11 +332,11 @@ async function fileExists(path) {
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../demo/stars_demo.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../overlay/overlay.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="../demo/stars_demo.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../overlay/shapes_editor.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -344,11 +346,11 @@ async function fileExists(path) {
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../demo/stars_demo.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../overlay/overlay.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="../demo/stars_demo.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../overlay/shapes_editor.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
