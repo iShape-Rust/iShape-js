@@ -44,8 +44,6 @@ window.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-Could you help add math formulas. And make my text more readable?
-
 ## Delaunay
 
 <canvas id="delaunayCanvas" width="500" height="500"></canvas>
@@ -78,7 +76,7 @@ $$
 $$
 
 $$
-\sin(\alpha) = \sqrt{1- \cos^2} = ... = \frac{|a_{x}b_{y} - b_{x}a_{y}|}{|a||b|}
+\sin(\alpha) = \sqrt{1- \cos^2(\alpha)} = ... = \frac{|a_{x}b_{y} - b_{x}a_{y}|}{|a||b|} = \frac{|\vec{a} \times \vec{b}|}{|a||b|}
 $$
 
 
@@ -86,11 +84,11 @@ Calculating \\(\cos(\beta)\\) and \\(\sin(\beta)\\):
 
 
 $$
-\cos(\beta) = \frac{c_{x}d_{x} + c_{y}d_{y}}{|c||d|}
+\cos(\beta) = \frac{\vec{c} \cdot \vec{d}}{|c||d|} = \frac{c_{x}d_{x} + c_{y}d_{y}}{|c||d|}
 $$
 
 $$
-\sin(\beta) = \frac{c_{x}d_{x} + c_{y}d_{y}}{|c||d|}
+\sin(\beta) = \frac{|\vec{c} \times \vec{d}|}{|c||d|} = \frac{|c_{x}d_{x} + c_{y}d_{y}|}{|c||d|}
 $$
 
 Final Equation:
@@ -102,3 +100,10 @@ $$
 $$
 |a_{x}b_{y} - b_{x}a_{y}|\cdot(c_{x}d_{x} + c_{y}d_{y}) + (a_{x}b_{x} + a_{y}b_{y})\cdot|c_{x}d_{y} - c_{x}d_{y}| > 0
 $$
+
+Or in vector form:
+
+$$
+|\vec{a} \times \vec{b}|(\vec{c} \cdot \vec{d}) + (\vec{a} \cdot \vec{b})|\vec{c} \times \vec{d}| > 0
+$$
+
