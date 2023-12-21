@@ -179,7 +179,7 @@
 <li>Delaunay triangulation</li>
 <li>Break into convex polygons</li>
 <li>Support any kind of polygons</li>
-<li>Deterministic</li>
+<li>Self-Intersection Resolving</li>
 </ul>
 <h2 id="source-code"><a class="header" href="#source-code">Source Code</a></h2>
 <ul>
@@ -216,6 +216,22 @@
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

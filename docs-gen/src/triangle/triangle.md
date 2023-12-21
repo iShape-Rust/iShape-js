@@ -12,7 +12,7 @@
 - Delaunay triangulation
 - Break into convex polygons
 - Support any kind of polygons
-- Deterministic
+- Self-Intersection Resolving
 
 ## Source Code
 
