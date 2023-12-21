@@ -3,8 +3,11 @@
 # iShape
 
 - [iOverlay](./overlay/overlay.md)
-	- [Stars Rotation](./overlay/stars_demo.md)
-	- [Shapes Editor](./overlay/shapes_editor.md)
+	- [Demo](./overlay/stars_demo.md)
+		- [Stars Rotation](./overlay/stars_demo.md)
+		- [Shapes Editor](./overlay/shapes_editor.md)
+	- [Documentation](./overlay/stars_demo.md)
+		- [Filling Rules](./overlay/filling_rules.md)
 
 - [iTriangle](./triangle/triangle.md)
 	- [Delaunay](./triangle/delaunay.md)

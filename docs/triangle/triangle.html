@@ -85,7 +85,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">iShape</li><li class="chapter-item expanded "><a href="../overlay/overlay.html"><strong aria-hidden="true">1.</strong> iOverlay</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../overlay/stars_demo.html"><strong aria-hidden="true">1.1.</strong> Stars Rotation</a></li><li class="chapter-item expanded "><a href="../overlay/shapes_editor.html"><strong aria-hidden="true">1.2.</strong> Shapes Editor</a></li></ol></li><li class="chapter-item expanded "><a href="../triangle/triangle.html" class="active"><strong aria-hidden="true">2.</strong> iTriangle</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../triangle/delaunay.html"><strong aria-hidden="true">2.1.</strong> Delaunay</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">iShape</li><li class="chapter-item expanded "><a href="../overlay/overlay.html"><strong aria-hidden="true">1.</strong> iOverlay</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../overlay/stars_demo.html"><strong aria-hidden="true">1.1.</strong> Demo</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../overlay/stars_demo.html"><strong aria-hidden="true">1.1.1.</strong> Stars Rotation</a></li><li class="chapter-item expanded "><a href="../overlay/shapes_editor.html"><strong aria-hidden="true">1.1.2.</strong> Shapes Editor</a></li></ol></li><li class="chapter-item expanded "><a href="../overlay/stars_demo.html"><strong aria-hidden="true">1.2.</strong> Documentation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../overlay/filling_rules.html"><strong aria-hidden="true">1.2.1.</strong> Filling Rules</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../triangle/triangle.html" class="active"><strong aria-hidden="true">2.</strong> iTriangle</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../triangle/delaunay.html"><strong aria-hidden="true">2.1.</strong> Delaunay</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -191,7 +191,7 @@
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../overlay/shapes_editor.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../overlay/filling_rules.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
@@ -205,7 +205,7 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../overlay/shapes_editor.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../overlay/filling_rules.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
@@ -216,22 +216,6 @@
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

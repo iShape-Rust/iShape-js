@@ -86,7 +86,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">iShape</li><li class="chapter-item expanded "><a href="overlay/overlay.html"><strong aria-hidden="true">1.</strong> iOverlay</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overlay/stars_demo.html"><strong aria-hidden="true">1.1.</strong> Stars Rotation</a></li><li class="chapter-item expanded "><a href="overlay/shapes_editor.html"><strong aria-hidden="true">1.2.</strong> Shapes Editor</a></li></ol></li><li class="chapter-item expanded "><a href="triangle/triangle.html"><strong aria-hidden="true">2.</strong> iTriangle</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="triangle/delaunay.html"><strong aria-hidden="true">2.1.</strong> Delaunay</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">iShape</li><li class="chapter-item expanded "><a href="overlay/overlay.html"><strong aria-hidden="true">1.</strong> iOverlay</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overlay/stars_demo.html"><strong aria-hidden="true">1.1.</strong> Demo</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overlay/stars_demo.html"><strong aria-hidden="true">1.1.1.</strong> Stars Rotation</a></li><li class="chapter-item expanded "><a href="overlay/shapes_editor.html"><strong aria-hidden="true">1.1.2.</strong> Shapes Editor</a></li></ol></li><li class="chapter-item expanded "><a href="overlay/stars_demo.html"><strong aria-hidden="true">1.2.</strong> Documentation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overlay/filling_rules.html"><strong aria-hidden="true">1.2.1.</strong> Filling Rules</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="triangle/triangle.html"><strong aria-hidden="true">2.</strong> iTriangle</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="triangle/delaunay.html"><strong aria-hidden="true">2.1.</strong> Delaunay</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -350,6 +350,165 @@ async function fileExists(path) {
 <div style="break-before: page; page-break-before: always;"></div><style>
 
 .demo-title {
+    color: #333;
+    text-align: center;
+}
+
+.sheet-container {
+    max-width: 1000px;
+    margin: auto;
+ }
+
+.rotating-stars-input-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.star-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+}
+
+.star-input-group {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.star-input-group label {
+    flex: none;
+    width: 150px;
+    white-space: nowrap;
+    text-align: right;
+    margin-right: 20px;
+}
+
+.star-input-group input {
+    flex: none;
+    width: 150px;
+}
+
+#starCanvas {
+    display: block;
+    margin: 20px auto;
+}
+
+.operation-selection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+.operation-selection label {
+    flex: none;
+    width: 150px;
+    white-space: nowrap;
+    text-align: right;
+    margin-right: 20px;
+    font-size: 20px;
+}
+
+.operation-selection select {
+	-webkit-appearance: none;
+    padding-left: 4px;
+    flex: none;
+    width: 150px;
+    font-size: 20px;
+}
+</style>
+<div class="sheet-container">
+	<script type="text/javascript">
+// in different environments the path is different
+const paths = [
+  '../js/overlay/stars.js',
+  './js/overlay/stars.js',
+  '/js/overlay/stars.js'
+];
+async function fileExists(path) {
+  try {
+    const response = await fetch(path, { method: 'HEAD' });
+    return response.ok;
+  } catch (e) {
+    return false;
+  }
+}
+(async () => {
+  for (const path of paths) {
+    if (await fileExists(path)) {
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.src = path;
+      script.defer = true;
+      document.head.appendChild(script);
+      break;
+    }
+  }
+})();
+    </script>
+	<h1 id="stars-rotation-1" class="demo-title"><a class="header" href="#stars-rotation-1">Stars Rotation</a></h1>
+	<div class="rotating-stars-input-container">
+	    <div class="star-input-container">
+	        <h3 id="subject-star-1" class="title"><a class="header" href="#subject-star-1">Subject Star</a></h3>
+	        <div class="star-input-group">
+	            <label for="subjFirstRadius">First Radius: </label>
+	            <input type="range" id="subjFirstRadius" min="10" max="100" value="60">
+	        </div>
+	        <div class="star-input-group">
+	            <label for="subjSecondRadius">Second Radius: </label>
+	            <input type="range" id="subjSecondRadius" min="10" max="100" value="30">
+	        </div>
+	        <div class="star-input-group">
+	            <label for="subjRotationSpeed">Rotation Speed: </label>
+	            <input type="range" id="subjRotationSpeed" min="1" max="100" value="5">
+	        </div>
+	        <div class="star-input-group">
+	            <label for="subjAngleCount">Corners Count: </label>
+	            <input type="range" id="subjAngleCount" min="3" max="24" value="7">
+	        </div>
+	    </div>
+	    <div class="star-input-container">
+	        <h3 id="clip-star-1" class="title"><a class="header" href="#clip-star-1">Clip Star</a></h3>
+	        <div class="star-input-group">
+	            <label for="clipFirstRadius">First Radius: </label>
+	            <input type="range" id="clipFirstRadius" min="10" max="100" value="60">
+	        </div>
+	        <div class="star-input-group">
+	            <label for="clipSecondRadius">Second Radius: </label>
+	            <input type="range" id="clipSecondRadius" min="10" max="100" value="30">
+	        </div>
+	        <div class="star-input-group">
+	            <label for="clipRotationSpeed">Rotation Speed: </label>
+	            <input type="range" id="clipRotationSpeed" min="1" max="100" value="5">
+	        </div>
+	        <div class="star-input-group">
+	            <label for="clipAngleCount">Corners Count: </label>
+	            <input type="range" id="clipAngleCount" min="3" max="24" value="7">
+	        </div>
+	    </div>
+	</div>
+    <div class="operation-selection">
+        <label for="operationType">Operation: </label>
+        <select id="operationType">
+            <option value="Xor">Xor</option>
+            <option value="Union">Union</option>
+            <option value="Intersect">Intersect</option>
+            <option value="Difference">Difference</option>
+            <option value="Subject">Subject</option>
+            <option value="Clip">Clip</option>
+		</select>
+    </div>
+    <canvas id="starCanvas" width="750" height="750"/>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><style>
+
+.demo-title {
     text-align: center;
 }
 
@@ -499,6 +658,175 @@ async function fileExists(path) {
     </div>
     <canvas id="editorCanvas" width="750" height="900"/>
 </div>
+<div style="break-before: page; page-break-before: always;"></div><style>
+
+.demo-title {
+    color: #333;
+    text-align: center;
+}
+
+.sheet-container {
+    max-width: 1000px;
+    margin: auto;
+ }
+
+.rotating-stars-input-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.star-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+}
+
+.star-input-group {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.star-input-group label {
+    flex: none;
+    width: 150px;
+    white-space: nowrap;
+    text-align: right;
+    margin-right: 20px;
+}
+
+.star-input-group input {
+    flex: none;
+    width: 150px;
+}
+
+#starCanvas {
+    display: block;
+    margin: 20px auto;
+}
+
+.operation-selection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+.operation-selection label {
+    flex: none;
+    width: 150px;
+    white-space: nowrap;
+    text-align: right;
+    margin-right: 20px;
+    font-size: 20px;
+}
+
+.operation-selection select {
+	-webkit-appearance: none;
+    padding-left: 4px;
+    flex: none;
+    width: 150px;
+    font-size: 20px;
+}
+</style>
+<div class="sheet-container">
+	<script type="text/javascript">
+// in different environments the path is different
+const paths = [
+  '../js/overlay/stars.js',
+  './js/overlay/stars.js',
+  '/js/overlay/stars.js'
+];
+async function fileExists(path) {
+  try {
+    const response = await fetch(path, { method: 'HEAD' });
+    return response.ok;
+  } catch (e) {
+    return false;
+  }
+}
+(async () => {
+  for (const path of paths) {
+    if (await fileExists(path)) {
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.src = path;
+      script.defer = true;
+      document.head.appendChild(script);
+      break;
+    }
+  }
+})();
+    </script>
+	<h1 id="stars-rotation-2" class="demo-title"><a class="header" href="#stars-rotation-2">Stars Rotation</a></h1>
+	<div class="rotating-stars-input-container">
+	    <div class="star-input-container">
+	        <h3 id="subject-star-2" class="title"><a class="header" href="#subject-star-2">Subject Star</a></h3>
+	        <div class="star-input-group">
+	            <label for="subjFirstRadius">First Radius: </label>
+	            <input type="range" id="subjFirstRadius" min="10" max="100" value="60">
+	        </div>
+	        <div class="star-input-group">
+	            <label for="subjSecondRadius">Second Radius: </label>
+	            <input type="range" id="subjSecondRadius" min="10" max="100" value="30">
+	        </div>
+	        <div class="star-input-group">
+	            <label for="subjRotationSpeed">Rotation Speed: </label>
+	            <input type="range" id="subjRotationSpeed" min="1" max="100" value="5">
+	        </div>
+	        <div class="star-input-group">
+	            <label for="subjAngleCount">Corners Count: </label>
+	            <input type="range" id="subjAngleCount" min="3" max="24" value="7">
+	        </div>
+	    </div>
+	    <div class="star-input-container">
+	        <h3 id="clip-star-2" class="title"><a class="header" href="#clip-star-2">Clip Star</a></h3>
+	        <div class="star-input-group">
+	            <label for="clipFirstRadius">First Radius: </label>
+	            <input type="range" id="clipFirstRadius" min="10" max="100" value="60">
+	        </div>
+	        <div class="star-input-group">
+	            <label for="clipSecondRadius">Second Radius: </label>
+	            <input type="range" id="clipSecondRadius" min="10" max="100" value="30">
+	        </div>
+	        <div class="star-input-group">
+	            <label for="clipRotationSpeed">Rotation Speed: </label>
+	            <input type="range" id="clipRotationSpeed" min="1" max="100" value="5">
+	        </div>
+	        <div class="star-input-group">
+	            <label for="clipAngleCount">Corners Count: </label>
+	            <input type="range" id="clipAngleCount" min="3" max="24" value="7">
+	        </div>
+	    </div>
+	</div>
+    <div class="operation-selection">
+        <label for="operationType">Operation: </label>
+        <select id="operationType">
+            <option value="Xor">Xor</option>
+            <option value="Union">Union</option>
+            <option value="Intersect">Intersect</option>
+            <option value="Difference">Difference</option>
+            <option value="Subject">Subject</option>
+            <option value="Clip">Clip</option>
+		</select>
+    </div>
+    <canvas id="starCanvas" width="750" height="750"/>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="filling-rules"><a class="header" href="#filling-rules">Filling Rules</a></h1>
+<h2 id="even-odd"><a class="header" href="#even-odd">Even-Odd</a></h2>
+<p><img src="overlay/even-odd.svg" alt="Even-Odd" /></p>
+<h2 id="non-zero"><a class="header" href="#non-zero">Non-Zero</a></h2>
+<p><img src="overlay/non-zero.svg" alt="Non-Zero" /></p>
+<h2 id="filling-rules-1"><a class="header" href="#filling-rules-1">Filling Rules:</a></h2>
+<ul>
+<li><strong>Even-Odd</strong>: Only odd numbered sub-regions are filled</li>
+<li><strong>Non-Zero</strong>: Only non-zero sub-regions are filled</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="itriangle"><a class="header" href="#itriangle">iTriangle</a></h1>
 <p><img src="triangle/eagle.svg" alt="Eagle triangulation" /></p>
 <h2 id="introduction-1"><a class="header" href="#introduction-1">Introduction</a></h2>
@@ -618,22 +946,6 @@ $$</p>
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 
