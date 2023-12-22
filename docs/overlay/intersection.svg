@@ -24,13 +24,13 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
      showgrid="false"
-     inkscape:zoom="4.5301172"
-     inkscape:cx="95.141026"
-     inkscape:cy="77.260694"
+     inkscape:zoom="5.7016864"
+     inkscape:cx="103.82893"
+     inkscape:cy="76.117831"
      inkscape:window-width="1736"
      inkscape:window-height="1177"
      inkscape:window-x="744"
-     inkscape:window-y="179"
+     inkscape:window-y="151"
      inkscape:window-maximized="0"
      inkscape:current-layer="layer1" />
   <defs
@@ -51,20 +51,28 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
-    <circle
-       style="fill:#d3d3d3;fill-opacity:1;stroke:#696969;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-dashoffset:12;stroke-opacity:1;paint-order:fill markers stroke"
-       id="path16"
-       cx="52"
-       cy="52"
-       r="32" />
     <path
-       id="rect2"
-       style="fill:#d3d3d3;fill-opacity:1;stroke:#696969;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-dashoffset:12;stroke-opacity:1;paint-order:fill markers stroke"
-       d="m 52,52 v 56 h 56 V 52 Z"
-       sodipodi:nodetypes="ccccc" />
+       id="path16"
+       style="fill:#d3d3d3;fill-opacity:1;stroke:#333333;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-dashoffset:12;stroke-opacity:1;paint-order:fill markers stroke"
+       d="M 52 20 A 32 32 0 0 0 20 52 A 32 32 0 0 0 52 84 L 52 108 L 108 108 L 108 52 L 84 52 A 32 32 0 0 0 52 20 z " />
     <path
        id="circle3"
        style="fill:#483d8b;fill-opacity:1;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-dashoffset:12;stroke-opacity:1;paint-order:fill markers stroke"
        d="M 52,52 V 84 A 32,32 0 0 0 84,52 Z" />
+    <g
+       id="g2"
+       transform="translate(-3.202954,-0.107766)"
+       style="fill:#333333;fill-opacity:1">
+      <path
+         style="font-size:24px;line-height:1.25;font-family:'.Arial Hebrew Desk Interface';-inkscape-font-specification:'.Arial Hebrew Desk Interface';word-spacing:0px;direction:rtl;fill:#333333;fill-opacity:1"
+         d="m 48.999829,53.556985 h -2.472656 l -1.710937,-4.863281 h -7.546875 l -1.710938,4.863281 h -2.355469 l 6.351563,-17.449219 h 3.09375 z m -4.898437,-6.855469 -3.058594,-8.566406 -3.070312,8.566406 z"
+         id="text1"
+         aria-label="A" />
+      <path
+         d="m 90.760976,101.75299 h 5.4 c 3.624,0 5.448004,-1.872004 5.448004,-4.536004 0,-2.448 -1.44,-3.576 -3.408004,-3.888 v -0.12 c 1.896004,-0.552 2.688004,-1.824 2.688004,-3.504 0,-2.568 -1.488004,-4.056 -5.208004,-4.056 h -4.92 z m 1.896,-1.584 v -5.976004 h 3.192 c 2.4,0 3.744,0.816 3.744,2.904 0,2.064 -1.224,3.072004 -3.552,3.072004 z m 0,-7.488004 v -5.424 h 2.88 c 2.256,0 3.408,0.648 3.408,2.664 0,2.088 -1.512,2.76 -3.528,2.76 z"
+         id="text2"
+         style="-inkscape-font-specification:'.Apple SD Gothic NeoI';fill:#333333;fill-opacity:1"
+         aria-label="B" />
+    </g>
   </g>
 </svg>

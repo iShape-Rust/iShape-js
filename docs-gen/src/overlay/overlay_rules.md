@@ -1,13 +1,13 @@
 # Overlay Rules
 
-## Union (or)
+## Union, A or B
 ![Union](union.svg)
 
-## Intersection (and)
+## Intersection, A and B
 ![Intersection](intersection.svg)
 
-## Difference
+## Difference, B - A
 ![Difference](difference.svg)
 
-## Exclusion (xor)
+## Exclusion, A xor B
 ![Exclusion](exclusion.svg)
