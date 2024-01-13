@@ -1,25 +1,17 @@
-use wasm_bindgen::prelude::*;
-use i_overlay::bool::fill_rule::FillRule;
+use i_overlay::bool::fill_rule::FillRule as RustFillRule;
+use wasm_bindgen::prelude::wasm_bindgen;
 
 #[wasm_bindgen]
-pub enum JsFillRule {
-    Subject,
-    Clip,
-    Intersect,
-    Union,
-    Difference,
-    Xor
+pub enum FillRule {
+    EvenOdd,
+    NonZero,
 }
 
-impl From<JsFillRule> for FillRule {
-    fn from(js_fill_rule: JsFillRule) -> Self {
+impl From<FillRule> for RustFillRule {
+    fn from(js_fill_rule: FillRule) -> Self {
         match js_fill_rule {
-            JsFillRule::Subject => FillRule::Subject,
-            JsFillRule::Clip => FillRule::Clip,
-            JsFillRule::Intersect => FillRule::Intersect,
-            JsFillRule::Union => FillRule::Union,
-            JsFillRule::Difference => FillRule::Difference,
-            JsFillRule::Xor => FillRule::Xor
+            FillRule::EvenOdd => RustFillRule::EvenOdd,
+            FillRule::NonZero => RustFillRule::NonZero
         }
     }
 }

@@ -1,18 +1,17 @@
+use i_overlay::layout::overlay::ShapeType as RustShapeType;
 use wasm_bindgen::prelude::*;
-use i_overlay::fill::shape_type::ShapeType;
-
 
 #[wasm_bindgen]
-pub enum JsShapeType {
+pub enum ShapeType {
     Subject,
-    Clip
+    Clip,
 }
 
-impl From<JsShapeType> for ShapeType {
-    fn from(js_shape_type: JsShapeType) -> Self {
-        match js_shape_type {
-            JsShapeType::Subject => ShapeType::SUBJECT,
-            JsShapeType::Clip => ShapeType::CLIP
+impl From<ShapeType> for RustShapeType {
+    fn from(shape_type: ShapeType) -> Self {
+        match shape_type {
+            ShapeType::Subject => RustShapeType::Subject,
+            ShapeType::Clip => RustShapeType::Clip
         }
     }
 }

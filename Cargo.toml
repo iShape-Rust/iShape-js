@@ -1,9 +1,9 @@
 [package]
 name = "i_shape_js"
-version = "0.2.2"
+version = "0.3.0"
 authors = ["Nail Sharipov <nailxsharipov@gmail.com>"]
 edition = "2021"
-description = "A poly-bool library that supports main operations such as union, intersection, difference, xor, and self-intersection by the even-odd rule. This algorithm is based on Vatti clipping ideas but is an original implementation."
+description = "Boolean Operations for 2D Polygons: Supports intersection, union, difference, XOR, and self-intersections for all polygon varieties."
 license = "MIT"
 repository = "https://github.com/iShape-Rust/iShape-js"
 
@@ -12,11 +12,15 @@ crate-type = ["cdylib"]
 
 
 [dependencies]
-i_float = "^0.1.0"
-i_shape = "^0.1.1"
-i_overlay = "^0.3.1"
+i_float = "^0.6.0"
+i_shape = "^0.9.0"
+i_overlay = "^0.15.0"
+
+#i_float = { path = "../iFloat" }
+#i_shape = { path = "../iShape" }
+#i_overlay = { path = "../iOverlay" }
 
 
 wasm-bindgen = "0.2"
 serde = { version = "1.0", features = ["derive"] }
-serde-wasm-bindgen = "0.5"
+serde-wasm-bindgen = "0.6"

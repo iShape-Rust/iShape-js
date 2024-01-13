@@ -2,7 +2,19 @@
 /* eslint-disable */
 /**
 */
-export enum JsFillRule {
+export enum FillRule {
+  EvenOdd = 0,
+  NonZero = 1,
+}
+/**
+*/
+export enum ShapeType {
+  Subject = 0,
+  Clip = 1,
+}
+/**
+*/
+export enum OverlayRule {
   Subject = 0,
   Clip = 1,
   Intersect = 2,
@@ -12,47 +24,42 @@ export enum JsFillRule {
 }
 /**
 */
-export enum JsShapeType {
-  Subject = 0,
-  Clip = 1,
-}
-/**
-*/
-export class JsOverlay {
+export class Overlay {
   free(): void;
 /**
 */
   constructor();
 /**
 * @param {any} js_path
-* @param {number} js_shape_type
+* @param {number} shape_type
 */
-  add_path(js_path: any, js_shape_type: number): void;
+  add_path(js_path: any, shape_type: number): void;
 /**
 * @param {any} js_shape
-* @param {number} js_shape_type
+* @param {number} shape_type
 */
-  add_shape(js_shape: any, js_shape_type: number): void;
+  add_shape(js_shape: any, shape_type: number): void;
 /**
-* @returns {JsOverlayGraph}
+* @param {number} fill_rule
+* @returns {OverlayGraph}
 */
-  build_graph(): JsOverlayGraph;
+  build_graph(fill_rule: number): OverlayGraph;
 }
 /**
 */
-export class JsOverlayGraph {
+export class OverlayGraph {
   free(): void;
 /**
-* @param {number} js_fill_rule
+* @param {number} overlay_rule
 * @returns {any}
 */
-  extract_shapes(js_fill_rule: number): any;
+  extract_shapes(overlay_rule: number): any;
 /**
-* @param {number} js_fill_rule
+* @param {number} overlay_rule
 * @param {number} min_area_f64
 * @returns {any}
 */
-  extract_shapes_min_area(js_fill_rule: number, min_area_f64: number): any;
+  extract_shapes_min_area(overlay_rule: number, min_area_f64: number): any;
 /**
 * @returns {any}
 */
@@ -63,15 +70,15 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
-  readonly __wbg_jsoverlay_free: (a: number) => void;
-  readonly jsoverlay_create: () => number;
-  readonly jsoverlay_add_path: (a: number, b: number, c: number) => void;
-  readonly jsoverlay_add_shape: (a: number, b: number, c: number) => void;
-  readonly jsoverlay_build_graph: (a: number) => number;
-  readonly __wbg_jsoverlaygraph_free: (a: number) => void;
-  readonly jsoverlaygraph_extract_shapes: (a: number, b: number) => number;
-  readonly jsoverlaygraph_extract_shapes_min_area: (a: number, b: number, c: number) => number;
-  readonly jsoverlaygraph_links: (a: number) => number;
+  readonly __wbg_overlay_free: (a: number) => void;
+  readonly overlay_create: () => number;
+  readonly overlay_add_path: (a: number, b: number, c: number) => void;
+  readonly overlay_add_shape: (a: number, b: number, c: number) => void;
+  readonly overlay_build_graph: (a: number, b: number) => number;
+  readonly __wbg_overlaygraph_free: (a: number) => void;
+  readonly overlaygraph_extract_shapes: (a: number, b: number) => number;
+  readonly overlaygraph_extract_shapes_min_area: (a: number, b: number, c: number) => number;
+  readonly overlaygraph_links: (a: number) => number;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
   readonly __wbindgen_exn_store: (a: number) => void;

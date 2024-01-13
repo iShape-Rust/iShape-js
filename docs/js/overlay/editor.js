@@ -1,4 +1,4 @@
-import init, { JsOverlay, JsOverlayGraph, JsShapeType, JsFillRule} from '../i_shape/i_shape_js.js';
+import init, { Overlay, OverlayGraph, ShapeType, FillRule, OverlayRule} from '../i_shape/i_shape_js.js';
 import { Segment } from './segment.js';
 import * as data from './editor_data.js';
 
@@ -203,17 +203,17 @@ function findPoint(shape, x, y) {
 function draw() {
 
     const test = data.tests[testIndex];
-    const overlay = new JsOverlay();
+    const overlay = new Overlay();
 
     test.subjs.forEach((subj) => {
-        overlay.add_shape(subj, JsShapeType.Subject);
+        overlay.add_shape(subj, ShapeType.Subject);
     });
 
     test.clips.forEach((clip) => {
-        overlay.add_shape(clip, JsShapeType.Clip);
+        overlay.add_shape(clip, ShapeType.Clip);
     });
 
-    const graph = overlay.build_graph();
+    const graph = overlay.build_graph(FillRule.EvenOdd);
     const result = graph.extract_shapes(fillRule());
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -397,13 +397,13 @@ function drawPoints(ctx, shapes, color) {
 function fillRule() {
     switch (operationTypeSelect.value) {
         case 'Union':
-            return JsFillRule.Union;
+            return OverlayRule.Union;
         case 'Intersect':
-            return JsFillRule.Intersect;
+            return OverlayFillRule.Intersect;
         case 'Difference':
-            return JsFillRule.Difference;
+            return OverlayFillRule.Difference;
         case 'Xor':
-            return JsFillRule.Xor;
+            return OverlayFillRule.Xor;
     }
 }
 

@@ -1,4 +1,4 @@
-import init, { JsOverlay, JsOverlayGraph, JsShapeType, JsFillRule} from '../i_shape/i_shape_js.js';
+import init, { Overlay, OverlayGraph, ShapeType, FillRule, OverlayRule} from '../i_shape/i_shape_js.js';
 
 const canvas = document.getElementById('starCanvas');
 const ctx = canvas.getContext('2d');
@@ -70,25 +70,25 @@ function draw(currentTime) {
     
     const selectedOperation = operationTypeSelect.value;
 
-    let fillRule;
+    let overlayRule;
     switch (selectedOperation) {
         case 'Union':
-            fillRule = JsFillRule.Union;
+            overlayRule = OverlayRule.Union;
             break;
         case 'Intersect':
-            fillRule = JsFillRule.Intersect;
+            overlayRule = OverlayRule.Intersect;
             break;
         case 'Difference':
-            fillRule = JsFillRule.Difference;
+            overlayRule = OverlayRule.Difference;
             break;
         case 'Xor':
-            fillRule = JsFillRule.Xor;
+            overlayRule = OverlayRule.Xor;
             break;
         case 'Subject':
-            fillRule = JsFillRule.Subject;  // Replace with the actual value
+            overlayRule = OverlayRule.Subject;  // Replace with the actual value
             break;
         case 'Clip':
-            fillRule = JsFillRule.Clip;  // Replace with the actual value
+            overlayRule = OverlayRule.Clip;  // Replace with the actual value
             break;
     }
 
@@ -98,13 +98,13 @@ function draw(currentTime) {
     const subj = createStar({ x: x0, y: y0 }, subjFirstRadius, subjSecondRadius, subjAngleCount, subjAngle);
     const clip = createStar({ x: x0, y: y0 }, clipFirstRadius, clipSecondRadius, clipAngleCount, clipAngle);
 
-    const overlay = new JsOverlay();
+    const overlay = new Overlay();
 
-    overlay.add_shape(subj, JsShapeType.Subject);
-    overlay.add_shape(clip, JsShapeType.Clip);
+    overlay.add_shape(subj, ShapeType.Subject);
+    overlay.add_shape(clip, ShapeType.Clip);
 
-    const graph = overlay.build_graph();
-    const result = graph.extract_shapes(fillRule);
+    const graph = overlay.build_graph(FillRule.EvenOdd);
+    const result = graph.extract_shapes(overlayRule);
 
     var index = 0;
     result.shapes.forEach((shape) => {

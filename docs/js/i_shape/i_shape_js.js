@@ -198,17 +198,20 @@ function handleError(f, args) {
 }
 /**
 */
-export const JsFillRule = Object.freeze({ Subject:0,"0":"Subject",Clip:1,"1":"Clip",Intersect:2,"2":"Intersect",Union:3,"3":"Union",Difference:4,"4":"Difference",Xor:5,"5":"Xor", });
+export const FillRule = Object.freeze({ EvenOdd:0,"0":"EvenOdd",NonZero:1,"1":"NonZero", });
 /**
 */
-export const JsShapeType = Object.freeze({ Subject:0,"0":"Subject",Clip:1,"1":"Clip", });
+export const ShapeType = Object.freeze({ Subject:0,"0":"Subject",Clip:1,"1":"Clip", });
 /**
 */
-export class JsOverlay {
+export const OverlayRule = Object.freeze({ Subject:0,"0":"Subject",Clip:1,"1":"Clip",Intersect:2,"2":"Intersect",Union:3,"3":"Union",Difference:4,"4":"Difference",Xor:5,"5":"Xor", });
+/**
+*/
+export class Overlay {
 
     static __wrap(ptr) {
         ptr = ptr >>> 0;
-        const obj = Object.create(JsOverlay.prototype);
+        const obj = Object.create(Overlay.prototype);
         obj.__wbg_ptr = ptr;
 
         return obj;
@@ -223,43 +226,44 @@ export class JsOverlay {
 
     free() {
         const ptr = this.__destroy_into_raw();
-        wasm.__wbg_jsoverlay_free(ptr);
+        wasm.__wbg_overlay_free(ptr);
     }
     /**
     */
     constructor() {
-        const ret = wasm.jsoverlay_create();
-        return JsOverlay.__wrap(ret);
+        const ret = wasm.overlay_create();
+        return Overlay.__wrap(ret);
     }
     /**
     * @param {any} js_path
-    * @param {number} js_shape_type
+    * @param {number} shape_type
     */
-    add_path(js_path, js_shape_type) {
-        wasm.jsoverlay_add_path(this.__wbg_ptr, addHeapObject(js_path), js_shape_type);
+    add_path(js_path, shape_type) {
+        wasm.overlay_add_path(this.__wbg_ptr, addHeapObject(js_path), shape_type);
     }
     /**
     * @param {any} js_shape
-    * @param {number} js_shape_type
+    * @param {number} shape_type
     */
-    add_shape(js_shape, js_shape_type) {
-        wasm.jsoverlay_add_shape(this.__wbg_ptr, addHeapObject(js_shape), js_shape_type);
+    add_shape(js_shape, shape_type) {
+        wasm.overlay_add_shape(this.__wbg_ptr, addHeapObject(js_shape), shape_type);
     }
     /**
-    * @returns {JsOverlayGraph}
+    * @param {number} fill_rule
+    * @returns {OverlayGraph}
     */
-    build_graph() {
-        const ret = wasm.jsoverlay_build_graph(this.__wbg_ptr);
-        return JsOverlayGraph.__wrap(ret);
+    build_graph(fill_rule) {
+        const ret = wasm.overlay_build_graph(this.__wbg_ptr, fill_rule);
+        return OverlayGraph.__wrap(ret);
     }
 }
 /**
 */
-export class JsOverlayGraph {
+export class OverlayGraph {
 
     static __wrap(ptr) {
         ptr = ptr >>> 0;
-        const obj = Object.create(JsOverlayGraph.prototype);
+        const obj = Object.create(OverlayGraph.prototype);
         obj.__wbg_ptr = ptr;
 
         return obj;
@@ -274,30 +278,30 @@ export class JsOverlayGraph {
 
     free() {
         const ptr = this.__destroy_into_raw();
-        wasm.__wbg_jsoverlaygraph_free(ptr);
+        wasm.__wbg_overlaygraph_free(ptr);
     }
     /**
-    * @param {number} js_fill_rule
+    * @param {number} overlay_rule
     * @returns {any}
     */
-    extract_shapes(js_fill_rule) {
-        const ret = wasm.jsoverlaygraph_extract_shapes(this.__wbg_ptr, js_fill_rule);
+    extract_shapes(overlay_rule) {
+        const ret = wasm.overlaygraph_extract_shapes(this.__wbg_ptr, overlay_rule);
         return takeObject(ret);
     }
     /**
-    * @param {number} js_fill_rule
+    * @param {number} overlay_rule
     * @param {number} min_area_f64
     * @returns {any}
     */
-    extract_shapes_min_area(js_fill_rule, min_area_f64) {
-        const ret = wasm.jsoverlaygraph_extract_shapes_min_area(this.__wbg_ptr, js_fill_rule, min_area_f64);
+    extract_shapes_min_area(overlay_rule, min_area_f64) {
+        const ret = wasm.overlaygraph_extract_shapes_min_area(this.__wbg_ptr, overlay_rule, min_area_f64);
         return takeObject(ret);
     }
     /**
     * @returns {any}
     */
     links() {
-        const ret = wasm.jsoverlaygraph_links(this.__wbg_ptr);
+        const ret = wasm.overlaygraph_links(this.__wbg_ptr);
         return takeObject(ret);
     }
 }
@@ -362,14 +366,6 @@ function __wbg_get_imports() {
         const ret = getObject(arg0) in getObject(arg1);
         return ret;
     };
-    imports.wbg.__wbindgen_number_new = function(arg0) {
-        const ret = arg0;
-        return addHeapObject(ret);
-    };
-    imports.wbg.__wbindgen_string_new = function(arg0, arg1) {
-        const ret = getStringFromWasm0(arg0, arg1);
-        return addHeapObject(ret);
-    };
     imports.wbg.__wbindgen_object_clone_ref = function(arg0) {
         const ret = getObject(arg0);
         return addHeapObject(ret);
@@ -391,11 +387,19 @@ function __wbg_get_imports() {
         getInt32Memory0()[arg0 / 4 + 1] = len1;
         getInt32Memory0()[arg0 / 4 + 0] = ptr1;
     };
-    imports.wbg.__wbg_getwithrefkey_5e6d9547403deab8 = function(arg0, arg1) {
+    imports.wbg.__wbindgen_number_new = function(arg0) {
+        const ret = arg0;
+        return addHeapObject(ret);
+    };
+    imports.wbg.__wbindgen_string_new = function(arg0, arg1) {
+        const ret = getStringFromWasm0(arg0, arg1);
+        return addHeapObject(ret);
+    };
+    imports.wbg.__wbg_getwithrefkey_4a92a5eca60879b9 = function(arg0, arg1) {
         const ret = getObject(arg0)[getObject(arg1)];
         return addHeapObject(ret);
     };
-    imports.wbg.__wbg_set_841ac57cff3d672b = function(arg0, arg1, arg2) {
+    imports.wbg.__wbg_set_9182712abebf82ef = function(arg0, arg1, arg2) {
         getObject(arg0)[takeObject(arg1)] = takeObject(arg2);
     };
     imports.wbg.__wbg_get_44be0491f933a435 = function(arg0, arg1) {
