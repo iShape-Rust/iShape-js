@@ -399,11 +399,11 @@ function fillRule() {
         case 'Union':
             return OverlayRule.Union;
         case 'Intersect':
-            return OverlayFillRule.Intersect;
+            return OverlayRule.Intersect;
         case 'Difference':
-            return OverlayFillRule.Difference;
+            return OverlayRule.Difference;
         case 'Xor':
-            return OverlayFillRule.Xor;
+            return OverlayRule.Xor;
     }
 }
 
