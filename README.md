@@ -26,8 +26,8 @@ Try out iShape with an interactive demo. The demo covers operations like union, 
 
 #### Download Library Files:
 
-- *i_shape_js.js*
-- *i_shape_js_bg.wasm*
+- *i_shape.js*
+- *i_shape_bg.wasm*
 
 You can find it at: [pkg](https://github.com/iShape-Rust/iShape-js/tree/main/pkg)
   
@@ -52,7 +52,7 @@ The NPM package is available [here](https://www.npmjs.com/package/i_shape_js)
 After installing the NPM package, you can import it in your JavaScript or TypeScript file as follows:
 
 ```javascript
-import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule } from 'i_shape_js';
+import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule } from './ishape/i_shape.js';
 
 // Your code here
 
@@ -61,7 +61,7 @@ import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule } from 'i
 
 ### Example
 
-Here is a simple HTML example that demonstrates how to use the iShape library for geometric union operations.
+Here is a simple HTML example that demonstrates how to use the iShape library for geometric union and xor operations.
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -81,7 +81,7 @@ Here is a simple HTML example that demonstrates how to use the iShape library fo
     <script type="module">
         // Import the necessary modules from the iShape library
         // Adjust your path here!!!
-        import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule} from './ishape/i_shape_js.js';
+        import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule} from './ishape/i_shape.js';
 
         // Initialize the iShape library
         init();
@@ -119,15 +119,15 @@ Here is a simple HTML example that demonstrates how to use the iShape library fo
             const graph = overlay.build_graph(FillRule.EvenOdd);
 
             // Apply the union operation on the shapes and extract the result
-            const unionResult = graph.extract_shapes(OverlayRule.Union);
+            const union = graph.extract_shapes(OverlayRule.Union);
 
             // Apply the xor operation on the shapes and extract the result
-            const xorResult = graph.extract_shapes(OverlayRule.Xor);
+            const xor = graph.extract_shapes(OverlayRule.Xor);
 
             // Apply others operations if necessary
 
             const resultText = JSON.stringify(result, null, 2);
-            document.getElementById('result').innerText = `Result:\n${resultText}`;
+            document.getElementById('result').innerText = `Result:\n${union}`;
         });
     </script>
 </head>
