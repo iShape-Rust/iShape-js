@@ -61,7 +61,7 @@ import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule } from '.
 
 ### Example
 
-Here is a simple HTML example that demonstrates how to use the iShape library for geometric union operations.
+Here is a simple HTML example that demonstrates how to use the iShape library for geometric union and xor operations.
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -119,15 +119,15 @@ Here is a simple HTML example that demonstrates how to use the iShape library fo
             const graph = overlay.build_graph(FillRule.EvenOdd);
 
             // Apply the union operation on the shapes and extract the result
-            const unionResult = graph.extract_shapes(OverlayRule.Union);
+            const union = graph.extract_shapes(OverlayRule.Union);
 
             // Apply the xor operation on the shapes and extract the result
-            const xorResult = graph.extract_shapes(OverlayRule.Xor);
+            const xor = graph.extract_shapes(OverlayRule.Xor);
 
             // Apply others operations if necessary
 
             const resultText = JSON.stringify(result, null, 2);
-            document.getElementById('result').innerText = `Result:\n${resultText}`;
+            document.getElementById('result').innerText = `Result:\n${union}`;
         });
     </script>
 </head>
