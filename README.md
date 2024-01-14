@@ -1,9 +1,9 @@
 # iShape-js
 
 <p align="center">
-<img src="https://github.com/iShape-Rust/iShape-js/blob/main/Readme/balloons.svg" width="250"/>
+  <img src="readme/balloons.svg" width="250"/>
 </p>
-The iShape-js is a WebAssembly library compiled from a Rust library for handling various 2D geometry operations. A poly-bool library supports main operations such as union, intersection, difference, xor, and self-intersection by the even-odd rule. This algorithm is based on Vatti clipping ideas but is an original implementation.
+2D geometry library for poly-bool operations such as union, intersection, difference and xor.
 
 ## [Demo](https://ishape-rust.github.io/iShape-js/overlay/stars_demo.html)
 Try out iShape with an interactive demo. The demo covers operations like union, intersection, difference and exclusion
@@ -12,28 +12,14 @@ Try out iShape with an interactive demo. The demo covers operations like union, 
 - [Shapes Editor](https://ishape-rust.github.io/iShape-js/overlay/shapes_editor.html)
 
 
-
 ## Features
 
-- Supports all basic set operations such as union, intersection, difference, exclusion and self-intersection.
-- Capable of handling various types of polygons, including self-intersecting polygons, multiple paths and polygons with holes.
-- Optimizes by removing unnecessary vertices and merging parallel edges.
-- Effectively handles an arbitrary number of overlaps, resolving them using the even-odd rule.
-- Employs integer arithmetic for computations.
-
-
-
-## Working Range and Precision
-The i_overlay library operates within the following ranges and precision levels:
-
-Extended Range: From -1,000,000 to 1,000,000 with a precision of 0.001.
-Recommended Range: From -100,000 to 100,000 with a precision of 0.01 for more accurate results.
-Utilizing the library within the recommended range ensures optimal accuracy in computations and is advised for most use cases.
-
-
+- **Operations**: union, intersection, difference, and exclusion.
+- **Polygons**: with holes, self-intersections, and multiple paths.
+- **Simplification**: removes degenerate vertices and merges collinear edges.
+- **Fill Rules**: even-odd and non-zero.
 
 ## Getting Started
-
 
 
 ### Direct include
@@ -47,7 +33,6 @@ You can find it at: [pkg](https://github.com/iShape-Rust/iShape-js/tree/main/pkg
   
 #### Place Files:
 Place these files in a directory that your HTML file can access; in this example, the directory is named *./ishape*
-
 
 
 ### NPM
@@ -67,7 +52,7 @@ The NPM package is available [here](https://www.npmjs.com/package/i_shape_js)
 After installing the NPM package, you can import it in your JavaScript or TypeScript file as follows:
 
 ```javascript
-import init, { JsOverlay, JsOverlayGraph, JsShapeType, JsFillRule } from 'i_shape_js';
+import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule } from 'i_shape_js';
 
 // Your code here
 
@@ -94,9 +79,15 @@ Here is a simple HTML example that demonstrates how to use the iShape library fo
         }
     </style>
     <script type="module">
-        import init, { JsOverlay, JsOverlayGraph, JsShapeType, JsFillRule} from './ishape/i_shape_js.js';
+        // Import the necessary modules from the iShape library
+        import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule} from './ishape/i_shape_js.js';
+
+        // Initialize the iShape library
         init();
+
         document.getElementById('union').addEventListener('click', () => {
+
+            // create a main polygon, can be multiple paths
             const subj = {
                 paths: [
                     {
@@ -105,6 +96,7 @@ Here is a simple HTML example that demonstrates how to use the iShape library fo
                 ]
             }
 
+            // create a clipping polygon, can be multiple paths
             const clip = {
                 paths: [
                     {
@@ -113,13 +105,25 @@ Here is a simple HTML example that demonstrates how to use the iShape library fo
                 ]
             }
 
-            const overlay = new JsOverlay();
+            // Initialize the Overlay object to handle geometric operations
+            const overlay = new Overlay();
 
-            overlay.add_shape(subj, JsShapeType.Subject);
-            overlay.add_shape(clip, JsShapeType.Clip);
+            // Add the main polygon to the overlay
+            overlay.add_shape(subj, ShapeType.Subject);
 
-            const graph = overlay.build_graph();
-            const result = graph.extract_shapes(JsFillRule.Union);
+            // Add the clipping polygon to the overlay
+            overlay.add_shape(clip, ShapeType.Clip);
+
+            // Build the graph for the geometry, using the even-odd rule
+            const graph = overlay.build_graph(FillRule.EvenOdd);
+
+            // Apply the union operation on the shapes and extract the result
+            const unionResult = graph.extract_shapes(OverlayRule.Union);
+
+            // Apply the xor operation on the shapes and extract the result
+            const xorResult = graph.extract_shapes(OverlayRule.Xor);
+
+            // Apply others operations if necessary
 
             const resultText = JSON.stringify(result, null, 2);
             document.getElementById('result').innerText = `Result:\n${resultText}`;
