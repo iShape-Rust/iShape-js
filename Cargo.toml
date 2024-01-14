@@ -1,5 +1,5 @@
 [package]
-name = "i_shape_js"
+name = "i_shape"
 version = "0.3.0"
 authors = ["Nail Sharipov <nailxsharipov@gmail.com>"]
 edition = "2021"

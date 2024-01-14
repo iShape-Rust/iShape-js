@@ -1,4 +1,4 @@
-import init, { Overlay, OverlayGraph, ShapeType, FillRule, OverlayRule} from '../i_shape/i_shape_js.js';
+import init, { Overlay, OverlayGraph, ShapeType, FillRule, OverlayRule} from '../i_shape/i_shape.js';
 import { Segment } from './segment.js';
 import * as data from './editor_data.js';
 
