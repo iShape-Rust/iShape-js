@@ -80,6 +80,7 @@ Here is a simple HTML example that demonstrates how to use the iShape library fo
     </style>
     <script type="module">
         // Import the necessary modules from the iShape library
+        // Adjust your path here!!!
         import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule} from './ishape/i_shape_js.js';
 
         // Initialize the iShape library
