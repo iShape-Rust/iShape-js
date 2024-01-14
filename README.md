@@ -80,6 +80,7 @@ Here is a simple HTML example that demonstrates how to use the iShape library fo
     </style>
     <script type="module">
         // Import the necessary modules from the iShape library
+        // Adjust your path here!!!
         import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule} from './ishape/i_shape_js.js';
 
         // Initialize the iShape library
@@ -142,32 +143,16 @@ Here is a simple HTML example that demonstrates how to use the iShape library fo
 Import classes and initialize the WebAssembly module using init().
 Use the imported classes to perform geometric operations.
 
-#### Note
+# Overlay Rules
 
-This is a basic example. You can extend it further to suit your application's specific needs.
+## Union, A or B
+![Union](readme/union.svg)
 
----
+## Intersection, A and B
+![Intersection](readme/intersection.svg)
 
-### Union
-<p align="left">
-<img src="https://github.com/iShape-Rust/iShape-js/blob/main/Readme/union.svg" width="250"/>
-</p>
+## Difference, B - A
+![Difference](readme/difference.svg)
 
-### Difference
-<p align="left">
-<img src="https://github.com/iShape-Rust/iShape-js/blob/main/Readme/difference.svg" width="250"/>
-</p>
-
-### Intersection
-<p align="left">
-<img src="https://github.com/iShape-Rust/iShape-js/blob/main/Readme/intersection.svg" width="250"/>
-</p>
-
-### Exclusion (xor)
-<p align="left">
-<img src="https://github.com/iShape-Rust/iShape-js/blob/main/Readme/exclusion.svg" width="250"/>
-</p>
-
-### Self-intersection
-<p align="left">
-<img src="https://github.com/iShape-Rust/iShape-js/blob/main/Readme/self-intersecting.svg" width="250"/>
+## Exclusion, A xor B
+![Exclusion](readme/exclusion.svg)
