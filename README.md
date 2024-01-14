@@ -61,7 +61,7 @@ import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule } from '.
 
 ### Example
 
-Here is a simple HTML example that demonstrates how to use the iShape library for geometric union and xor operations.
+Here is a simple HTML example that demonstrates how to use the iShape library for union operation.
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -77,61 +77,47 @@ Here is a simple HTML example that demonstrates how to use the iShape library fo
             white-space: pre-wrap;
             font-family: monospace;
         }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            font-family: monospace;
+            margin-bottom: 10px;
+        }
     </style>
     <script type="module">
-        // Import the necessary modules from the iShape library
-        // Adjust your path here!!!
         import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule} from './ishape/i_shape.js';
 
-        // Initialize the iShape library
         init();
 
         document.getElementById('union').addEventListener('click', () => {
+            
+            const subjInput = document.getElementById('subjInput').value;
+            const clipInput = document.getElementById('clipInput').value;
 
-            // create a main polygon, can be multiple paths
-            const subj = {
-                paths: [
-                    {
-                        points: [[200, 300], [200, 100], [400, 100], [400, 300]]
-                    }
-                ]
-            }
+            const subj = JSON.parse(subjInput);
+            const clip = JSON.parse(clipInput);
 
-            // create a clipping polygon, can be multiple paths
-            const clip = {
-                paths: [
-                    {
-                        points: [[300, 400], [300, 200], [500, 200], [500, 400]]
-                    }
-                ]
-            }
-
-            // Initialize the Overlay object to handle geometric operations
             const overlay = new Overlay();
-
-            // Add the main polygon to the overlay
             overlay.add_shape(subj, ShapeType.Subject);
-
-            // Add the clipping polygon to the overlay
             overlay.add_shape(clip, ShapeType.Clip);
 
-            // Build the graph for the geometry, using the even-odd rule
+            // build segments geometry
             const graph = overlay.build_graph(FillRule.EvenOdd);
 
-            // Apply the union operation on the shapes and extract the result
+            // apply union operation
             const union = graph.extract_shapes(OverlayRule.Union);
 
-            // Apply the xor operation on the shapes and extract the result
-            const xor = graph.extract_shapes(OverlayRule.Xor);
+            // add more operations if required
 
-            // Apply others operations if necessary
-
-            const resultText = JSON.stringify(result, null, 2);
-            document.getElementById('result').innerText = `Result:\n${union}`;
+            const resultText = JSON.stringify(union, null, 2);
+            document.getElementById('result').innerText = `Result:\n${resultText}`;
         });
     </script>
 </head>
 <body>
+    <textarea id="subjInput" placeholder='Enter "subj" polygon here...'>{"paths": [{"points": [[200, 300], [200, 100], [400, 100], [400, 300]]}]}</textarea>
+    <textarea id="clipInput" placeholder='Enter "clip" polygon here...'>{"paths": [{"points": [[300, 400], [300, 200], [500, 200], [500, 400]]}]}</textarea>
     <button id="union">Union</button>
     <pre id="result"></pre>
 </body>
