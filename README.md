@@ -52,7 +52,7 @@ The NPM package is available [here](https://www.npmjs.com/package/i_shape_js)
 After installing the NPM package, you can import it in your JavaScript or TypeScript file as follows:
 
 ```javascript
-import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule } from 'i_shape.js';
+import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule } from './ishape/i_shape.js';
 
 // Your code here
 
