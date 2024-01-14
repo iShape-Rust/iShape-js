@@ -26,8 +26,8 @@ Try out iShape with an interactive demo. The demo covers operations like union, 
 
 #### Download Library Files:
 
-- *i_shape_js.js*
-- *i_shape_js_bg.wasm*
+- *i_shape.js*
+- *i_shape_bg.wasm*
 
 You can find it at: [pkg](https://github.com/iShape-Rust/iShape-js/tree/main/pkg)
   
@@ -52,7 +52,7 @@ The NPM package is available [here](https://www.npmjs.com/package/i_shape_js)
 After installing the NPM package, you can import it in your JavaScript or TypeScript file as follows:
 
 ```javascript
-import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule } from 'i_shape_js';
+import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule } from 'i_shape.js';
 
 // Your code here
 
@@ -81,7 +81,7 @@ Here is a simple HTML example that demonstrates how to use the iShape library fo
     <script type="module">
         // Import the necessary modules from the iShape library
         // Adjust your path here!!!
-        import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule} from './ishape/i_shape_js.js';
+        import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule} from './ishape/i_shape.js';
 
         // Initialize the iShape library
         init();
