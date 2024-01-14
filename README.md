@@ -145,13 +145,13 @@ Use the imported classes to perform geometric operations.
 # Overlay Rules
 
 ## Union, A or B
-![Union](Readme/union.svg)
+![Union](readme/union.svg)
 
 ## Intersection, A and B
-![Intersection](Readme/intersection.svg)
+![Intersection](readme/intersection.svg)
 
 ## Difference, B - A
-![Difference](Readme/difference.svg)
+![Difference](readme/difference.svg)
 
 ## Exclusion, A xor B
-![Exclusion](Readme/exclusion.svg)
+![Exclusion](readme/exclusion.svg)
