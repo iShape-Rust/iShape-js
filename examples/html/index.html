@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iShape</title>
+    <style>
+        #result {
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            padding: 10px;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        textarea {
+            width: 100%; /* Sets the width of the textarea to 100% of its parent */
+            height: 150px; /* Sets a fixed height */
+            padding: 10px;
+            font-family: monospace;
+            margin-bottom: 10px; /* Adds some space below each textarea */
+        }
+    </style>
+    <script type="module">
+        import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule} from './ishape/i_shape.js';
+
+        init();
+
+        document.getElementById('union').addEventListener('click', () => {
+            // Parse input from text areas
+            const subjInput = document.getElementById('subjInput').value;
+            const clipInput = document.getElementById('clipInput').value;
+
+            // Convert string input to object
+            const subj = JSON.parse(subjInput);
+            const clip = JSON.parse(clipInput);
+
+            const overlay = new Overlay();
+            overlay.add_shape(subj, ShapeType.Subject);
+            overlay.add_shape(clip, ShapeType.Clip);
+
+            const graph = overlay.build_graph(FillRule.EvenOdd);
+            const union = graph.extract_shapes(OverlayRule.Union);
+
+            const resultText = JSON.stringify(union, null, 2);
+            document.getElementById('result').innerText = `Result:\n${resultText}`;
+        });
+    </script>
+</head>
+<body>
+    <textarea id="subjInput" placeholder='Enter "subj" polygon here...'>{"paths": [{"points": [[200, 300], [200, 100], [400, 100], [400, 300]]}]}</textarea>
+    <textarea id="clipInput" placeholder='Enter "clip" polygon here...'>{"paths": [{"points": [[300, 400], [300, 200], [500, 200], [500, 400]]}]}</textarea>
+    <button id="union">Union</button>
+    <pre id="result"></pre>
+</body>
+</html>
