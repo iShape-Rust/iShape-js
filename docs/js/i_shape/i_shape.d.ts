@@ -2,15 +2,15 @@
 /* eslint-disable */
 /**
 */
-export enum FillRule {
-  EvenOdd = 0,
-  NonZero = 1,
-}
-/**
-*/
 export enum ShapeType {
   Subject = 0,
   Clip = 1,
+}
+/**
+*/
+export enum FillRule {
+  EvenOdd = 0,
+  NonZero = 1,
 }
 /**
 */
@@ -31,35 +31,35 @@ export class Overlay {
   constructor();
 /**
 * @param {any} js_path
-* @param {number} shape_type
+* @param {ShapeType} shape_type
 */
-  add_path(js_path: any, shape_type: number): void;
+  add_path(js_path: any, shape_type: ShapeType): void;
 /**
 * @param {any} js_shape
-* @param {number} shape_type
+* @param {ShapeType} shape_type
 */
-  add_shape(js_shape: any, shape_type: number): void;
+  add_shape(js_shape: any, shape_type: ShapeType): void;
 /**
-* @param {number} fill_rule
+* @param {FillRule} fill_rule
 * @returns {OverlayGraph}
 */
-  build_graph(fill_rule: number): OverlayGraph;
+  build_graph(fill_rule: FillRule): OverlayGraph;
 }
 /**
 */
 export class OverlayGraph {
   free(): void;
 /**
-* @param {number} overlay_rule
+* @param {OverlayRule} overlay_rule
 * @returns {any}
 */
-  extract_shapes(overlay_rule: number): any;
+  extract_shapes(overlay_rule: OverlayRule): any;
 /**
-* @param {number} overlay_rule
+* @param {OverlayRule} overlay_rule
 * @param {number} min_area_f64
 * @returns {any}
 */
-  extract_shapes_min_area(overlay_rule: number, min_area_f64: number): any;
+  extract_shapes_min_area(overlay_rule: OverlayRule, min_area_f64: number): any;
 /**
 * @returns {any}
 */
