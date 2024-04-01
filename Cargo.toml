@@ -1,6 +1,6 @@
 [package]
 name = "i_shape"
-version = "0.5.0"
+version = "0.6.0"
 authors = ["Nail Sharipov <nailxsharipov@gmail.com>"]
 edition = "2021"
 description = "Boolean Operations for 2D Polygons: Supports intersection, union, difference, XOR, and self-intersections for all polygon varieties."
@@ -12,9 +12,9 @@ crate-type = ["cdylib"]
 
 
 [dependencies]
-i_float = "^0.8.0"
-i_shape = "^0.13.0"
-i_overlay = "^0.21.0"
+i_float = "0.9.0"
+i_shape = "0.15.0"
+i_overlay = "0.24.4"
 
 #i_float = { path = "../iFloat" }
 #i_shape = { path = "../iShape" }
