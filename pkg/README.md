@@ -91,7 +91,6 @@ Here is a simple HTML example that demonstrates how to use the iShape library fo
         init();
 
         document.getElementById('union').addEventListener('click', () => {
-            
             const subjInput = document.getElementById('subjInput').value;
             const clipInput = document.getElementById('clipInput').value;
 
@@ -99,8 +98,8 @@ Here is a simple HTML example that demonstrates how to use the iShape library fo
             const clip = JSON.parse(clipInput);
 
             const overlay = new Overlay();
-            overlay.add_shape(subj, ShapeType.Subject);
-            overlay.add_shape(clip, ShapeType.Clip);
+            overlay.add_paths(subj, ShapeType.Subject);
+            overlay.add_paths(clip, ShapeType.Clip);
 
             // build segments geometry
             const graph = overlay.build_graph(FillRule.EvenOdd);
@@ -109,6 +108,7 @@ Here is a simple HTML example that demonstrates how to use the iShape library fo
             const union = graph.extract_shapes(OverlayRule.Union);
 
             // add more operations if required
+            // ...
 
             const resultText = JSON.stringify(union, null, 2);
             document.getElementById('result').innerText = `Result:\n${resultText}`;
@@ -116,8 +116,8 @@ Here is a simple HTML example that demonstrates how to use the iShape library fo
     </script>
 </head>
 <body>
-    <textarea id="subjInput" placeholder='Enter "subj" polygon here...'>{"paths": [{"points": [[200, 300], [200, 100], [400, 100], [400, 300]]}]}</textarea>
-    <textarea id="clipInput" placeholder='Enter "clip" polygon here...'>{"paths": [{"points": [[300, 400], [300, 200], [500, 200], [500, 400]]}]}</textarea>
+    <textarea id="subjInput" placeholder='Enter "subj" polygon here...'>[[[200, 300], [200, 100], [400, 100], [400, 300]]]</textarea>
+    <textarea id="clipInput" placeholder='Enter "clip" polygon here...'>[[[300, 400], [300, 200], [500, 200], [500, 400]]]</textarea>
     <button id="union">Union</button>
     <pre id="result"></pre>
 </body>

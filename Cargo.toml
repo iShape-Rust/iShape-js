@@ -1,6 +1,6 @@
 [package]
-name = "i_shape_js"
-version = "0.7.1"
+name = "i_shape"
+version = "0.7.0"
 authors = ["Nail Sharipov <nailxsharipov@gmail.com>"]
 edition = "2021"
 description = "Boolean Operations for 2D Polygons. Supported operations: intersection, union, difference, XOR, and self-intersections for all polygon varieties."

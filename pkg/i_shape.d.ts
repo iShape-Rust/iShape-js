@@ -2,6 +2,12 @@
 /* eslint-disable */
 /**
 */
+export enum FillRule {
+  EvenOdd = 0,
+  NonZero = 1,
+}
+/**
+*/
 export enum OverlayRule {
   Subject = 0,
   Clip = 1,
@@ -9,12 +15,6 @@ export enum OverlayRule {
   Union = 3,
   Difference = 4,
   Xor = 5,
-}
-/**
-*/
-export enum FillRule {
-  EvenOdd = 0,
-  NonZero = 1,
 }
 /**
 */
