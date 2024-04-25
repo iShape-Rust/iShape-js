@@ -1,83 +1,51 @@
-use i_float::fix_float::FixMath;
-use i_float::fix_vec::FixVec;
-use i_overlay::layout::overlay_link::OverlayLink;
-use i_shape::{fix_path::FixPath, fix_shape::FixShape};
+use i_float::adapter::PointAdapter;
+use i_float::f64_point::F64Point;
+use i_overlay::core::overlay_link::OverlayLink;
+use i_shape::f64::shape::{F64Path, F64Shape};
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::JsValue;
 
-#[derive(Serialize, Deserialize)]
-pub struct ShapeListData {
-    pub shapes: Vec<ShapeData>,
+pub type ShapesData = Vec<ShapeData>;
+pub type ShapeData = Vec<PathData>;
+pub type PathData = Vec<[f64; 2]>;
+
+pub(super) trait JSShapeData {
+    fn to_f64shape(&self) -> F64Shape;
+    fn create_from_json(js_value: JsValue) -> Self;
+    fn create(shape: &F64Shape) -> Self;
 }
 
-impl ShapeListData {
-    pub(crate) fn create(shapes: &Vec<FixShape>) -> Self {
-        let mut list = Vec::with_capacity(shapes.len());
-        for shape in shapes.iter() {
-            let shape_data = ShapeData::create(shape);
-            list.push(shape_data);
-        }
-
-        Self { shapes: list }
-    }
+pub(super) trait JSPathData {
+    fn to_f64path(&self) -> F64Path;
+    fn create_from_json(js_value: JsValue) -> Self;
+    fn create(path: &F64Path) -> Self;
 }
 
-#[derive(Serialize, Deserialize)]
-pub struct ShapeData {
-    pub paths: Vec<PathData>,
-}
-
-impl ShapeData {
-    pub(super) fn shape(&self) -> FixShape {
-        let n = self.paths.len();
-        let mut paths = Vec::with_capacity(n);
-
-        for path_data in self.paths.iter() {
-            paths.push(path_data.path());
-        }
-
-        FixShape::new(paths)
+impl JSShapeData for ShapeData {
+    fn to_f64shape(&self) -> F64Shape {
+        self.iter().map(|path| path.to_f64path()).collect()
     }
 
-    pub(super) fn create_from_json(js_value: JsValue) -> Self {
+    fn create_from_json(js_value: JsValue) -> Self {
         serde_wasm_bindgen::from_value(js_value).unwrap()
     }
 
-    pub(super) fn create(shape: &FixShape) -> Self {
-        let mut paths = Vec::with_capacity(shape.paths.len());
-        for path in shape.paths.iter() {
-            let path_data = PathData::create(path);
-            paths.push(path_data);
-        }
-        Self { paths }
+    fn create(shape: &F64Shape) -> Self {
+        shape.iter().map(|path| JSPathData::create(path)).collect()
     }
 }
 
-#[derive(Serialize, Deserialize)]
-pub struct PathData {
-    pub points: Vec<[f64; 2]>,
-}
-
-impl PathData {
-    pub(super) fn path(&self) -> FixPath {
-        Self::points_to_path(&self.points)
+impl JSPathData for PathData {
+    fn to_f64path(&self) -> F64Path {
+        self.iter().map(|p| F64Point::new(p[0], p[1])).collect()
     }
 
-    pub(super) fn create_from_json(js_value: JsValue) -> Self {
+    fn create_from_json(js_value: JsValue) -> Self {
         serde_wasm_bindgen::from_value(js_value).unwrap()
     }
 
-    pub(super) fn create(path: &FixPath) -> Self {
-        let points = path.iter().map(|v| [v.x.f64(), v.y.f64()]).collect();
-        Self { points }
-    }
-
-    pub(super) fn points_to_path(points: &Vec<[f64; 2]>) -> FixPath {
-        if points.is_empty() {
-            Vec::new()
-        } else {
-            points.iter().map(|p| FixVec::new_f64(p[0], p[1])).collect()
-        }
+    fn create(path: &F64Path) -> Self {
+        path.iter().map(|v| [v.x, v.y]).collect()
     }
 }
 
@@ -96,17 +64,15 @@ pub struct LinkListData {
 }
 
 impl LinkListData {
-    pub(super) fn create(links: &Vec<OverlayLink>) -> Self {
+    pub(super) fn create(links: &Vec<OverlayLink>, adapter: &PointAdapter) -> Self {
         let mut list = Vec::with_capacity(links.len());
         for link in links.iter() {
             let ab = link.ab();
-            let ax = ab.0.x.f64();
-            let ay = ab.0.y.f64();
-            let bx = ab.1.x.f64();
-            let by = ab.1.y.f64();
+            let a = adapter.convert_to_float(&ab.0);
+            let b = adapter.convert_to_float(&ab.1);
             let fill = link.fill();
 
-            list.push(LinkData { ax, ay, bx, by, fill });
+            list.push(LinkData { ax: a.x, ay: a.y, bx: b.x, by: b.y, fill });
         }
         Self { links: list }
     }

@@ -100,14 +100,14 @@ function draw(currentTime) {
 
     const overlay = new Overlay();
 
-    overlay.add_shape(subj, ShapeType.Subject);
-    overlay.add_shape(clip, ShapeType.Clip);
+    overlay.add_path(subj, ShapeType.Subject);
+    overlay.add_path(clip, ShapeType.Clip);
 
     const graph = overlay.build_graph(FillRule.EvenOdd);
     const result = graph.extract_shapes(overlayRule);
 
     var index = 0;
-    result.shapes.forEach((shape) => {
+    result.forEach((shape) => {
       const stroke = getColorByIndex(index);
       const fill = getColorByIndex(index, 0.5);
 
@@ -145,9 +145,7 @@ function createStar(center, r0, r1, count, angle) {
     points.push([x0 + xr1, y0 + yr1]);
   }
 
-  return {
-    paths: [{ points: points }]
-  };
+  return points;
 }
 
 function drawShape(ctx, shape, fillColor, strokeColor, lineWidth) {
@@ -156,8 +154,7 @@ function drawShape(ctx, shape, fillColor, strokeColor, lineWidth) {
 
     let region = new Path2D();
 
-    shape.paths.forEach((path) => {
-        const points = path.points;
+    shape.forEach((points) => {
         const [x0, y0] = points[0];
         region.moveTo(x0, y0);
 

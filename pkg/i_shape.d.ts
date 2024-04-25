@@ -2,9 +2,13 @@
 /* eslint-disable */
 /**
 */
-export enum ShapeType {
+export enum OverlayRule {
   Subject = 0,
   Clip = 1,
+  Intersect = 2,
+  Union = 3,
+  Difference = 4,
+  Xor = 5,
 }
 /**
 */
@@ -14,13 +18,9 @@ export enum FillRule {
 }
 /**
 */
-export enum OverlayRule {
+export enum ShapeType {
   Subject = 0,
   Clip = 1,
-  Intersect = 2,
-  Union = 3,
-  Difference = 4,
-  Xor = 5,
 }
 /**
 */
@@ -38,7 +38,7 @@ export class Overlay {
 * @param {any} js_shape
 * @param {ShapeType} shape_type
 */
-  add_shape(js_shape: any, shape_type: ShapeType): void;
+  add_paths(js_shape: any, shape_type: ShapeType): void;
 /**
 * @param {FillRule} fill_rule
 * @returns {OverlayGraph}
@@ -73,7 +73,7 @@ export interface InitOutput {
   readonly __wbg_overlay_free: (a: number) => void;
   readonly overlay_create: () => number;
   readonly overlay_add_path: (a: number, b: number, c: number) => void;
-  readonly overlay_add_shape: (a: number, b: number, c: number) => void;
+  readonly overlay_add_paths: (a: number, b: number, c: number) => void;
   readonly overlay_build_graph: (a: number, b: number) => number;
   readonly __wbg_overlaygraph_free: (a: number) => void;
   readonly overlaygraph_extract_shapes: (a: number, b: number) => number;

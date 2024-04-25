@@ -1,5 +1,5 @@
 use wasm_bindgen::prelude::*;
-use i_overlay::bool::overlay_rule::OverlayRule as RustOverlayRule;
+use i_overlay::core::overlay_rule::OverlayRule as RustOverlayRule;
 
 #[wasm_bindgen]
 pub enum OverlayRule {

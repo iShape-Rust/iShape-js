@@ -189,8 +189,8 @@ function move(eX, eY) {
 }
 
 function findPoint(shape, x, y) {
-    for (let path of shape.paths) {
-        for (let point of path.points) {
+    for (let path of shape) {
+        for (let point of path) {
             const [px, py] = point;
             if (Math.abs(px - x) < 10 && Math.abs(py - y) < 10) {
                 return point;
@@ -206,11 +206,11 @@ function draw() {
     const overlay = new Overlay();
 
     test.subjs.forEach((subj) => {
-        overlay.add_shape(subj, ShapeType.Subject);
+        overlay.add_paths(subj, ShapeType.Subject);
     });
 
     test.clips.forEach((clip) => {
-        overlay.add_shape(clip, ShapeType.Clip);
+        overlay.add_paths(clip, ShapeType.Clip);
     });
 
     const graph = overlay.build_graph(FillRule.EvenOdd);
@@ -251,7 +251,7 @@ function draw() {
 
     const maxY = 0.5 * canvas.height;
 
-    result.shapes.forEach((shape) => {
+    result.forEach((shape) => {
       const stroke = resultStroke;
       const fill = resultFill;
 
@@ -353,8 +353,7 @@ function drawShape(ctx, shape, fillColor, strokeColor, lineWidth, dy) {
 
     let region = new Path2D();
 
-    shape.paths.forEach((path) => {
-        const points = path.points;
+    shape.forEach((points) => {
         const [x0, y0] = points[0];
         region.moveTo(x0, y0 + dy);
 
@@ -382,8 +381,7 @@ function drawPoints(ctx, shapes, color) {
     ctx.lineWidth = null;
 
     shapes.forEach((shape) => {
-        shape.paths.forEach((path) => {
-            const points = path.points;
+        shape.forEach((points) => {
             for (let i = 0; i < points.length; i++) {
                 const [x, y] = points[i];
                 ctx.beginPath();

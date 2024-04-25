@@ -4,7 +4,7 @@ export const memory: WebAssembly.Memory;
 export function __wbg_overlay_free(a: number): void;
 export function overlay_create(): number;
 export function overlay_add_path(a: number, b: number, c: number): void;
-export function overlay_add_shape(a: number, b: number, c: number): void;
+export function overlay_add_paths(a: number, b: number, c: number): void;
 export function overlay_build_graph(a: number, b: number): number;
 export function __wbg_overlaygraph_free(a: number): void;
 export function overlaygraph_extract_shapes(a: number, b: number): number;

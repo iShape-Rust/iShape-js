@@ -199,13 +199,13 @@ function handleError(f, args) {
 }
 /**
 */
-export const ShapeType = Object.freeze({ Subject:0,"0":"Subject",Clip:1,"1":"Clip", });
+export const OverlayRule = Object.freeze({ Subject:0,"0":"Subject",Clip:1,"1":"Clip",Intersect:2,"2":"Intersect",Union:3,"3":"Union",Difference:4,"4":"Difference",Xor:5,"5":"Xor", });
 /**
 */
 export const FillRule = Object.freeze({ EvenOdd:0,"0":"EvenOdd",NonZero:1,"1":"NonZero", });
 /**
 */
-export const OverlayRule = Object.freeze({ Subject:0,"0":"Subject",Clip:1,"1":"Clip",Intersect:2,"2":"Intersect",Union:3,"3":"Union",Difference:4,"4":"Difference",Xor:5,"5":"Xor", });
+export const ShapeType = Object.freeze({ Subject:0,"0":"Subject",Clip:1,"1":"Clip", });
 
 const OverlayFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
@@ -243,8 +243,8 @@ export class Overlay {
     * @param {any} js_shape
     * @param {ShapeType} shape_type
     */
-    add_shape(js_shape, shape_type) {
-        wasm.overlay_add_shape(this.__wbg_ptr, addHeapObject(js_shape), shape_type);
+    add_paths(js_shape, shape_type) {
+        wasm.overlay_add_paths(this.__wbg_ptr, addHeapObject(js_shape), shape_type);
     }
     /**
     * @param {FillRule} fill_rule
@@ -360,14 +360,6 @@ function __wbg_get_imports() {
         const ret = typeof(val) === 'object' && val !== null;
         return ret;
     };
-    imports.wbg.__wbindgen_is_undefined = function(arg0) {
-        const ret = getObject(arg0) === undefined;
-        return ret;
-    };
-    imports.wbg.__wbindgen_in = function(arg0, arg1) {
-        const ret = getObject(arg0) in getObject(arg1);
-        return ret;
-    };
     imports.wbg.__wbindgen_jsval_loose_eq = function(arg0, arg1) {
         const ret = getObject(arg0) == getObject(arg1);
         return ret;
@@ -395,10 +387,6 @@ function __wbg_get_imports() {
     };
     imports.wbg.__wbindgen_string_new = function(arg0, arg1) {
         const ret = getStringFromWasm0(arg0, arg1);
-        return addHeapObject(ret);
-    };
-    imports.wbg.__wbg_getwithrefkey_edc2c8960f0f1191 = function(arg0, arg1) {
-        const ret = getObject(arg0)[getObject(arg1)];
         return addHeapObject(ret);
     };
     imports.wbg.__wbg_set_f975102236d3c502 = function(arg0, arg1, arg2) {

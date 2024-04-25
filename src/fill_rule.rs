@@ -1,4 +1,4 @@
-use i_overlay::bool::fill_rule::FillRule as RustFillRule;
+use i_overlay::core::fill_rule::FillRule as RustFillRule;
 use wasm_bindgen::prelude::wasm_bindgen;
 
 #[wasm_bindgen]
