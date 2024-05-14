@@ -26,8 +26,8 @@ Try out iShape with an interactive demo. The demo covers operations like union, 
 
 #### Download Library Files:
 
-- *i_shape.js*
-- *i_shape_bg.wasm*
+- *ishape_wasm.js*
+- *ishape_bg_wasm.wasm*
 
 You can find it at: [pkg](https://github.com/iShape-Rust/iShape-js/tree/main/pkg)
   
@@ -86,7 +86,7 @@ Here is a simple HTML example that demonstrates how to use the iShape library fo
         }
     </style>
     <script type="module">
-        import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule} from './ishape/i_shape.js';
+        import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule} from './ishape/ishape_wasm.js';
 
         init();
 
