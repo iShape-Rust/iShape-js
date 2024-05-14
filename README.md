@@ -60,8 +60,8 @@ import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule } from '.
 
 
 ### Example
-
 Here is a simple HTML example that demonstrates how to use the iShape library for union operation.
+Full example is available [here](https://github.com/iShape-Rust/iShape-js/tree/main/examples/html)
 ```html
 <!DOCTYPE html>
 <html lang="en">
