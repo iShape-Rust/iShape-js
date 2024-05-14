@@ -41,7 +41,7 @@ Place these files in a directory that your HTML file can access; in this example
 You can install the iShape library from NPM:
 
 ```bash
-npm install i_shape
+npm install ishape_wasm
 ```
 
 The NPM package is available [here](https://www.npmjs.com/package/i_shape_js)
