@@ -1,5 +1,5 @@
 {
-  "name": "ishape-js",
+  "name": "ishape_wasm",
   "collaborators": [
     "Nail Sharipov <nailxsharipov@gmail.com>"
   ],
@@ -11,12 +11,12 @@
     "url": "https://github.com/iShape-Rust/iShape-js"
   },
   "files": [
-    "ishape_js_bg.wasm",
-    "ishape_js.js",
-    "ishape_js.d.ts"
+    "ishape_wasm_bg.wasm",
+    "ishape_wasm.js",
+    "ishape_wasm.d.ts"
   ],
-  "module": "ishape_js.js",
-  "types": "ishape_js.d.ts",
+  "module": "ishape_wasm.js",
+  "types": "ishape_wasm.d.ts",
   "sideEffects": [
     "./snippets/*"
   ]

@@ -1,4 +1,4 @@
-import init, { Overlay, OverlayGraph, ShapeType, FillRule, OverlayRule} from '../i_shape/i_shape.js';
+import init, { Overlay, OverlayGraph, ShapeType, FillRule, OverlayRule} from '../i_shape/ishape_wasm.js';
 
 const canvas = document.getElementById('starCanvas');
 const ctx = canvas.getContext('2d');
@@ -58,7 +58,7 @@ function draw(currentTime) {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const subjFirstRadius = a * parseInt(subjFirstRadiusSlider.value, 10);
+    const subjFirstRadius = a * parseInt(subjFirstRadiusSlider.value, 12);
     const subjSecondRadius = a * parseInt(subjSecondRadiusSlider.value, 10);
     const subjRotationSpeed = parseInt(subjRotationSpeedSlider.value, 10) * 0.0005;
     const subjAngleCount = parseInt(subjAngleCountSlider.value, 10);
