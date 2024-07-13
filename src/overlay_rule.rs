@@ -8,6 +8,7 @@ pub enum OverlayRule {
     Intersect,
     Union,
     Difference,
+    InverseDifference,
     Xor,
 }
 
@@ -19,6 +20,7 @@ impl From<OverlayRule> for RustOverlayRule {
             OverlayRule::Intersect => RustOverlayRule::Intersect,
             OverlayRule::Union => RustOverlayRule::Union,
             OverlayRule::Difference => RustOverlayRule::Difference,
+            OverlayRule::InverseDifference => RustOverlayRule::InverseDifference,
             OverlayRule::Xor => RustOverlayRule::Xor
         }
     }

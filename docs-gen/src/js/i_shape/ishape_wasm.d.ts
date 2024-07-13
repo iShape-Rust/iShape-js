@@ -2,19 +2,20 @@
 /* eslint-disable */
 /**
 */
-export enum ShapeType {
-  Subject = 0,
-  Clip = 1,
-}
-/**
-*/
 export enum OverlayRule {
   Subject = 0,
   Clip = 1,
   Intersect = 2,
   Union = 3,
   Difference = 4,
-  Xor = 5,
+  InverseDifference = 5,
+  Xor = 6,
+}
+/**
+*/
+export enum ShapeType {
+  Subject = 0,
+  Clip = 1,
 }
 /**
 */

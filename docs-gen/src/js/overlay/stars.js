@@ -81,6 +81,9 @@ function draw(currentTime) {
         case 'Difference':
             overlayRule = OverlayRule.Difference;
             break;
+        case 'InverseDifference':
+            overlayRule = OverlayRule.InverseDifference;
+            break;
         case 'Xor':
             overlayRule = OverlayRule.Xor;
             break;

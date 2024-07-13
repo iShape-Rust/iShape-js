@@ -41,7 +41,7 @@ Place these files in a directory that your HTML file can access; in this example
 You can install the iShape library from NPM:
 
 ```bash
-npm install i_shape
+npm install ishape_wasm
 ```
 
 The NPM package is available [here](https://www.npmjs.com/package/i_shape_js)
@@ -52,7 +52,7 @@ The NPM package is available [here](https://www.npmjs.com/package/i_shape_js)
 After installing the NPM package, you can import it in your JavaScript or TypeScript file as follows:
 
 ```javascript
-import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule } from './ishape/i_shape.js';
+import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule } from './ishape/ishape_wasm.js';
 
 // Your code here
 
@@ -60,8 +60,8 @@ import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule } from '.
 
 
 ### Example
-
 Here is a simple HTML example that demonstrates how to use the iShape library for union operation.
+Full example is available [here](https://github.com/iShape-Rust/iShape-js/tree/main/examples/html)
 ```html
 <!DOCTYPE html>
 <html lang="en">

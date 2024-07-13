@@ -400,6 +400,8 @@ function fillRule() {
             return OverlayRule.Intersect;
         case 'Difference':
             return OverlayRule.Difference;
+        case 'InverseDifference':
+            return OverlayRule.InverseDifference;
         case 'Xor':
             return OverlayRule.Xor;
     }

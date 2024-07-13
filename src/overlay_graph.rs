@@ -1,7 +1,7 @@
 use wasm_bindgen::prelude::*;
 use i_overlay::core::float_graph::FloatOverlayGraph as RustOverlayGraph;
 use i_overlay::core::overlay_rule::OverlayRule as RustOverlayRule;
-use i_shape::f64::shape::F64Shapes;
+use i_overlay::i_shape::f64::shape::F64Shapes;
 use crate::data::{JSShapeData, LinkListData, ShapeData};
 
 use crate::overlay_rule::OverlayRule;

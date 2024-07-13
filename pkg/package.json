@@ -4,7 +4,7 @@
     "Nail Sharipov <nailxsharipov@gmail.com>"
   ],
   "description": "Boolean Operations for 2D Polygons. Supported operations: intersection, union, difference, XOR, and self-intersections for all polygon varieties.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "repository": {
     "type": "git",

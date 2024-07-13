@@ -151,6 +151,7 @@ async function fileExists(path) {
             <option value="Union">Union</option>
             <option value="Intersect">Intersect</option>
             <option value="Difference">Difference</option>
+            <option value="InverseDifference">InverseDifference</option>
             <option value="Subject">Subject</option>
             <option value="Clip">Clip</option>
 		</select>

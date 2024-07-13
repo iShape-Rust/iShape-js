@@ -1,7 +1,7 @@
-use i_float::adapter::PointAdapter;
-use i_float::f64_point::F64Point;
 use i_overlay::core::overlay_link::OverlayLink;
-use i_shape::f64::shape::{F64Path, F64Shape};
+use i_overlay::i_float::adapter::PointAdapter;
+use i_overlay::i_float::f64_point::F64Point;
+use i_overlay::i_shape::f64::shape::{F64Path, F64Shape};
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::JsValue;
 
