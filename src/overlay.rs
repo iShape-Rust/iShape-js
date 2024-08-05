@@ -34,9 +34,10 @@ impl Overlay {
     }
 
     #[wasm_bindgen]
-    pub fn build_graph(&mut self, fill_rule: FillRule) -> OverlayGraph {
+    pub fn build_graph(&self, fill_rule: FillRule) -> OverlayGraph {
         let rust_fill_rule = RustFillRule::from(fill_rule);
-        let graph = self.overlay.build_graph(rust_fill_rule);
+        let overlay = self.overlay.clone();
+        let graph = overlay.into_graph(rust_fill_rule);
         OverlayGraph::new(graph)
     }
 }

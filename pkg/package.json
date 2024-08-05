@@ -1,10 +1,11 @@
 {
   "name": "ishape_wasm",
+  "type": "module",
   "collaborators": [
     "Nail Sharipov <nailxsharipov@gmail.com>"
   ],
   "description": "Boolean Operations for 2D Polygons. Supported operations: intersection, union, difference, XOR, and self-intersections for all polygon varieties.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -15,7 +16,7 @@
     "ishape_wasm.js",
     "ishape_wasm.d.ts"
   ],
-  "module": "ishape_wasm.js",
+  "main": "ishape_wasm.js",
   "types": "ishape_wasm.d.ts",
   "sideEffects": [
     "./snippets/*"

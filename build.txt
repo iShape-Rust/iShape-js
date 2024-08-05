@@ -10,4 +10,4 @@ mdbook build
 
 # pkg 
 npm login
-npm publish i_shape_js-0.7.0.tgz
+npm publish ishape_wasm-1.0.2.tgz
