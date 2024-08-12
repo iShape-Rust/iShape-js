@@ -8,6 +8,12 @@ export enum ShapeType {
 }
 /**
 */
+export enum FillRule {
+  EvenOdd = 0,
+  NonZero = 1,
+}
+/**
+*/
 export enum OverlayRule {
   Subject = 0,
   Clip = 1,
@@ -16,12 +22,6 @@ export enum OverlayRule {
   Difference = 4,
   InverseDifference = 5,
   Xor = 6,
-}
-/**
-*/
-export enum FillRule {
-  EvenOdd = 0,
-  NonZero = 1,
 }
 /**
 */
