@@ -29,7 +29,7 @@ Try out iShape with an interactive demo. The demo covers operations like union, 
 - *ishape_wasm.js*
 - *ishape_bg_wasm.wasm*
 
-You can find it at: [pkg](https://github.com/iShape-Rust/iShape-js/tree/main/pkg)
+You can find it at: [pkg](pkg)
   
 #### Place Files:
 Place these files in a directory that your HTML file can access; in this example, the directory is named *./ishape*
