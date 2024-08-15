@@ -44,7 +44,7 @@ You can install the iShape library from NPM:
 npm install ishape_wasm
 ```
 
-The NPM package is available [here](https://www.npmjs.com/package/i_shape_js)
+The NPM package is available [here](https://www.npmjs.com/package/ishape_wasm)
 
 
 #### Import and Usage
