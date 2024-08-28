@@ -118,16 +118,25 @@ async function fileExists(path) {
     }
   }
 })();
-    </script>
+</script>
 	<h1 class="demo-title">Shapes Editor</h1>
     <div class="operation-selection">
-        <label for="operationType">Operation: </label>
-        <select id="operationType">
+        <label for="overlayRule">OverlayRule: </label>
+        <select id="overlayRule">
             <option value="Union">Union</option>
             <option value="Intersect">Intersect</option>
             <option value="Difference">Difference</option>
             <option value="InverseDifference">InverseDifference</option>
             <option value="Xor">Xor</option>
+            <option value="Subject">Subject</option>
+            <option value="Clip">Clip</option>
+        </select>
+    </div>
+    <div class="operation-selection">
+        <label for="fillRule">FillRule: </label>
+        <select id="fillRule">
+            <option value="EvenOdd">EvenOdd</option>
+            <option value="NonZero">NonZero</option>
         </select>
     </div>
     <div class="editor-input-tool">
@@ -149,5 +158,5 @@ async function fileExists(path) {
         <h3 class="test-title" id="test-name">Title</h3>
         <button type="button" class="nav-button" id="test-next">Next</button>
     </div>
-    <canvas id="editorCanvas" width="750" height="900"/>
+    <canvas id="editorCanvas" width="750" height="900"></canvas>
 </div>

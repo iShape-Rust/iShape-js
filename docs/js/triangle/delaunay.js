@@ -13,6 +13,18 @@ let fillColor = '#FF740015';
 
 let points = [[250, 450], [100, 250], [350, 50], [450, 250]];
 
+if (window.devicePixelRatio > 1) {
+    let canvasWidth = canvas.width;
+    let canvasHeight = canvas.height;
+
+    canvas.width = canvasWidth * window.devicePixelRatio;
+    canvas.height = canvasHeight * window.devicePixelRatio;
+    canvas.style.width = canvasWidth + "px";
+    canvas.style.height = canvasHeight + "px";
+
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+}
+
 requestAnimationFrame(draw);
 
 canvas.addEventListener('touchstart', function(event) {
@@ -118,7 +130,7 @@ function draw() {
         drawPoint(ctx, 6, candidatePoint, mainColor);
     }
 
-    drawСircle(ctx);
+    drawCircle(ctx);
     drawTriangles(ctx);
     drawAngles(ctx);
 }
@@ -166,7 +178,7 @@ function workingArea() {
     return { minX, minY, maxX, maxY };
 }
 
-function drawСircle(ctx) {
+function drawCircle(ctx) {
     const ax = points[1][0];
     const ay = points[1][1];
     const bx = points[2][0];
@@ -215,14 +227,13 @@ function drawAngles(ctx) {
     ctx.font = "26px Arial";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(alpha.angle.toFixed(0), alpha.x, alpha.y);
-    ctx.fillText(beta.angle.toFixed(0), beta.x, beta.y);
+    ctx.fillText(alpha.angle.toFixed(1), alpha.x, alpha.y);
+    ctx.fillText(beta.angle.toFixed(1), beta.x, beta.y);
 
 
     const rect = workingArea();
 
     ctx.fillText("α + β = "+(beta.angle + alpha.angle).toFixed(0), 0.5 * rect.maxX + 30, rect.maxY + 30);
-
 }
 
 function vec(p) {

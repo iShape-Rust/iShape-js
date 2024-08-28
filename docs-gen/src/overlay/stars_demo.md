@@ -156,5 +156,5 @@ async function fileExists(path) {
             <option value="Clip">Clip</option>
 		</select>
     </div>
-    <canvas id="starCanvas" width="750" height="750"/>
+    <canvas id="starCanvas" width="750" height="750"></canvas>
 </div>

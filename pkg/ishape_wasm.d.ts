@@ -8,6 +8,12 @@ export enum FillRule {
 }
 /**
 */
+export enum ShapeType {
+  Subject = 0,
+  Clip = 1,
+}
+/**
+*/
 export enum OverlayRule {
   Subject = 0,
   Clip = 1,
@@ -16,12 +22,6 @@ export enum OverlayRule {
   Difference = 4,
   InverseDifference = 5,
   Xor = 6,
-}
-/**
-*/
-export enum ShapeType {
-  Subject = 0,
-  Clip = 1,
 }
 /**
 */
@@ -71,15 +71,15 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
-  readonly __wbg_overlaygraph_free: (a: number, b: number) => void;
-  readonly overlaygraph_extract_shapes: (a: number, b: number) => number;
-  readonly overlaygraph_extract_shapes_min_area: (a: number, b: number, c: number) => number;
-  readonly overlaygraph_links: (a: number) => number;
   readonly __wbg_overlay_free: (a: number, b: number) => void;
   readonly overlay_create: () => number;
   readonly overlay_add_path: (a: number, b: number, c: number) => void;
   readonly overlay_add_paths: (a: number, b: number, c: number) => void;
   readonly overlay_build_graph: (a: number, b: number) => number;
+  readonly __wbg_overlaygraph_free: (a: number, b: number) => void;
+  readonly overlaygraph_extract_shapes: (a: number, b: number) => number;
+  readonly overlaygraph_extract_shapes_min_area: (a: number, b: number, c: number) => number;
+  readonly overlaygraph_links: (a: number) => number;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
   readonly __wbindgen_exn_store: (a: number) => void;

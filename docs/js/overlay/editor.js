@@ -1,8 +1,9 @@
-import init, { Overlay, OverlayGraph, ShapeType, FillRule, OverlayRule} from '../i_shape/ishape_wasm.js';
+import init, { Overlay, ShapeType, FillRule, OverlayRule} from '../i_shape/ishape_wasm.js';
 import { Segment } from './segment.js';
 import * as data from './editor_data.js';
 
-const operationTypeSelect = document.getElementById('operationType');
+const overlayRuleSelect = document.getElementById('overlayRule');
+const fillRuleSelect = document.getElementById('fillRule');
 const snapTextField = document.getElementById('snap');
 const fillTextField = document.getElementById('fill');
 const prevButton = document.getElementById('test-prev');
@@ -14,14 +15,16 @@ const ctx = canvas.getContext('2d');
 const twoPI = 2 * Math.PI;
 
 const subjStroke = "#ff0000";
+const subjStrokeOpacity = "#ff000040";
 const subjFill = "#FF3B3020";
 
 const clipStroke = "#0066ff";
+const clipStrokeOpacity = "#0066ff40";
 const clipFill = "#007AFF20";
 
 const comnStroke = "#10a500";
 
-const resultStroke = "#FF9500";
+const resultStroke = "#FF950080";
 const resultFill = "#FF950010";
 
 const SegmentFill = {
@@ -37,6 +40,21 @@ let candidatePoint = null;
 let isSubjSelected = false;
 let isSubjCandidate = false;
 let isMousePressed = false;
+
+let scale = 1.0;
+
+if (window.devicePixelRatio > 1) {
+    let canvasWidth = canvas.width;
+    let canvasHeight = canvas.height;
+
+    canvas.width = canvasWidth * window.devicePixelRatio;
+    canvas.height = canvasHeight * window.devicePixelRatio;
+    canvas.style.width = canvasWidth + "px";
+    canvas.style.height = canvasHeight + "px";
+
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    scale = window.devicePixelRatio;
+}
 
 async function run() {
   await init();
@@ -60,8 +78,12 @@ nextButton.addEventListener('click', function() {
     testTitle.textContent = data.tests[testIndex].name;
 });
 
-operationTypeSelect.addEventListener('change', function(event) {
+overlayRuleSelect.addEventListener('change', function(event) {
    requestAnimationFrame(draw); 
+});
+
+fillRuleSelect.addEventListener('change', function(event) {
+    requestAnimationFrame(draw);
 });
 
 fillTextField.addEventListener('change', function(event) {
@@ -213,8 +235,11 @@ function draw() {
         overlay.add_paths(clip, ShapeType.Clip);
     });
 
-    const graph = overlay.build_graph(FillRule.EvenOdd);
-    const result = graph.extract_shapes(fillRule());
+    const fill_rule = fillRule();
+    const overlay_rule = overlayRule();
+
+    const graph = overlay.build_graph(fill_rule);
+    const result = graph.extract_shapes(overlay_rule);
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "#FAFAFAF8";
@@ -223,11 +248,11 @@ function draw() {
     drawWorkingAreaSplitLine(ctx);
 
     test.subjs.forEach((shape) => {
-      drawShape(ctx, shape, subjFill, null, 0.0, 0.0);
+      drawShape(ctx, shape, subjFill, subjStrokeOpacity, 4.0, 0.0, fill_rule);
     });
 
     test.clips.forEach((shape) => {
-      drawShape(ctx, shape, clipFill, null, 0.0, 0.0);
+      drawShape(ctx, shape, clipFill, clipStrokeOpacity, 4.0, 0.0, fill_rule);
     });
 
     const isFill = fillTextField.checked;
@@ -249,13 +274,13 @@ function draw() {
         drawPoint(ctx, candidatePoint, color);
     }
 
-    const maxY = 0.5 * canvas.height;
+    const maxY = 0.5 * canvas.height / scale;
 
     result.forEach((shape) => {
       const stroke = resultStroke;
       const fill = resultFill;
 
-      drawShape(ctx, shape, fill, stroke, 2.5, maxY);
+      drawShape(ctx, shape, fill, stroke, 4.0, maxY, fill_rule);
     });
 
 }
@@ -282,16 +307,16 @@ function drawFill(ctx, data) {
         const fill = link.fill;
         const seg = new Segment(link);
 
-        const isFillSubjTop = (fill & SegmentFill.subjTop) == SegmentFill.subjTop;
-        const isFillClipTop = (fill & SegmentFill.clipTop) == SegmentFill.clipTop;
+        const isFillSubjTop = (fill & SegmentFill.subjTop) === SegmentFill.subjTop;
+        const isFillClipTop = (fill & SegmentFill.clipTop) === SegmentFill.clipTop;
 
-        const isFillSubjBottom = (fill & SegmentFill.subjBottom) == SegmentFill.subjBottom;
-        const isFillClipBottom = (fill & SegmentFill.clipBottom) == SegmentFill.clipBottom;
+        const isFillSubjBottom = (fill & SegmentFill.subjBottom) === SegmentFill.subjBottom;
+        const isFillClipBottom = (fill & SegmentFill.clipBottom) === SegmentFill.clipBottom;
 
         const isSubj = isFillSubjTop || isFillSubjBottom;
         const isClip = isFillClipTop || isFillClipBottom;
 
-        drawEdge(ctx, seg.start, seg.end, isSubj, isClip);
+        // drawEdge(ctx, seg.start, seg.end, isSubj, isClip);
 
         drawCircle(ctx, seg.subjTopPos, isFillSubjTop, subjStroke);
         drawCircle(ctx, seg.clipTopPos, isFillClipTop, clipStroke);
@@ -328,15 +353,13 @@ function drawEdge(ctx, a, b, isFillSubj, isFillClip) {
     } else if (isFillClip) {
         ctx.strokeStyle = clipStroke;
     } else {
-        ctx.strokeStyle = 'gray';
+        ctx.strokeStyle = noneStroke;
     }
 
     ctx.beginPath();
     ctx.moveTo(a.x, a.y);
     ctx.lineTo(b.x, b.y);
     ctx.stroke();
-
-    ctx.closePath();
 }
 
 function drawPoint(ctx, point, color) {
@@ -347,7 +370,7 @@ function drawPoint(ctx, point, color) {
     ctx.fill();
 }
 
-function drawShape(ctx, shape, fillColor, strokeColor, lineWidth, dy) {
+function drawShape(ctx, shape, fillColor, strokeColor, lineWidth, dy, fill_rule) {
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
 
@@ -373,7 +396,14 @@ function drawShape(ctx, shape, fillColor, strokeColor, lineWidth, dy) {
         ctx.stroke(region);
     }
 
-    ctx.fill(region, 'evenodd');
+    switch (fill_rule) {
+        case FillRule.EvenOdd:
+            ctx.fill(region, 'evenodd');
+            break;
+        case FillRule.NonZero:
+            ctx.fill(region, 'nonzero');
+            break;
+    }
 }
 
 function drawPoints(ctx, shapes, color) {
@@ -392,8 +422,8 @@ function drawPoints(ctx, shapes, color) {
     });
 }
 
-function fillRule() {
-    switch (operationTypeSelect.value) {
+function overlayRule() {
+    switch (overlayRuleSelect.value) {
         case 'Union':
             return OverlayRule.Union;
         case 'Intersect':
@@ -404,13 +434,26 @@ function fillRule() {
             return OverlayRule.InverseDifference;
         case 'Xor':
             return OverlayRule.Xor;
+        case 'Subject':
+            return OverlayRule.Subject;
+        case 'Clip':
+            return OverlayRule.Clip;
+    }
+}
+
+function fillRule() {
+    switch (fillRuleSelect.value) {
+        case 'EvenOdd':
+            return FillRule.EvenOdd;
+        case 'NonZero':
+            return FillRule.NonZero;
     }
 }
 
 function workingArea() {
     const minX = 50;
-    const maxX = canvas.width - 50;
-    const maxY = 0.5 * canvas.height;
+    const maxX = canvas.width / scale - 50;
+    const maxY = 0.5 * canvas.height / scale;
     const minY = 50;
     return { minX, minY, maxX, maxY };
 }

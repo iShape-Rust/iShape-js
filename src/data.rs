@@ -1,5 +1,5 @@
 use i_overlay::core::overlay_link::OverlayLink;
-use i_overlay::i_float::adapter::PointAdapter;
+use i_overlay::i_float::f64_adapter::F64PointAdapter;
 use i_overlay::i_float::f64_point::F64Point;
 use i_overlay::i_shape::f64::shape::{F64Path, F64Shape};
 use serde::{Deserialize, Serialize};
@@ -64,7 +64,7 @@ pub struct LinkListData {
 }
 
 impl LinkListData {
-    pub(super) fn create(links: &Vec<OverlayLink>, adapter: &PointAdapter) -> Self {
+    pub(super) fn create(links: &Vec<OverlayLink>, adapter: &F64PointAdapter) -> Self {
         let mut list = Vec::with_capacity(links.len());
         for link in links.iter() {
             let ab = link.ab();

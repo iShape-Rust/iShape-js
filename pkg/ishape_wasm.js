@@ -6,19 +6,6 @@ heap.push(undefined, null, true, false);
 
 function getObject(idx) { return heap[idx]; }
 
-function isLikeNone(x) {
-    return x === undefined || x === null;
-}
-
-let cachedDataViewMemory0 = null;
-
-function getDataViewMemory0() {
-    if (cachedDataViewMemory0 === null || cachedDataViewMemory0.buffer.detached === true || (cachedDataViewMemory0.buffer.detached === undefined && cachedDataViewMemory0.buffer !== wasm.memory.buffer)) {
-        cachedDataViewMemory0 = new DataView(wasm.memory.buffer);
-    }
-    return cachedDataViewMemory0;
-}
-
 let heap_next = heap.length;
 
 function dropObject(idx) {
@@ -58,6 +45,19 @@ function addHeapObject(obj) {
 
     heap[idx] = obj;
     return idx;
+}
+
+function isLikeNone(x) {
+    return x === undefined || x === null;
+}
+
+let cachedDataViewMemory0 = null;
+
+function getDataViewMemory0() {
+    if (cachedDataViewMemory0 === null || cachedDataViewMemory0.buffer.detached === true || (cachedDataViewMemory0.buffer.detached === undefined && cachedDataViewMemory0.buffer !== wasm.memory.buffer)) {
+        cachedDataViewMemory0 = new DataView(wasm.memory.buffer);
+    }
+    return cachedDataViewMemory0;
 }
 
 let WASM_VECTOR_LEN = 0;
@@ -193,10 +193,10 @@ function handleError(f, args) {
 export const FillRule = Object.freeze({ EvenOdd:0,"0":"EvenOdd",NonZero:1,"1":"NonZero", });
 /**
 */
-export const OverlayRule = Object.freeze({ Subject:0,"0":"Subject",Clip:1,"1":"Clip",Intersect:2,"2":"Intersect",Union:3,"3":"Union",Difference:4,"4":"Difference",InverseDifference:5,"5":"InverseDifference",Xor:6,"6":"Xor", });
+export const ShapeType = Object.freeze({ Subject:0,"0":"Subject",Clip:1,"1":"Clip", });
 /**
 */
-export const ShapeType = Object.freeze({ Subject:0,"0":"Subject",Clip:1,"1":"Clip", });
+export const OverlayRule = Object.freeze({ Subject:0,"0":"Subject",Clip:1,"1":"Clip",Intersect:2,"2":"Intersect",Union:3,"3":"Union",Difference:4,"4":"Difference",InverseDifference:5,"5":"InverseDifference",Xor:6,"6":"Xor", });
 
 const OverlayFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
@@ -334,18 +334,18 @@ async function __wbg_load(module, imports) {
 function __wbg_get_imports() {
     const imports = {};
     imports.wbg = {};
-    imports.wbg.__wbindgen_number_get = function(arg0, arg1) {
-        const obj = getObject(arg1);
-        const ret = typeof(obj) === 'number' ? obj : undefined;
-        getDataViewMemory0().setFloat64(arg0 + 8 * 1, isLikeNone(ret) ? 0 : ret, true);
-        getDataViewMemory0().setInt32(arg0 + 4 * 0, !isLikeNone(ret), true);
-    };
     imports.wbg.__wbindgen_object_drop_ref = function(arg0) {
         takeObject(arg0);
     };
     imports.wbg.__wbindgen_error_new = function(arg0, arg1) {
         const ret = new Error(getStringFromWasm0(arg0, arg1));
         return addHeapObject(ret);
+    };
+    imports.wbg.__wbindgen_number_get = function(arg0, arg1) {
+        const obj = getObject(arg1);
+        const ret = typeof(obj) === 'number' ? obj : undefined;
+        getDataViewMemory0().setFloat64(arg0 + 8 * 1, isLikeNone(ret) ? 0 : ret, true);
+        getDataViewMemory0().setInt32(arg0 + 4 * 0, !isLikeNone(ret), true);
     };
     imports.wbg.__wbindgen_is_object = function(arg0) {
         const val = getObject(arg0);
