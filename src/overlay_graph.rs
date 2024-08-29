@@ -2,7 +2,7 @@ use wasm_bindgen::prelude::*;
 use i_overlay::f64::graph::F64OverlayGraph as RustOverlayGraph;
 use i_overlay::core::overlay_rule::OverlayRule as RustOverlayRule;
 use i_overlay::i_shape::f64::shape::F64Shapes;
-use crate::data::{JSShapeData, LinkListData, ShapeData};
+use crate::data::{JSShapeData, ShapeData};
 
 use crate::overlay_rule::OverlayRule;
 
@@ -25,13 +25,6 @@ impl OverlayGraph {
         let float_shapes = shapes_to_js(&shapes);
 
         serde_wasm_bindgen::to_value(&float_shapes).unwrap()
-    }
-
-    #[wasm_bindgen]
-    pub fn links(&self) -> JsValue {
-        let links = self.float_graph.graph.links();
-        let data = LinkListData::create(links, &self.float_graph.adapter);
-        serde_wasm_bindgen::to_value(&data).unwrap()
     }
 }
 

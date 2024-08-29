@@ -190,13 +190,13 @@ function handleError(f, args) {
 }
 /**
 */
-export const FillRule = Object.freeze({ EvenOdd:0,"0":"EvenOdd",NonZero:1,"1":"NonZero", });
-/**
-*/
 export const ShapeType = Object.freeze({ Subject:0,"0":"Subject",Clip:1,"1":"Clip", });
 /**
 */
 export const OverlayRule = Object.freeze({ Subject:0,"0":"Subject",Clip:1,"1":"Clip",Intersect:2,"2":"Intersect",Union:3,"3":"Union",Difference:4,"4":"Difference",InverseDifference:5,"5":"InverseDifference",Xor:6,"6":"Xor", });
+/**
+*/
+export const FillRule = Object.freeze({ EvenOdd:0,"0":"EvenOdd",NonZero:1,"1":"NonZero", });
 
 const OverlayFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
@@ -246,6 +246,15 @@ export class Overlay {
         const ret = wasm.overlay_build_graph(this.__wbg_ptr, fill_rule);
         return OverlayGraph.__wrap(ret);
     }
+    /**
+    * @param {FillRule} fill_rule
+    * @returns {any}
+    */
+    separate_vectors(fill_rule) {
+        const ptr = this.__destroy_into_raw();
+        const ret = wasm.overlay_separate_vectors(ptr, fill_rule);
+        return takeObject(ret);
+    }
 }
 
 const OverlayGraphFinalization = (typeof FinalizationRegistry === 'undefined')
@@ -289,13 +298,6 @@ export class OverlayGraph {
     */
     extract_shapes_min_area(overlay_rule, min_area_f64) {
         const ret = wasm.overlaygraph_extract_shapes_min_area(this.__wbg_ptr, overlay_rule, min_area_f64);
-        return takeObject(ret);
-    }
-    /**
-    * @returns {any}
-    */
-    links() {
-        const ret = wasm.overlaygraph_links(this.__wbg_ptr);
         return takeObject(ret);
     }
 }

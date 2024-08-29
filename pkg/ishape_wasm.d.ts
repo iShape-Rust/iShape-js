@@ -2,12 +2,6 @@
 /* eslint-disable */
 /**
 */
-export enum FillRule {
-  EvenOdd = 0,
-  NonZero = 1,
-}
-/**
-*/
 export enum ShapeType {
   Subject = 0,
   Clip = 1,
@@ -22,6 +16,12 @@ export enum OverlayRule {
   Difference = 4,
   InverseDifference = 5,
   Xor = 6,
+}
+/**
+*/
+export enum FillRule {
+  EvenOdd = 0,
+  NonZero = 1,
 }
 /**
 */
@@ -45,6 +45,11 @@ export class Overlay {
 * @returns {OverlayGraph}
 */
   build_graph(fill_rule: FillRule): OverlayGraph;
+/**
+* @param {FillRule} fill_rule
+* @returns {any}
+*/
+  separate_vectors(fill_rule: FillRule): any;
 }
 /**
 */
@@ -61,10 +66,6 @@ export class OverlayGraph {
 * @returns {any}
 */
   extract_shapes_min_area(overlay_rule: OverlayRule, min_area_f64: number): any;
-/**
-* @returns {any}
-*/
-  links(): any;
 }
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -76,10 +77,10 @@ export interface InitOutput {
   readonly overlay_add_path: (a: number, b: number, c: number) => void;
   readonly overlay_add_paths: (a: number, b: number, c: number) => void;
   readonly overlay_build_graph: (a: number, b: number) => number;
+  readonly overlay_separate_vectors: (a: number, b: number) => number;
   readonly __wbg_overlaygraph_free: (a: number, b: number) => void;
   readonly overlaygraph_extract_shapes: (a: number, b: number) => number;
   readonly overlaygraph_extract_shapes_min_area: (a: number, b: number, c: number) => number;
-  readonly overlaygraph_links: (a: number) => number;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
   readonly __wbindgen_exn_store: (a: number) => void;

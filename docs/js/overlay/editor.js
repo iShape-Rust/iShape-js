@@ -1,5 +1,5 @@
-import init, { Overlay, ShapeType, FillRule, OverlayRule} from '../i_shape/ishape_wasm.js';
-import { Segment } from './segment.js';
+import init, {Overlay, ShapeType, FillRule, OverlayRule} from '../i_shape/ishape_wasm.js';
+import {Segment} from './segment.js';
 import * as data from './editor_data.js';
 
 const overlayRuleSelect = document.getElementById('overlayRule');
@@ -28,10 +28,10 @@ const resultStroke = "#FF950080";
 const resultFill = "#FF950010";
 
 const SegmentFill = {
-  subjTop: 0b0001,
-  subjBottom: 0b0010,
-  clipTop: 0b0100,
-  clipBottom: 0b1000
+    subjTop: 0b0001,
+    subjBottom: 0b0010,
+    clipTop: 0b0100,
+    clipBottom: 0b1000
 };
 
 let testIndex = 0;
@@ -57,71 +57,71 @@ if (window.devicePixelRatio > 1) {
 }
 
 async function run() {
-  await init();
-  requestAnimationFrame(draw);
-  testTitle.textContent = data.tests[testIndex].name;
+    await init();
+    requestAnimationFrame(draw);
+    testTitle.textContent = data.tests[testIndex].name;
 }
 
 run();
 
-prevButton.addEventListener('click', function() {
+prevButton.addEventListener('click', function () {
     const n = data.tests.length;
     testIndex = (testIndex - 1 + n) % n;
     requestAnimationFrame(draw);
     testTitle.textContent = data.tests[testIndex].name;
 });
 
-nextButton.addEventListener('click', function() {
+nextButton.addEventListener('click', function () {
     const n = data.tests.length;
     testIndex = (testIndex + 1) % n;
     requestAnimationFrame(draw);
     testTitle.textContent = data.tests[testIndex].name;
 });
 
-overlayRuleSelect.addEventListener('change', function(event) {
-   requestAnimationFrame(draw); 
-});
-
-fillRuleSelect.addEventListener('change', function(event) {
+overlayRuleSelect.addEventListener('change', function (event) {
     requestAnimationFrame(draw);
 });
 
-fillTextField.addEventListener('change', function(event) {
-   requestAnimationFrame(draw); 
+fillRuleSelect.addEventListener('change', function (event) {
+    requestAnimationFrame(draw);
 });
 
-canvas.addEventListener('touchstart', function(event) {
+fillTextField.addEventListener('change', function (event) {
+    requestAnimationFrame(draw);
+});
+
+canvas.addEventListener('touchstart', function (event) {
     event.preventDefault();
     const touch = event.touches[0];
     pressDown(touch.clientX, touch.clientY);
 });
 
-canvas.addEventListener('touchmove', function(event) {
+canvas.addEventListener('touchmove', function (event) {
     event.preventDefault();
     const touch = event.touches[0];
     move(touch.clientX, touch.clientY);
 });
 
-canvas.addEventListener('touchend', function(event) {
+canvas.addEventListener('touchend', function (event) {
     event.preventDefault(); // Prevent click emulation and scrolling
     selectedPoint = null;
     isMousePressed = false;
 });
 
-canvas.addEventListener('mousedown', function(event) {
+canvas.addEventListener('mousedown', function (event) {
     pressDown(event.clientX, event.clientY);
 });
 
-canvas.addEventListener('mousemove', function(event) {
+canvas.addEventListener('mousemove', function (event) {
     move(event.clientX, event.clientY);
 });
 
-canvas.addEventListener('mouseup', function(event) {
+canvas.addEventListener('mouseup', function (event) {
     selectedPoint = null;
     isMousePressed = false;
 });
 
-canvas.addEventListener('mouseout', function(event) {
+canvas.addEventListener('mouseout', function (event) {
     selectedPoint = null;
     candidatePoint = null;
     isMousePressed = false;
@@ -131,11 +131,11 @@ canvas.addEventListener('mouseout', function(event) {
 function pressDown(eX, eY) {
     const x = eX - canvas.getBoundingClientRect().left;
     const y = eY - canvas.getBoundingClientRect().top;
-  
+
     const test = data.tests[testIndex];
     isMousePressed = true;
 
-    for(let i = 0; i < test.subjs.length; i++) {
+    for (let i = 0; i < test.subjs.length; i++) {
         const shape = test.subjs[i];
         selectedPoint = findPoint(shape, x, y);
         if (selectedPoint !== null) {
@@ -146,7 +146,7 @@ function pressDown(eX, eY) {
         }
     }
 
-    for(let i = 0; i < test.clips.length; i++) {
+    for (let i = 0; i < test.clips.length; i++) {
         const shape = test.clips[i];
         selectedPoint = findPoint(shape, x, y);
         if (selectedPoint !== null) {
@@ -176,14 +176,14 @@ function move(eX, eY) {
 
             selectedPoint[0] = Math.max(Math.min(x, rect.maxX), rect.minX);
             selectedPoint[1] = Math.max(Math.min(y, rect.maxY), rect.minY);
-            
+
             requestAnimationFrame(draw);
         }
     } else {
         const wasCandidate = candidatePoint !== null;
         const test = data.tests[testIndex];
 
-        for(let i = 0; i < test.subjs.length; i++) {
+        for (let i = 0; i < test.subjs.length; i++) {
             const shape = test.subjs[i];
             candidatePoint = findPoint(shape, x, y);
             if (candidatePoint !== null) {
@@ -193,7 +193,7 @@ function move(eX, eY) {
             }
         }
 
-        for(let i = 0; i < test.clips.length; i++) {
+        for (let i = 0; i < test.clips.length; i++) {
             const shape = test.clips[i];
             candidatePoint = findPoint(shape, x, y);
             if (candidatePoint !== null) {
@@ -248,17 +248,17 @@ function draw() {
     drawWorkingAreaSplitLine(ctx);
 
     test.subjs.forEach((shape) => {
-      drawShape(ctx, shape, subjFill, subjStrokeOpacity, 4.0, 0.0, fill_rule);
+        drawShape(ctx, shape, subjFill, subjStrokeOpacity, 4.0, 0.0, fill_rule, true);
     });
 
     test.clips.forEach((shape) => {
-      drawShape(ctx, shape, clipFill, clipStrokeOpacity, 4.0, 0.0, fill_rule);
+        drawShape(ctx, shape, clipFill, clipStrokeOpacity, 4.0, 0.0, fill_rule, true);
     });
 
     const isFill = fillTextField.checked;
     if (isFill) {
-        const links = graph.links();
-        drawFill(ctx, links);
+        const vectors = overlay.separate_vectors(fill_rule);
+        drawFill(ctx, vectors);
     }
 
     drawPoints(ctx, test.subjs, subjStroke);
@@ -277,10 +277,10 @@ function draw() {
     const maxY = 0.5 * canvas.height / scale;
 
     result.forEach((shape) => {
-      const stroke = resultStroke;
-      const fill = resultFill;
+        const stroke = resultStroke;
+        const fill = resultFill;
 
-      drawShape(ctx, shape, fill, stroke, 4.0, maxY, fill_rule);
+        drawShape(ctx, shape, fill, stroke, 4.0, maxY, fill_rule, false);
     });
 
 }
@@ -291,7 +291,7 @@ function drawWorkingAreaSplitLine(ctx) {
     ctx.setLineDash([4, 10]);
     ctx.lineWidth = 1;
     ctx.strokeStyle = 'gray';
-    
+
     ctx.beginPath();
     ctx.moveTo(rect.minX, rect.minY);
     ctx.lineTo(rect.minX, rect.maxY);
@@ -303,20 +303,15 @@ function drawWorkingAreaSplitLine(ctx) {
 }
 
 function drawFill(ctx, data) {
-    data.links.forEach((link) => {
-        const fill = link.fill;
-        const seg = new Segment(link);
+    data.vectors.forEach((vector) => {
+        const fill = vector.fill;
+        const seg = new Segment(vector);
 
         const isFillSubjTop = (fill & SegmentFill.subjTop) === SegmentFill.subjTop;
         const isFillClipTop = (fill & SegmentFill.clipTop) === SegmentFill.clipTop;
 
         const isFillSubjBottom = (fill & SegmentFill.subjBottom) === SegmentFill.subjBottom;
         const isFillClipBottom = (fill & SegmentFill.clipBottom) === SegmentFill.clipBottom;
-
-        const isSubj = isFillSubjTop || isFillSubjBottom;
-        const isClip = isFillClipTop || isFillClipBottom;
-
-        // drawEdge(ctx, seg.start, seg.end, isSubj, isClip);
 
         drawCircle(ctx, seg.subjTopPos, isFillSubjTop, subjStroke);
         drawCircle(ctx, seg.clipTopPos, isFillClipTop, clipStroke);
@@ -343,25 +338,6 @@ function drawCircle(ctx, p, isFill, color) {
     ctx.closePath();
 }
 
-function drawEdge(ctx, a, b, isFillSubj, isFillClip) {
-    ctx.lineWidth = 2;
-
-    if (isFillSubj && isFillClip) {
-        ctx.strokeStyle = comnStroke;
-    } else if (isFillSubj) {
-        ctx.strokeStyle = subjStroke;
-    } else if (isFillClip) {
-        ctx.strokeStyle = clipStroke;
-    } else {
-        ctx.strokeStyle = noneStroke;
-    }
-
-    ctx.beginPath();
-    ctx.moveTo(a.x, a.y);
-    ctx.lineTo(b.x, b.y);
-    ctx.stroke();
-}
-
 function drawPoint(ctx, point, color) {
     ctx.fillStyle = color;
     ctx.lineWidth = null;
@@ -370,22 +346,32 @@ function drawPoint(ctx, point, color) {
     ctx.fill();
 }
 
-function drawShape(ctx, shape, fillColor, strokeColor, lineWidth, dy, fill_rule) {
+function drawShape(ctx, shape, fillColor, strokeColor, lineWidth, dy, fill_rule, show_arrows) {
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
 
     let region = new Path2D();
+    let arrows = new Path2D();
 
     shape.forEach((points) => {
         const [x0, y0] = points[0];
         region.moveTo(x0, y0 + dy);
 
         for (let i = 1; i < points.length; i++) {
-          const [x, y] = points[i];
-          region.lineTo(x, y + dy);
+            const [x, y] = points[i];
+            region.lineTo(x, y + dy);
+
+            if (show_arrows) {
+                drawArrow(arrows, points[i - 1][0], points[i - 1][1] + dy, x, y + dy);
+            }
         }
 
         region.closePath();
+
+        if (show_arrows) {
+            // Draw arrow for the last segment that closes the shape
+            drawArrow(arrows, points[points.length - 1][0], points[points.length - 1][1] + dy, x0, y0 + dy);
+        }
     });
 
     ctx.fillStyle = fillColor;
@@ -394,6 +380,9 @@ function drawShape(ctx, shape, fillColor, strokeColor, lineWidth, dy, fill_rule)
         ctx.strokeStyle = strokeColor;
         ctx.lineWidth = lineWidth;
         ctx.stroke(region);
+        if (show_arrows) {
+            ctx.stroke(arrows);
+        }
     }
 
     switch (fill_rule) {
@@ -455,5 +444,15 @@ function workingArea() {
     const maxX = canvas.width / scale - 50;
     const maxY = 0.5 * canvas.height / scale;
     const minY = 50;
-    return { minX, minY, maxX, maxY };
+    return {minX, minY, maxX, maxY};
+}
+
+function drawArrow(arrows, fromX, fromY, toX, toY) {
+    const headLength = 10;
+    const angle = Math.atan2(toY - fromY, toX - fromX);
+
+    arrows.moveTo(toX, toY);
+    arrows.lineTo(toX - headLength * Math.cos(angle - Math.PI / 6), toY - headLength * Math.sin(angle - Math.PI / 6));
+    arrows.moveTo(toX, toY);
+    arrows.lineTo(toX - headLength * Math.cos(angle + Math.PI / 6), toY - headLength * Math.sin(angle + Math.PI / 6));
 }
