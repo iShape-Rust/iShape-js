@@ -6,6 +6,7 @@ const overlayRuleSelect = document.getElementById('overlayRule');
 const fillRuleSelect = document.getElementById('fillRule');
 const snapTextField = document.getElementById('snap');
 const fillTextField = document.getElementById('fill');
+const arrowsTextField = document.getElementById('arrows');
 const prevButton = document.getElementById('test-prev');
 const nextButton = document.getElementById('test-next');
 const testTitle = document.getElementById('test-name');
@@ -90,6 +91,10 @@ fillTextField.addEventListener('change', function (event) {
     requestAnimationFrame(draw);
 });
 
+arrowsTextField.addEventListener('change', function (event) {
+    requestAnimationFrame(draw);
+});
+
 canvas.addEventListener('touchstart', function (event) {
     event.preventDefault();
     const touch = event.touches[0];
@@ -168,8 +173,8 @@ function move(eX, eY) {
             const isSnap = snapTextField.checked;
 
             if (isSnap) {
-                x = Math.round(x * 0.1) * 10;
-                y = Math.round(y * 0.1) * 10;
+                x = Math.round(x * 0.2) * 5;
+                y = Math.round(y * 0.2) * 5;
             }
 
             const rect = workingArea();
@@ -247,12 +252,14 @@ function draw() {
 
     drawWorkingAreaSplitLine(ctx);
 
+    const isArrows = arrowsTextField.checked;
+
     test.subjs.forEach((shape) => {
-        drawShape(ctx, shape, subjFill, subjStrokeOpacity, 4.0, 0.0, fill_rule, true);
+        drawShape(ctx, shape, subjFill, subjStrokeOpacity, 4.0, 0.0, fill_rule, isArrows);
     });
 
     test.clips.forEach((shape) => {
-        drawShape(ctx, shape, clipFill, clipStrokeOpacity, 4.0, 0.0, fill_rule, true);
+        drawShape(ctx, shape, clipFill, clipStrokeOpacity, 4.0, 0.0, fill_rule, isArrows);
     });
 
     const isFill = fillTextField.checked;
@@ -404,7 +411,7 @@ function drawPoints(ctx, shapes, color) {
             for (let i = 0; i < points.length; i++) {
                 const [x, y] = points[i];
                 ctx.beginPath();
-                ctx.arc(x, y, 3, 0, twoPI);
+                ctx.arc(x, y, 2, 0, twoPI);
                 ctx.fill();
             }
         });
