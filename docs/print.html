@@ -86,7 +86,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">iShape</li><li class="chapter-item expanded "><a href="overlay/overlay.html"><strong aria-hidden="true">1.</strong> iOverlay</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overlay/stars_demo.html"><strong aria-hidden="true">1.1.</strong> Demo</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overlay/stars_demo.html"><strong aria-hidden="true">1.1.1.</strong> Stars Rotation</a></li><li class="chapter-item expanded "><a href="overlay/shapes_editor.html"><strong aria-hidden="true">1.1.2.</strong> Shapes Editor</a></li></ol></li><li class="chapter-item expanded "><a href="overlay/stars_demo.html"><strong aria-hidden="true">1.2.</strong> Documentation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overlay/filling_rules.html"><strong aria-hidden="true">1.2.1.</strong> Filling Rules</a></li><li class="chapter-item expanded "><a href="overlay/overlay_rules.html"><strong aria-hidden="true">1.2.2.</strong> Overlay Rules</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="triangle/triangle.html"><strong aria-hidden="true">2.</strong> iTriangle</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="triangle/delaunay.html"><strong aria-hidden="true">2.1.</strong> Delaunay</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">iShape</li><li class="chapter-item expanded "><a href="overlay/overlay.html"><strong aria-hidden="true">1.</strong> iOverlay</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overlay/stars_demo.html"><strong aria-hidden="true">1.1.</strong> Demo</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overlay/stars_demo.html"><strong aria-hidden="true">1.1.1.</strong> Stars Rotation</a></li><li class="chapter-item expanded "><a href="overlay/shapes_editor.html"><strong aria-hidden="true">1.1.2.</strong> Shapes Editor</a></li></ol></li><li class="chapter-item expanded "><a href="overlay/performance.html"><strong aria-hidden="true">1.2.</strong> Performance Comparison</a></li><li class="chapter-item expanded "><a href="overlay/stars_demo.html"><strong aria-hidden="true">1.3.</strong> Documentation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overlay/filling_rules.html"><strong aria-hidden="true">1.3.1.</strong> Filling Rules</a></li><li class="chapter-item expanded "><a href="overlay/overlay_rules.html"><strong aria-hidden="true">1.3.2.</strong> Overlay Rules</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="triangle/triangle.html"><strong aria-hidden="true">2.</strong> iTriangle</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="triangle/delaunay.html"><strong aria-hidden="true">2.1.</strong> Delaunay</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -675,6 +675,47 @@ async function fileExists(path) {
         <button type="button" class="nav-button" id="test-next">Next</button>
     </div>
     <canvas id="editorCanvas" width="750" height="1000"></canvas>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="performance-comparison"><a class="header" href="#performance-comparison">Performance Comparison</a></h1>
+<p>Benchmark project is <a href="https://github.com/iShape-Rust/iOverlayPerformance">here</a>.</p>
+<p>All tests were run on a machine with the following specifications:
+<strong>3 GHz 6-Core Intel Core i5, 40GB 2667 MHz DDR4</strong></p>
+<h2 id="solvers"><a class="header" href="#solvers">Solvers:</a></h2>
+<ul>
+<li><strong>Rust-iOverlay</strong> v1.5.2</li>
+<li><strong>Swift-iOverlay</strong>  v1.13.0</li>
+<li><strong>Clipper2</strong>  v1.4.0</li>
+</ul>
+<h2 id="checkerboard-test"><a class="header" href="#checkerboard-test">Checkerboard Test</a></h2>
+<p><img src="overlay/test_0.svg" alt="Checkerboard Test" /></p>
+<div class="table-wrapper"><table><thead><tr><th>Polygons</th><th>Swift-iOverlay</th><th>Rust-iOverlay (MT off)</th><th>Rust-iOverlay (MT on)</th><th>Clipper2</th></tr></thead><tbody>
+<tr><td>5</td><td>0.000014</td><td>0.000006</td><td>0.000007</td><td>0.000007</td></tr>
+<tr><td>25</td><td>0.000100</td><td>0.000038</td><td>0.000039</td><td>0.000038</td></tr>
+<tr><td>113</td><td>0.000589</td><td>0.000236</td><td>0.000245</td><td>0.000208</td></tr>
+<tr><td>481</td><td>0.004105</td><td>0.001110</td><td>0.001167</td><td>0.001017</td></tr>
+<tr><td>1985</td><td>0.012643</td><td>0.005865</td><td>0.006006</td><td>0.005182</td></tr>
+<tr><td>8065</td><td>0.055664</td><td>0.027997</td><td>0.026048</td><td>0.024013</td></tr>
+<tr><td>32513</td><td>0.234840</td><td>0.127578</td><td>0.112609</td><td>0.154054</td></tr>
+<tr><td>130561</td><td>0.993920</td><td>0.571545</td><td>0.500450</td><td>1.067439</td></tr>
+<tr><td>523265</td><td>4.410302</td><td>2.575630</td><td>2.217678</td><td>8.346041</td></tr>
+<tr><td>2095105</td><td>18.451646</td><td>11.053004</td><td>9.038339</td><td>73.312335</td></tr>
+<tr><td>8384513</td><td>78.719305</td><td>46.372958</td><td>37.829627</td><td>644.337867</td></tr>
+</tbody></table>
+</div>
+<h2 id="not-overlap-test"><a class="header" href="#not-overlap-test">Not Overlap Test</a></h2>
+<p><img src="overlay/test_1.svg" alt="Not Overlap Test" /></p>
+<div class="table-wrapper"><table><thead><tr><th>Polygons</th><th>Swift-iOverlay</th><th>Rust-iOverlay (MT off)</th><th>Rust-iOverlay (MT on)</th><th>Clipper2</th></tr></thead><tbody>
+<tr><td>5</td><td>0.000009</td><td>0.000003</td><td>0.000003</td><td>0.000005</td></tr>
+<tr><td>25</td><td>0.000041</td><td>0.000016</td><td>0.000016</td><td>0.000021</td></tr>
+<tr><td>113</td><td>0.000204</td><td>0.000073</td><td>0.000073</td><td>0.000097</td></tr>
+<tr><td>481</td><td>0.001052</td><td>0.000363</td><td>0.000366</td><td>0.000457</td></tr>
+<tr><td>1985</td><td>0.004978</td><td>0.002116</td><td>0.002127</td><td>0.002114</td></tr>
+<tr><td>8065</td><td>0.021336</td><td>0.011082</td><td>0.011077</td><td>0.010783</td></tr>
+<tr><td>32513</td><td>0.089523</td><td>0.050298</td><td>0.046999</td><td>0.056281</td></tr>
+<tr><td>130561</td><td>0.375594</td><td>0.216340</td><td>0.198341</td><td>0.369146</td></tr>
+<tr><td>523265</td><td>1.663087</td><td>0.973432</td><td>0.887804</td><td>2.695334</td></tr>
+<tr><td>2095105</td><td>6.947932</td><td>4.213161</td><td>3.778962</td><td>20.665812</td></tr>
+<tr><td>8384513</td><td>28.777569</td><td>18.019932</td><td>15.963110</td><td>167.966801</td></tr>
+</tbody></table>
 </div><div style="break-before: page; page-break-before: always;"></div><style>
 
 .demo-title {
