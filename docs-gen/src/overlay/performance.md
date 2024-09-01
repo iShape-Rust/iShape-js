@@ -2,8 +2,9 @@
 
 Benchmark project is [here](https://github.com/iShape-Rust/iOverlayPerformance).
 
-All tests were run on a machine with the following specifications:
-**3 GHz 6-Core Intel Core i5, 40GB 2667 MHz DDR4**
+All tests were run on a machine with the following specifications:  
+**3 GHz 6-Core Intel Core i5, 40GB 2667 MHz DDR4**  
+
 All results are presented in seconds.
 
 ## Solvers:
