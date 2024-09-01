@@ -171,16 +171,17 @@
                         <h1 id="performance-comparison"><a class="header" href="#performance-comparison">Performance Comparison</a></h1>
 <p>Benchmark project is <a href="https://github.com/iShape-Rust/iOverlayPerformance">here</a>.</p>
 <p>All tests were run on a machine with the following specifications:
-<strong>3 GHz 6-Core Intel Core i5, 40GB 2667 MHz DDR4</strong></p>
+<strong>3 GHz 6-Core Intel Core i5, 40GB 2667 MHz DDR4</strong>
+All results are presented in seconds.</p>
 <h2 id="solvers"><a class="header" href="#solvers">Solvers:</a></h2>
 <ul>
-<li><strong>Rust-iOverlay</strong> v1.5.2</li>
-<li><strong>Swift-iOverlay</strong>  v1.13.0</li>
-<li><strong>Clipper2</strong>  v1.4.0</li>
+<li><strong>iOverlay(Rust)</strong> v1.5.2 (multithreading on/off)</li>
+<li><strong>iOverlay(Swift)</strong>  v1.13.0</li>
+<li><strong>Clipper2(C++)</strong>  v1.4.0</li>
 </ul>
 <h2 id="checkerboard-test"><a class="header" href="#checkerboard-test">Checkerboard Test</a></h2>
 <p><img src="test_0.svg" alt="Checkerboard Test" /></p>
-<div class="table-wrapper"><table><thead><tr><th>Polygons</th><th>Swift-iOverlay</th><th>Rust-iOverlay (MT off)</th><th>Rust-iOverlay (MT on)</th><th>Clipper2</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Squares</th><th>iOverlay(Swift)</th><th>iOverlay(Rust) MT off</th><th>iOverlay(Rust) MT on</th><th>Clipper2(C++)</th></tr></thead><tbody>
 <tr><td>5</td><td>0.000014</td><td>0.000006</td><td>0.000007</td><td>0.000007</td></tr>
 <tr><td>25</td><td>0.000100</td><td>0.000038</td><td>0.000039</td><td>0.000038</td></tr>
 <tr><td>113</td><td>0.000589</td><td>0.000236</td><td>0.000245</td><td>0.000208</td></tr>
@@ -196,7 +197,7 @@
 </div>
 <h2 id="not-overlap-test"><a class="header" href="#not-overlap-test">Not Overlap Test</a></h2>
 <p><img src="test_1.svg" alt="Not Overlap Test" /></p>
-<div class="table-wrapper"><table><thead><tr><th>Polygons</th><th>Swift-iOverlay</th><th>Rust-iOverlay (MT off)</th><th>Rust-iOverlay (MT on)</th><th>Clipper2</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Squares</th><th>iOverlay(Swift)</th><th>iOverlay(Rust) MT off</th><th>iOverlay(Rust) MT on</th><th>Clipper2(C++)</th></tr></thead><tbody>
 <tr><td>5</td><td>0.000009</td><td>0.000003</td><td>0.000003</td><td>0.000005</td></tr>
 <tr><td>25</td><td>0.000041</td><td>0.000016</td><td>0.000016</td><td>0.000021</td></tr>
 <tr><td>113</td><td>0.000204</td><td>0.000073</td><td>0.000073</td><td>0.000097</td></tr>
@@ -208,6 +209,86 @@
 <tr><td>523265</td><td>1.663087</td><td>0.973432</td><td>0.887804</td><td>2.695334</td></tr>
 <tr><td>2095105</td><td>6.947932</td><td>4.213161</td><td>3.778962</td><td>20.665812</td></tr>
 <tr><td>8384513</td><td>28.777569</td><td>18.019932</td><td>15.963110</td><td>167.966801</td></tr>
+</tbody></table>
+</div>
+<h2 id="lines-net-test"><a class="header" href="#lines-net-test">Lines Net Test</a></h2>
+<p><img src="test_2.svg" alt="Lines Net Test" /></p>
+<div class="table-wrapper"><table><thead><tr><th>Lines</th><th>iOverlay(Swift)</th><th>iOverlay(Rust) MT off</th><th>iOverlay(Rust) MT on</th><th>Clipper2(C++)</th></tr></thead><tbody>
+<tr><td>4</td><td>0.000014</td><td>0.000006</td><td>0.000006</td><td>0.000004</td></tr>
+<tr><td>8</td><td>0.000049</td><td>0.000020</td><td>0.000020</td><td>0.000012</td></tr>
+<tr><td>16</td><td>0.000195</td><td>0.000072</td><td>0.000073</td><td>0.000043</td></tr>
+<tr><td>32</td><td>0.001295</td><td>0.000300</td><td>0.000297</td><td>0.000176</td></tr>
+<tr><td>64</td><td>0.004994</td><td>0.001432</td><td>0.001443</td><td>0.000749</td></tr>
+<tr><td>128</td><td>0.021239</td><td>0.006353</td><td>0.006360</td><td>0.003441</td></tr>
+<tr><td>256</td><td>0.091427</td><td>0.030509</td><td>0.027021</td><td>0.018417</td></tr>
+<tr><td>512</td><td>0.255989</td><td>0.147023</td><td>0.123430</td><td>0.115229</td></tr>
+<tr><td>1024</td><td>1.146842</td><td>0.671828</td><td>0.512836</td><td>0.759640</td></tr>
+<tr><td>2048</td><td>4.808548</td><td>2.976929</td><td>2.130691</td><td>5.595165</td></tr>
+<tr><td>4096</td><td>20.190101</td><td>12.270265</td><td>9.145435</td><td>45.934461</td></tr>
+</tbody></table>
+</div>
+<h2 id="spiral-test"><a class="header" href="#spiral-test">Spiral Test</a></h2>
+<p><img src="test_3.svg" alt="Spiral Test" /></p>
+<div class="table-wrapper"><table><thead><tr><th>Links</th><th>iOverlay(Swift)</th><th>iOverlay(Rust) MT off</th><th>iOverlay(Rust) MT on</th><th>Clipper2(C++)</th></tr></thead><tbody>
+<tr><td>2</td><td>0.000006</td><td>0.000003</td><td>0.000003</td><td>0.000002</td></tr>
+<tr><td>4</td><td>0.000010</td><td>0.000005</td><td>0.000005</td><td>0.000004</td></tr>
+<tr><td>8</td><td>0.000019</td><td>0.000010</td><td>0.000010</td><td>0.000007</td></tr>
+<tr><td>16</td><td>0.000040</td><td>0.000020</td><td>0.000020</td><td>0.000014</td></tr>
+<tr><td>32</td><td>0.000095</td><td>0.000052</td><td>0.000052</td><td>0.000031</td></tr>
+<tr><td>64</td><td>0.000218</td><td>0.000139</td><td>0.000139</td><td>0.000083</td></tr>
+<tr><td>128</td><td>0.000490</td><td>0.000315</td><td>0.000316</td><td>0.000202</td></tr>
+<tr><td>256</td><td>0.001105</td><td>0.000691</td><td>0.000703</td><td>0.000476</td></tr>
+<tr><td>512</td><td>0.003385</td><td>0.001671</td><td>0.001603</td><td>0.001195</td></tr>
+<tr><td>1024</td><td>0.006174</td><td>0.004286</td><td>0.004210</td><td>0.002941</td></tr>
+<tr><td>2048</td><td>0.013200</td><td>0.009244</td><td>0.009138</td><td>0.007578</td></tr>
+<tr><td>4096</td><td>0.026065</td><td>0.018103</td><td>0.017956</td><td>0.020287</td></tr>
+<tr><td>8192</td><td>0.055944</td><td>0.037788</td><td>0.037518</td><td>0.054647</td></tr>
+<tr><td>16384</td><td>0.112375</td><td>0.071094</td><td>0.071209</td><td>0.181050</td></tr>
+<tr><td>32768</td><td>0.237412</td><td>0.152864</td><td>0.152288</td><td>0.606854</td></tr>
+<tr><td>65536</td><td>0.473847</td><td>0.306582</td><td>0.318895</td><td>2.013809</td></tr>
+<tr><td>131072</td><td>0.981729</td><td>0.659484</td><td>0.662601</td><td>6.547658</td></tr>
+<tr><td>262144</td><td>1.979541</td><td>1.339929</td><td>1.338568</td><td>21.171540</td></tr>
+<tr><td>524288</td><td>4.101912</td><td>2.794440</td><td>2.789197</td><td>72.147615</td></tr>
+<tr><td>1048576</td><td>8.254108</td><td>5.624586</td><td>5.621691</td><td>259.866180</td></tr>
+</tbody></table>
+</div>
+<h2 id="windows-test"><a class="header" href="#windows-test">Windows Test</a></h2>
+<p><img src="test_4.svg" alt="Windows Test" /></p>
+<div class="table-wrapper"><table><thead><tr><th>Squares</th><th>iOverlay(Swift)</th><th>iOverlay(Rust) MT off</th><th>iOverlay(Rust) MT on</th><th>Clipper2(C++)</th></tr></thead><tbody>
+<tr><td>8</td><td>0.000016</td><td>0.000006</td><td>0.000006</td><td>0.000008</td></tr>
+<tr><td>32</td><td>0.000062</td><td>0.000023</td><td>0.000023</td><td>0.000028</td></tr>
+<tr><td>128</td><td>0.000276</td><td>0.000097</td><td>0.000098</td><td>0.000112</td></tr>
+<tr><td>512</td><td>0.001306</td><td>0.000472</td><td>0.000477</td><td>0.000507</td></tr>
+<tr><td>2048</td><td>0.005543</td><td>0.002695</td><td>0.002690</td><td>0.002454</td></tr>
+<tr><td>8192</td><td>0.023805</td><td>0.012404</td><td>0.012376</td><td>0.012364</td></tr>
+<tr><td>32768</td><td>0.104822</td><td>0.058486</td><td>0.056083</td><td>0.076850</td></tr>
+<tr><td>131072</td><td>0.445712</td><td>0.262060</td><td>0.243105</td><td>0.568316</td></tr>
+<tr><td>524288</td><td>1.862371</td><td>1.119988</td><td>1.034721</td><td>4.142673</td></tr>
+<tr><td>2097152</td><td>7.657815</td><td>4.669779</td><td>4.280832</td><td>33.165570</td></tr>
+<tr><td>8388608</td><td>30.833973</td><td>18.767265</td><td>16.837222</td><td>265.387333</td></tr>
+</tbody></table>
+</div>
+<h2 id="nested-squares-test"><a class="header" href="#nested-squares-test">Nested Squares Test</a></h2>
+<p><img src="test_5.svg" alt="Nested_Squares Test" /></p>
+<div class="table-wrapper"><table><thead><tr><th>Squares</th><th>iOverlay(Swift)</th><th>iOverlay(Rust) MT off</th><th>iOverlay(Rust) MT on</th><th>Clipper2(C++)</th></tr></thead><tbody>
+<tr><td>4</td><td>0.000022</td><td>0.000010</td><td>0.000010</td><td>0.000012</td></tr>
+<tr><td>8</td><td>0.000045</td><td>0.000019</td><td>0.000019</td><td>0.000023</td></tr>
+<tr><td>16</td><td>0.000098</td><td>0.000039</td><td>0.000038</td><td>0.000050</td></tr>
+<tr><td>32</td><td>0.000238</td><td>0.000084</td><td>0.000084</td><td>0.000118</td></tr>
+<tr><td>64</td><td>0.000624</td><td>0.000208</td><td>0.000209</td><td>0.000291</td></tr>
+<tr><td>128</td><td>0.001853</td><td>0.000525</td><td>0.000526</td><td>0.000806</td></tr>
+<tr><td>256</td><td>0.002398</td><td>0.001431</td><td>0.001444</td><td>0.003415</td></tr>
+<tr><td>512</td><td>0.005013</td><td>0.003261</td><td>0.003010</td><td>0.015989</td></tr>
+<tr><td>1024</td><td>0.011067</td><td>0.006061</td><td>0.006304</td><td>0.081267</td></tr>
+<tr><td>2048</td><td>0.023194</td><td>0.013174</td><td>0.012454</td><td>0.461883</td></tr>
+<tr><td>4096</td><td>0.050601</td><td>0.032371</td><td>0.031580</td><td>2.347209</td></tr>
+<tr><td>8192</td><td>0.111691</td><td>0.065519</td><td>0.062490</td><td>10.612424</td></tr>
+<tr><td>16384</td><td>0.252357</td><td>0.173478</td><td>0.159240</td><td>46.205474</td></tr>
+<tr><td>32768</td><td>0.581991</td><td>0.373045</td><td>0.338860</td><td>251.260857</td></tr>
+<tr><td>65536</td><td>1.368794</td><td>1.052401</td><td>0.999980</td><td>3502.233611</td></tr>
+<tr><td>131072</td><td>3.250746</td><td>2.271715</td><td>2.100775</td><td>----</td></tr>
+<tr><td>262144</td><td>8.529555</td><td>6.968428</td><td>6.715680</td><td>----</td></tr>
+<tr><td>524288</td><td>21.177892</td><td>14.814912</td><td>14.408006</td><td>----</td></tr>
 </tbody></table>
 </div>
                     </main>
