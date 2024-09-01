@@ -5,14 +5,14 @@
 
 ## Introduction
 
-- The iOverlay is a poly-bool library that supports main operations such as union, intersection, difference, xor, and self-intersection by the even-odd rule. This algorithm is based on Vatti clipping ideas but is an original implementation.
+- The iOverlay is a poly-bool library that supports main operations such as union, intersection, difference, xor, and self-intersection by the even-odd rule.
   
 ## Features
 
-- Supports all basic operations union, intersection, difference, exclusion and self-intersection.
-- Support any kind of polygons
-- Remove removing unnecessary vertices and merging parallel edges
-- Deterministic
+- **Operations**: union, intersection, difference, and exclusion.
+- **Polygons**: with holes, self-intersections, and multiple paths.
+- **Simplification**: removes degenerate vertices and merges collinear edges.
+- **Fill Rules**: even-odd and non-zero.
 
 ## Source Code
 
