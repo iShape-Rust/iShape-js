@@ -23,10 +23,8 @@ const clipStroke = "#0066ff";
 const clipStrokeOpacity = "#0066ff40";
 const clipFill = "#007AFF20";
 
-const comnStroke = "#10a500";
-
-const resultStroke = "#FF950080";
-const resultFill = "#FF950010";
+const resultStroke = "rgba(39,182,0,0.5)";
+const resultFill = "rgba(45,214,0,0.13)";
 
 const SegmentFill = {
     subjTop: 0b0001,
@@ -411,7 +409,7 @@ function drawPoints(ctx, shapes, color) {
             for (let i = 0; i < points.length; i++) {
                 const [x, y] = points[i];
                 ctx.beginPath();
-                ctx.arc(x, y, 2, 0, twoPI);
+                ctx.arc(x, y, 3, 0, twoPI);
                 ctx.fill();
             }
         });
