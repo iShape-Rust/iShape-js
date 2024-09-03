@@ -24,13 +24,13 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
      showgrid="true"
-     inkscape:zoom="0.31332426"
-     inkscape:cx="1345.2517"
-     inkscape:cy="59.044263"
+     inkscape:zoom="0.3306786"
+     inkscape:cx="1011.5562"
+     inkscape:cy="149.69218"
      inkscape:window-width="1656"
      inkscape:window-height="1036"
-     inkscape:window-x="962"
-     inkscape:window-y="273"
+     inkscape:window-x="313"
+     inkscape:window-y="25"
      inkscape:window-maximized="0"
      inkscape:current-layer="layer1">
     <inkscape:grid
@@ -80,7 +80,7 @@
        fill="none"
        stroke="#000000"
        id="path1"
-       style="fill:#000000;fill-opacity:0;stroke:#ff1e1e;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:0.839216" />
+       style="fill:#ff9999;fill-opacity:0.19607843;stroke:#ff1e1e;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:0.839216" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:53.3333px;line-height:1.25;font-family:'Arial Rounded MT Bold';-inkscape-font-specification:'Arial Rounded MT Bold, ';word-spacing:0px;direction:rtl;fill:#ff8c00;fill-opacity:1"
