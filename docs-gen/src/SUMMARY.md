@@ -10,6 +10,7 @@
 	- [Documentation](./overlay/stars_demo.md)
 		- [Filling Rules](./overlay/filling_rules.md)
 		- [Overlay Rules](./overlay/overlay_rules.md)
+        - [Overlay Graph](overlay/overlay_graph/overlay_graph.md)
 
 - [iTriangle](./triangle/triangle.md)
 	- [Delaunay](./triangle/delaunay.md)

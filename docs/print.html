@@ -86,7 +86,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">iShape</li><li class="chapter-item expanded "><a href="overlay/overlay.html"><strong aria-hidden="true">1.</strong> iOverlay</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overlay/stars_demo.html"><strong aria-hidden="true">1.1.</strong> Demo</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overlay/stars_demo.html"><strong aria-hidden="true">1.1.1.</strong> Stars Rotation</a></li><li class="chapter-item expanded "><a href="overlay/shapes_editor.html"><strong aria-hidden="true">1.1.2.</strong> Shapes Editor</a></li></ol></li><li class="chapter-item expanded "><a href="overlay/performance.html"><strong aria-hidden="true">1.2.</strong> Performance Comparison</a></li><li class="chapter-item expanded "><a href="overlay/stars_demo.html"><strong aria-hidden="true">1.3.</strong> Documentation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overlay/filling_rules.html"><strong aria-hidden="true">1.3.1.</strong> Filling Rules</a></li><li class="chapter-item expanded "><a href="overlay/overlay_rules.html"><strong aria-hidden="true">1.3.2.</strong> Overlay Rules</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="triangle/triangle.html"><strong aria-hidden="true">2.</strong> iTriangle</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="triangle/delaunay.html"><strong aria-hidden="true">2.1.</strong> Delaunay</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">iShape</li><li class="chapter-item expanded "><a href="overlay/overlay.html"><strong aria-hidden="true">1.</strong> iOverlay</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overlay/stars_demo.html"><strong aria-hidden="true">1.1.</strong> Demo</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overlay/stars_demo.html"><strong aria-hidden="true">1.1.1.</strong> Stars Rotation</a></li><li class="chapter-item expanded "><a href="overlay/shapes_editor.html"><strong aria-hidden="true">1.1.2.</strong> Shapes Editor</a></li></ol></li><li class="chapter-item expanded "><a href="overlay/performance.html"><strong aria-hidden="true">1.2.</strong> Performance Comparison</a></li><li class="chapter-item expanded "><a href="overlay/stars_demo.html"><strong aria-hidden="true">1.3.</strong> Documentation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overlay/filling_rules.html"><strong aria-hidden="true">1.3.1.</strong> Filling Rules</a></li><li class="chapter-item expanded "><a href="overlay/overlay_rules.html"><strong aria-hidden="true">1.3.2.</strong> Overlay Rules</a></li><li class="chapter-item expanded "><a href="overlay/overlay_graph/overlay_graph.html"><strong aria-hidden="true">1.3.3.</strong> Overlay Graph</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="triangle/triangle.html"><strong aria-hidden="true">2.</strong> iTriangle</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="triangle/delaunay.html"><strong aria-hidden="true">2.1.</strong> Delaunay</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -976,6 +976,27 @@ async function fileExists(path) {
 <p><img src="overlay/difference.svg" alt="Difference" /></p>
 <h2 id="exclusion-a-xor-b"><a class="header" href="#exclusion-a-xor-b">Exclusion, A xor B</a></h2>
 <p><img src="overlay/exclusion.svg" alt="Exclusion" /></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="overlay-graph"><a class="header" href="#overlay-graph">Overlay Graph</a></h1>
+<p><img src="overlay/overlay_graph/example.svg" alt="Example" />
+An Overlay Graph is a data structure representing the intersections and overlays of two geometric objects (<span style="color:#ff3333ff;"><strong>A</strong></span> and <span style="color:#1a8effff;"><strong>B</strong></span>) defined by closed contours in 2D space.</p>
+<p>The graph is constructed by dividing all the segments of the object contours into non-intersecting parts, where segments can only touch at their endpoints.
+Each segment in the graph contains the following properties:</p>
+<ul>
+<li>For each side of the segment, it stores information about its membership to object <span style="color:#ff3333ff;"><strong>A</strong></span> and object <span style="color:#1a8effff;"><strong>B</strong></span></li>
+<li>Segments do not intersect each other, but they may touch at their endpoints.</li>
+</ul>
+<p>for more Overlay Graph examples see <a href="overlay/overlay_graph/../shapes_editor.html">Shape Editor</a></p>
+<h2 id="filter-segments"><a class="header" href="#filter-segments">Filter Segments</a></h2>
+<h3 id="difference-a---b"><a class="header" href="#difference-a---b">Difference A - B</a></h3>
+<p><img src="overlay/overlay_graph/difference_ab.svg" alt="Example" /></p>
+<h3 id="difference-b---a-1"><a class="header" href="#difference-b---a-1">Difference B - A</a></h3>
+<p><img src="overlay/overlay_graph/difference_ba.svg" alt="Example" /></p>
+<h3 id="union-a-or-b-1"><a class="header" href="#union-a-or-b-1">Union A or B</a></h3>
+<p><img src="overlay/overlay_graph/union.svg" alt="Example" /></p>
+<h3 id="intersection-a-and-b-1"><a class="header" href="#intersection-a-and-b-1">Intersection A and B</a></h3>
+<p><img src="overlay/overlay_graph/intersection.svg" alt="Example" /></p>
+<h3 id="exclusion-a-xor-b-1"><a class="header" href="#exclusion-a-xor-b-1">Exclusion A xor B</a></h3>
+<p><img src="overlay/overlay_graph/exclusion.svg" alt="Example" /></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="itriangle"><a class="header" href="#itriangle">iTriangle</a></h1>
 <p><img src="triangle/eagle.svg" alt="Eagle triangulation" /></p>
 <h2 id="introduction-1"><a class="header" href="#introduction-1">Introduction</a></h2>
