@@ -27,13 +27,13 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
      showgrid="true"
-     inkscape:zoom="0.85728049"
-     inkscape:cx="452.01075"
-     inkscape:cy="321.36506"
+     inkscape:zoom="1.0227509"
+     inkscape:cx="561.72037"
+     inkscape:cy="304.57075"
      inkscape:window-width="1872"
      inkscape:window-height="1212"
      inkscape:window-x="655"
-     inkscape:window-y="104"
+     inkscape:window-y="76"
      inkscape:window-maximized="0"
      inkscape:current-layer="layer1"
      showguides="false">
@@ -80,18 +80,18 @@
      inkscape:groupmode="layer"
      id="layer1">
     <path
+       id="path7"
+       style="fill:#ff0000;fill-opacity:0.09803922;stroke:none;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;opacity:0.15"
+       d="M 384,128 256,256 V 512 L 384,640 H 640 L 768,512 V 256 L 640,128 Z" />
+    <path
+       id="path1"
+       style="fill:#1e8cff;fill-opacity:0.2;stroke:none;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;opacity:0.15"
+       d="M 384,128 256,256 V 512 L 384,640 H 640 L 768,512 V 256 L 640,128 Z" />
+    <path
        style="opacity:0.3;fill:none;stroke:#ff3333;stroke-width:8;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
        d="M 384,640 H 640"
        id="path10"
        sodipodi:nodetypes="cc" />
-    <path
-       id="path7"
-       style="fill:#ff0000;fill-opacity:0.09803922;stroke:none;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;opacity:0.3"
-       d="M 384,128 256,256 V 512 L 384,640 H 640 L 768,512 V 256 L 640,128 Z" />
-    <path
-       id="path1"
-       style="fill:#1e8cff;fill-opacity:0.2;stroke:none;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;opacity:0.3"
-       d="M 384,128 256,256 V 512 L 384,640 H 640 L 768,512 V 256 L 640,128 Z" />
     <path
        id="path4-6"
        style="fill:#ff0000;fill-opacity:0.0980392;stroke:none;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
@@ -163,7 +163,7 @@
        sodipodi:nodetypes="cc" />
     <g
        id="g2"
-       style="opacity:0.3">
+       style="opacity:0.15">
       <circle
          style="fill:none;fill-opacity:1;stroke:#ff3333;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
          id="circle126"
@@ -704,7 +704,7 @@
     </g>
     <g
        id="g1"
-       style="opacity:0.3">
+       style="opacity:0.15">
       <circle
          style="fill:#ff3232;fill-opacity:1;stroke:#ff3333;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
          id="circle121"
@@ -731,11 +731,11 @@
          r="4" />
     </g>
     <path
-       style="fill:none;stroke:#1a8eff;stroke-width:8;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1;stroke-dasharray:none;opacity:0.3"
+       style="fill:none;stroke:#1a8eff;stroke-width:8;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1;stroke-dasharray:none;opacity:0.15"
        d="M 384,640 H 640"
        id="path5" />
     <path
-       style="fill:none;stroke:#1a8eff;stroke-width:8;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1;stroke-dasharray:none;opacity:0.3"
+       style="fill:none;stroke:#1a8eff;stroke-width:8;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1;stroke-dasharray:none;opacity:0.15"
        d="M 384,128 H 640"
        id="path6" />
     <path

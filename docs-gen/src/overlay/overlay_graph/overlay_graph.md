@@ -12,18 +12,19 @@ for more Overlay Graph examples see [Shape Editor](../shapes_editor.md)
 
 ## Filter Segments
 
-### Difference A - B
+### Difference, C = A - B
+
 ![Example](difference_ab.svg)
 
-### Difference B - A
+### Difference, C = B - A
 ![Example](difference_ba.svg)
 
-### Union A or B
+### Union, C = A or B
 ![Example](union.svg)
 
-### Intersection A and B
+### Intersection, C = A and B
 ![Example](intersection.svg)
 
-### Exclusion A xor B
+### Exclusion, C = A xor B
 ![Example](exclusion.svg)
 
