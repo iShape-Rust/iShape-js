@@ -86,7 +86,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">iShape</li><li class="chapter-item expanded "><a href="overlay/overlay.html"><strong aria-hidden="true">1.</strong> iOverlay</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overlay/stars_demo.html"><strong aria-hidden="true">1.1.</strong> Demo</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overlay/stars_demo.html"><strong aria-hidden="true">1.1.1.</strong> Stars Rotation</a></li><li class="chapter-item expanded "><a href="overlay/shapes_editor.html"><strong aria-hidden="true">1.1.2.</strong> Shapes Editor</a></li></ol></li><li class="chapter-item expanded "><a href="overlay/performance.html"><strong aria-hidden="true">1.2.</strong> Performance Comparison</a></li><li class="chapter-item expanded "><a href="overlay/stars_demo.html"><strong aria-hidden="true">1.3.</strong> Documentation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overlay/filling_rules.html"><strong aria-hidden="true">1.3.1.</strong> Filling Rules</a></li><li class="chapter-item expanded "><a href="overlay/overlay_rules.html"><strong aria-hidden="true">1.3.2.</strong> Overlay Rules</a></li><li class="chapter-item expanded "><a href="overlay/overlay_graph/overlay_graph.html"><strong aria-hidden="true">1.3.3.</strong> Overlay Graph</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="triangle/triangle.html"><strong aria-hidden="true">2.</strong> iTriangle</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="triangle/delaunay.html"><strong aria-hidden="true">2.1.</strong> Delaunay</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">iShape</li><li class="chapter-item expanded "><a href="overlay/overlay.html"><strong aria-hidden="true">1.</strong> iOverlay</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overlay/stars_demo.html"><strong aria-hidden="true">1.1.</strong> Demo</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overlay/stars_demo.html"><strong aria-hidden="true">1.1.1.</strong> Stars Rotation</a></li><li class="chapter-item expanded "><a href="overlay/shapes_editor.html"><strong aria-hidden="true">1.1.2.</strong> Shapes Editor</a></li></ol></li><li class="chapter-item expanded "><a href="overlay/performance/performance.html"><strong aria-hidden="true">1.2.</strong> Performance Comparison</a></li><li class="chapter-item expanded "><a href="overlay/stars_demo.html"><strong aria-hidden="true">1.3.</strong> Documentation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="overlay/filling_rules/filling_rules.html"><strong aria-hidden="true">1.3.1.</strong> Filling Rules</a></li><li class="chapter-item expanded "><a href="overlay/overlay_rules/overlay_rules.html"><strong aria-hidden="true">1.3.2.</strong> Overlay Rules</a></li><li class="chapter-item expanded "><a href="overlay/contours/contours.html"><strong aria-hidden="true">1.3.3.</strong> Contours</a></li><li class="chapter-item expanded "><a href="overlay/overlay_graph/overlay_graph.html"><strong aria-hidden="true">1.3.4.</strong> Overlay Graph</a></li><li class="chapter-item expanded "><a href="overlay/extract/extract_shapes.html"><strong aria-hidden="true">1.3.5.</strong> Extract Shapes</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="triangle/triangle.html"><strong aria-hidden="true">2.</strong> iTriangle</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="triangle/delaunay.html"><strong aria-hidden="true">2.1.</strong> Delaunay</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -687,7 +687,7 @@ async function fileExists(path) {
 <li><strong>Clipper2(C++)</strong>  v1.4.0</li>
 </ul>
 <h2 id="checkerboard-test"><a class="header" href="#checkerboard-test">Checkerboard Test</a></h2>
-<p><img src="overlay/test_0.svg" alt="Checkerboard Test" /></p>
+<p><img src="overlay/performance/test_0.svg" alt="Checkerboard Test" /></p>
 <div class="table-wrapper"><table><thead><tr><th>Squares</th><th>iOverlay(Swift)</th><th>iOverlay(Rust) MT off</th><th>iOverlay(Rust) MT on</th><th>Clipper2(C++)</th></tr></thead><tbody>
 <tr><td>5</td><td>0.000014</td><td>0.000006</td><td>0.000007</td><td>0.000007</td></tr>
 <tr><td>25</td><td>0.000100</td><td>0.000038</td><td>0.000039</td><td>0.000038</td></tr>
@@ -703,7 +703,7 @@ async function fileExists(path) {
 </tbody></table>
 </div>
 <h2 id="not-overlap-test"><a class="header" href="#not-overlap-test">Not Overlap Test</a></h2>
-<p><img src="overlay/test_1.svg" alt="Not Overlap Test" /></p>
+<p><img src="overlay/performance/test_1.svg" alt="Not Overlap Test" /></p>
 <div class="table-wrapper"><table><thead><tr><th>Squares</th><th>iOverlay(Swift)</th><th>iOverlay(Rust) MT off</th><th>iOverlay(Rust) MT on</th><th>Clipper2(C++)</th></tr></thead><tbody>
 <tr><td>5</td><td>0.000009</td><td>0.000003</td><td>0.000003</td><td>0.000005</td></tr>
 <tr><td>25</td><td>0.000041</td><td>0.000016</td><td>0.000016</td><td>0.000021</td></tr>
@@ -719,7 +719,7 @@ async function fileExists(path) {
 </tbody></table>
 </div>
 <h2 id="lines-net-test"><a class="header" href="#lines-net-test">Lines Net Test</a></h2>
-<p><img src="overlay/test_2.svg" alt="Lines Net Test" /></p>
+<p><img src="overlay/performance/test_2.svg" alt="Lines Net Test" /></p>
 <div class="table-wrapper"><table><thead><tr><th>Lines</th><th>iOverlay(Swift)</th><th>iOverlay(Rust) MT off</th><th>iOverlay(Rust) MT on</th><th>Clipper2(C++)</th></tr></thead><tbody>
 <tr><td>4</td><td>0.000014</td><td>0.000006</td><td>0.000006</td><td>0.000004</td></tr>
 <tr><td>8</td><td>0.000049</td><td>0.000020</td><td>0.000020</td><td>0.000012</td></tr>
@@ -735,7 +735,7 @@ async function fileExists(path) {
 </tbody></table>
 </div>
 <h2 id="spiral-test"><a class="header" href="#spiral-test">Spiral Test</a></h2>
-<p><img src="overlay/test_3.svg" alt="Spiral Test" /></p>
+<p><img src="overlay/performance/test_3.svg" alt="Spiral Test" /></p>
 <div class="table-wrapper"><table><thead><tr><th>Links</th><th>iOverlay(Swift)</th><th>iOverlay(Rust) MT off</th><th>iOverlay(Rust) MT on</th><th>Clipper2(C++)</th></tr></thead><tbody>
 <tr><td>2</td><td>0.000006</td><td>0.000003</td><td>0.000003</td><td>0.000002</td></tr>
 <tr><td>4</td><td>0.000010</td><td>0.000005</td><td>0.000005</td><td>0.000004</td></tr>
@@ -760,7 +760,7 @@ async function fileExists(path) {
 </tbody></table>
 </div>
 <h2 id="windows-test"><a class="header" href="#windows-test">Windows Test</a></h2>
-<p><img src="overlay/test_4.svg" alt="Windows Test" /></p>
+<p><img src="overlay/performance/test_4.svg" alt="Windows Test" /></p>
 <div class="table-wrapper"><table><thead><tr><th>Squares</th><th>iOverlay(Swift)</th><th>iOverlay(Rust) MT off</th><th>iOverlay(Rust) MT on</th><th>Clipper2(C++)</th></tr></thead><tbody>
 <tr><td>8</td><td>0.000016</td><td>0.000006</td><td>0.000006</td><td>0.000008</td></tr>
 <tr><td>32</td><td>0.000062</td><td>0.000023</td><td>0.000023</td><td>0.000028</td></tr>
@@ -776,7 +776,7 @@ async function fileExists(path) {
 </tbody></table>
 </div>
 <h2 id="nested-squares-test"><a class="header" href="#nested-squares-test">Nested Squares Test</a></h2>
-<p><img src="overlay/test_5.svg" alt="Nested_Squares Test" /></p>
+<p><img src="overlay/performance/test_5.svg" alt="Nested_Squares Test" /></p>
 <div class="table-wrapper"><table><thead><tr><th>Squares</th><th>iOverlay(Swift)</th><th>iOverlay(Rust) MT off</th><th>iOverlay(Rust) MT on</th><th>Clipper2(C++)</th></tr></thead><tbody>
 <tr><td>4</td><td>0.000022</td><td>0.000010</td><td>0.000010</td><td>0.000012</td></tr>
 <tr><td>8</td><td>0.000045</td><td>0.000019</td><td>0.000019</td><td>0.000023</td></tr>
@@ -959,23 +959,41 @@ async function fileExists(path) {
 </div>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="filling-rules"><a class="header" href="#filling-rules">Filling Rules</a></h1>
 <h2 id="even-odd"><a class="header" href="#even-odd">Even-Odd</a></h2>
-<p><img src="overlay/even-odd.svg" alt="Even-Odd" /></p>
+<p><img src="overlay/filling_rules/even-odd.svg" alt="Even-Odd" /></p>
 <h2 id="non-zero"><a class="header" href="#non-zero">Non-Zero</a></h2>
-<p><img src="overlay/non-zero.svg" alt="Non-Zero" /></p>
+<p><img src="overlay/filling_rules/non-zero.svg" alt="Non-Zero" /></p>
 <h2 id="filling-rules-1"><a class="header" href="#filling-rules-1">Filling Rules:</a></h2>
 <ul>
 <li><strong>Even-Odd</strong>: Only odd numbered sub-regions are filled</li>
 <li><strong>Non-Zero</strong>: Only non-zero sub-regions are filled</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="overlay-rules"><a class="header" href="#overlay-rules">Overlay Rules</a></h1>
+<img src="overlay/overlay_rules/ab.svg" alt="AB" style="width:50%;">
 <h2 id="union-a-or-b"><a class="header" href="#union-a-or-b">Union, A or B</a></h2>
-<p><img src="overlay/union.svg" alt="Union" /></p>
+<img src="overlay/overlay_rules/union.svg" alt="Union" style="width:50%;">
 <h2 id="intersection-a-and-b"><a class="header" href="#intersection-a-and-b">Intersection, A and B</a></h2>
-<p><img src="overlay/intersection.svg" alt="Intersection" /></p>
-<h2 id="difference-b---a"><a class="header" href="#difference-b---a">Difference, B - A</a></h2>
-<p><img src="overlay/difference.svg" alt="Difference" /></p>
+<img src="overlay/overlay_rules/intersection.svg" alt="Intersection" style="width:50%;">
+<h2 id="difference-a---b"><a class="header" href="#difference-a---b">Difference, A - B</a></h2>
+<img src="overlay/overlay_rules/difference_ab.svg" alt="Difference" style="width:50%;">
+<h2 id="inverse-difference-b---a"><a class="header" href="#inverse-difference-b---a">Inverse Difference, B - A</a></h2>
+<img src="overlay/overlay_rules/difference_ba.svg" alt="Inverse Difference" style="width:50%;">
 <h2 id="exclusion-a-xor-b"><a class="header" href="#exclusion-a-xor-b">Exclusion, A xor B</a></h2>
-<p><img src="overlay/exclusion.svg" alt="Exclusion" /></p>
+<img src="overlay/overlay_rules/exclusion.svg" alt="Exclusion" style="width:50%;">
+<div style="break-before: page; page-break-before: always;"></div><h1 id="contours"><a class="header" href="#contours">Contours</a></h1>
+<h2 id="outer-and-inner"><a class="header" href="#outer-and-inner">Outer and Inner</a></h2>
+<p><img src="overlay/contours/contour.svg" alt="Example" />
+In the context of the <a href="overlay/contours/../overlay_graph/overlay_graph.html">Overlay Graph</a>, contours are used to represent the boundaries of geometric objects. These contours are classified into two types: <span style="color:#ff3333ff;"><strong>outer</strong></span> contours and <span style="color:#1a8effff;"><strong>inner</strong></span> contours.</p>
+<h3 id="outer-contour"><a class="header" href="#outer-contour">Outer Contour:</a></h3>
+<ul>
+<li>An outer contour is a sequence of points ordered in a clockwise direction.</li>
+<li>The outer contour defines the external boundary of a shape, enclosing the exterior space.</li>
+</ul>
+<h3 id="inner-contour-hole-or-cave"><a class="header" href="#inner-contour-hole-or-cave">Inner Contour (Hole or Cave):</a></h3>
+<ul>
+<li>An inner contour is a sequence of points ordered in a counterclockwise direction.</li>
+<li>Inner contours represent enclosed areas within an outer contour, often referred to as &quot;holes&quot; or &quot;caves.&quot;</li>
+</ul>
+<p><em>Both <span style="color:#ff3333ff;"><strong>outer</strong></span> and <span style="color:#1a8effff;"><strong>inner</strong></span> contours must be simple, meaning they must not self-intersect and must not touch other contours.</em></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="overlay-graph"><a class="header" href="#overlay-graph">Overlay Graph</a></h1>
 <p><img src="overlay/overlay_graph/example.svg" alt="Example" />
 An Overlay Graph is a data structure representing the intersections and overlays of two geometric objects (<span style="color:#ff3333ff;"><strong>A</strong></span> and <span style="color:#1a8effff;"><strong>B</strong></span>) defined by closed contours in 2D space.</p>
@@ -1007,6 +1025,13 @@ The side associated with both bodies <span style="color:#ff3333ff;"><strong>A</s
 <p><img src="overlay/overlay_graph/exclusion.svg" alt="Example" />
 The resulting segments of <strong>C</strong> must belong to either body <span style="color:#ff3333ff;"><strong>A</strong></span> or body <span style="color:#1a8effff;"><strong>B</strong></span>, but not to both simultaneously. The opposite side of each segment must either belong to both bodies or to neither.<br />
 The side associated with one of the bodies (<span style="color:#ff3333ff;"><strong>A</strong></span> or <span style="color:#1a8effff;"><strong>B</strong></span>) will represent the inner part of the resulting shape.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="extract-shapes"><a class="header" href="#extract-shapes">Extract Shapes</a></h1>
+<h2 id="build-contour"><a class="header" href="#build-contour">Build Contour</a></h2>
+<p><img src="overlay/extract/extract_contour.svg" alt="Example" /></p>
+<p>Once we apply boolean filter to <a href="overlay/extract/../overlay_graph/overlay_graph.html">Overlay Graph</a>, we can begin extract contours. The current algorithm starts the traversal from the leftmost node. From there, the algorithm selects the topmost segment connected to that node and proceeds along it to the next node.</p>
+<p>At each node, the algorithm selects the next segment by rotating around the current node to find the next suitable segment while ensuring that the traversal stays inside the boundary of the shape.</p>
+<p>To ensure that segments are not visited twice, each segment is marked as visited once it has been traversed. This allows the algorithm to prevent revisiting already extracted segments.</p>
+<p>This process continues until the contour is complete, forming either an outer or inner contour.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="itriangle"><a class="header" href="#itriangle">iTriangle</a></h1>
 <p><img src="triangle/eagle.svg" alt="Eagle triangulation" /></p>
 <h2 id="introduction-1"><a class="header" href="#introduction-1">Introduction</a></h2>
