@@ -1,6 +1,6 @@
 # Contours
 ## Outer and Inner
-![Example](contour.svg)
+![Contour](contour.svg)
 In the context of the [Overlay Graph](../overlay_graph/overlay_graph.md), contours are used to represent the boundaries of geometric objects. These contours are classified into two types: <span style="color:#ff3333ff;">**outer**</span> contours and <span style="color:#1a8effff;">**inner**</span> contours.
 
 ### Outer Contour:

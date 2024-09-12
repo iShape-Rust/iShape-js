@@ -106,4 +106,3 @@ Or in vector form:
 $$
 |\vec{a} \times \vec{b}|(\vec{c} \cdot \vec{d}) + (\vec{a} \cdot \vec{b})|\vec{c} \times \vec{d}| > 0
 $$
-

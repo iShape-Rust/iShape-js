@@ -170,11 +170,50 @@
                     <main>
                         <h1 id="extract-shapes"><a class="header" href="#extract-shapes">Extract Shapes</a></h1>
 <h2 id="build-contour"><a class="header" href="#build-contour">Build Contour</a></h2>
-<p><img src="extract_contour.svg" alt="Example" /></p>
-<p>Once we apply boolean filter to <a href="../overlay_graph/overlay_graph.html">Overlay Graph</a>, we can begin extract contours. The current algorithm starts the traversal from the leftmost node. From there, the algorithm selects the topmost segment connected to that node and proceeds along it to the next node.</p>
-<p>At each node, the algorithm selects the next segment by rotating around the current node to find the next suitable segment while ensuring that the traversal stays inside the boundary of the shape.</p>
-<p>To ensure that segments are not visited twice, each segment is marked as visited once it has been traversed. This allows the algorithm to prevent revisiting already extracted segments.</p>
+<p><img src="extract_contour.svg" alt="Extract Contour" /></p>
+<p>Once we apply boolean filter to <a href="../overlay_graph/overlay_graph.html">Overlay Graph</a>, we can begin extract contours. The algorithm starts by selecting the leftmost node and proceeds by choosing the topmost segment connected to that node. The process continues by traversing to the next node along the selected segment.</p>
+<p>At each node, the algorithm selects the next segment by rotating around the current node to find the next suitable segment, ensuring the traversal stays within the boundary of the shape.</p>
+<p>To prevent segments from being visited twice, each segment is marked as visited upon traversal.</p>
 <p>This process continues until the contour is complete, forming either an outer or inner contour.</p>
+<h2 id="define-contour"><a class="header" href="#define-contour">Define Contour</a></h2>
+<p><img src="define_contour.svg" alt="Define Contour" /></p>
+<p>To define a contour, the algorithm begins by identifying the leftmost and topmost segment in the contour. The classification of the contour is determined as follows:</p>
+<ul>
+<li>If the left-top side of the segment is classified as the <span style="color:#ff3333ff;"><strong>outer</strong></span> side, then the contour is an <span style="color:#ff3333ff;"><strong>outer</strong></span> contour.</li>
+<li>If the left-top side of the segment is classified as the <span style="color:#1a8effff;"><strong>inner</strong></span> side, then the contour is an <span style="color:#1a8effff;"><strong>inner</strong></span> contour.</li>
+</ul>
+<p>This method ensures each contour is correctly classified based on its orientation in 2D space.</p>
+<h2 id="define-shape"><a class="header" href="#define-shape">Define Shape</a></h2>
+<p><img src="define_shape.svg" alt="Define Shape" /></p>
+<p>A shape is defined as a group of contours, where the first contour is always an <span style="color:#ff3333ff;"><strong>outer</strong></span> contour, and the subsequent contours (if any) are <span style="color:#1a8effff;"><strong>inner</strong></span> contours.</p>
+<h2 id="matching-contours"><a class="header" href="#matching-contours">Matching Contours</a></h2>
+<p><img src="matching_contours.svg" alt="Matching Contours" />
+To match <span style="color:#1a8effff;"><strong>inner</strong></span> contours to their corresponding <span style="color:#ff3333ff;"><strong>outer</strong></span> contour, a line is drawn from any point on the <span style="color:#1a8effff;"><strong>inner</strong></span> contour. The first segment encountered from an <span style="color:#ff3333ff;"><strong>outer</strong></span> contour beneath this point belongs to the <span style="color:#ff3333ff;"><strong>outer</strong></span> contour that contains the <span style="color:#1a8effff;"><strong>inner</strong></span> contour. This <span style="color:#ff3333ff;"><strong>outer</strong></span> contour serves as the container for the <span style="color:#1a8effff;"><strong>inner</strong></span> contour.</p>
+<h2 id="define-segment-under-point"><a class="header" href="#define-segment-under-point">Define Segment under Point</a></h2>
+<h2 id="segment-under-point"><a class="header" href="#segment-under-point">Segment under Point</a></h2>
+<p><img src="segment_under_point.svg" alt="Segment Under Point" /></p>
+<p>To determine whether a segment <strong>AB</strong> is below a point <strong>P</strong>, one may be tempted to compute the value of y<sub>m</sub> at the point of intersection <strong>M</strong>, where a vertical line is dropped from <strong>P</strong> onto <strong>AB</strong> (i.e., x<sub>p</sub> = x<sub>m</sub>):</p>
+<p>$$
+y_{m} = \frac{y_{a} - y_{b}}{x_{a} - x_{b}}\cdot(x_{m} - x_{a}) + y_{a}
+$$</p>
+<p>However, this approach can introduce precision issues due to the division involved.</p>
+<p>A more reliable method involves using the order of traversal around the vertices of the triangle <strong>APB</strong>. If segment <strong>AB</strong> is below point <strong>P</strong>, the vertices <strong>A</strong>, <strong>P</strong>, and <strong>B</strong> will appear in a clockwise order.</p>
+<p>This method uses the cross product of vectors <strong>PA</strong> and <strong>PB</strong>:</p>
+<p>$$
+a \times b = a_x b_y - a_y b_x
+$$</p>
+<p>Since this method avoids division, it eliminates precision issues, making it stable for determining whether a segment is below a point.</p>
+<h2 id="selecting-the-closest-segment-under-point"><a class="header" href="#selecting-the-closest-segment-under-point">Selecting the Closest Segment under Point</a></h2>
+<p>When multiple segments are positioned below point <strong>P</strong>, we need to determine which segment is the closest to <strong>P</strong>. This scenario can be divided into three distinct cases based on the configuration of the segments relative to <strong>P</strong>.</p>
+<h3 id="left-case"><a class="header" href="#left-case">Left Case</a></h3>
+<p><img src="segment_under_segment_a.svg" alt="Left Case" /></p>
+<p>When both segments share a common left vertex <strong>A</strong>, we check the positions of their right endpoints. If the vertices <strong>B<sub>0</sub></strong>, <strong>B<sub>1</sub></strong>, and <strong>A</strong> form a clockwise pattern, then <strong>AB<sub>0</sub></strong> is closer to <strong>P</strong> than <strong>AB<sub>1</sub></strong>.</p>
+<h3 id="right-case"><a class="header" href="#right-case">Right Case</a></h3>
+<p><img src="segment_under_segment_b.svg" alt="Right Case" /></p>
+<p>When both segments share a common right vertex <strong>B</strong>, we check the positions of their left endpoints. If the vertices <strong>A<sub>0</sub></strong>, <strong>A<sub>1</sub></strong>, and <strong>B</strong> form a clockwise pattern, then <strong>A<sub>0</sub>B</strong> is closer to <strong>P</strong> than <strong>A<sub>1</sub>B</strong>.</p>
+<h3 id="middle-case"><a class="header" href="#middle-case">Middle Case</a></h3>
+<p><img src="segment_under_segment_ab.svg" alt="Middle Case" /></p>
+<p>In this case, one of the vertices (e.g., <strong>A<sub>1</sub></strong> or <strong>B<sub>0</sub></strong>) lies inside the opposite segment. We use the point-segment comparison method to determine which of the segments is closer to <strong>P</strong>.</p>
 
                     </main>
 
