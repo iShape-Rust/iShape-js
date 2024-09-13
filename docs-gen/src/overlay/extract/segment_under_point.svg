@@ -27,9 +27,9 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
      showgrid="true"
-     inkscape:zoom="1.4487288"
-     inkscape:cx="320.62592"
-     inkscape:cy="377.91753"
+     inkscape:zoom="2.9354434"
+     inkscape:cx="361.27421"
+     inkscape:cy="199.11813"
      inkscape:window-width="1424"
      inkscape:window-height="1348"
      inkscape:window-x="98"
@@ -142,12 +142,6 @@
        d="M 128,512 640,640"
        id="path8"
        sodipodi:nodetypes="cc" />
-    <circle
-       style="fill:#ff8c00;fill-opacity:1;stroke:none;stroke-width:1.451;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="path12"
-       cx="384"
-       cy="128"
-       r="8" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:49.9999px;line-height:1.25;font-family:'Arial Rounded MT Bold';-inkscape-font-specification:'Arial Rounded MT Bold, ';word-spacing:0px;direction:rtl;fill:#808080;stroke-width:0.375"
@@ -266,5 +260,11 @@
        d="M 625.61926,632.98605 640,640 l 1.88591,-15.78231"
        id="path6"
        sodipodi:nodetypes="ccc" />
+    <circle
+       style="fill:#ff8c00;fill-opacity:1;stroke:none;stroke-width:1.451;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="path12"
+       cx="384"
+       cy="128"
+       r="8" />
   </g>
 </svg>
