@@ -993,7 +993,7 @@ In the context of the <a href="overlay/contours/../overlay_graph/overlay_graph.h
 <li>An inner contour is a sequence of points ordered in a counterclockwise direction.</li>
 <li>Inner contours represent enclosed areas within an outer contour, often referred to as &quot;holes&quot; or &quot;caves.&quot;</li>
 </ul>
-<p><em>Both <span style="color:#ff3333ff;"><strong>outer</strong></span> and <span style="color:#1a8effff;"><strong>inner</strong></span> contours must be simple, meaning they must not self-intersect and must not touch other contours.</em></p>
+<p><em>Both <span style="color:#ff3333ff;"><strong>outer</strong></span> and <span style="color:#1a8effff;"><strong>inner</strong></span> contours must be simple, meaning they must not self-intersect and must not share edges with other contours.</em></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="overlay-graph"><a class="header" href="#overlay-graph">Overlay Graph</a></h1>
 <p><img src="overlay/overlay_graph/example.svg" alt="Example" />
 An Overlay Graph is a data structure representing the intersections and overlays of two geometric objects (<span style="color:#ff3333ff;"><strong>A</strong></span> and <span style="color:#1a8effff;"><strong>B</strong></span>) defined by closed contours in 2D space.</p>
@@ -1026,12 +1026,17 @@ The side associated with both bodies <span style="color:#ff3333ff;"><strong>A</s
 The resulting segments of <strong>C</strong> must belong to either body <span style="color:#ff3333ff;"><strong>A</strong></span> or body <span style="color:#1a8effff;"><strong>B</strong></span>, but not to both simultaneously. The opposite side of each segment must either belong to both bodies or to neither.<br />
 The side associated with one of the bodies (<span style="color:#ff3333ff;"><strong>A</strong></span> or <span style="color:#1a8effff;"><strong>B</strong></span>) will represent the inner part of the resulting shape.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="extract-shapes"><a class="header" href="#extract-shapes">Extract Shapes</a></h1>
+<p>Once we apply boolean filter to <a href="overlay/extract/../overlay_graph/overlay_graph.html">Overlay Graph</a>, we can begin extract contours.</p>
 <h2 id="build-contour"><a class="header" href="#build-contour">Build Contour</a></h2>
-<p><img src="overlay/extract/extract_contour.svg" alt="Extract Contour" /></p>
-<p>Once we apply boolean filter to <a href="overlay/extract/../overlay_graph/overlay_graph.html">Overlay Graph</a>, we can begin extract contours. The algorithm starts by selecting the leftmost node and proceeds by choosing the topmost segment connected to that node. The process continues by traversing to the next node along the selected segment.</p>
-<p>At each node, the algorithm selects the next segment by rotating around the current node to find the next suitable segment, ensuring the traversal stays within the boundary of the shape.</p>
+<h3 id="outer-contour-1"><a class="header" href="#outer-contour-1">Outer Contour</a></h3>
+<p><img src="overlay/extract/extract_outer_contour.svg" alt="Extract Contour" /></p>
+<h3 id="inner-contour"><a class="header" href="#inner-contour">Inner Contour</a></h3>
+<p><img src="overlay/extract/extract_inner_contour.svg" alt="Extract Contour" /></p>
+<p>The algorithm starts by selecting the leftmost node and proceeds by choosing the topmost segment connected to that node. The process continues by traversing to the next node along the selected segment.</p>
+<p>At each node, the algorithm selects the next segment by rotating around the current node in a counterclockwise direction and taking the first nearest segment.</p>
 <p>To prevent segments from being visited twice, each segment is marked as visited upon traversal.</p>
-<p>This process continues until the contour is complete, forming either an outer or inner contour.</p>
+<p>This process continues until the contour is complete, forming either an <span style="color:#ff3333ff;"><strong>outer</strong></span> or <span style="color:#1a8effff;"><strong>inner</strong></span> contour.</p>
+<p>By following this approach, <span style="color:#ff3333ff;"><strong>outer</strong></span> contours are extracted in a clockwise direction, while <span style="color:#1a8effff;"><strong>inner</strong></span> contours are extracted in a counterclockwise direction.</p>
 <h2 id="define-contour"><a class="header" href="#define-contour">Define Contour</a></h2>
 <p><img src="overlay/extract/define_contour.svg" alt="Define Contour" /></p>
 <p>To define a contour, the algorithm begins by identifying the leftmost and topmost segment in the contour. The classification of the contour is determined as follows:</p>

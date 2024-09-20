@@ -1,16 +1,23 @@
 # Extract Shapes
 
+Once we apply boolean filter to [Overlay Graph](../overlay_graph/overlay_graph.md), we can begin extract contours.
+
 ## Build Contour
 
-![Extract Contour](extract_contour.svg)
+### Outer Contour
+![Extract Contour](extract_outer_contour.svg)
+### Inner Contour
+![Extract Contour](extract_inner_contour.svg)
 
-Once we apply boolean filter to [Overlay Graph](../overlay_graph/overlay_graph.md), we can begin extract contours. The algorithm starts by selecting the leftmost node and proceeds by choosing the topmost segment connected to that node. The process continues by traversing to the next node along the selected segment.
+The algorithm starts by selecting the leftmost node and proceeds by choosing the topmost segment connected to that node. The process continues by traversing to the next node along the selected segment.
 
-At each node, the algorithm selects the next segment by rotating around the current node to find the next suitable segment, ensuring the traversal stays within the boundary of the shape.
+At each node, the algorithm selects the next segment by rotating around the current node in a counterclockwise direction and taking the first nearest segment.
 
 To prevent segments from being visited twice, each segment is marked as visited upon traversal.
 
-This process continues until the contour is complete, forming either an outer or inner contour.
+This process continues until the contour is complete, forming either an <span style="color:#ff3333ff;">**outer**</span> or <span style="color:#1a8effff;">**inner**</span> contour.
+
+By following this approach, <span style="color:#ff3333ff;">**outer**</span> contours are extracted in a clockwise direction, while <span style="color:#1a8effff;">**inner**</span> contours are extracted in a counterclockwise direction.
 
 ## Define Contour
 ![Define Contour](define_contour.svg)
