@@ -24,16 +24,16 @@ The side associated solely with body <span style="color:#1a8effff;">**B**</span>
 ![Example](difference_ba.svg)
 
 ### Union, C = A or B
-![Example](union.svg)
 The resulting segments of **C** must belong to either body <span style="color:#ff3333ff;">**A**</span> or body <span style="color:#1a8effff;">**B**</span>, or to both. The opposite side of each segment must not belong to anybody.  
 The side associated with one of the bodies will represent the inner part of the resulting shape.
+![Example](union.svg)
 
 ### Intersection, C = A and B
-![Example](intersection.svg)
 The resulting segments of **C** must belong to both bodies <span style="color:#ff3333ff;">**A**</span> and <span style="color:#1a8effff;">**B**</span>. The opposite side of each segment must not belong to both bodies simultaneously.  
 The side associated with both bodies <span style="color:#ff3333ff;">**A**</span> and <span style="color:#1a8effff;">**B**</span> will represent the inner part of the resulting shape.
+![Example](intersection.svg)
 
 ### Exclusion, C = A xor B
-![Example](exclusion.svg)
 The resulting segments of **C** must belong to either body <span style="color:#ff3333ff;">**A**</span> or body <span style="color:#1a8effff;">**B**</span>, but not to both simultaneously. The opposite side of each segment must either belong to both bodies or to neither.    
 The side associated with one of the bodies (<span style="color:#ff3333ff;">**A**</span> or <span style="color:#1a8effff;">**B**</span>) will represent the inner part of the resulting shape.
+![Example](exclusion.svg)
