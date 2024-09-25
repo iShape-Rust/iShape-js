@@ -1,4 +1,4 @@
-import init, { Overlay, ShapeType, FillRule, OverlayRule} from '../i_shape/ishape_wasm.js';
+import init, { Overlay, OverlayGraph, ShapeType, FillRule, OverlayRule} from '../i_shape/ishape_wasm.js';
 
 const canvas = document.getElementById('starCanvas');
 const ctx = canvas.getContext('2d');
