@@ -72,7 +72,7 @@ When both segments share a common left vertex **A**, we check the positions of t
 ### Right Case
 ![Right Case](segment_under_segment_b.svg)
 
-When both segments share a common right vertex **B**, we check the positions of their left endpoints. If the vertices **A<sub>0</sub>**, **A<sub>1</sub>**, and **B** form a clockwise pattern, then **A<sub>0</sub>B** is closer to **P** than **A<sub>1</sub>B**.
+When both segments share a common right vertex **B**, we check the positions of their left endpoints. If the vertices **A<sub>0</sub>**, **A<sub>1</sub>**, and **B** form a clockwise pattern, then **A<sub>1</sub>B** is closer to **P** than **A<sub>0</sub>B**.
 
 ### Middle Case
 ![Middle Case](segment_under_segment_ab.svg)
