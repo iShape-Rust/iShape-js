@@ -21,7 +21,7 @@
         }
     </style>
     <script type="module">
-        import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule} from './ishape/ishape_wasm.js';
+        import init, { Overlay, OverlayRule, FillRule} from './ishape/ishape_wasm.js';
 
         init();
 
@@ -34,12 +34,8 @@
             const subj = JSON.parse(subjInput);
             const clip = JSON.parse(clipInput);
 
-            const overlay = new Overlay();
-            overlay.add_paths(subj, ShapeType.Subject);
-            overlay.add_paths(clip, ShapeType.Clip);
-
-            const graph = overlay.build_graph(FillRule.EvenOdd);
-            const union = graph.extract_shapes(OverlayRule.Union);
+            const overlay = Overlay.new_with_subj_and_clip(subj, clip);
+            const union = overlay.overlay(OverlayRule.Union, FillRule.EvenOdd);
 
             const resultText = JSON.stringify(union, null, 2);
             document.getElementById('result').innerText = `Result:\n${resultText}`;
