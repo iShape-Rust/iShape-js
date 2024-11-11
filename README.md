@@ -86,7 +86,7 @@ Full example is available [here](https://github.com/iShape-Rust/iShape-js/tree/m
         }
     </style>
     <script type="module">
-        import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule} from './ishape/ishape_wasm.js';
+        import init, { Overlay, OverlayRule, FillRule} from './ishape/ishape_wasm.js';
 
         init();
 
@@ -97,15 +97,10 @@ Full example is available [here](https://github.com/iShape-Rust/iShape-js/tree/m
             const subj = JSON.parse(subjInput);
             const clip = JSON.parse(clipInput);
 
-            const overlay = new Overlay();
-            overlay.add_paths(subj, ShapeType.Subject);
-            overlay.add_paths(clip, ShapeType.Clip);
-
-            // build segments geometry
-            const graph = overlay.build_graph(FillRule.EvenOdd);
+            const overlay = Overlay.new_with_subj_and_clip(subj, clip);
 
             // apply union operation
-            const union = graph.extract_shapes(OverlayRule.Union);
+            const union = overlay.overlay(OverlayRule.Union, FillRule.EvenOdd);
 
             // add more operations if required
             // ...
