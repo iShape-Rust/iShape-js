@@ -52,7 +52,7 @@ The NPM package is available [here](https://www.npmjs.com/package/ishape_wasm)
 After installing the NPM package, you can import it in your JavaScript or TypeScript file as follows:
 
 ```javascript
-import init, { Overlay, OverlayGraph, OverlayRule, ShapeType, FillRule } from './ishape/ishape_wasm.js';
+import init, { Overlay, OverlayRule, FillRule } from './ishape/ishape_wasm.js';
 
 // Your code here
 
