@@ -1,4 +1,4 @@
-import init, { Overlay, OverlayGraph, ShapeType, FillRule, OverlayRule} from '../i_shape/ishape_wasm.js';
+import init, { Overlay, FillRule, OverlayRule} from '../i_shape/ishape_wasm.js';
 
 const canvas = document.getElementById('starCanvas');
 const ctx = canvas.getContext('2d');
@@ -62,12 +62,12 @@ function draw(currentTime) {
     const subjSecondRadius = a * parseInt(subjSecondRadiusSlider.value, 10);
     const subjRotationSpeed = parseInt(subjRotationSpeedSlider.value, 10) * 0.0005;
     const subjAngleCount = parseInt(subjAngleCountSlider.value, 10);
-    
+
     const clipFirstRadius = a * parseInt(clipFirstRadiusSlider.value, 10);
     const clipSecondRadius = a * parseInt(clipSecondRadiusSlider.value, 10);
     const clipRotationSpeed = parseInt(clipRotationSpeedSlider.value, 10) * 0.0005;
     const clipAngleCount = parseInt(clipAngleCountSlider.value, 10);
-    
+
     const selectedOperation = operationTypeSelect.value;
 
     let overlayRule;
@@ -101,13 +101,8 @@ function draw(currentTime) {
     const subj = createStar({ x: x0, y: y0 }, subjFirstRadius, subjSecondRadius, subjAngleCount, subjAngle);
     const clip = createStar({ x: x0, y: y0 }, clipFirstRadius, clipSecondRadius, clipAngleCount, clipAngle);
 
-    const overlay = new Overlay();
-
-    overlay.add_path(subj, ShapeType.Subject);
-    overlay.add_path(clip, ShapeType.Clip);
-
-    const graph = overlay.build_graph(FillRule.EvenOdd);
-    const result = graph.extract_shapes(overlayRule);
+    const overlay = Overlay.new_with_subj_and_clip(subj, clip);
+    const result = overlay.overlay(overlayRule, FillRule.EvenOdd);
 
     var index = 0;
     result.forEach((shape) => {
@@ -189,4 +184,3 @@ function getColorByIndex(index, opacity = 1) {
     const alpha = Math.round(opacity * 255).toString(16).padStart(2, '0');
     return color + alpha;
 }
-

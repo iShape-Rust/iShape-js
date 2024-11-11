@@ -1,53 +1,55 @@
 use wasm_bindgen::prelude::*;
-use i_overlay::f64::overlay::F64Overlay as RustOverlay;
 use i_overlay::core::fill_rule::FillRule as RustFillRule;
-use i_overlay::core::overlay::ShapeType as RustShapeType;
-use i_overlay::core::solver::Solver;
-use crate::data::{JSPathData, JSShapeData, VectorsData};
+use i_overlay::core::overlay_rule::OverlayRule as RustOverlayRule;
+use i_overlay::float::overlay::FloatOverlay;
+use crate::data::{NestedData, VectorsData};
 use crate::fill_rule::FillRule;
-use crate::shape_type::ShapeType;
-use super::{overlay_graph::OverlayGraph, data::{PathData, ShapeData}};
+use crate::overlay_rule::OverlayRule;
 
 #[wasm_bindgen]
 pub struct Overlay {
-    overlay: RustOverlay,
+    overlay: FloatOverlay<[f64; 2], f64>,
 }
 
 #[wasm_bindgen]
 impl Overlay {
-    #[wasm_bindgen(constructor)]
-    pub fn create() -> Self {
-        Self { overlay: RustOverlay::new() }
+
+    #[wasm_bindgen]
+    pub fn new_with_subj_and_clip(subj_js: JsValue, clip_js: JsValue) -> Option<Overlay> {
+        let subj = NestedData::with_json(subj_js)?;
+        let clip = NestedData::with_json(clip_js)?;
+
+        let overlay = match (subj, clip) {
+            (NestedData::Path(subj), NestedData::Path(clip)) => FloatOverlay::with_subj_and_clip(&subj, &clip),
+            (NestedData::Path(subj), NestedData::Shape(clip)) => FloatOverlay::with_subj_and_clip(&subj, &clip),
+            (NestedData::Path(subj), NestedData::Shapes(clip)) => FloatOverlay::with_subj_and_clip(&subj, &clip),
+            (NestedData::Shape(subj), NestedData::Path(clip)) => FloatOverlay::with_subj_and_clip(&subj, &clip),
+            (NestedData::Shape(subj), NestedData::Shape(clip)) => FloatOverlay::with_subj_and_clip(&subj, &clip),
+            (NestedData::Shape(subj), NestedData::Shapes(clip)) => FloatOverlay::with_subj_and_clip(&subj, &clip),
+            (NestedData::Shapes(subj), NestedData::Path(clip)) => FloatOverlay::with_subj_and_clip(&subj, &clip),
+            (NestedData::Shapes(subj), NestedData::Shape(clip)) => FloatOverlay::with_subj_and_clip(&subj, &clip),
+            (NestedData::Shapes(subj), NestedData::Shapes(clip)) => FloatOverlay::with_subj_and_clip(&subj, &clip),
+        };
+
+        Some(Overlay { overlay })
     }
 
     #[wasm_bindgen]
-    pub fn add_path(&mut self, js_path: JsValue, shape_type: ShapeType) {
-        let rust_shape_type = RustShapeType::from(shape_type);
-        let path = PathData::create_from_json(js_path).to_f64path();
-        self.overlay.add_path(path, rust_shape_type);
-    }
+    pub fn overlay(self, overlay_rule: OverlayRule, fill_rule: FillRule) -> JsValue {
+        let overlay_rule = RustOverlayRule::from(overlay_rule);
+        let fill_rule = RustFillRule::from(fill_rule);
+        let shapes = self.overlay
+            .overlay(overlay_rule, fill_rule);
 
-    #[wasm_bindgen]
-    pub fn add_paths(&mut self, js_shape: JsValue, shape_type: ShapeType) {
-        let rust_shape_type = RustShapeType::from(shape_type);
-        let shape = ShapeData::create_from_json(js_shape).to_f64shape();
-        self.overlay.add_paths(shape, rust_shape_type);
-    }
-
-    #[wasm_bindgen]
-    pub fn build_graph(&self, fill_rule: FillRule) -> OverlayGraph {
-        let rust_fill_rule = RustFillRule::from(fill_rule);
-        let overlay = self.overlay.clone();
-        let graph = overlay.into_graph(rust_fill_rule);
-        OverlayGraph::new(graph)
+        serde_wasm_bindgen::to_value(&shapes).unwrap()
     }
 
     #[wasm_bindgen]
     pub fn separate_vectors(self, fill_rule: FillRule) -> JsValue {
-        let rust_fill_rule = RustFillRule::from(fill_rule);
-        let (overlay, adapter) = self.overlay.clone().into_overlay();
-        let vectors = overlay.into_separate_vectors(rust_fill_rule, Solver::AUTO);
-        let data = VectorsData::create(vectors, &adapter);
+        let fill_rule = RustFillRule::from(fill_rule);
+        let float_graph = self.overlay.into_graph(fill_rule);
+        let vectors = float_graph.graph.extract_separate_vectors();
+        let data = VectorsData::create(vectors, &float_graph.adapter);
         serde_wasm_bindgen::to_value(&data).unwrap()
     }
 }

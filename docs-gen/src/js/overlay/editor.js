@@ -1,4 +1,4 @@
-import init, {Overlay, ShapeType, FillRule, OverlayRule} from '../i_shape/ishape_wasm.js';
+import init, {Overlay, FillRule, OverlayRule} from '../i_shape/ishape_wasm.js';
 import {Segment} from './segment.js';
 import * as data from './editor_data.js';
 
@@ -228,21 +228,12 @@ function findPoint(shape, x, y) {
 function draw() {
 
     const test = data.tests[testIndex];
-    const overlay = new Overlay();
-
-    test.subjs.forEach((subj) => {
-        overlay.add_paths(subj, ShapeType.Subject);
-    });
-
-    test.clips.forEach((clip) => {
-        overlay.add_paths(clip, ShapeType.Clip);
-    });
 
     const fill_rule = fillRule();
     const overlay_rule = overlayRule();
 
-    const graph = overlay.build_graph(fill_rule);
-    const result = graph.extract_shapes(overlay_rule);
+    const overlay = Overlay.new_with_subj_and_clip(test.subjs, test.clips);
+    const result = overlay.overlay(overlay_rule, fill_rule);
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "#FAFAFAF8";
@@ -262,6 +253,7 @@ function draw() {
 
     const isFill = fillTextField.checked;
     if (isFill) {
+        const overlay = Overlay.new_with_subj_and_clip(test.subjs, test.clips);
         const vectors = overlay.separate_vectors(fill_rule);
         drawFill(ctx, vectors);
     }

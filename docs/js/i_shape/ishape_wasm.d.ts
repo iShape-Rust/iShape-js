@@ -22,50 +22,30 @@ export enum OverlayRule {
 export enum FillRule {
   EvenOdd = 0,
   NonZero = 1,
+  Positive = 2,
+  Negative = 3,
 }
 /**
 */
 export class Overlay {
   free(): void;
 /**
+* @param {any} subj_js
+* @param {any} clip_js
+* @returns {Overlay | undefined}
 */
-  constructor();
+  static new_with_subj_and_clip(subj_js: any, clip_js: any): Overlay | undefined;
 /**
-* @param {any} js_path
-* @param {ShapeType} shape_type
-*/
-  add_path(js_path: any, shape_type: ShapeType): void;
-/**
-* @param {any} js_shape
-* @param {ShapeType} shape_type
-*/
-  add_paths(js_shape: any, shape_type: ShapeType): void;
-/**
+* @param {OverlayRule} overlay_rule
 * @param {FillRule} fill_rule
-* @returns {OverlayGraph}
+* @returns {any}
 */
-  build_graph(fill_rule: FillRule): OverlayGraph;
+  overlay(overlay_rule: OverlayRule, fill_rule: FillRule): any;
 /**
 * @param {FillRule} fill_rule
 * @returns {any}
 */
   separate_vectors(fill_rule: FillRule): any;
-}
-/**
-*/
-export class OverlayGraph {
-  free(): void;
-/**
-* @param {OverlayRule} overlay_rule
-* @returns {any}
-*/
-  extract_shapes(overlay_rule: OverlayRule): any;
-/**
-* @param {OverlayRule} overlay_rule
-* @param {number} min_area_f64
-* @returns {any}
-*/
-  extract_shapes_min_area(overlay_rule: OverlayRule, min_area_f64: number): any;
 }
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -73,14 +53,9 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
   readonly __wbg_overlay_free: (a: number, b: number) => void;
-  readonly overlay_create: () => number;
-  readonly overlay_add_path: (a: number, b: number, c: number) => void;
-  readonly overlay_add_paths: (a: number, b: number, c: number) => void;
-  readonly overlay_build_graph: (a: number, b: number) => number;
+  readonly overlay_new_with_subj_and_clip: (a: number, b: number) => number;
+  readonly overlay_overlay: (a: number, b: number, c: number) => number;
   readonly overlay_separate_vectors: (a: number, b: number) => number;
-  readonly __wbg_overlaygraph_free: (a: number, b: number) => void;
-  readonly overlaygraph_extract_shapes: (a: number, b: number) => number;
-  readonly overlaygraph_extract_shapes_min_area: (a: number, b: number, c: number) => number;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
   readonly __wbindgen_exn_store: (a: number) => void;
