@@ -661,7 +661,91 @@ async function fileExists(path) {
         <button type="button" class="nav-button" id="test-next">Next</button>
     </div>
     <canvas id="editorCanvas" width="750" height="1000"></canvas>
-</div><div style="break-before: page; page-break-before: always;"></div><h1 id="performance-comparison"><a class="header" href="#performance-comparison">Performance Comparison</a></h1>
+</div><div style="break-before: page; page-break-before: always;"></div><style>
+.demo-title {
+    color: #333;
+    text-align: center;
+}
+
+.sheet-container {
+    width: 100%; /* Full width */
+    min-width: 1200px;
+    min-height: 1000px;
+    max-width: 2000px;
+    margin: auto;
+}
+
+#iced {
+    width: 100%; /* Adjust canvas width to container width */
+    height: auto; /* Maintain aspect ratio */
+    max-width: 1750px; 
+}
+
+#unsupported-warning {
+    display: none;
+    text-align: center;
+    font-size: 1.2em;
+    color: red;
+    padding: 20px;
+    background-color: #f9eaea;
+    border: 1px solid #d4a5a5;
+    border-radius: 5px;
+    max-width: 800px;
+}
+
+#unsupported-warning img {
+    width: 150px;
+    height: auto;
+    margin-top: 10px;
+}
+</style>
+<div class="sheet-container">
+    <h1 id="overlay-editor" class="demo-title"><a class="header" href="#overlay-editor">Overlay Editor</a></h1>
+    <div id="unsupported-warning">
+        <p>Your browser does not support WebGPU.</p>
+        <p>Please use a WebGPU-supported browser, such as the latest version of Chrome.</p>
+        <img src="overlay/./webgpu.svg" alt="WebGPU not supported">
+    </div>
+    <canvas id="iced" width="1750" height="1750"></canvas>
+</div>
+<script type="text/javascript">
+(async () => {
+  // Feature detection for WebGPU
+  if (!navigator.gpu) {
+    document.getElementById('iced').style.display = 'none';
+    document.getElementById('unsupported-warning').style.display = 'block';
+    return;
+  }
+
+  // In different environments, the path is different
+  const paths = [
+    '../js/overlay_editor/editor.js',
+    './js/overlay_editor/editor.js',
+    '/js/overlay_editor/editor.js'
+  ];
+
+  async function fileExists(path) {
+    try {
+      const response = await fetch(path, { method: 'HEAD' });
+      return response.ok;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  for (const path of paths) {
+    if (await fileExists(path)) {
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.src = path;
+      script.defer = true;
+      document.head.appendChild(script);
+      break;
+    }
+  }
+})();
+</script>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="performance-comparison"><a class="header" href="#performance-comparison">Performance Comparison</a></h1>
 <p>Benchmark project is <a href="https://github.com/iShape-Rust/iOverlayPerformance">here</a>.</p>
 <p>All tests were run on a machine with the following specifications:<br />
 <strong>3 GHz 6-Core Intel Core i5, 40GB 2667 MHz DDR4</strong></p>
