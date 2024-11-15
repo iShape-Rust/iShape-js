@@ -5,17 +5,14 @@
 }
 
 .sheet-container {
-    width: 100%; /* Full width */
     min-width: 1200px;
-    min-height: 1000px;
+    min-height: 1400px;
     max-width: 2000px;
     margin: auto;
 }
 
 #iced {
-    width: 100%; /* Adjust canvas width to container width */
-    height: auto; /* Maintain aspect ratio */
-    max-width: 1750px; 
+    max-width: 2000px; 
 }
 
 #unsupported-warning {
@@ -82,5 +79,6 @@
       break;
     }
   }
+
 })();
 </script>

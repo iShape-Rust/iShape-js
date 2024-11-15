@@ -6,7 +6,7 @@
 	- [Demo](./overlay/stars_demo.md)
 		- [Stars Rotation](./overlay/stars_demo.md)
 		- [Shapes Editor](./overlay/shapes_editor.md)
-		- [Boolean Editor](./overlay/boolean_editor.md)
+		- [Overlay Editor](./overlay/overlay_editor.md)
     - [Performance Comparison](./overlay/performance/performance.md)
 	- [Documentation](./overlay/stars_demo.md)
 		- [Filling Rules](./overlay/filling_rules/filling_rules.md)
