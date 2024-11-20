@@ -1118,7 +1118,15 @@ The side associated with one of the bodies (<span style="color:#ff3333ff;"><stro
 <p>A shape is defined as a group of contours, where the first contour is always an <span style="color:#ff3333ff;"><strong>outer</strong></span> contour, and the subsequent contours (if any) are <span style="color:#1a8effff;"><strong>inner</strong></span> contours.</p>
 <h2 id="matching-contours"><a class="header" href="#matching-contours">Matching Contours</a></h2>
 <p><img src="overlay/extract/matching_contours.svg" alt="Matching Contours" />
-To match <span style="color:#1a8effff;"><strong>inner</strong></span> contours to their corresponding <span style="color:#ff3333ff;"><strong>outer</strong></span> contour, a line is drawn from any point on the <span style="color:#1a8effff;"><strong>inner</strong></span> contour. The first segment encountered from an <span style="color:#ff3333ff;"><strong>outer</strong></span> contour beneath this point belongs to the <span style="color:#ff3333ff;"><strong>outer</strong></span> contour that contains the <span style="color:#1a8effff;"><strong>inner</strong></span> contour. This <span style="color:#ff3333ff;"><strong>outer</strong></span> contour serves as the container for the <span style="color:#1a8effff;"><strong>inner</strong></span> contour.</p>
+To match <span style="color:#1a8effff;"><strong>inner</strong></span> contours to their corresponding <span style="color:#ff3333ff;"><strong>outer</strong></span> contours:</p>
+<ol>
+<li>Draw a line <strong>downward</strong> from any point on the <span style="color:#1a8effff;"><strong>inner</strong></span> (<strong>target</strong>) contour.</li>
+<li>Identify the first segment encountered along the line that does not belong to the <strong>target</strong> contour.</li>
+</ol>
+<ul>
+<li>If the segment belongs to an <span style="color:#ff3333ff;"><strong>outer</strong></span> contour, that contour is the container for the <strong>target</strong> contour.</li>
+<li>If the segment belongs to another <span style="color:#1a8effff;"><strong>inner</strong></span> contour, the container of that <span style="color:#1a8effff;"><strong>inner</strong></span> contour is also the container for the <strong>target</strong> contour.</li>
+</ul>
 <h2 id="define-segment-under-point"><a class="header" href="#define-segment-under-point">Define Segment under Point</a></h2>
 <h2 id="segment-under-point"><a class="header" href="#segment-under-point">Segment under Point</a></h2>
 <p><img src="overlay/extract/segment_under_point.svg" alt="Segment Under Point" /></p>

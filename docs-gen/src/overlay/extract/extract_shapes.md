@@ -36,7 +36,11 @@ A shape is defined as a group of contours, where the first contour is always an 
 
 ## Matching Contours
 ![Matching Contours](matching_contours.svg)
-To match <span style="color:#1a8effff;">**inner**</span> contours to their corresponding <span style="color:#ff3333ff;">**outer**</span> contour, a line is drawn from any point on the <span style="color:#1a8effff;">**inner**</span> contour. The first segment encountered from an <span style="color:#ff3333ff;">**outer**</span> contour beneath this point belongs to the <span style="color:#ff3333ff;">**outer**</span> contour that contains the <span style="color:#1a8effff;">**inner**</span> contour. This <span style="color:#ff3333ff;">**outer**</span> contour serves as the container for the <span style="color:#1a8effff;">**inner**</span> contour.
+To match <span style="color:#1a8effff;">**inner**</span> contours to their corresponding <span style="color:#ff3333ff;">**outer**</span> contours:   
+1. Draw a line **downward** from any point on the <span style="color:#1a8effff;">**inner**</span> (**target**) contour.
+2. Identify the first segment encountered along the line that does not belong to the **target** contour.  
+- If the segment belongs to an <span style="color:#ff3333ff;">**outer**</span> contour, that contour is the container for the **target** contour.  
+- If the segment belongs to another <span style="color:#1a8effff;">**inner**</span> contour, the container of that <span style="color:#1a8effff;">**inner**</span> contour is also the container for the **target** contour.
 ## Define Segment under Point
 
 ## Segment under Point
