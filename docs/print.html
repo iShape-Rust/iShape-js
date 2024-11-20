@@ -750,7 +750,7 @@ async function fileExists(path) {
 <p>All results are presented in seconds.</p>
 <h2 id="solvers"><a class="header" href="#solvers">Solvers:</a></h2>
 <ul>
-<li><strong>iOverlay(Rust)</strong> v1.6.4 (multithreading on/off)</li>
+<li><strong>iOverlay(Rust)</strong> v1.9.0 (multithreading on/off)</li>
 <li><strong>iOverlay(Swift)</strong>  v1.13.0</li>
 <li><strong>Clipper2(C++)</strong>  v1.4.0</li>
 </ul>
@@ -758,16 +758,16 @@ async function fileExists(path) {
 <p><img src="overlay/performance/test_0.svg" alt="Checkerboard Test" /></p>
 <div class="table-wrapper"><table><thead><tr><th>Squares</th><th>Swift</th><th>Rust (mt off)</th><th>Rust (mt on)</th><th>Clipper2</th></tr></thead><tbody>
 <tr><td>5</td><td>0.000014</td><td>0.000006</td><td>0.000006</td><td>0.000007</td></tr>
-<tr><td>25</td><td>0.000100</td><td>0.000034</td><td>0.000035</td><td>0.000038</td></tr>
-<tr><td>113</td><td>0.000589</td><td>0.000187</td><td>0.000188</td><td>0.000208</td></tr>
-<tr><td>481</td><td>0.004105</td><td>0.001061</td><td>0.001058</td><td>0.001017</td></tr>
-<tr><td>1985</td><td>0.012643</td><td>0.004916</td><td>0.004932</td><td>0.005182</td></tr>
-<tr><td>8065</td><td>0.055664</td><td>0.022938</td><td>0.023572</td><td>0.024013</td></tr>
-<tr><td>32513</td><td>0.234840</td><td>0.106485</td><td>0.102122</td><td>0.154054</td></tr>
-<tr><td>130561</td><td>0.993920</td><td>0.485524</td><td>0.451143</td><td>1.067439</td></tr>
-<tr><td>523265</td><td>4.410302</td><td>2.225076</td><td>2.018615</td><td>8.346041</td></tr>
-<tr><td>2095105</td><td>18.451646</td><td>9.763142</td><td>8.584972</td><td>73.312335</td></tr>
-<tr><td>8384513</td><td>78.719305</td><td>39.584444</td><td>35.232285</td><td>644.337867</td></tr>
+<tr><td>25</td><td>0.000100</td><td>0.000036</td><td>0.000036</td><td>0.000038</td></tr>
+<tr><td>113</td><td>0.000589</td><td>0.000197</td><td>0.000196</td><td>0.000208</td></tr>
+<tr><td>481</td><td>0.004105</td><td>0.001117</td><td>0.001117</td><td>0.001017</td></tr>
+<tr><td>1985</td><td>0.012643</td><td>0.004914</td><td>0.004935</td><td>0.005182</td></tr>
+<tr><td>8065</td><td>0.055664</td><td>0.020674</td><td>0.019785</td><td>0.024013</td></tr>
+<tr><td>32513</td><td>0.234840</td><td>0.091871</td><td>0.083285</td><td>0.154054</td></tr>
+<tr><td>130561</td><td>0.993920</td><td>0.424643</td><td>0.372978</td><td>1.067439</td></tr>
+<tr><td>523265</td><td>4.410302</td><td>2.043570</td><td>2.008339</td><td>8.346041</td></tr>
+<tr><td>2095105</td><td>18.451646</td><td>9.291384</td><td>7.936810</td><td>73.312335</td></tr>
+<tr><td>8384513</td><td>78.719305</td><td>38.639666</td><td>33.742216</td><td>644.337867</td></tr>
 </tbody></table>
 </div>
 <h2 id="not-overlap-test"><a class="header" href="#not-overlap-test">Not Overlap Test</a></h2>
@@ -775,95 +775,94 @@ async function fileExists(path) {
 <div class="table-wrapper"><table><thead><tr><th>Squares</th><th>Swift</th><th>Rust (mt off)</th><th>Rust (mt on)</th><th>Clipper2</th></tr></thead><tbody>
 <tr><td>5</td><td>0.000009</td><td>0.000003</td><td>0.000003</td><td>0.000005</td></tr>
 <tr><td>25</td><td>0.000041</td><td>0.000012</td><td>0.000011</td><td>0.000021</td></tr>
-<tr><td>113</td><td>0.000204</td><td>0.000057</td><td>0.000056</td><td>0.000097</td></tr>
-<tr><td>481</td><td>0.001052</td><td>0.000313</td><td>0.000315</td><td>0.000457</td></tr>
-<tr><td>1985</td><td>0.004978</td><td>0.001581</td><td>0.001569</td><td>0.002114</td></tr>
-<tr><td>8065</td><td>0.021336</td><td>0.008185</td><td>0.008170</td><td>0.010783</td></tr>
-<tr><td>32513</td><td>0.089523</td><td>0.039063</td><td>0.038043</td><td>0.056281</td></tr>
-<tr><td>130561</td><td>0.375594</td><td>0.166031</td><td>0.162694</td><td>0.369146</td></tr>
-<tr><td>523265</td><td>1.663087</td><td>0.776720</td><td>0.734016</td><td>2.695334</td></tr>
-<tr><td>2095105</td><td>6.947932</td><td>3.237469</td><td>3.138123</td><td>20.665812</td></tr>
-<tr><td>8384513</td><td>28.777569</td><td>14.386099</td><td>13.290805</td><td>167.966801</td></tr>
+<tr><td>113</td><td>0.000204</td><td>0.000061</td><td>0.000062</td><td>0.000097</td></tr>
+<tr><td>481</td><td>0.001052</td><td>0.000346</td><td>0.000344</td><td>0.000457</td></tr>
+<tr><td>1985</td><td>0.004978</td><td>0.001679</td><td>0.001668</td><td>0.002114</td></tr>
+<tr><td>8065</td><td>0.021336</td><td>0.005912</td><td>0.005425</td><td>0.010783</td></tr>
+<tr><td>32513</td><td>0.089523</td><td>0.028454</td><td>0.024718</td><td>0.056281</td></tr>
+<tr><td>130561</td><td>0.375594</td><td>0.127448</td><td>0.107485</td><td>0.369146</td></tr>
+<tr><td>523265</td><td>1.663087</td><td>0.635898</td><td>0.538060</td><td>2.695334</td></tr>
+<tr><td>2095105</td><td>6.947932</td><td>2.708549</td><td>2.470210</td><td>20.665812</td></tr>
+<tr><td>8384513</td><td>28.777569</td><td>13.514846</td><td>9.601191</td><td>167.966801</td></tr>
 </tbody></table>
 </div>
 <h2 id="lines-net-test"><a class="header" href="#lines-net-test">Lines Net Test</a></h2>
 <p><img src="overlay/performance/test_2.svg" alt="Lines Net Test" /></p>
 <div class="table-wrapper"><table><thead><tr><th>Squares</th><th>Swift</th><th>Rust (mt off)</th><th>Rust (mt on)</th><th>Clipper2</th></tr></thead><tbody>
-<tr><td>4</td><td>0.000014</td><td>0.000006</td><td>0.000006</td><td>0.000004</td></tr>
-<tr><td>8</td><td>0.000049</td><td>0.000017</td><td>0.000017</td><td>0.000012</td></tr>
-<tr><td>16</td><td>0.000195</td><td>0.000063</td><td>0.000063</td><td>0.000043</td></tr>
-<tr><td>32</td><td>0.001295</td><td>0.000250</td><td>0.000257</td><td>0.000176</td></tr>
-<tr><td>64</td><td>0.004994</td><td>0.001263</td><td>0.001268</td><td>0.000749</td></tr>
-<tr><td>128</td><td>0.021239</td><td>0.005184</td><td>0.005768</td><td>0.003441</td></tr>
-<tr><td>256</td><td>0.091427</td><td>0.026061</td><td>0.027286</td><td>0.018417</td></tr>
-<tr><td>512</td><td>0.255989</td><td>0.133244</td><td>0.123429</td><td>0.115229</td></tr>
-<tr><td>1024</td><td>1.146842</td><td>0.587539</td><td>0.524896</td><td>0.759640</td></tr>
-<tr><td>2048</td><td>4.808548</td><td>2.347003</td><td>2.325153</td><td>5.595165</td></tr>
-<tr><td>4096</td><td>20.190101</td><td>10.460054</td><td>9.386460</td><td>45.934461</td></tr>
+<tr><td>4</td><td>0.000014</td><td>0.000004</td><td>0.000004</td><td>0.000004</td></tr>
+<tr><td>8</td><td>0.000049</td><td>0.000014</td><td>0.000014</td><td>0.000012</td></tr>
+<tr><td>16</td><td>0.000195</td><td>0.000049</td><td>0.000050</td><td>0.000043</td></tr>
+<tr><td>32</td><td>0.001295</td><td>0.000195</td><td>0.000196</td><td>0.000176</td></tr>
+<tr><td>64</td><td>0.004994</td><td>0.001013</td><td>0.001016</td><td>0.000749</td></tr>
+<tr><td>128</td><td>0.021239</td><td>0.004046</td><td>0.003970</td><td>0.003441</td></tr>
+<tr><td>256</td><td>0.091427</td><td>0.018815</td><td>0.020870</td><td>0.018417</td></tr>
+<tr><td>512</td><td>0.255989</td><td>0.088601</td><td>0.096745</td><td>0.115229</td></tr>
+<tr><td>1024</td><td>1.146842</td><td>0.417128</td><td>0.397470</td><td>0.759640</td></tr>
+<tr><td>2048</td><td>4.808548</td><td>1.844754</td><td>1.537385</td><td>5.595165</td></tr>
+<tr><td>4096</td><td>20.190101</td><td>7.514548</td><td>7.696920</td><td>45.934461</td></tr>
 </tbody></table>
 </div>
 <h2 id="spiral-test"><a class="header" href="#spiral-test">Spiral Test</a></h2>
 <p><img src="overlay/performance/test_3.svg" alt="Spiral Test" /></p>
 <div class="table-wrapper"><table><thead><tr><th>Squares</th><th>Swift</th><th>Rust (mt off)</th><th>Rust (mt on)</th><th>Clipper2</th></tr></thead><tbody>
-<tr><td>2</td><td>0.000006</td><td>0.000002</td><td>0.000003</td><td>0.000002</td></tr>
+<tr><td>2</td><td>0.000006</td><td>0.000002</td><td>0.000002</td><td>0.000002</td></tr>
 <tr><td>4</td><td>0.000010</td><td>0.000005</td><td>0.000005</td><td>0.000004</td></tr>
 <tr><td>8</td><td>0.000019</td><td>0.000009</td><td>0.000009</td><td>0.000007</td></tr>
-<tr><td>16</td><td>0.000040</td><td>0.000018</td><td>0.000018</td><td>0.000014</td></tr>
-<tr><td>32</td><td>0.000095</td><td>0.000045</td><td>0.000045</td><td>0.000031</td></tr>
-<tr><td>64</td><td>0.000218</td><td>0.000124</td><td>0.000127</td><td>0.000083</td></tr>
-<tr><td>128</td><td>0.000490</td><td>0.000289</td><td>0.000286</td><td>0.000202</td></tr>
-<tr><td>256</td><td>0.001105</td><td>0.000670</td><td>0.000720</td><td>0.000476</td></tr>
-<tr><td>512</td><td>0.003385</td><td>0.001659</td><td>0.001583</td><td>0.001195</td></tr>
-<tr><td>1024</td><td>0.006174</td><td>0.003518</td><td>0.003588</td><td>0.002941</td></tr>
-<tr><td>2048</td><td>0.013200</td><td>0.008056</td><td>0.007770</td><td>0.007578</td></tr>
-<tr><td>4096</td><td>0.026065</td><td>0.015971</td><td>0.015644</td><td>0.020287</td></tr>
-<tr><td>8192</td><td>0.055944</td><td>0.033272</td><td>0.032830</td><td>0.054647</td></tr>
-<tr><td>16384</td><td>0.112375</td><td>0.064134</td><td>0.063838</td><td>0.181050</td></tr>
-<tr><td>32768</td><td>0.237412</td><td>0.137379</td><td>0.139423</td><td>0.606854</td></tr>
-<tr><td>65536</td><td>0.473847</td><td>0.276421</td><td>0.272777</td><td>2.013809</td></tr>
-<tr><td>131072</td><td>0.981729</td><td>0.588327</td><td>0.573041</td><td>6.547658</td></tr>
-<tr><td>262144</td><td>1.979541</td><td>1.184652</td><td>1.184501</td><td>21.171540</td></tr>
-<tr><td>524288</td><td>4.101912</td><td>2.492921</td><td>2.468238</td><td>72.147615</td></tr>
-<tr><td>1048576</td><td>8.254108</td><td>4.973198</td><td>5.003705</td><td>259.866180</td></tr>
+<tr><td>16</td><td>0.000040</td><td>0.000020</td><td>0.000020</td><td>0.000014</td></tr>
+<tr><td>32</td><td>0.000095</td><td>0.000048</td><td>0.000048</td><td>0.000031</td></tr>
+<tr><td>64</td><td>0.000218</td><td>0.000129</td><td>0.000127</td><td>0.000083</td></tr>
+<tr><td>128</td><td>0.000490</td><td>0.000304</td><td>0.000305</td><td>0.000202</td></tr>
+<tr><td>256</td><td>0.001105</td><td>0.000668</td><td>0.000669</td><td>0.000476</td></tr>
+<tr><td>512</td><td>0.003385</td><td>0.001599</td><td>0.001606</td><td>0.001195</td></tr>
+<tr><td>1024</td><td>0.006174</td><td>0.003572</td><td>0.003560</td><td>0.002941</td></tr>
+<tr><td>2048</td><td>0.013200</td><td>0.005000</td><td>0.004930</td><td>0.007578</td></tr>
+<tr><td>4096</td><td>0.026065</td><td>0.009576</td><td>0.009528</td><td>0.020287</td></tr>
+<tr><td>8192</td><td>0.055944</td><td>0.017583</td><td>0.018779</td><td>0.054647</td></tr>
+<tr><td>16384</td><td>0.112375</td><td>0.040145</td><td>0.040263</td><td>0.181050</td></tr>
+<tr><td>32768</td><td>0.237412</td><td>0.076642</td><td>0.076609</td><td>0.606854</td></tr>
+<tr><td>65536</td><td>0.473847</td><td>0.181912</td><td>0.181387</td><td>2.013809</td></tr>
+<tr><td>131072</td><td>0.981729</td><td>0.343917</td><td>0.331046</td><td>6.547658</td></tr>
+<tr><td>262144</td><td>1.979541</td><td>0.781770</td><td>0.833816</td><td>21.171540</td></tr>
+<tr><td>524288</td><td>4.101912</td><td>1.417144</td><td>1.472624</td><td>72.147615</td></tr>
+<tr><td>1048576</td><td>8.254108</td><td>3.188509</td><td>3.232834</td><td>259.866180</td></tr>
 </tbody></table>
 </div>
 <h2 id="windows-test"><a class="header" href="#windows-test">Windows Test</a></h2>
 <p><img src="overlay/performance/test_4.svg" alt="Windows Test" /></p>
 <div class="table-wrapper"><table><thead><tr><th>Squares</th><th>Swift</th><th>Rust (mt off)</th><th>Rust (mt on)</th><th>Clipper2</th></tr></thead><tbody>
-<tr><td>8</td><td>0.000016</td><td>0.000005</td><td>0.000005</td><td>0.000008</td></tr>
-<tr><td>32</td><td>0.000062</td><td>0.000018</td><td>0.000018</td><td>0.000028</td></tr>
-<tr><td>128</td><td>0.000276</td><td>0.000084</td><td>0.000084</td><td>0.000112</td></tr>
-<tr><td>512</td><td>0.001306</td><td>0.000456</td><td>0.000454</td><td>0.000507</td></tr>
-<tr><td>2048</td><td>0.005543</td><td>0.002036</td><td>0.002018</td><td>0.002454</td></tr>
-<tr><td>8192</td><td>0.023805</td><td>0.009476</td><td>0.009374</td><td>0.012364</td></tr>
-<tr><td>32768</td><td>0.104822</td><td>0.046010</td><td>0.046781</td><td>0.076850</td></tr>
-<tr><td>131072</td><td>0.445712</td><td>0.215986</td><td>0.202866</td><td>0.568316</td></tr>
-<tr><td>524288</td><td>1.862371</td><td>0.882740</td><td>0.873599</td><td>4.142673</td></tr>
-<tr><td>2097152</td><td>7.657815</td><td>3.663786</td><td>3.558283</td><td>33.165570</td></tr>
-<tr><td>8388608</td><td>30.833973</td><td>15.126074</td><td>14.128829</td><td>265.387333</td></tr>
+<tr><td>8</td><td>0.000016</td><td>0.000006</td><td>0.000006</td><td>0.000008</td></tr>
+<tr><td>32</td><td>0.000062</td><td>0.000021</td><td>0.000021</td><td>0.000028</td></tr>
+<tr><td>128</td><td>0.000276</td><td>0.000096</td><td>0.000097</td><td>0.000112</td></tr>
+<tr><td>512</td><td>0.001306</td><td>0.000519</td><td>0.000516</td><td>0.000507</td></tr>
+<tr><td>2048</td><td>0.005543</td><td>0.001675</td><td>0.001548</td><td>0.002454</td></tr>
+<tr><td>8192</td><td>0.023805</td><td>0.007519</td><td>0.006780</td><td>0.012364</td></tr>
+<tr><td>32768</td><td>0.104822</td><td>0.038832</td><td>0.034149</td><td>0.076850</td></tr>
+<tr><td>131072</td><td>0.445712</td><td>0.192338</td><td>0.159685</td><td>0.568316</td></tr>
+<tr><td>524288</td><td>1.862371</td><td>0.835050</td><td>0.703147</td><td>4.142673</td></tr>
+<tr><td>2097152</td><td>7.657815</td><td>3.761808</td><td>3.182362</td><td>33.165570</td></tr>
+<tr><td>8388608</td><td>30.833973</td><td>15.476744</td><td>12.058687</td><td>265.387333</td></tr>
 </tbody></table>
 </div>
 <h2 id="nested-squares-test"><a class="header" href="#nested-squares-test">Nested Squares Test</a></h2>
 <p><img src="overlay/performance/test_5.svg" alt="Nested_Squares Test" /></p>
 <div class="table-wrapper"><table><thead><tr><th>Squares</th><th>Swift</th><th>Rust (mt off)</th><th>Rust (mt on)</th><th>Clipper2</th></tr></thead><tbody>
-<tr><td>4</td><td>0.000022</td><td>0.000010</td><td>0.000009</td><td>0.000012</td></tr>
-<tr><td>8</td><td>0.000045</td><td>0.000018</td><td>0.000018</td><td>0.000023</td></tr>
-<tr><td>16</td><td>0.000098</td><td>0.000037</td><td>0.000037</td><td>0.000050</td></tr>
-<tr><td>32</td><td>0.000238</td><td>0.000082</td><td>0.000083</td><td>0.000118</td></tr>
-<tr><td>64</td><td>0.000624</td><td>0.000210</td><td>0.000212</td><td>0.000291</td></tr>
-<tr><td>128</td><td>0.001853</td><td>0.000594</td><td>0.000586</td><td>0.000806</td></tr>
-<tr><td>256</td><td>0.002398</td><td>0.001850</td><td>0.001884</td><td>0.003415</td></tr>
-<tr><td>512</td><td>0.005013</td><td>0.003224</td><td>0.002964</td><td>0.015989</td></tr>
-<tr><td>1024</td><td>0.011067</td><td>0.005197</td><td>0.004924</td><td>0.081267</td></tr>
-<tr><td>2048</td><td>0.023194</td><td>0.010648</td><td>0.010349</td><td>0.461883</td></tr>
-<tr><td>4096</td><td>0.050601</td><td>0.025381</td><td>0.025834</td><td>2.347209</td></tr>
-<tr><td>8192</td><td>0.111691</td><td>0.055089</td><td>0.052011</td><td>10.612424</td></tr>
-<tr><td>16384</td><td>0.252357</td><td>0.137234</td><td>0.133035</td><td>46.205474</td></tr>
-<tr><td>32768</td><td>0.581991</td><td>0.288295</td><td>0.272786</td><td>251.260857</td></tr>
-<tr><td>65536</td><td>1.368794</td><td>0.773196</td><td>0.746876</td><td>3502.233611</td></tr>
-<tr><td>131072</td><td>3.250746</td><td>1.684242</td><td>1.561850</td><td>----</td></tr>
-<tr><td>262144</td><td>8.529555</td><td>4.827151</td><td>4.624782</td><td>----</td></tr>
-<tr><td>524288</td><td>21.177892</td><td>10.261233</td><td>10.055448</td><td>----</td></tr>
+<tr><td>4</td><td>0.000022</td><td>0.000009</td><td>0.000009</td><td>0.000012</td></tr>
+<tr><td>8</td><td>0.000045</td><td>0.000017</td><td>0.000017</td><td>0.000023</td></tr>
+<tr><td>16</td><td>0.000098</td><td>0.000035</td><td>0.000034</td><td>0.000050</td></tr>
+<tr><td>32</td><td>0.000238</td><td>0.000081</td><td>0.000081</td><td>0.000118</td></tr>
+<tr><td>64</td><td>0.000624</td><td>0.000210</td><td>0.000217</td><td>0.000291</td></tr>
+<tr><td>128</td><td>0.001853</td><td>0.000594</td><td>0.000608</td><td>0.000806</td></tr>
+<tr><td>256</td><td>0.002398</td><td>0.001992</td><td>0.002016</td><td>0.003415</td></tr>
+<tr><td>512</td><td>0.005013</td><td>0.002555</td><td>0.002641</td><td>0.015989</td></tr>
+<tr><td>1024</td><td>0.016067</td><td>0.007851</td><td>0.005925</td><td>0.081267</td></tr>
+<tr><td>2048</td><td>0.033194</td><td>0.024523</td><td>0.018777</td><td>0.461883</td></tr>
+<tr><td>4096</td><td>0.150601</td><td>0.060516</td><td>0.044756</td><td>2.347209</td></tr>
+<tr><td>8192</td><td>0.311691</td><td>0.245160</td><td>0.165539</td><td>10.612424</td></tr>
+<tr><td>16384</td><td>0.752357</td><td>0.485605</td><td>0.331655</td><td>46.205474</td></tr>
+<tr><td>32768</td><td>2.581991</td><td>1.814993</td><td>1.148905</td><td>251.260857</td></tr>
+<tr><td>65536</td><td>10.368794</td><td>4.031631</td><td>2.197493</td><td>3502.233611</td></tr>
+<tr><td>131072</td><td>23.250746</td><td>15.731705</td><td>8.194153</td><td>----</td></tr>
+<tr><td>262144</td><td>48.529555</td><td>30.809760</td><td>15.285741</td><td>----</td></tr>
 </tbody></table>
 </div><div style="break-before: page; page-break-before: always;"></div><style>
 
