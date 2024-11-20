@@ -1,6 +1,6 @@
 [package]
 name = "ishape_wasm"
-version = "1.1.0"
+version = "1.1.2"
 authors = ["Nail Sharipov <nailxsharipov@gmail.com>"]
 edition = "2021"
 description = "Boolean Operations for 2D Polygons. Supported operations: intersection, union, difference, XOR, and self-intersections for all polygon varieties."
@@ -16,7 +16,7 @@ codegen-units = 1
 crate-type = ["cdylib"]
 
 [dependencies]
-i_overlay = "~1.8.0"
+i_overlay = "~1.9.0"
 #i_overlay = { path = "../iOverlay" }
 
 wasm-bindgen = "^0.2"
