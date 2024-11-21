@@ -7,7 +7,7 @@
    viewBox="0 0 1280 768"
    version="1.1"
    id="svg5"
-   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
    sodipodi:docname="extract_outer_contour.svg"
    inkscape:export-filename="extract_outer_contour.png"
    inkscape:export-xdpi="96"
@@ -27,9 +27,9 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
      showgrid="true"
-     inkscape:zoom="0.66047249"
-     inkscape:cx="588.21527"
-     inkscape:cy="365.64733"
+     inkscape:zoom="0.67716081"
+     inkscape:cx="588.4865"
+     inkscape:cy="365.49664"
      inkscape:window-width="1872"
      inkscape:window-height="1212"
      inkscape:window-x="365"
@@ -79,13 +79,6 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
-    <rect
-       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16"
-       id="rect1"
-       width="1280"
-       height="768"
-       x="0"
-       y="0" />
     <g
        id="g137">
       <path
