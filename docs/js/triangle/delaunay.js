@@ -118,6 +118,10 @@ function findPoint(x, y) {
 }
 
 function draw() {
+    const alpha = angle(points[1], points[3], points[0]);
+    const beta = angle(points[1], points[3], points[2]);
+    const condition = alpha.angle + beta.angle < 180;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "#00000000";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -131,8 +135,8 @@ function draw() {
     }
 
     drawCircle(ctx);
-    drawTriangles(ctx);
-    drawAngles(ctx);
+    drawTriangles(ctx, condition);
+    drawAngles(ctx, alpha, beta, condition);
 }
 
 function drawPoint(ctx, r, p, color) {
@@ -143,7 +147,7 @@ function drawPoint(ctx, r, p, color) {
     ctx.fill();
 }
 
-function drawTriangles(ctx) {
+function drawTriangles(ctx, condition) {
     let p0 = points[0];
     let p1 = points[1];
     let p2 = points[2];
@@ -163,11 +167,18 @@ function drawTriangles(ctx) {
     ctx.stroke();
     ctx.fill();
 
+    ctx.setLineDash([12, 8]);
     ctx.beginPath();
-    ctx.moveTo(p1[0], p1[1]);
-    ctx.lineTo(p3[0], p3[1]);
+    if (condition) {
+        ctx.moveTo(p1[0], p1[1]);
+        ctx.lineTo(p3[0], p3[1]);
+    } else {
+        ctx.moveTo(p0[0], p0[1]);
+        ctx.lineTo(p2[0], p2[1]);
+    }
 
     ctx.stroke();
+    ctx.setLineDash([]);
 }
 
 function workingArea() {
@@ -205,11 +216,8 @@ function drawCircle(ctx) {
     ctx.setLineDash([]);
 }
 
-function drawAngles(ctx) {
-    const alpha = angle(points[1], points[3], points[0]);
-    const beta = angle(points[1], points[3], points[2]);
- 
-    if (alpha.angle + beta.angle < 180) {
+function drawAngles(ctx, alpha, beta, condition) {
+    if (condition) {
         ctx.fillStyle = "green";
     } else {
         ctx.fillStyle = "red";

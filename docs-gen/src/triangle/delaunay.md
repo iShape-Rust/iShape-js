@@ -1,13 +1,17 @@
 <style>
 .MathJax_Display {
   text-align: left !important;
-  margin-top: 40px;
-  margin-right: 40px;
-  margin-bottom: 40px;
-  margin-left: 40px;
-  font-weight: 700;
-  font-size: 1.2em;
-  opacity: 0.65;
+  margin: 40px;
+  font-weight: 800;
+  font-size: 1.1em;
+  opacity: 0.8;
+}
+
+.cursive-stars {
+    font-style: italic;
+    text-align: center; /* Optional: to center-align the text */
+    font-size: 1.2em;   /* Optional: to slightly increase the font size */
+    margin: 10px 0;     /* Optional: to add some spacing */
 }
 
 #delaunayCanvas {
@@ -45,7 +49,7 @@ window.addEventListener('DOMContentLoaded', function() {
 </script>
 
 ## Delaunay
-
+<p style="font-style: italic;">Click on the canvas to drag the points</p>
 <canvas id="delaunayCanvas" width="500" height="500"></canvas>
 
 ### What is the Delaunay Condition?
