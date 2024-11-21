@@ -1,4 +1,9 @@
 <style>
+:root {
+    --content-max-width: none;
+    width: auto;
+}
+
 .demo-title {
     color: #333;
     text-align: center;
