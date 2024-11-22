@@ -12,7 +12,7 @@ All results are presented in seconds.
 - **iOverlay(Rust)** v1.9.0 (multithreading on/off)
 - **iOverlay(Swift)**  v1.13.0
 - **Clipper2(C++)**  v1.4.0
-- **Boost(C++)**  v1.8.6
+- **Boost(C++)**  v1.86.0
 
 
 ## Checkerboard Test
