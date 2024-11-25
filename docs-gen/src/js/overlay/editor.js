@@ -138,8 +138,8 @@ function pressDown(eX, eY) {
     const test = data.tests[testIndex];
     isMousePressed = true;
 
-    for (let i = 0; i < test.subjs.length; i++) {
-        const shape = test.subjs[i];
+    for (let i = 0; i < test.subj.length; i++) {
+        const shape = test.subj[i];
         selectedPoint = findPoint(shape, x, y);
         if (selectedPoint !== null) {
             isSubjSelected = true;
@@ -149,8 +149,8 @@ function pressDown(eX, eY) {
         }
     }
 
-    for (let i = 0; i < test.clips.length; i++) {
-        const shape = test.clips[i];
+    for (let i = 0; i < test.clip.length; i++) {
+        const shape = test.clip[i];
         selectedPoint = findPoint(shape, x, y);
         if (selectedPoint !== null) {
             isSubjSelected = false;
@@ -186,8 +186,8 @@ function move(eX, eY) {
         const wasCandidate = candidatePoint !== null;
         const test = data.tests[testIndex];
 
-        for (let i = 0; i < test.subjs.length; i++) {
-            const shape = test.subjs[i];
+        for (let i = 0; i < test.subj.length; i++) {
+            const shape = test.subj[i];
             candidatePoint = findPoint(shape, x, y);
             if (candidatePoint !== null) {
                 isSubjCandidate = true;
@@ -196,8 +196,8 @@ function move(eX, eY) {
             }
         }
 
-        for (let i = 0; i < test.clips.length; i++) {
-            const shape = test.clips[i];
+        for (let i = 0; i < test.clip.length; i++) {
+            const shape = test.clip[i];
             candidatePoint = findPoint(shape, x, y);
             if (candidatePoint !== null) {
                 isSubjCandidate = false;
@@ -232,7 +232,7 @@ function draw() {
     const fill_rule = fillRule();
     const overlay_rule = overlayRule();
 
-    const overlay = Overlay.new_with_subj_and_clip(test.subjs, test.clips);
+    const overlay = Overlay.new_with_subj_and_clip(test.subj, test.clip);
     const result = overlay.overlay(overlay_rule, fill_rule);
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -243,23 +243,23 @@ function draw() {
 
     const isArrows = arrowsTextField.checked;
 
-    test.subjs.forEach((shape) => {
+    test.subj.forEach((shape) => {
         drawShape(ctx, shape, subjFill, subjStrokeOpacity, 4.0, 0.0, fill_rule, isArrows);
     });
 
-    test.clips.forEach((shape) => {
+    test.clip.forEach((shape) => {
         drawShape(ctx, shape, clipFill, clipStrokeOpacity, 4.0, 0.0, fill_rule, isArrows);
     });
 
     const isFill = fillTextField.checked;
     if (isFill) {
-        const overlay = Overlay.new_with_subj_and_clip(test.subjs, test.clips);
+        const overlay = Overlay.new_with_subj_and_clip(test.subj, test.clip);
         const vectors = overlay.separate_vectors(fill_rule);
         drawFill(ctx, vectors);
     }
 
-    drawPoints(ctx, test.subjs, subjStroke);
-    drawPoints(ctx, test.clips, clipStroke);
+    drawPoints(ctx, test.subj, subjStroke);
+    drawPoints(ctx, test.clip, clipStroke);
 
     if (selectedPoint !== null) {
         const color = isSubjSelected ? subjStroke : clipStroke;

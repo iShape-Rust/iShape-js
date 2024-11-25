@@ -1,18 +1,19 @@
+use std::fmt;
 use i_overlay::i_float::adapter::FloatPointAdapter;
 use i_overlay::vector::edge::VectorEdge;
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::JsValue;
 
 pub type ShapesData = Vec<ShapeData>;
-pub type ShapeData = Vec<PathData>;
-pub type PathData = Vec<[f64; 2]>;
+pub type ShapeData = Vec<ContourData>;
+pub type ContourData = Vec<[f64; 2]>;
 
 #[derive(Deserialize)]
 #[serde(untagged)]
 pub(super) enum NestedData {
-    Path(Vec<[f64; 2]>),
-    Shape(Vec<Vec<[f64; 2]>>),
-    Shapes(Vec<Vec<Vec<[f64; 2]>>>),
+    Contour(ContourData),
+    Shape(ShapeData),
+    Shapes(ShapesData),
 }
 
 impl NestedData {
@@ -51,5 +52,15 @@ impl VectorsData {
             list.push(VectorData { ax: a[0], ay: a[1], bx: b[0], by: b[1], fill });
         }
         Self { vectors: list }
+    }
+}
+
+impl fmt::Display for NestedData {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            NestedData::Contour(data) => write!(f, "Contour: {:?}]", data),
+            NestedData::Shape(data) => write!(f, "Shape: {:?}]", data),
+            NestedData::Shapes(data) => write!(f, "Shapes: {:?}]", data),
+        }
     }
 }

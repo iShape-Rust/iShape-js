@@ -1,13 +1,11 @@
 /* tslint:disable */
 /* eslint-disable */
-/**
-*/
-export enum ShapeType {
-  Subject = 0,
-  Clip = 1,
+export enum FillRule {
+  EvenOdd = 0,
+  NonZero = 1,
+  Positive = 2,
+  Negative = 3,
 }
-/**
-*/
 export enum OverlayRule {
   Subject = 0,
   Clip = 1,
@@ -17,34 +15,28 @@ export enum OverlayRule {
   InverseDifference = 5,
   Xor = 6,
 }
-/**
-*/
-export enum FillRule {
-  EvenOdd = 0,
-  NonZero = 1,
-  Positive = 2,
-  Negative = 3,
+export enum ShapeType {
+  Subject = 0,
+  Clip = 1,
 }
-/**
-*/
 export class Overlay {
   free(): void;
-/**
-* @param {any} subj_js
-* @param {any} clip_js
-* @returns {Overlay | undefined}
-*/
+  /**
+   * @param {any} subj_js
+   * @param {any} clip_js
+   * @returns {Overlay | undefined}
+   */
   static new_with_subj_and_clip(subj_js: any, clip_js: any): Overlay | undefined;
-/**
-* @param {OverlayRule} overlay_rule
-* @param {FillRule} fill_rule
-* @returns {any}
-*/
+  /**
+   * @param {OverlayRule} overlay_rule
+   * @param {FillRule} fill_rule
+   * @returns {any}
+   */
   overlay(overlay_rule: OverlayRule, fill_rule: FillRule): any;
-/**
-* @param {FillRule} fill_rule
-* @returns {any}
-*/
+  /**
+   * @param {FillRule} fill_rule
+   * @returns {any}
+   */
   separate_vectors(fill_rule: FillRule): any;
 }
 
@@ -58,7 +50,10 @@ export interface InitOutput {
   readonly overlay_separate_vectors: (a: number, b: number) => number;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
+  readonly __wbindgen_export_2: WebAssembly.Table;
   readonly __wbindgen_exn_store: (a: number) => void;
+  readonly __externref_table_alloc: () => number;
+  readonly __wbindgen_start: () => void;
 }
 
 export type SyncInitInput = BufferSource | WebAssembly.Module;
