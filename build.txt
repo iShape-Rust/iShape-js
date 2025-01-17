@@ -10,4 +10,4 @@ mdbook build
 
 # pkg 
 npm login
-npm publish ishape_wasm-1.1.2.tgz
+npm publish ishape_wasm-1.1.5.tgz

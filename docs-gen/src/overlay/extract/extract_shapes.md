@@ -7,11 +7,11 @@ Once we apply boolean filter to [Overlay Graph](../overlay_graph/overlay_graph.m
 ### Outer Contour
 ![Extract Contour](extract_outer_contour.svg)
 ### Inner Contour
-![Extract Contour](extract_inner_contour.svg)
+![Extract Contour](extract_inner_contour_clockwise.svg)
 
 The algorithm starts by selecting the leftmost node and proceeds by choosing the topmost segment connected to that node. The process continues by traversing to the next node along the selected segment.
 
-At each node, the algorithm selects the next segment by rotating around the current node in a counterclockwise direction and taking the first nearest segment.
+At each node, the algorithm selects the next segment by rotating around the current node in a clockwise/counterclockwise direction for inner/outer contours and taking the first nearest segment.
 
 To prevent segments from being visited twice, each segment is marked as visited upon traversal.
 
