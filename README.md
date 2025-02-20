@@ -14,10 +14,10 @@ Try out iShape with an interactive demo. The demo covers operations like union, 
 
 ## Features
 
-- **Operations**: union, intersection, difference, and exclusion.
+- **Boolean Operations**: union, intersection, difference, and exclusion.
 - **Polygons**: with holes, self-intersections, and multiple paths.
 - **Simplification**: removes degenerate vertices and merges collinear edges.
-- **Fill Rules**: even-odd and non-zero.
+- **Fill Rules**: even-odd, non-zero, positive and negative.
 
 ## Getting Started
 
@@ -125,15 +125,6 @@ Import classes and initialize the WebAssembly module using init().
 Use the imported classes to perform geometric operations.
 
 # Overlay Rules
-
-## Union, A or B
-![Union](readme/union.svg)
-
-## Intersection, A and B
-![Intersection](readme/intersection.svg)
-
-## Difference, B - A
-![Difference](readme/difference.svg)
-
-## Exclusion, A xor B
-![Exclusion](readme/exclusion.svg)
+| A,B | A ∪ B | A ∩ B | A - B | B - A | A ⊕ B |
+|---------|---------------|----------------------|----------------|--------------------|----------------|
+| <img src="readme/ab.svg" alt="AB" style="width:100px;"> | <img src="readme/union.svg" alt="Union" style="width:100px;"> | <img src="readme/intersection.svg" alt="Intersection" style="width:100px;"> | <img src="readme/difference_ab.svg" alt="Difference" style="width:100px;"> | <img src="readme/difference_ba.svg" alt="Inverse Difference" style="width:100px;"> | <img src="readme/exclusion.svg" alt="Exclusion" style="width:100px;"> |
