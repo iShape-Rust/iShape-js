@@ -212,14 +212,7 @@ function draw() {
 
     drawWorkingArea(ctx);
 
-    test.shapes.forEach((shape) => {
-        const stroke = resultStroke;
-        const fill = resultFill;
-
-        drawShape(ctx, shape, fill, stroke, 4.0);
-    });
-
-    //drawPaths(ctx, test.paths, pathStroke, 4.0, isClosedPath);
+    drawPaths(ctx, test.paths, pathStroke, 4.0, isClosedPath);
 
     result.forEach((shape) => {
         const stroke = resultStroke;
