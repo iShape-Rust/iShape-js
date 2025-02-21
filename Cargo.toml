@@ -1,9 +1,9 @@
 [package]
 name = "ishape_wasm"
-version = "1.1.5"
+version = "1.2.0"
 authors = ["Nail Sharipov <nailxsharipov@gmail.com>"]
 edition = "2021"
-description = "Boolean Operations for 2D Polygons. Supported operations: intersection, union, difference, XOR, and self-intersections for all polygon varieties."
+description = "Bcoolean Operations for 2D Polygons. Supported operations: intersection, union, difference, XOR, and self-intersections for all polygon varieties."
 license = "MIT"
 repository = "https://github.com/iShape-Rust/iShape-js"
 
@@ -16,8 +16,8 @@ codegen-units = 1
 crate-type = ["cdylib"]
 
 [dependencies]
-i_overlay = "~1.9.4"
-#i_overlay = { path = "../iOverlay" }
+#i_overlay = "~2.0.0"
+i_overlay = { path = "../iOverlay" }
 #log = "0.4.22"
 #console_log = "^1.0.0"
 #console_error_panic_hook = "^0"

@@ -6,6 +6,7 @@
 	- [Demo](./overlay/stars_demo.md)
 		- [Stars Rotation](./overlay/stars_demo.md)
 		- [Shapes Editor](./overlay/shapes_editor.md)
+		- [Stroke Offset](./overlay/stroke.md)
 		- [Overlay Editor](./overlay/overlay_editor.md)
     - [Performance Comparison](./overlay/performance/performance.md)
 	- [Documentation](./overlay/stars_demo.md)

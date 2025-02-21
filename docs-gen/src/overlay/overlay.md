@@ -12,7 +12,8 @@
 - **Operations**: union, intersection, difference, and exclusion.
 - **Polygons**: with holes, self-intersections, and multiple paths.
 - **Simplification**: removes degenerate vertices and merges collinear edges.
-- **Fill Rules**: even-odd and non-zero.
+- **Buffering**: offsets paths and polygons.
+- **Fill Rules**: even-odd, non-zero, positive and negative.
 
 ## Source Code
 

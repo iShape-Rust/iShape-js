@@ -166,6 +166,12 @@ function getStringFromWasm0(ptr, len) {
     ptr = ptr >>> 0;
     return cachedTextDecoder.decode(getUint8ArrayMemory0().subarray(ptr, ptr + len));
 }
+
+function _assertClass(instance, klass) {
+    if (!(instance instanceof klass)) {
+        throw new Error(`expected instance of ${klass.name}`);
+    }
+}
 /**
  * @enum {0 | 1 | 2 | 3}
  */
@@ -174,6 +180,22 @@ export const FillRule = Object.freeze({
     NonZero: 1, "1": "NonZero",
     Positive: 2, "2": "Positive",
     Negative: 3, "3": "Negative",
+});
+/**
+ * @enum {0 | 1 | 2}
+ */
+export const LineCap = Object.freeze({
+    Butt: 0, "0": "Butt",
+    Round: 1, "1": "Round",
+    Square: 2, "2": "Square",
+});
+/**
+ * @enum {0 | 1 | 2}
+ */
+export const LineJoin = Object.freeze({
+    Bevel: 0, "0": "Bevel",
+    Miter: 1, "1": "Miter",
+    Round: 2, "2": "Round",
 });
 /**
  * @enum {0 | 1 | 2 | 3 | 4 | 5 | 6}
@@ -194,6 +216,164 @@ export const ShapeType = Object.freeze({
     Subject: 0, "0": "Subject",
     Clip: 1, "1": "Clip",
 });
+
+const OutlineBuilderFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_outlinebuilder_free(ptr >>> 0, 1));
+
+export class OutlineBuilder {
+
+    static __wrap(ptr) {
+        ptr = ptr >>> 0;
+        const obj = Object.create(OutlineBuilder.prototype);
+        obj.__wbg_ptr = ptr;
+        OutlineBuilderFinalization.register(obj, obj.__wbg_ptr, obj);
+        return obj;
+    }
+
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        OutlineBuilderFinalization.unregister(this);
+        return ptr;
+    }
+
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_outlinebuilder_free(ptr, 0);
+    }
+    /**
+     * @returns {OutlineStyle}
+     */
+    get style() {
+        const ret = wasm.__wbg_get_outlinebuilder_style(this.__wbg_ptr);
+        return OutlineStyle.__wrap(ret);
+    }
+    /**
+     * @param {OutlineStyle} arg0
+     */
+    set style(arg0) {
+        _assertClass(arg0, OutlineStyle);
+        var ptr0 = arg0.__destroy_into_raw();
+        wasm.__wbg_set_outlinebuilder_style(this.__wbg_ptr, ptr0);
+    }
+    /**
+     * @param {OutlineStyle} style
+     * @returns {OutlineBuilder}
+     */
+    static with_style(style) {
+        _assertClass(style, OutlineStyle);
+        var ptr0 = style.__destroy_into_raw();
+        const ret = wasm.outlinebuilder_with_style(ptr0);
+        return OutlineBuilder.__wrap(ret);
+    }
+    /**
+     * @param {any} path_js
+     * @returns {any}
+     */
+    build(path_js) {
+        const ret = wasm.outlinebuilder_build(this.__wbg_ptr, path_js);
+        return ret;
+    }
+}
+
+const OutlineStyleFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_outlinestyle_free(ptr >>> 0, 1));
+
+export class OutlineStyle {
+
+    static __wrap(ptr) {
+        ptr = ptr >>> 0;
+        const obj = Object.create(OutlineStyle.prototype);
+        obj.__wbg_ptr = ptr;
+        OutlineStyleFinalization.register(obj, obj.__wbg_ptr, obj);
+        return obj;
+    }
+
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        OutlineStyleFinalization.unregister(this);
+        return ptr;
+    }
+
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_outlinestyle_free(ptr, 0);
+    }
+    /**
+     * @returns {LineJoin}
+     */
+    get join() {
+        const ret = wasm.__wbg_get_outlinestyle_join(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+     * @param {LineJoin} arg0
+     */
+    set join(arg0) {
+        wasm.__wbg_set_outlinestyle_join(this.__wbg_ptr, arg0);
+    }
+    /**
+     * @returns {number}
+     */
+    get outer_offset() {
+        const ret = wasm.__wbg_get_outlinestyle_outer_offset(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+     * @param {number} arg0
+     */
+    set outer_offset(arg0) {
+        wasm.__wbg_set_outlinestyle_outer_offset(this.__wbg_ptr, arg0);
+    }
+    /**
+     * @returns {number}
+     */
+    get inner_offset() {
+        const ret = wasm.__wbg_get_outlinestyle_inner_offset(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+     * @param {number} arg0
+     */
+    set inner_offset(arg0) {
+        wasm.__wbg_set_outlinestyle_inner_offset(this.__wbg_ptr, arg0);
+    }
+    /**
+     * @returns {number}
+     */
+    get round_angle() {
+        const ret = wasm.__wbg_get_outlinestyle_round_angle(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+     * @param {number} arg0
+     */
+    set round_angle(arg0) {
+        wasm.__wbg_set_outlinestyle_round_angle(this.__wbg_ptr, arg0);
+    }
+    /**
+     * @returns {number}
+     */
+    get miter_limit() {
+        const ret = wasm.__wbg_get_outlinestyle_miter_limit(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+     * @param {number} arg0
+     */
+    set miter_limit(arg0) {
+        wasm.__wbg_set_outlinestyle_miter_limit(this.__wbg_ptr, arg0);
+    }
+    constructor() {
+        const ret = wasm.outlinestyle_create();
+        this.__wbg_ptr = ret >>> 0;
+        OutlineStyleFinalization.register(this, this.__wbg_ptr, this);
+        return this;
+    }
+}
 
 const OverlayFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
@@ -247,6 +427,242 @@ export class Overlay {
         const ptr = this.__destroy_into_raw();
         const ret = wasm.overlay_separate_vectors(ptr, fill_rule);
         return ret;
+    }
+}
+
+const StrokeBuilderFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_strokebuilder_free(ptr >>> 0, 1));
+
+export class StrokeBuilder {
+
+    static __wrap(ptr) {
+        ptr = ptr >>> 0;
+        const obj = Object.create(StrokeBuilder.prototype);
+        obj.__wbg_ptr = ptr;
+        StrokeBuilderFinalization.register(obj, obj.__wbg_ptr, obj);
+        return obj;
+    }
+
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        StrokeBuilderFinalization.unregister(this);
+        return ptr;
+    }
+
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_strokebuilder_free(ptr, 0);
+    }
+    /**
+     * @returns {StrokeStyle}
+     */
+    get style() {
+        const ret = wasm.__wbg_get_strokebuilder_style(this.__wbg_ptr);
+        return StrokeStyle.__wrap(ret);
+    }
+    /**
+     * @param {StrokeStyle} arg0
+     */
+    set style(arg0) {
+        _assertClass(arg0, StrokeStyle);
+        var ptr0 = arg0.__destroy_into_raw();
+        wasm.__wbg_set_strokebuilder_style(this.__wbg_ptr, ptr0);
+    }
+    /**
+     * @param {StrokeStyle} style
+     * @returns {StrokeBuilder}
+     */
+    static with_style(style) {
+        _assertClass(style, StrokeStyle);
+        var ptr0 = style.__destroy_into_raw();
+        const ret = wasm.strokebuilder_with_style(ptr0);
+        return StrokeBuilder.__wrap(ret);
+    }
+    /**
+     * @param {any} path_js
+     * @param {boolean} is_closed_path
+     * @returns {any}
+     */
+    build(path_js, is_closed_path) {
+        const ret = wasm.strokebuilder_build(this.__wbg_ptr, path_js, is_closed_path);
+        return ret;
+    }
+}
+
+const StrokeStyleFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_strokestyle_free(ptr >>> 0, 1));
+
+export class StrokeStyle {
+
+    static __wrap(ptr) {
+        ptr = ptr >>> 0;
+        const obj = Object.create(StrokeStyle.prototype);
+        obj.__wbg_ptr = ptr;
+        StrokeStyleFinalization.register(obj, obj.__wbg_ptr, obj);
+        return obj;
+    }
+
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        StrokeStyleFinalization.unregister(this);
+        return ptr;
+    }
+
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_strokestyle_free(ptr, 0);
+    }
+    /**
+     * @returns {LineCap}
+     */
+    get start_cap() {
+        const ret = wasm.__wbg_get_strokestyle_start_cap(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+     * @param {LineCap} arg0
+     */
+    set start_cap(arg0) {
+        wasm.__wbg_set_strokestyle_start_cap(this.__wbg_ptr, arg0);
+    }
+    /**
+     * @returns {LineCap}
+     */
+    get end_cap() {
+        const ret = wasm.__wbg_get_strokestyle_end_cap(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+     * @param {LineCap} arg0
+     */
+    set end_cap(arg0) {
+        wasm.__wbg_set_strokestyle_end_cap(this.__wbg_ptr, arg0);
+    }
+    /**
+     * @returns {LineJoin}
+     */
+    get join() {
+        const ret = wasm.__wbg_get_strokestyle_join(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+     * @param {LineJoin} arg0
+     */
+    set join(arg0) {
+        wasm.__wbg_set_strokestyle_join(this.__wbg_ptr, arg0);
+    }
+    /**
+     * @returns {number}
+     */
+    get width() {
+        const ret = wasm.__wbg_get_outlinestyle_outer_offset(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+     * @param {number} arg0
+     */
+    set width(arg0) {
+        wasm.__wbg_set_outlinestyle_outer_offset(this.__wbg_ptr, arg0);
+    }
+    /**
+     * @returns {number}
+     */
+    get round_angle() {
+        const ret = wasm.__wbg_get_outlinestyle_inner_offset(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+     * @param {number} arg0
+     */
+    set round_angle(arg0) {
+        wasm.__wbg_set_outlinestyle_inner_offset(this.__wbg_ptr, arg0);
+    }
+    /**
+     * @returns {number}
+     */
+    get miter_limit() {
+        const ret = wasm.__wbg_get_outlinestyle_round_angle(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+     * @param {number} arg0
+     */
+    set miter_limit(arg0) {
+        wasm.__wbg_set_outlinestyle_round_angle(this.__wbg_ptr, arg0);
+    }
+    constructor() {
+        const ret = wasm.strokestyle_create();
+        this.__wbg_ptr = ret >>> 0;
+        StrokeStyleFinalization.register(this, this.__wbg_ptr, this);
+        return this;
+    }
+    /**
+     * @param {number} width
+     */
+    set_width(width) {
+        wasm.strokestyle_set_width(this.__wbg_ptr, width);
+    }
+    /**
+     * @returns {number}
+     */
+    get_width() {
+        const ret = wasm.strokestyle_get_width(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+     * @returns {LineJoin}
+     */
+    get_line_join() {
+        const ret = wasm.strokestyle_get_line_join(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+     * @param {LineJoin} join
+     */
+    set_line_join(join) {
+        wasm.strokestyle_set_line_join(this.__wbg_ptr, join);
+    }
+    /**
+     * @param {number} angle
+     */
+    set_round_angle(angle) {
+        wasm.strokestyle_set_round_angle(this.__wbg_ptr, angle);
+    }
+    /**
+     * @param {number} limit
+     */
+    set_miter_limit(limit) {
+        wasm.strokestyle_set_miter_limit(this.__wbg_ptr, limit);
+    }
+    /**
+     * @returns {LineCap}
+     */
+    get_start_cap() {
+        const ret = wasm.strokestyle_get_start_cap(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+     * @param {LineCap} cap
+     */
+    set_start_cap(cap) {
+        wasm.strokestyle_set_start_cap(this.__wbg_ptr, cap);
+    }
+    /**
+     * @returns {LineCap}
+     */
+    get_end_cap() {
+        const ret = wasm.strokestyle_get_end_cap(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+     * @param {LineCap} cap
+     */
+    set_end_cap(cap) {
+        wasm.strokestyle_set_end_cap(this.__wbg_ptr, cap);
     }
 }
 
