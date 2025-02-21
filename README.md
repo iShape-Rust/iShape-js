@@ -10,6 +10,7 @@ Try out iShape with an interactive demo. The demo covers operations like union, 
 
 - [Stars Rotation](https://ishape-rust.github.io/iShape-js/overlay/stars_demo.html)
 - [Shapes Editor](https://ishape-rust.github.io/iShape-js/overlay/shapes_editor.html)
+- [Stroke Offset](https://ishape-rust.github.io/iShape-js/overlay/stroke.html)
 
 
 ## Features
