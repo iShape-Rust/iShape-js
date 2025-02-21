@@ -1,15 +1,12 @@
-import init, {LineCap, LineJoin, StrokeStyle, StrokeBuilder} from '../i_shape/ishape_wasm.js';
-import * as data from './stroke_data.js';
+import init, {LineCap, LineJoin, OutlineStyle, OutlineBuilder} from '../i_shape/ishape_wasm.js';
+import * as data from './outline_data.js';
 
-const strokeWidthSlider = document.getElementById('strokeWidth');
+const outerOffsetSlider = document.getElementById('outerOffset');
+const innerOffsetSlider = document.getElementById('innerOffset');
 const roundAngleSlider = document.getElementById('roundAngle');
 const miterLimitSlider = document.getElementById('miterLimit');
 
-const startCapSelect = document.getElementById('startCap');
-const endCapSelect = document.getElementById('endCap');
 const lineJoinSelect = document.getElementById('lineJoin');
-
-const closePathTextField = document.getElementById('closePath');
 
 const prevButton = document.getElementById('test-prev');
 const nextButton = document.getElementById('test-next');
@@ -21,6 +18,7 @@ const twoPI = 2 * Math.PI;
 
 const subjStroke = "#ff0000";
 const pathStroke = "#d0d0d0";
+const pathFill = "#e8e8e8";
 
 const resultStroke = "rgba(39,182,0,0.5)";
 const resultFill = "rgba(45,214,0,0.13)";
@@ -71,12 +69,11 @@ nextButton.addEventListener('click', function () {
     testTitle.textContent = data.tests[testIndex].name;
 });
 
-startCapSelect.addEventListener('change', updateFrame);
-endCapSelect.addEventListener('change', updateFrame);
 lineJoinSelect.addEventListener('change', updateFrame);
-closePathTextField.addEventListener('change', updateFrame);
-strokeWidthSlider.addEventListener('change', updateFrame);
-strokeWidthSlider.addEventListener('input', updateFrame);
+outerOffsetSlider.addEventListener('change', updateFrame);
+outerOffsetSlider.addEventListener('input', updateFrame);
+innerOffsetSlider.addEventListener('change', updateFrame);
+innerOffsetSlider.addEventListener('input', updateFrame);
 roundAngleSlider.addEventListener('change', updateFrame);
 roundAngleSlider.addEventListener('input', updateFrame);
 miterLimitSlider.addEventListener('change', updateFrame);
@@ -127,9 +124,16 @@ function pressDown(eX, eY) {
     const test = data.tests[testIndex];
     isMousePressed = true;
 
-    
-    const paths = test.paths;
-    selectedPoint = findPoint(paths, x, y);
+    for (let i = 0; i < test.shapes.length; i++) {
+        const shape = test.shapes[i];
+        selectedPoint = findPoint(shape, x, y);
+        if (selectedPoint !== null) {
+            candidatePoint = null;
+            return;
+        }
+    }
+
+
     if (selectedPoint !== null) {
         candidatePoint = null;
         return;
@@ -155,11 +159,19 @@ function move(eX, eY) {
     } else {
         const wasCandidate = candidatePoint !== null;
         const test = data.tests[testIndex];
+
+        test.shapes.forEach((shape) => {
             
-        candidatePoint = findPoint(test.paths, x, y);
-        if (candidatePoint !== null) {
-            requestAnimationFrame(draw);
-            return;
+        });
+
+        for (let i = 0; i < test.shapes.length; i++) {
+            const shape = test.shapes[i];
+            candidatePoint = findPoint(shape, x, y);
+            
+            if (candidatePoint !== null) {
+                requestAnimationFrame(draw);
+                return;
+            }
         }
 
         if (wasCandidate) {
@@ -185,26 +197,21 @@ function draw() {
 
     const test = data.tests[testIndex];
 
-    const strokeWidth = parseInt(strokeWidthSlider.value, 10);
+    const outerOffset = parseInt(outerOffsetSlider.value, 10);
+    const innerOffset = parseInt(innerOffsetSlider.value, 10);
     const roundAngle = 0.01 * parseInt(roundAngleSlider.value, 10);
     const miterLimit = 0.01 * parseInt(miterLimitSlider.value, 10);
-
-    const startCap = toLineCap(startCapSelect.value);
-    const endCap = toLineCap(endCapSelect.value);
     const lineJoin = toLineJoin(lineJoinSelect.value);
 
-    const isClosedPath = closePathTextField.checked;
-
-    const style = new StrokeStyle();
-    style.width = strokeWidth;
+    const style = new OutlineStyle();
+    style.outer_offset = outerOffset;
+    style.inner_offset = innerOffset;
     style.round_angle = roundAngle;
     style.miter_limit = miterLimit;
-    style.start_cap = startCap;
-    style.end_cap = endCap;
     style.join = lineJoin;
 
-    const builder = StrokeBuilder.with_style(style);
-    const result = builder.build(test.paths, isClosedPath);
+    const builder = OutlineBuilder.with_style(style);
+    const result = builder.build(test.shapes);
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "#FAFAFAF8";
@@ -213,13 +220,8 @@ function draw() {
     drawWorkingArea(ctx);
 
     test.shapes.forEach((shape) => {
-        const stroke = resultStroke;
-        const fill = resultFill;
-
-        drawShape(ctx, shape, fill, stroke, 4.0);
+        drawShape(ctx, shape, pathFill, pathStroke, 4.0);
     });
-
-    //drawPaths(ctx, test.paths, pathStroke, 4.0, isClosedPath);
 
     result.forEach((shape) => {
         const stroke = resultStroke;
@@ -228,7 +230,9 @@ function draw() {
         drawShape(ctx, shape, fill, stroke, 4.0);
     });
 
-    drawPoints(ctx, test.paths, subjStroke);
+    test.shapes.forEach((shape) => {
+        drawPoints(ctx, shape, subjStroke);
+    });
 
     if (selectedPoint !== null) {
         drawPoint(ctx, selectedPoint, subjStroke);
@@ -237,7 +241,6 @@ function draw() {
     if (candidatePoint !== null) {
         drawPoint(ctx, candidatePoint, subjStroke);
     }
-
 }
 
 function drawWorkingArea(ctx) {
@@ -265,14 +268,13 @@ function drawPoint(ctx, point, color) {
     ctx.fill();
 }
 
-function drawShape(ctx, shape, fillColor, strokeColor, lineWidth) {
+function drawShape(ctx, paths, fillColor, strokeColor, lineWidth) {
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
 
     let region = new Path2D();
-    let arrows = new Path2D();
 
-    shape.forEach((points) => {
+    paths.forEach((points) => {
         const [x0, y0] = points[0];
         region.moveTo(x0, y0);
 
@@ -285,35 +287,7 @@ function drawShape(ctx, shape, fillColor, strokeColor, lineWidth) {
     });
 
     ctx.fillStyle = fillColor;
-
-    if (lineWidth > 0 && strokeColor !== null) {
-        ctx.strokeStyle = strokeColor;
-        ctx.lineWidth = lineWidth;
-        ctx.stroke(region);
-    }
-}
-
-function drawPaths(ctx, paths, strokeColor, lineWidth, isClose) {
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-
-    let region = new Path2D();
-    let arrows = new Path2D();
-
-    paths.forEach((points) => {
-        const [x0, y0] = points[0];
-        region.moveTo(x0, y0);
-
-        for (let i = 1; i < points.length; i++) {
-            const [x, y] = points[i];
-            region.lineTo(x, y);
-        }
-
-        if (isClose) {
-            region.closePath();
-        }
-        
-    });
+    ctx.fill(region, 'nonzero');
 
     if (lineWidth > 0 && strokeColor !== null) {
         ctx.strokeStyle = strokeColor;

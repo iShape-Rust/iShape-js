@@ -1,5 +1,4 @@
 import init, {LineCap, LineJoin, StrokeStyle, StrokeBuilder} from '../i_shape/ishape_wasm.js';
-import {Segment} from './segment.js';
 import * as data from './stroke_data.js';
 
 const strokeWidthSlider = document.getElementById('strokeWidth');
@@ -21,24 +20,14 @@ const ctx = canvas.getContext('2d');
 const twoPI = 2 * Math.PI;
 
 const subjStroke = "#ff0000";
-
 const pathStroke = "#d0d0d0";
 
 const resultStroke = "rgba(39,182,0,0.5)";
 const resultFill = "rgba(45,214,0,0.13)";
 
-const SegmentFill = {
-    subjTop: 0b0001,
-    subjBottom: 0b0010,
-    clipTop: 0b0100,
-    clipBottom: 0b1000
-};
-
 let testIndex = 0;
 let selectedPoint = null;
 let candidatePoint = null;
-let isSubjSelected = false;
-let isSubjCandidate = false;
 let isMousePressed = false;
 
 let scale = 1.0;
@@ -106,7 +95,7 @@ canvas.addEventListener('touchmove', function (event) {
 }, { passive: false });
 
 canvas.addEventListener('touchend', function (event) {
-    event.preventDefault(); // Prevent click emulation and scrolling
+    event.preventDefault();
     selectedPoint = null;
     isMousePressed = false;
 });
@@ -142,9 +131,7 @@ function pressDown(eX, eY) {
     const paths = test.paths;
     selectedPoint = findPoint(paths, x, y);
     if (selectedPoint !== null) {
-        isSubjSelected = true;
         candidatePoint = null;
-        isSubjCandidate = false;
         return;
     }
 
@@ -171,7 +158,6 @@ function move(eX, eY) {
             
         candidatePoint = findPoint(test.paths, x, y);
         if (candidatePoint !== null) {
-            isSubjCandidate = true;
             requestAnimationFrame(draw);
             return;
         }
@@ -207,8 +193,6 @@ function draw() {
     const endCap = toLineCap(endCapSelect.value);
     const lineJoin = toLineJoin(lineJoinSelect.value);
 
-    console.log(roundAngle);
-
     const isClosedPath = closePathTextField.checked;
 
     const style = new StrokeStyle();
@@ -228,7 +212,14 @@ function draw() {
 
     drawWorkingArea(ctx);
 
-    drawPaths(ctx, test.paths, pathStroke, 4.0, isClosedPath);
+    test.shapes.forEach((shape) => {
+        const stroke = resultStroke;
+        const fill = resultFill;
+
+        drawShape(ctx, shape, fill, stroke, 4.0);
+    });
+
+    //drawPaths(ctx, test.paths, pathStroke, 4.0, isClosedPath);
 
     result.forEach((shape) => {
         const stroke = resultStroke;
@@ -240,13 +231,11 @@ function draw() {
     drawPoints(ctx, test.paths, subjStroke);
 
     if (selectedPoint !== null) {
-        const color = isSubjSelected ? subjStroke : clipStroke;
-        drawPoint(ctx, selectedPoint, color);
+        drawPoint(ctx, selectedPoint, subjStroke);
     }
 
     if (candidatePoint !== null) {
-        const color = isSubjCandidate ? subjStroke : clipStroke;
-        drawPoint(ctx, candidatePoint, color);
+        drawPoint(ctx, candidatePoint, subjStroke);
     }
 
 }
