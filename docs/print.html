@@ -1442,12 +1442,12 @@ async function fileExists(path) {
 In the context of the <a href="overlay/contours/../overlay_graph/overlay_graph.html">Overlay Graph</a>, contours are used to represent the boundaries of geometric objects. These contours are classified into two types: <span style="color:#ff3333ff;"><strong>outer</strong></span> contours and <span style="color:#1a8effff;"><strong>inner</strong></span> contours.</p>
 <h3 id="outer-contour"><a class="header" href="#outer-contour">Outer Contour:</a></h3>
 <ul>
-<li>An outer contour is a sequence of points ordered in a clockwise direction.</li>
+<li>An outer contour is a sequence of points ordered in a <strong>counterclockwise</strong> direction.</li>
 <li>The outer contour defines the external boundary of a shape, enclosing the exterior space.</li>
 </ul>
 <h3 id="inner-contour-hole-or-cave"><a class="header" href="#inner-contour-hole-or-cave">Inner Contour (Hole or Cave):</a></h3>
 <ul>
-<li>An inner contour is a sequence of points ordered in a counterclockwise direction.</li>
+<li>An inner contour is a sequence of points ordered in a <strong>clockwise</strong> direction.</li>
 <li>Inner contours represent enclosed areas within an outer contour, often referred to as "holes" or "caves."</li>
 </ul>
 <p><em>Both <span style="color:#ff3333ff;"><strong>outer</strong></span> and <span style="color:#1a8effff;"><strong>inner</strong></span> contours must be simple, meaning they must not self-intersect and must not share edges with other contours.</em></p>
