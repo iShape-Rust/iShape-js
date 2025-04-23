@@ -29,6 +29,11 @@ export enum ShapeType {
   Subject = 0,
   Clip = 1,
 }
+export class Delaunay {
+  private constructor();
+  free(): void;
+  to_triangulation(): any;
+}
 export class OutlineBuilder {
   private constructor();
   free(): void;
@@ -51,6 +56,12 @@ export class Overlay {
   static new_with_subj_and_clip(subj_js: any, clip_js: any): Overlay | undefined;
   overlay(overlay_rule: OverlayRule, fill_rule: FillRule): any;
   separate_vectors(fill_rule: FillRule): any;
+}
+export class RawTriangulation {
+  private constructor();
+  free(): void;
+  to_triangulation(): any;
+  into_delaunay(): Delaunay;
 }
 export class StrokeBuilder {
   private constructor();
@@ -79,11 +90,25 @@ export class StrokeStyle {
   round_angle: number;
   miter_limit: number;
 }
+export class Triangulator {
+  free(): void;
+  constructor();
+  triangulate(path_js: any): RawTriangulation;
+  triangulate_with_points(path_js: any, points_js: any): RawTriangulation;
+}
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
+  readonly __wbg_delaunay_free: (a: number, b: number) => void;
+  readonly __wbg_triangulator_free: (a: number, b: number) => void;
+  readonly triangulator_create: () => number;
+  readonly triangulator_triangulate: (a: number, b: any) => number;
+  readonly triangulator_triangulate_with_points: (a: number, b: any, c: any) => number;
+  readonly rawtriangulation_to_triangulation: (a: number) => any;
+  readonly rawtriangulation_into_delaunay: (a: number) => number;
+  readonly delaunay_to_triangulation: (a: number) => any;
   readonly __wbg_strokebuilder_free: (a: number, b: number) => void;
   readonly __wbg_get_strokebuilder_style: (a: number) => number;
   readonly __wbg_set_strokebuilder_style: (a: number, b: number) => void;
@@ -129,11 +154,12 @@ export interface InitOutput {
   readonly __wbg_get_strokestyle_width: (a: number) => number;
   readonly __wbg_get_strokestyle_round_angle: (a: number) => number;
   readonly __wbg_get_strokestyle_miter_limit: (a: number) => number;
+  readonly __wbg_rawtriangulation_free: (a: number, b: number) => void;
   readonly __wbg_set_strokestyle_width: (a: number, b: number) => void;
   readonly __wbg_set_strokestyle_round_angle: (a: number, b: number) => void;
   readonly __wbg_set_strokestyle_miter_limit: (a: number, b: number) => void;
-  readonly __wbg_strokestyle_free: (a: number, b: number) => void;
   readonly __wbg_outlinestyle_free: (a: number, b: number) => void;
+  readonly __wbg_strokestyle_free: (a: number, b: number) => void;
   readonly __wbindgen_exn_store: (a: number) => void;
   readonly __externref_table_alloc: () => number;
   readonly __wbindgen_export_2: WebAssembly.Table;

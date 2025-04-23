@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Delaunay - iShape</title>
+        <title>Triangulation - iShape</title>
 
 
         <!-- Custom HTML head -->
@@ -155,102 +155,168 @@
                 <div id="content" class="content">
                     <main>
                         <style>
-.MathJax_Display {
-  text-align: left !important;
-  margin: 40px;
-  font-weight: 800;
-  font-size: 1.1em;
-  opacity: 0.8;
+
+.demo-title {
+    text-align: center;
 }
 
-.cursive-stars {
-    font-style: italic;
-    text-align: center; /* Optional: to center-align the text */
-    font-size: 1.2em;   /* Optional: to slightly increase the font size */
-    margin: 10px 0;     /* Optional: to add some spacing */
+.test-title {
+    text-align: center;
+    margin-top: 0;
 }
 
-#delaunayCanvas {
+.sheet-container {
+    max-width: 1000px;
+    min-width: 800px;
+    margin: auto;
+ }
+
+.operation-selection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+.operation-content {
+    width: 320px;
+    display: flex;
+    align-items: center;
+}
+
+.operation-selection label {
+    flex: none;
+    width: 150px;
+    white-space: nowrap;
+    text-align: right;
+    margin-right: 20px;
+    font-size: 20px;
+}
+
+.operation-selection select {
+    flex-grow: 1;
+    width: auto;
+    min-width: 0;
+    font-size: 20px;
+}
+
+.operation-selection input {
+    flex-grow: 1;
+    width: auto;
+    min-width: 0;
+    font-size: 20px;
+}
+
+#editorCanvas {
     display: block;
     border: 2px dotted #80808080;
 }
+
+.editor-input-container {
+    margin-top: 60px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.editor-input-tool {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    justify-content: center;
+    margin: 30px;
+}
+
+.editor-input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 160px;
+}
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    margin-left: 32px;
+}
+
+.editor-input-group label {
+    white-space: nowrap;
+    text-align: left;
+    margin-right: 10px;
+    flex: 1;
+}
+
+.editor-input-group input {
+    margin-left: auto;
+}
+
+.nav-button {
+    width: 100px;
+    height: 32px;
+    font-size: 14px;
+}
+
 </style>
-<script type="text/javascript">
-window.addEventListener('DOMContentLoaded', function() {
-  const paths = [
-    '../js/triangle/delaunay.js',
-    './js/triangle/delaunay.js',
-    '/js/triangle/delaunay.js'
-  ];
-  async function fileExists(path) {
-    try {
-      const response = await fetch(path, { method: 'HEAD' });
-      return response.ok;
-    } catch (e) {
-      return false;
+<div class="sheet-container">
+	<script type="text/javascript">
+// in different environments the path is different
+const paths = [
+  '../js/triangle/triangulation.js',
+  './js/triangle/triangulation.js',
+  '/js/triangle/triangulation.js'
+];
+async function fileExists(path) {
+  try {
+    const response = await fetch(path, { method: 'HEAD' });
+    return response.ok;
+  } catch (e) {
+    return false;
+  }
+}
+(async () => {
+  for (const path of paths) {
+    if (await fileExists(path)) {
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.src = path;
+      script.defer = true;
+      document.head.appendChild(script);
+      break;
     }
   }
-  (async () => {
-    for (const path of paths) {
-      if (await fileExists(path)) {
-        const script = document.createElement('script');
-        script.src = path;
-        document.head.appendChild(script);
-        break;
-      }
-    }
-  })();
-});
+})();
 </script>
-<h2 id="delaunay"><a class="header" href="#delaunay">Delaunay</a></h2>
-<p style="font-style: italic;">Click on the canvas to drag the points</p>
-<canvas id="delaunayCanvas" width="500" height="500"></canvas>
-<h3 id="what-is-the-delaunay-condition"><a class="header" href="#what-is-the-delaunay-condition">What is the Delaunay Condition?</a></h3>
-<p>When creating a triangulation network, the Delaunay condition aims to form triangles such that their circumscribed circles do not contain any other points from the dataset. In simpler terms, it ensures that triangles are "well-shaped" rather than "skinny," making the network more balanced and useful for various applications.</p>
-<br>
-<p><img src="delaunay_condition.svg" alt="Delaunay condition" /></p>
-<br>
-<p>If the condition \(\alpha + \beta &lt; \pi\) holds, it implies that the point \(P\) will lie outside the circumscribed circle. This confirms that a pair of triangles satisfies the Delaunay condition.</p>
-<p>$$
-\alpha + \beta &lt; \pi \Rightarrow \sin(\alpha + \beta) &gt; 0
-$$</p>
-<p>$$
-\sin(\alpha + \beta) = \sin(\alpha)\cos(\beta) + \cos(\alpha)\sin(\beta)
-$$</p>
-<p>Calculating \(\cos(\alpha)\) and \(\sin(\alpha)\):</p>
-<p>$$
-\cos(\alpha) = \frac{\vec{a} \cdot \vec{b}}{|a||b|} = \frac{a_{x}b_{x} + a_{y}b_{y}}{|a||b|}
-$$</p>
-<p>$$
-\sin(\alpha) = \sqrt{1- \cos^2(\alpha)} = ... = \frac{|a_{x}b_{y} - b_{x}a_{y}|}{|a||b|} = \frac{|\vec{a} \times \vec{b}|}{|a||b|}
-$$</p>
-<p>Calculating \(\cos(\beta)\) and \(\sin(\beta)\):</p>
-<p>$$
-\cos(\beta) = \frac{\vec{c} \cdot \vec{d}}{|c||d|} = \frac{c_{x}d_{x} + c_{y}d_{y}}{|c||d|}
-$$</p>
-<p>$$
-\sin(\beta) = \frac{|\vec{c} \times \vec{d}|}{|c||d|} = \frac{|c_{x}d_{y} - d_{x}c_{y}|}{|c||d|}
-$$</p>
-<p>Final Equation:</p>
-<p>$$
-\sin(\alpha + \beta) = \frac{|a_{x}b_{y} - b_{x}a_{y}|\cdot(c_{x}d_{x} + c_{y}d_{y}) + (a_{x}b_{x} + a_{y}b_{y})\cdot|c_{x}d_{y} - c_{x}d_{y}|}{|a||b||c||d|} &gt; 0
-$$</p>
-<p>$$
-|a_{x}b_{y} - b_{x}a_{y}|\cdot(c_{x}d_{x} + c_{y}d_{y}) + (a_{x}b_{x} + a_{y}b_{y})\cdot|c_{x}d_{y} - d_{x}c_{y}| &gt; 0
-$$</p>
-<p>Or in vector form:</p>
-<p>$$
-|\vec{a} \times \vec{b}|(\vec{c} \cdot \vec{d}) + (\vec{a} \cdot \vec{b})|\vec{c} \times \vec{d}| &gt; 0
-$$</p>
-
+	<h1 id="triangulation" class="demo-title"><a class="header" href="#triangulation">Triangulation</a></h1>
+    <div class="operation-selection">
+        <div class="operation-content">
+            <label for="mode">Mode: </label>
+            <select id="mode">
+                <option value="Delaunay">Delaunay</option>
+                <option value="Raw">Raw</option>
+            </select>
+        </div>
+    </div>
+    <div class="editor-input-container">
+        <button type="button" class="nav-button" id="test-prev">Prev</button>
+        <h3 class="test-title" id="test-name">Title</h3>
+        <button type="button" class="nav-button" id="test-next">Next</button>
+    </div>
+    <canvas id="editorCanvas" width="800" height="800"></canvas>
+</div>
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../triangle/triangulation.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../triangle/triangle.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
+                            <a rel="next prefetch" href="../triangle/triangulation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -258,10 +324,13 @@ $$</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../triangle/triangulation.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../triangle/triangle.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
+                    <a rel="next prefetch" href="../triangle/triangulation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
             </nav>
 
         </div>

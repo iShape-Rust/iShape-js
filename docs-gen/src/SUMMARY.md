@@ -18,4 +18,6 @@
         - [Extract Shapes](overlay/extract/extract_shapes.md)
 
 - [iTriangle](./triangle/triangle.md)
-	- [Delaunay](./triangle/delaunay.md)
+	- [Demo](./triangle/triangulation.md)
+		- [Triangulation](./triangle/triangulation.md)
+    - [Delaunay](./triangle/delaunay.md)

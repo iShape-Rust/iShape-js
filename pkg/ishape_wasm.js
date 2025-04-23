@@ -217,6 +217,40 @@ export const ShapeType = Object.freeze({
     Clip: 1, "1": "Clip",
 });
 
+const DelaunayFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_delaunay_free(ptr >>> 0, 1));
+
+export class Delaunay {
+
+    static __wrap(ptr) {
+        ptr = ptr >>> 0;
+        const obj = Object.create(Delaunay.prototype);
+        obj.__wbg_ptr = ptr;
+        DelaunayFinalization.register(obj, obj.__wbg_ptr, obj);
+        return obj;
+    }
+
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        DelaunayFinalization.unregister(this);
+        return ptr;
+    }
+
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_delaunay_free(ptr, 0);
+    }
+    /**
+     * @returns {any}
+     */
+    to_triangulation() {
+        const ret = wasm.delaunay_to_triangulation(this.__wbg_ptr);
+        return ret;
+    }
+}
+
 const OutlineBuilderFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
     : new FinalizationRegistry(ptr => wasm.__wbg_outlinebuilder_free(ptr >>> 0, 1));
@@ -427,6 +461,48 @@ export class Overlay {
         const ptr = this.__destroy_into_raw();
         const ret = wasm.overlay_separate_vectors(ptr, fill_rule);
         return ret;
+    }
+}
+
+const RawTriangulationFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_rawtriangulation_free(ptr >>> 0, 1));
+
+export class RawTriangulation {
+
+    static __wrap(ptr) {
+        ptr = ptr >>> 0;
+        const obj = Object.create(RawTriangulation.prototype);
+        obj.__wbg_ptr = ptr;
+        RawTriangulationFinalization.register(obj, obj.__wbg_ptr, obj);
+        return obj;
+    }
+
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        RawTriangulationFinalization.unregister(this);
+        return ptr;
+    }
+
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_rawtriangulation_free(ptr, 0);
+    }
+    /**
+     * @returns {any}
+     */
+    to_triangulation() {
+        const ret = wasm.rawtriangulation_to_triangulation(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+     * @returns {Delaunay}
+     */
+    into_delaunay() {
+        const ptr = this.__destroy_into_raw();
+        const ret = wasm.rawtriangulation_into_delaunay(ptr);
+        return Delaunay.__wrap(ret);
     }
 }
 
@@ -663,6 +739,48 @@ export class StrokeStyle {
      */
     set_end_cap(cap) {
         wasm.strokestyle_set_end_cap(this.__wbg_ptr, cap);
+    }
+}
+
+const TriangulatorFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_triangulator_free(ptr >>> 0, 1));
+
+export class Triangulator {
+
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        TriangulatorFinalization.unregister(this);
+        return ptr;
+    }
+
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_triangulator_free(ptr, 0);
+    }
+    constructor() {
+        const ret = wasm.triangulator_create();
+        this.__wbg_ptr = ret >>> 0;
+        TriangulatorFinalization.register(this, this.__wbg_ptr, this);
+        return this;
+    }
+    /**
+     * @param {any} path_js
+     * @returns {RawTriangulation}
+     */
+    triangulate(path_js) {
+        const ret = wasm.triangulator_triangulate(this.__wbg_ptr, path_js);
+        return RawTriangulation.__wrap(ret);
+    }
+    /**
+     * @param {any} path_js
+     * @param {any} points_js
+     * @returns {RawTriangulation}
+     */
+    triangulate_with_points(path_js, points_js) {
+        const ret = wasm.triangulator_triangulate_with_points(this.__wbg_ptr, path_js, points_js);
+        return RawTriangulation.__wrap(ret);
     }
 }
 

@@ -20,8 +20,9 @@ pub struct Triangulator {}
 
 #[wasm_bindgen]
 impl Triangulator {
-    #[wasm_bindgen]
-    pub fn new() -> Self {
+
+    #[wasm_bindgen(constructor)]
+    pub fn create() -> Self {
         Self {}
     }
 
