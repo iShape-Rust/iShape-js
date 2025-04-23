@@ -84,10 +84,6 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
-  readonly __wbg_overlay_free: (a: number, b: number) => void;
-  readonly overlay_new_with_subj_and_clip: (a: any, b: any) => number;
-  readonly overlay_overlay: (a: number, b: number, c: number) => any;
-  readonly overlay_separate_vectors: (a: number, b: number) => any;
   readonly __wbg_strokebuilder_free: (a: number, b: number) => void;
   readonly __wbg_get_strokebuilder_style: (a: number) => number;
   readonly __wbg_set_strokebuilder_style: (a: number, b: number) => void;
@@ -98,6 +94,10 @@ export interface InitOutput {
   readonly strokebuilder_build: (a: number, b: any, c: number) => any;
   readonly outlinebuilder_with_style: (a: number) => number;
   readonly outlinebuilder_build: (a: number, b: any) => any;
+  readonly __wbg_overlay_free: (a: number, b: number) => void;
+  readonly overlay_new_with_subj_and_clip: (a: any, b: any) => number;
+  readonly overlay_overlay: (a: number, b: number, c: number) => any;
+  readonly overlay_separate_vectors: (a: number, b: number) => any;
   readonly __wbg_get_strokestyle_start_cap: (a: number) => number;
   readonly __wbg_set_strokestyle_start_cap: (a: number, b: number) => void;
   readonly __wbg_get_strokestyle_end_cap: (a: number) => number;

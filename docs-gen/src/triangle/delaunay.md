@@ -63,7 +63,7 @@ When creating a triangulation network, the Delaunay condition aims to form trian
 
 <br>
 
-If the condition \\(\alpha + \beta < \pi\\) holds, it implies that the point \\(P_{0}\\) will lie outside the circumscribed circle. This confirms that a pair of triangles satisfies the Delaunay condition.
+If the condition \\(\alpha + \beta < \pi\\) holds, it implies that the point \\(P\\) will lie outside the circumscribed circle. This confirms that a pair of triangles satisfies the Delaunay condition.
 
 $$
 \alpha + \beta < \pi \Rightarrow \sin(\alpha + \beta) > 0

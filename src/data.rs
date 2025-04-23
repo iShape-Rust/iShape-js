@@ -1,7 +1,7 @@
-use std::fmt;
-use i_overlay::i_float::adapter::FloatPointAdapter;
-use i_overlay::vector::edge::VectorEdge;
+use i_triangle::i_overlay::i_float::adapter::FloatPointAdapter;
+use i_triangle::i_overlay::vector::edge::VectorEdge;
 use serde::{Deserialize, Serialize};
+use std::fmt;
 use wasm_bindgen::JsValue;
 
 pub type ShapesData = Vec<ShapeData>;
@@ -42,14 +42,23 @@ pub struct VectorsData {
 }
 
 impl VectorsData {
-    pub(super) fn create(vectors: Vec<VectorEdge>, adapter: &FloatPointAdapter<[f64; 2], f64>) -> Self {
+    pub(super) fn create(
+        vectors: Vec<VectorEdge>,
+        adapter: &FloatPointAdapter<[f64; 2], f64>,
+    ) -> Self {
         let mut list = Vec::with_capacity(vectors.len());
         for vector in vectors.into_iter() {
             let a = adapter.int_to_float(&vector.a);
             let b = adapter.int_to_float(&vector.b);
             let fill = vector.fill;
 
-            list.push(VectorData { ax: a[0], ay: a[1], bx: b[0], by: b[1], fill });
+            list.push(VectorData {
+                ax: a[0],
+                ay: a[1],
+                bx: b[0],
+                by: b[1],
+                fill,
+            });
         }
         Self { vectors: list }
     }

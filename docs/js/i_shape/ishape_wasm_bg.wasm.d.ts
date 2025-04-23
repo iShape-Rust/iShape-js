@@ -1,10 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
 export const memory: WebAssembly.Memory;
-export const __wbg_overlay_free: (a: number, b: number) => void;
-export const overlay_new_with_subj_and_clip: (a: any, b: any) => number;
-export const overlay_overlay: (a: number, b: number, c: number) => any;
-export const overlay_separate_vectors: (a: number, b: number) => any;
 export const __wbg_strokebuilder_free: (a: number, b: number) => void;
 export const __wbg_get_strokebuilder_style: (a: number) => number;
 export const __wbg_set_strokebuilder_style: (a: number, b: number) => void;
@@ -15,6 +11,10 @@ export const strokebuilder_with_style: (a: number) => number;
 export const strokebuilder_build: (a: number, b: any, c: number) => any;
 export const outlinebuilder_with_style: (a: number) => number;
 export const outlinebuilder_build: (a: number, b: any) => any;
+export const __wbg_overlay_free: (a: number, b: number) => void;
+export const overlay_new_with_subj_and_clip: (a: any, b: any) => number;
+export const overlay_overlay: (a: number, b: number, c: number) => any;
+export const overlay_separate_vectors: (a: number, b: number) => any;
 export const __wbg_get_strokestyle_start_cap: (a: number) => number;
 export const __wbg_set_strokestyle_start_cap: (a: number, b: number) => void;
 export const __wbg_get_strokestyle_end_cap: (a: number) => number;

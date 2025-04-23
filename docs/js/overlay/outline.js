@@ -45,8 +45,8 @@ if (window.devicePixelRatio > 1) {
 
 async function run() {
     await init();
-    requestAnimationFrame(draw);
     testTitle.textContent = data.tests[testIndex].name;
+    requestAnimationFrame(draw);
 }
 
 run();
@@ -159,10 +159,6 @@ function move(eX, eY) {
     } else {
         const wasCandidate = candidatePoint !== null;
         const test = data.tests[testIndex];
-
-        test.shapes.forEach((shape) => {
-            
-        });
 
         for (let i = 0; i < test.shapes.length; i++) {
             const shape = test.shapes[i];

@@ -1,13 +1,13 @@
 // use std::panic;
 // use std::sync::Once;
 // use log::info;
-use wasm_bindgen::prelude::*;
-use i_overlay::core::fill_rule::{FillRule as RustFillRule};
-use i_overlay::core::overlay_rule::{OverlayRule as RustOverlayRule};
-use i_overlay::float::overlay::FloatOverlay;
 use crate::data::{NestedData, VectorsData};
 use crate::fill_rule::FillRule;
 use crate::overlay_rule::OverlayRule;
+use i_triangle::i_overlay::core::fill_rule::FillRule as RustFillRule;
+use i_triangle::i_overlay::core::overlay_rule::OverlayRule as RustOverlayRule;
+use i_triangle::i_overlay::float::overlay::FloatOverlay;
+use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
 pub struct Overlay {
@@ -34,27 +34,43 @@ impl Overlay {
 
     fn new_with_native_subj_and_clip(subj: NestedData, clip: NestedData) -> Overlay {
         let overlay = match (subj, clip) {
-            (NestedData::Contour(subj), NestedData::Contour(clip)) => FloatOverlay::with_subj_and_clip(&subj, &clip),
-            (NestedData::Contour(subj), NestedData::Shape(clip)) => FloatOverlay::with_subj_and_clip(&subj, &clip),
-            (NestedData::Contour(subj), NestedData::Shapes(clip)) => FloatOverlay::with_subj_and_clip(&subj, &clip),
-            (NestedData::Shape(subj), NestedData::Contour(clip)) => FloatOverlay::with_subj_and_clip(&subj, &clip),
-            (NestedData::Shape(subj), NestedData::Shape(clip)) => FloatOverlay::with_subj_and_clip(&subj, &clip),
-            (NestedData::Shape(subj), NestedData::Shapes(clip)) => FloatOverlay::with_subj_and_clip(&subj, &clip),
-            (NestedData::Shapes(subj), NestedData::Contour(clip)) => FloatOverlay::with_subj_and_clip(&subj, &clip),
-            (NestedData::Shapes(subj), NestedData::Shape(clip)) => FloatOverlay::with_subj_and_clip(&subj, &clip),
-            (NestedData::Shapes(subj), NestedData::Shapes(clip)) => FloatOverlay::with_subj_and_clip(&subj, &clip),
+            (NestedData::Contour(subj), NestedData::Contour(clip)) => {
+                FloatOverlay::with_subj_and_clip(&subj, &clip)
+            }
+            (NestedData::Contour(subj), NestedData::Shape(clip)) => {
+                FloatOverlay::with_subj_and_clip(&subj, &clip)
+            }
+            (NestedData::Contour(subj), NestedData::Shapes(clip)) => {
+                FloatOverlay::with_subj_and_clip(&subj, &clip)
+            }
+            (NestedData::Shape(subj), NestedData::Contour(clip)) => {
+                FloatOverlay::with_subj_and_clip(&subj, &clip)
+            }
+            (NestedData::Shape(subj), NestedData::Shape(clip)) => {
+                FloatOverlay::with_subj_and_clip(&subj, &clip)
+            }
+            (NestedData::Shape(subj), NestedData::Shapes(clip)) => {
+                FloatOverlay::with_subj_and_clip(&subj, &clip)
+            }
+            (NestedData::Shapes(subj), NestedData::Contour(clip)) => {
+                FloatOverlay::with_subj_and_clip(&subj, &clip)
+            }
+            (NestedData::Shapes(subj), NestedData::Shape(clip)) => {
+                FloatOverlay::with_subj_and_clip(&subj, &clip)
+            }
+            (NestedData::Shapes(subj), NestedData::Shapes(clip)) => {
+                FloatOverlay::with_subj_and_clip(&subj, &clip)
+            }
         };
         Overlay { overlay }
     }
-
 
     #[wasm_bindgen]
     pub fn overlay(self, overlay_rule: OverlayRule, fill_rule: FillRule) -> JsValue {
         let overlay_rule = RustOverlayRule::from(overlay_rule);
         let fill_rule = RustFillRule::from(fill_rule);
 
-        let shapes = self.overlay
-            .overlay(overlay_rule, fill_rule);
+        let shapes = self.overlay.overlay(overlay_rule, fill_rule);
 
         serde_wasm_bindgen::to_value(&shapes).unwrap()
     }

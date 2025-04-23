@@ -1,4 +1,4 @@
-use i_overlay::core::overlay::ShapeType as RustShapeType;
+use i_triangle::i_overlay::core::overlay::ShapeType as RustShapeType;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]

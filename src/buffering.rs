@@ -1,23 +1,22 @@
-use i_overlay::mesh::outline::offset::OutlineOffset;
-use wasm_bindgen::JsValue;
-use wasm_bindgen::prelude::wasm_bindgen;
-use crate::data::{NestedData};
+use crate::data::NestedData;
 use crate::style::{OutlineStyle, StrokeStyle};
-use i_overlay::mesh::stroke::offset::StrokeOffset;
+use i_triangle::i_overlay::mesh::outline::offset::OutlineOffset;
+use i_triangle::i_overlay::mesh::stroke::offset::StrokeOffset;
+use wasm_bindgen::prelude::wasm_bindgen;
+use wasm_bindgen::JsValue;
 
 #[wasm_bindgen]
 pub struct StrokeBuilder {
-    pub style: StrokeStyle
+    pub style: StrokeStyle,
 }
 
 #[wasm_bindgen]
 pub struct OutlineBuilder {
-    pub style: OutlineStyle
+    pub style: OutlineStyle,
 }
 
 #[wasm_bindgen]
 impl StrokeBuilder {
-
     #[wasm_bindgen]
     pub fn with_style(style: StrokeStyle) -> StrokeBuilder {
         StrokeBuilder { style }
@@ -40,7 +39,6 @@ impl StrokeBuilder {
 
 #[wasm_bindgen]
 impl OutlineBuilder {
-
     #[wasm_bindgen]
     pub fn with_style(style: OutlineStyle) -> OutlineBuilder {
         OutlineBuilder { style }
