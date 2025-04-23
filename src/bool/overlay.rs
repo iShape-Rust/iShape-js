@@ -1,6 +1,6 @@
 use crate::data::{NestedData, VectorsData};
-use crate::fill_rule::FillRule;
-use crate::overlay_rule::OverlayRule;
+use crate::bool::fill_rule::FillRule;
+use crate::bool::overlay_rule::OverlayRule;
 use i_triangle::i_overlay::core::fill_rule::FillRule as RustFillRule;
 use i_triangle::i_overlay::core::overlay_rule::OverlayRule as RustOverlayRule;
 use i_triangle::i_overlay::float::overlay::FloatOverlay;

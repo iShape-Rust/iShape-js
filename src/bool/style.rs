@@ -106,7 +106,7 @@ impl StrokeStyle {
         self.end_cap = cap;
     }
 
-    pub(super) fn rust_style(&self) -> RustStrokeStyle<[f64; 2], f64> {
+    pub(crate) fn rust_style(&self) -> RustStrokeStyle<[f64; 2], f64> {
         let start_cap = match self.start_cap {
             LineCap::Butt => RustLineCap::Butt,
             LineCap::Round => RustLineCap::Round(self.round_angle),
@@ -146,7 +146,7 @@ impl OutlineStyle {
         }
     }
 
-    pub(super) fn rust_style(&self) -> RustOutlineStyle<f64> {
+    pub(crate) fn rust_style(&self) -> RustOutlineStyle<f64> {
         let join = match self.join {
             LineJoin::Bevel => RustLineJoin::Bevel,
             LineJoin::Miter => RustLineJoin::Miter(self.miter_limit),
