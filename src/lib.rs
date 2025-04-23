@@ -4,4 +4,5 @@ pub mod fill_rule;
 pub mod overlay;
 pub mod overlay_rule;
 pub mod shape_type;
-mod style;
+pub mod style;
+mod logger;

@@ -207,7 +207,9 @@ function draw() {
     style.join = lineJoin;
 
     const builder = OutlineBuilder.with_style(style);
+    
     const result = builder.build(test.shapes);
+
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "#FAFAFAF8";

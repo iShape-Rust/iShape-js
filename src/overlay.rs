@@ -1,6 +1,3 @@
-// use std::panic;
-// use std::sync::Once;
-// use log::info;
 use crate::data::{NestedData, VectorsData};
 use crate::fill_rule::FillRule;
 use crate::overlay_rule::OverlayRule;
@@ -14,17 +11,10 @@ pub struct Overlay {
     overlay: FloatOverlay<[f64; 2], f64>,
 }
 
-// static INIT_LOGGER: Once = Once::new();
-
 #[wasm_bindgen]
 impl Overlay {
     #[wasm_bindgen]
     pub fn new_with_subj_and_clip(subj_js: JsValue, clip_js: JsValue) -> Option<Overlay> {
-        // panic::set_hook(Box::new(console_error_panic_hook::hook));
-        // INIT_LOGGER.call_once(|| {
-        //     console_log::init_with_level(log::Level::Debug).expect("error initializing log");
-        // });
-        // info!("Overlay init...");
 
         let subj = NestedData::with_json(subj_js)?;
         let clip = NestedData::with_json(clip_js)?;

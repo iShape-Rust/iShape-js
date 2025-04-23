@@ -132,8 +132,8 @@ export interface InitOutput {
   readonly __wbg_set_strokestyle_width: (a: number, b: number) => void;
   readonly __wbg_set_strokestyle_round_angle: (a: number, b: number) => void;
   readonly __wbg_set_strokestyle_miter_limit: (a: number, b: number) => void;
-  readonly __wbg_outlinestyle_free: (a: number, b: number) => void;
   readonly __wbg_strokestyle_free: (a: number, b: number) => void;
+  readonly __wbg_outlinestyle_free: (a: number, b: number) => void;
   readonly __wbindgen_exn_store: (a: number) => void;
   readonly __externref_table_alloc: () => number;
   readonly __wbindgen_export_2: WebAssembly.Table;
