@@ -182,22 +182,29 @@ function draw() {
     const triangulator = new Triangulator();
     const triangulation = triangulator.triangulate(test.shapes).into_delaunay().to_triangulation();
 
-
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "#FAFAFAF8";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     drawWorkingArea(ctx);
 
-    test.shapes.forEach((shape) => {
-        drawShapeFill(ctx, shape, resultFill);
-    });
+    switch (modeSelect.value) {
+        case 'Raw':
+            const tr_raw = triangulator.triangulate(test.shapes).to_triangulation();
+            drawTriangulation(ctx, tr_raw, resultFill, resultStroke, 2.0);
+            break;
+        case 'Delaunay':
+            const tr_delaunay = triangulator.triangulate(test.shapes).into_delaunay().to_triangulation();            
+            drawTriangulation(ctx, tr_delaunay, resultFill, resultStroke, 2.0);
+            break;
+        case 'Convex':
+            const polygons = triangulator.triangulate(test.shapes).into_delaunay().to_convex_polygons();            
 
-    drawTriangulation(ctx, triangulation, resultStroke, 2.0);
-
-    test.shapes.forEach((shape) => {
-        drawShapeStroke(ctx, shape, resultStroke, 4.0);
-    });
+            polygons.forEach((polygon) => {
+                drawConvex(ctx, polygon, resultFill, resultStroke, 2.0);
+            });
+            break;
+    }
 
     test.shapes.forEach((shape) => {
         drawPoints(ctx, shape, subjStroke);
@@ -237,82 +244,61 @@ function drawPoint(ctx, point, color) {
     ctx.fill();
 }
 
-function drawTriangulation(ctx, triangulation, strokeColor, lineWidth) {
+function drawTriangulation(ctx, triangulation, fillColor, strokeColor, lineWidth) {
     const { points, indices } = triangulation;
 
     if (!points || !indices) return;
 
-    ctx.lineWidth = lineWidth;
-    ctx.strokeStyle = strokeColor;
+    let region = new Path2D();
 
     for (let i = 0; i < indices.length; i += 3) {
-        const ids = [indices[i], indices[i + 1], indices[i + 2]];
+        const ia = indices[i];
+        const ib = indices[i + 1];
+        const ic = indices[i + 2];
 
-        for (let j = 0; j < 3; j++) {
-            const a = points[ids[j]];
-            const b = points[ids[(j + 1) % 3]];
+        const a = points[ia];
+        const b = points[ib];
+        const c = points[ic];
 
-            const ax = a[0];
-            const ay = a[1];
-
-            const bx = b[0];
-            const by = b[1];
-
-            if (ax < bx || (bx == ax && ay < by)) {
-                ctx.beginPath();
-                ctx.moveTo(ax, ay);
-                ctx.lineTo(bx, by);
-                ctx.stroke();
-            }
-        }
+        region.moveTo(a[0], a[1]);
+        region.lineTo(b[0], b[1]);
+        region.lineTo(c[0], c[1]);
+        region.closePath();
     }
-}
 
-function drawShapeFill(ctx, paths, fillColor) {
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
 
-    let region = new Path2D();
-
-    paths.forEach((points) => {
-        const [x0, y0] = points[0];
-        region.moveTo(x0, y0);
-
-        for (let i = 1; i < points.length; i++) {
-            const [x, y] = points[i];
-            region.lineTo(x, y);
-        }
-
-        region.closePath();
-    });
-
+    ctx.lineWidth = lineWidth;
+    ctx.strokeStyle = strokeColor;
     ctx.fillStyle = fillColor;
+
+    ctx.stroke(region);
     ctx.fill(region, 'nonzero');
 }
 
-function drawShapeStroke(ctx, paths, strokeColor, lineWidth) {
+function drawConvex(ctx, points, fillColor, strokeColor, lineWidth) {
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
 
     let region = new Path2D();
 
-    paths.forEach((points) => {
-        const [x0, y0] = points[0];
-        region.moveTo(x0, y0);
+    const [x0, y0] = points[0];
+    region.moveTo(x0, y0);
 
-        for (let i = 1; i < points.length; i++) {
-            const [x, y] = points[i];
-            region.lineTo(x, y);
-        }
-
-        region.closePath();
-    });
-
-    if (lineWidth > 0 && strokeColor !== null) {
-        ctx.strokeStyle = strokeColor;
-        ctx.lineWidth = lineWidth;
-        ctx.stroke(region);
+    for (let i = 1; i < points.length; i++) {
+        const [x, y] = points[i];
+        region.lineTo(x, y);
     }
+
+    region.closePath();
+
+    ctx.fillStyle = fillColor;
+    ctx.fill(region, 'nonzero');
+
+    ctx.strokeStyle = strokeColor;
+    ctx.lineWidth = lineWidth;
+    ctx.stroke(region);
 }
 
 function drawPoints(ctx, paths, color) {

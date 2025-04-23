@@ -9,6 +9,7 @@ export const triangulator_triangulate_with_points: (a: number, b: any, c: any) =
 export const rawtriangulation_to_triangulation: (a: number) => any;
 export const rawtriangulation_into_delaunay: (a: number) => number;
 export const delaunay_to_triangulation: (a: number) => any;
+export const delaunay_to_convex_polygons: (a: number) => any;
 export const __wbg_strokebuilder_free: (a: number, b: number) => void;
 export const __wbg_get_strokebuilder_style: (a: number) => number;
 export const __wbg_set_strokebuilder_style: (a: number, b: number) => void;
@@ -58,8 +59,8 @@ export const __wbg_rawtriangulation_free: (a: number, b: number) => void;
 export const __wbg_set_strokestyle_width: (a: number, b: number) => void;
 export const __wbg_set_strokestyle_round_angle: (a: number, b: number) => void;
 export const __wbg_set_strokestyle_miter_limit: (a: number, b: number) => void;
-export const __wbg_outlinestyle_free: (a: number, b: number) => void;
 export const __wbg_strokestyle_free: (a: number, b: number) => void;
+export const __wbg_outlinestyle_free: (a: number, b: number) => void;
 export const __wbindgen_exn_store: (a: number) => void;
 export const __externref_table_alloc: () => number;
 export const __wbindgen_export_2: WebAssembly.Table;

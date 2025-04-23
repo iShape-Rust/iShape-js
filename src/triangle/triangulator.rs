@@ -76,4 +76,10 @@ impl Delaunay {
         let triangulation = self.delaunay.to_triangulation();
         serde_wasm_bindgen::to_value(&triangulation).unwrap()
     }
+
+    #[wasm_bindgen]
+    pub fn to_convex_polygons(&self) -> JsValue {
+        let polygons = self.delaunay.to_convex_polygons();
+        serde_wasm_bindgen::to_value(&polygons).unwrap()
+    }
 }

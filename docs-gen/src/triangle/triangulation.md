@@ -140,6 +140,7 @@ async function fileExists(path) {
             <select id="mode">
                 <option value="Delaunay">Delaunay</option>
                 <option value="Raw">Raw</option>
+                <option value="Convex">Convex</option>
             </select>
         </div>
     </div>

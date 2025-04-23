@@ -249,6 +249,13 @@ export class Delaunay {
         const ret = wasm.delaunay_to_triangulation(this.__wbg_ptr);
         return ret;
     }
+    /**
+     * @returns {any}
+     */
+    to_convex_polygons() {
+        const ret = wasm.delaunay_to_convex_polygons(this.__wbg_ptr);
+        return ret;
+    }
 }
 
 const OutlineBuilderFinalization = (typeof FinalizationRegistry === 'undefined')
