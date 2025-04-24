@@ -4,13 +4,6 @@
     width: auto;
 }
 
-#iced-wrapper {
-    width: 1750px;
-    height: 1750px;
-    margin: 60px auto;
-    border: 1px solid #ccc;
-}
-
 .demo-title {
     color: #333;
     text-align: center;
@@ -57,7 +50,7 @@
         <p>Please use a WebGPU-supported browser, such as the latest version of Chrome.</p>
         <img src="./webgpu.svg" alt="WebGPU not supported">
     </div>
-    <div id="iced-container"></div>
+    <canvas id="iced" width="1750" height="1750"></canvas>
 </div>
 
 <script type="text/javascript">

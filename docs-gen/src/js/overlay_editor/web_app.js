@@ -1,17 +1,5 @@
 import init, {WebApp} from './overlay_editor.js';
 
-const observer = new MutationObserver(() => {
-    const canvas = document.querySelector('canvas');
-    if (canvas) {
-        document.getElementById('iced-wrapper').appendChild(canvas);
-        canvas.style.width = '1750px';
-        canvas.style.height = '1750px';
-        observer.disconnect();
-    }
-});
-
-observer.observe(document.body, { childList: true, subtree: true });
-
 async function run() {
     await init();
     console.log('wasm module loaded');
