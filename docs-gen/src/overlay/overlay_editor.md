@@ -19,7 +19,7 @@
 }
 
 #iced {
-    max-width: 2000px; 
+    max-width: 1000px; 
 }
 
 #unsupported-warning {
@@ -50,7 +50,7 @@
         <p>Please use a WebGPU-supported browser, such as the latest version of Chrome.</p>
         <img src="./webgpu.svg" alt="WebGPU not supported">
     </div>
-    <canvas id="iced" width="1750" height="1750"></canvas>
+    <canvas id="iced" width="800" height="800"></canvas>
 </div>
 
 <script type="text/javascript">
