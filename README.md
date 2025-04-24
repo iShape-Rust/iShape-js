@@ -6,7 +6,7 @@
 2D geometry library for triangulation and poly-bool operations such as union, intersection, difference and xor.
 
 ## [Demo](https://ishape-rust.github.io/iShape-js/overlay/stars_demo.html)
-Try out iShape with an interactive demo. The demo covers operations like union, intersection, difference and exclusion
+Try out iShape with an interactive demo.
 
 - [Stars Rotation](https://ishape-rust.github.io/iShape-js/overlay/stars_demo.html)
 - [Shapes Editor](https://ishape-rust.github.io/iShape-js/overlay/shapes_editor.html)
