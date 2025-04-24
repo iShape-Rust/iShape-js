@@ -3,7 +3,7 @@
 <p align="center">
   <img src="readme/balloons.svg" width="250"/>
 </p>
-2D geometry library for poly-bool operations such as union, intersection, difference and xor.
+2D geometry library for triangulation and poly-bool operations such as union, intersection, difference and xor.
 
 ## [Demo](https://ishape-rust.github.io/iShape-js/overlay/stars_demo.html)
 Try out iShape with an interactive demo. The demo covers operations like union, intersection, difference and exclusion
@@ -12,7 +12,7 @@ Try out iShape with an interactive demo. The demo covers operations like union, 
 - [Shapes Editor](https://ishape-rust.github.io/iShape-js/overlay/shapes_editor.html)
 - [Path Offset](https://ishape-rust.github.io/iShape-js/overlay/stroke.html)
 - [Polygon Offset](https://ishape-rust.github.io/iShape-js/overlay/outline.html)
-
+- [Triangulation](https://ishape-rust.github.io/iShape-js/triangle/triangulation.html)
 
 ## Features
 
