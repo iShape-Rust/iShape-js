@@ -4,10 +4,10 @@ async function run() {
     await init();
     console.log('wasm module loaded');
 
-    const booleanData = await fetch('./tests_boolean.json').then((res) => res.text());
-    const stringData = await fetch('./tests_string.json').then((res) => res.text());
-    const strokeData = await fetch('./tests_stroke.json').then((res) => res.text());
-    const outlineData = await fetch('./tests_outline.json').then((res) => res.text());
+    const booleanData = await fetch('./tests/boolean_tests.json').then((res) => res.text());
+    const stringData = await fetch('./tests/string_tests.json').then((res) => res.text());
+    const strokeData = await fetch('./tests/stroke_tests.json').then((res) => res.text());
+    const outlineData = await fetch('./tests/outline_tests.json').then((res) => res.text());
     console.log('json files loaded');
 
     const app = new WebApp();
