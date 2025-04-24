@@ -16,7 +16,7 @@ codegen-units = 1
 crate-type = ["cdylib"]
 
 [dependencies]
-i_triangle = "~0.29.0"
+i_triangle = "~0.29.1"
 #i_triangle = { path = "../iTriangle/iTriangle" }
 log = "0.4.22"
 console_log = "^1.0.0"
