@@ -13,6 +13,7 @@ async function run() {
     const app = new WebApp();
     console.log('WebApp starting');
     app.start(booleanData, stringData, strokeData, outlineData);
+    console.log('WebApp started');
 }
 
 run();
