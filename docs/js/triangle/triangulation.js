@@ -9,6 +9,8 @@ const testTitle = document.getElementById('test-name');
 const canvas = document.getElementById('editorCanvas');
 const ctx = canvas.getContext('2d');
 
+const pointsTextField = document.getElementById('points');
+
 const twoPI = 2 * Math.PI;
 
 const subjStroke = "#ff0000";
@@ -64,6 +66,7 @@ nextButton.addEventListener('click', function () {
     testTitle.textContent = data.tests[testIndex].name;
 });
 
+pointsTextField.addEventListener('change', updateFrame);
 modeSelect.addEventListener('change', updateFrame);
 
 canvas.addEventListener('touchstart', function (event) {
@@ -113,7 +116,17 @@ function pressDown(eX, eY) {
 
     for (let i = 0; i < test.shapes.length; i++) {
         const shape = test.shapes[i];
-        selectedPoint = findPoint(shape, x, y);
+        selectedPoint = findPointInShape(shape, x, y);
+        if (selectedPoint !== null) {
+            candidatePoint = null;
+            return;
+        }
+    }
+
+    const isSteinerPoints = pointsTextField.checked;
+    if (isSteinerPoints) {
+        selectedPoint = findPoint(test.points, x, y);
+        
         if (selectedPoint !== null) {
             candidatePoint = null;
             return;
@@ -141,6 +154,8 @@ function move(eX, eY) {
             selectedPoint[0] = Math.max(Math.min(x, rect.maxX), rect.minX);
             selectedPoint[1] = Math.max(Math.min(y, rect.maxY), rect.minY);
 
+            console.log(selectedPoint);
+
             requestAnimationFrame(draw);
         }
     } else {
@@ -149,7 +164,17 @@ function move(eX, eY) {
 
         for (let i = 0; i < test.shapes.length; i++) {
             const shape = test.shapes[i];
-            candidatePoint = findPoint(shape, x, y);
+            candidatePoint = findPointInShape(shape, x, y);
+            
+            if (candidatePoint !== null) {
+                requestAnimationFrame(draw);
+                return;
+            }
+        }
+
+        const isSteinerPoints = pointsTextField.checked;
+        if (isSteinerPoints) {
+            candidatePoint = findPoint(test.points, x, y);
             
             if (candidatePoint !== null) {
                 requestAnimationFrame(draw);
@@ -164,7 +189,7 @@ function move(eX, eY) {
     }
 }
 
-function findPoint(shape, x, y) {
+function findPointInShape(shape, x, y) {
     for (let path of shape) {
         for (let point of path) {
             const [px, py] = point;
@@ -176,11 +201,21 @@ function findPoint(shape, x, y) {
     return null;
 }
 
+function findPoint(points, x, y) {
+    for (let point of points) {
+        const [px, py] = point;
+        if (Math.abs(px - x) < 10 && Math.abs(py - y) < 10) {
+            return point;
+        }
+    }
+    
+    return null;
+}
+
 function draw() {
 
     const test = data.tests[testIndex];
     const triangulator = new Triangulator();
-    const triangulation = triangulator.triangulate(test.shapes).into_delaunay().to_triangulation();
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "#FAFAFAF8";
@@ -188,18 +223,23 @@ function draw() {
 
     drawWorkingArea(ctx);
 
+    const isSteinerPoints = pointsTextField.checked;
+
+    const raw = isSteinerPoints
+        ? triangulator.triangulate_with_points(test.shapes, test.points)
+        : triangulator.triangulate(test.shapes);
+
     switch (modeSelect.value) {
         case 'Raw':
-            const tr_raw = triangulator.triangulate(test.shapes).to_triangulation();
-            drawTriangulation(ctx, tr_raw, resultFill, resultStroke, 2.0);
+            const triangulation = raw.to_triangulation();
+            drawTriangulation(ctx, triangulation, resultFill, resultStroke, 2.0);
             break;
         case 'Delaunay':
-            const tr_delaunay = triangulator.triangulate(test.shapes).into_delaunay().to_triangulation();            
-            drawTriangulation(ctx, tr_delaunay, resultFill, resultStroke, 2.0);
+            const delaunay = raw.into_delaunay().to_triangulation();
+            drawTriangulation(ctx, delaunay, resultFill, resultStroke, 2.0);
             break;
         case 'Convex':
-            const polygons = triangulator.triangulate(test.shapes).into_delaunay().to_convex_polygons();            
-
+            const polygons = raw.into_delaunay().to_convex_polygons();
             polygons.forEach((polygon) => {
                 drawConvex(ctx, polygon, resultFill, resultStroke, 2.0);
             });
@@ -207,8 +247,12 @@ function draw() {
     }
 
     test.shapes.forEach((shape) => {
-        drawPoints(ctx, shape, subjStroke);
+        drawGroupOfPoints(ctx, shape, subjStroke);
     });
+
+    if (isSteinerPoints) {
+        drawPoints(ctx, test.points, subjStroke);
+    }
 
     if (selectedPoint !== null) {
         drawPoint(ctx, selectedPoint, subjStroke);
@@ -301,18 +345,22 @@ function drawConvex(ctx, points, fillColor, strokeColor, lineWidth) {
     ctx.stroke(region);
 }
 
-function drawPoints(ctx, paths, color) {
+function drawGroupOfPoints(ctx, group, color) {
+    group.forEach((points) => {
+        drawPoints(ctx, points, color);
+    });
+}
+
+function drawPoints(ctx, points, color) {
     ctx.fillStyle = color;
     ctx.lineWidth = null;
 
-    paths.forEach((points) => {
-        for (let i = 0; i < points.length; i++) {
-            const [x, y] = points[i];
-            ctx.beginPath();
-            ctx.arc(x, y, 3, 0, twoPI);
-            ctx.fill();
-        }
-    });
+    for (let i = 0; i < points.length; i++) {
+        const [x, y] = points[i];
+        ctx.beginPath();
+        ctx.arc(x, y, 3, 0, twoPI);
+        ctx.fill();
+    }
 }
 
 
