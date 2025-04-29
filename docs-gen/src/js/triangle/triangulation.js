@@ -154,8 +154,6 @@ function move(eX, eY) {
             selectedPoint[0] = Math.max(Math.min(x, rect.maxX), rect.minX);
             selectedPoint[1] = Math.max(Math.min(y, rect.maxY), rect.minY);
 
-            console.log(selectedPoint);
-
             requestAnimationFrame(draw);
         }
     } else {

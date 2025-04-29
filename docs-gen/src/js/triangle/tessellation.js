@@ -9,7 +9,7 @@ const testTitle = document.getElementById('test-name');
 const canvas = document.getElementById('editorCanvas');
 const ctx = canvas.getContext('2d');
 
-const pointsTextField = document.getElementById('points');
+const maxAreaSlider = document.getElementById('maxArea');
 
 const twoPI = 2 * Math.PI;
 
@@ -66,7 +66,8 @@ nextButton.addEventListener('click', function () {
     testTitle.textContent = data.tests[testIndex].name;
 });
 
-pointsTextField.addEventListener('change', updateFrame);
+maxAreaSlider.addEventListener('change', updateFrame);
+maxAreaSlider.addEventListener('input', updateFrame);
 modeSelect.addEventListener('change', updateFrame);
 
 canvas.addEventListener('touchstart', function (event) {
@@ -123,17 +124,6 @@ function pressDown(eX, eY) {
         }
     }
 
-    const isSteinerPoints = pointsTextField.checked;
-    if (isSteinerPoints) {
-        selectedPoint = findPoint(test.points, x, y);
-        
-        if (selectedPoint !== null) {
-            candidatePoint = null;
-            return;
-        }
-    }
-
-
     if (selectedPoint !== null) {
         candidatePoint = null;
         return;
@@ -163,16 +153,6 @@ function move(eX, eY) {
         for (let i = 0; i < test.shapes.length; i++) {
             const shape = test.shapes[i];
             candidatePoint = findPointInShape(shape, x, y);
-            
-            if (candidatePoint !== null) {
-                requestAnimationFrame(draw);
-                return;
-            }
-        }
-
-        const isSteinerPoints = pointsTextField.checked;
-        if (isSteinerPoints) {
-            candidatePoint = findPoint(test.points, x, y);
             
             if (candidatePoint !== null) {
                 requestAnimationFrame(draw);
@@ -215,29 +195,35 @@ function draw() {
     const test = data.tests[testIndex];
     const triangulator = new Triangulator();
 
+    const areaValue = parseInt(maxAreaSlider.value, 10);
+    const maxArea = areaValue * areaValue;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "#FAFAFAF8";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     drawWorkingArea(ctx);
 
-    const isSteinerPoints = pointsTextField.checked;
-
-    const raw = isSteinerPoints
-        ? triangulator.triangulate_with_points(test.shapes, test.points)
-        : triangulator.triangulate(test.shapes);
+    const delaunay = triangulator.triangulate(test.shapes).into_delaunay();
 
     switch (modeSelect.value) {
-        case 'Raw':
-            const triangulation = raw.to_triangulation();
-            drawTriangulation(ctx, triangulation, resultFill, resultStroke, 2.0);
+        case 'Triangles':
+            delaunay.refine_with_circumcenters(maxArea);
+            drawTriangulation(ctx, delaunay.to_triangulation(), resultFill, resultStroke, 2.0);
             break;
-        case 'Delaunay':
-            const delaunay = raw.into_delaunay().to_triangulation();
-            drawTriangulation(ctx, delaunay, resultFill, resultStroke, 2.0);
+        case 'Centroids':
+            delaunay.refine_with_circumcenters(maxArea);
+
+            const centroids = delaunay.to_centroid_net();
+
+            centroids.forEach((polygon) => {
+                drawConvex(ctx, polygon, resultFill, resultStroke, 2.0);
+            });
             break;
         case 'Convex':
-            const polygons = raw.into_delaunay().to_convex_polygons();
+            delaunay.refine_with_circumcenters(maxArea);
+
+            const polygons = delaunay.to_convex_polygons();
             polygons.forEach((polygon) => {
                 drawConvex(ctx, polygon, resultFill, resultStroke, 2.0);
             });
@@ -247,10 +233,6 @@ function draw() {
     test.shapes.forEach((shape) => {
         drawGroupOfPoints(ctx, shape, subjStroke);
     });
-
-    if (isSteinerPoints) {
-        drawPoints(ctx, test.points, subjStroke);
-    }
 
     if (selectedPoint !== null) {
         drawPoint(ctx, selectedPoint, subjStroke);

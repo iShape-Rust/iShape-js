@@ -34,6 +34,9 @@ export class Delaunay {
   free(): void;
   to_triangulation(): any;
   to_convex_polygons(): any;
+  refine_with_circumcenters(min_area: number): void;
+  refine_with_circumcenters_by_obtuse_angle(min_area: number): void;
+  to_centroid_net(min_area: number): any;
 }
 export class OutlineBuilder {
   private constructor();
@@ -111,6 +114,9 @@ export interface InitOutput {
   readonly rawtriangulation_into_delaunay: (a: number) => number;
   readonly delaunay_to_triangulation: (a: number) => any;
   readonly delaunay_to_convex_polygons: (a: number) => any;
+  readonly delaunay_refine_with_circumcenters: (a: number, b: number) => void;
+  readonly delaunay_refine_with_circumcenters_by_obtuse_angle: (a: number, b: number) => void;
+  readonly delaunay_to_centroid_net: (a: number, b: number) => any;
   readonly __wbg_strokebuilder_free: (a: number, b: number) => void;
   readonly __wbg_get_strokebuilder_style: (a: number) => number;
   readonly __wbg_set_strokebuilder_style: (a: number, b: number) => void;

@@ -20,4 +20,5 @@
 - [iTriangle](./triangle/triangle.md)
 	- [Demo](./triangle/triangulation.md)
 		- [Triangulation](./triangle/triangulation.md)
+		- [Tessellation](./triangle/tessellation.md)
     - [Delaunay](./triangle/delaunay.md)

@@ -50,9 +50,9 @@ impl OutlineBuilder {
 
         let path_data = NestedData::with_json(path_js).unwrap();
         let shapes = match path_data {
-            NestedData::Contour(contour) => contour.outline(style),
-            NestedData::Shape(shape) => shape.outline(style),
-            NestedData::Shapes(shapes) => shapes.outline(style),
+            NestedData::Contour(contour) => contour.outline(&style),
+            NestedData::Shape(shape) => shape.outline(&style),
+            NestedData::Shapes(shapes) => shapes.outline(&style),
         };
 
         serde_wasm_bindgen::to_value(&shapes).unwrap()

@@ -256,6 +256,26 @@ export class Delaunay {
         const ret = wasm.delaunay_to_convex_polygons(this.__wbg_ptr);
         return ret;
     }
+    /**
+     * @param {number} min_area
+     */
+    refine_with_circumcenters(min_area) {
+        wasm.delaunay_refine_with_circumcenters(this.__wbg_ptr, min_area);
+    }
+    /**
+     * @param {number} min_area
+     */
+    refine_with_circumcenters_by_obtuse_angle(min_area) {
+        wasm.delaunay_refine_with_circumcenters_by_obtuse_angle(this.__wbg_ptr, min_area);
+    }
+    /**
+     * @param {number} min_area
+     * @returns {any}
+     */
+    to_centroid_net(min_area) {
+        const ret = wasm.delaunay_to_centroid_net(this.__wbg_ptr, min_area);
+        return ret;
+    }
 }
 
 const OutlineBuilderFinalization = (typeof FinalizationRegistry === 'undefined')

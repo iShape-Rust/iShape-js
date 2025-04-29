@@ -82,4 +82,20 @@ impl Delaunay {
         let polygons = self.delaunay.to_convex_polygons();
         serde_wasm_bindgen::to_value(&polygons).unwrap()
     }
+
+    #[wasm_bindgen]
+    pub fn refine_with_circumcenters(&mut self, min_area: f64) {
+        self.delaunay.refine_with_circumcenters_mut(min_area);
+    }
+
+    #[wasm_bindgen]
+    pub fn refine_with_circumcenters_by_obtuse_angle(&mut self, min_area: f64) {
+        self.delaunay.refine_with_circumcenters_by_obtuse_angle_mut(min_area);
+    }
+
+    #[wasm_bindgen]
+    pub fn to_centroid_net(&self, min_area: f64) -> JsValue {
+        let centroids = self.delaunay.to_centroid_net(min_area);
+        serde_wasm_bindgen::to_value(&centroids).unwrap()
+    }
 }
