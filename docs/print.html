@@ -174,6 +174,16 @@
 <li>Rust Version: <a href="https://github.com/iShape-Rust/iOverlay">iShape-Rust/iOverlay</a></li>
 <li>JS Version: <a href="https://github.com/iShape-Rust/iShape-js">iShape-Rust/iShape-js</a></li>
 </ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="demo"><a class="header" href="#demo">Demo</a></h1>
+<p>This section showcases interactive examples built using <strong>iOverlay</strong>.</p>
+<p>Use the demos below to explore how the library performs boolean operations on 2D shapes in real time.</p>
+<ul>
+<li><strong><a href="overlay/./stars_demo.html">Stars Rotation</a></strong> – See overlapping polygons rotate and combine.</li>
+<li><strong><a href="overlay/./shapes_editor.html">Shapes Editor</a></strong> – Draw and modify shapes live in the browser.</li>
+<li><strong><a href="overlay/./stroke.html">Stroke</a></strong> – Test stroke generation.</li>
+<li><strong><a href="overlay/./outline.html">Outline</a></strong> – Test outline generation.</li>
+<li><strong><a href="overlay/./overlay_editor.html">Overlay Editor</a></strong> – Wasm interactive editor.</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><style>
 
 .demo-title {
@@ -302,166 +312,6 @@ async function fileExists(path) {
 	    </div>
 	    <div class="star-input-container">
 	        <h3 id="clip-star" class="title"><a class="header" href="#clip-star">Clip Star</a></h3>
-	        <div class="star-input-group">
-	            <label for="clipFirstRadius">First Radius: </label>
-	            <input type="range" id="clipFirstRadius" min="10" max="100" value="60">
-	        </div>
-	        <div class="star-input-group">
-	            <label for="clipSecondRadius">Second Radius: </label>
-	            <input type="range" id="clipSecondRadius" min="10" max="100" value="30">
-	        </div>
-	        <div class="star-input-group">
-	            <label for="clipRotationSpeed">Rotation Speed: </label>
-	            <input type="range" id="clipRotationSpeed" min="1" max="100" value="5">
-	        </div>
-	        <div class="star-input-group">
-	            <label for="clipAngleCount">Corners Count: </label>
-	            <input type="range" id="clipAngleCount" min="3" max="24" value="7">
-	        </div>
-	    </div>
-	</div>
-    <div class="operation-selection">
-        <label for="operationType">Operation: </label>
-        <select id="operationType">
-            <option value="Xor">Xor</option>
-            <option value="Union">Union</option>
-            <option value="Intersect">Intersect</option>
-            <option value="Difference">Difference</option>
-            <option value="InverseDifference">InverseDifference</option>
-            <option value="Subject">Subject</option>
-            <option value="Clip">Clip</option>
-		</select>
-    </div>
-    <canvas id="starCanvas" width="750" height="750"></canvas>
-</div>
-<div style="break-before: page; page-break-before: always;"></div><style>
-
-.demo-title {
-    color: #333;
-    text-align: center;
-}
-
-.sheet-container {
-    max-width: 1000px;
-    margin: auto;
- }
-
-.rotating-stars-input-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.star-input-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 10px;
-}
-
-.star-input-group {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.star-input-group label {
-    flex: none;
-    width: 150px;
-    white-space: nowrap;
-    text-align: right;
-    margin-right: 20px;
-}
-
-.star-input-group input {
-    flex: none;
-    width: 150px;
-}
-
-#starCanvas {
-    display: block;
-    margin: 20px auto;
-}
-
-.operation-selection {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-    margin-top: 20px;
-    font-size: 20px;
-}
-
-.operation-selection label {
-    flex: none;
-    width: 150px;
-    white-space: nowrap;
-    text-align: right;
-    margin-right: 20px;
-    font-size: 20px;
-}
-
-.operation-selection select {
-	-webkit-appearance: none;
-    padding-left: 4px;
-    flex: none;
-    width: 150px;
-    font-size: 20px;
-}
-</style>
-<div class="sheet-container">
-	<script type="text/javascript">
-// in different environments the path is different
-const paths = [
-  '../js/overlay/stars.js',
-  './js/overlay/stars.js',
-  '/js/overlay/stars.js'
-];
-async function fileExists(path) {
-  try {
-    const response = await fetch(path, { method: 'HEAD' });
-    return response.ok;
-  } catch (e) {
-    return false;
-  }
-}
-(async () => {
-  for (const path of paths) {
-    if (await fileExists(path)) {
-      const script = document.createElement('script');
-      script.type = 'module';
-      script.src = path;
-      script.defer = true;
-      document.head.appendChild(script);
-      break;
-    }
-  }
-})();
-    </script>
-	<h1 id="stars-rotation-1" class="demo-title"><a class="header" href="#stars-rotation-1">Stars Rotation</a></h1>
-	<div class="rotating-stars-input-container">
-	    <div class="star-input-container">
-	        <h3 id="subject-star-1" class="title"><a class="header" href="#subject-star-1">Subject Star</a></h3>
-	        <div class="star-input-group">
-	            <label for="subjFirstRadius">First Radius: </label>
-	            <input type="range" id="subjFirstRadius" min="10" max="100" value="60">
-	        </div>
-	        <div class="star-input-group">
-	            <label for="subjSecondRadius">Second Radius: </label>
-	            <input type="range" id="subjSecondRadius" min="10" max="100" value="30">
-	        </div>
-	        <div class="star-input-group">
-	            <label for="subjRotationSpeed">Rotation Speed: </label>
-	            <input type="range" id="subjRotationSpeed" min="1" max="100" value="5">
-	        </div>
-	        <div class="star-input-group">
-	            <label for="subjAngleCount">Corners Count: </label>
-	            <input type="range" id="subjAngleCount" min="3" max="24" value="7">
-	        </div>
-	    </div>
-	    <div class="star-input-container">
-	        <h3 id="clip-star-1" class="title"><a class="header" href="#clip-star-1">Clip Star</a></h3>
 	        <div class="star-input-group">
 	            <label for="clipFirstRadius">First Radius: </label>
 	            <input type="range" id="clipFirstRadius" min="10" max="100" value="60">
@@ -1247,167 +1097,45 @@ async function fileExists(path) {
 <tr><td>131072</td><td>23.250746</td><td>15.731705</td><td>8.194153</td><td>----</td><td>----</td></tr>
 <tr><td>262144</td><td>48.529555</td><td>30.809760</td><td>15.285741</td><td>----</td><td>----</td></tr>
 </tbody></table>
-</div><div style="break-before: page; page-break-before: always;"></div><style>
-
-.demo-title {
-    color: #333;
-    text-align: center;
-}
-
-.sheet-container {
-    max-width: 1000px;
-    margin: auto;
- }
-
-.rotating-stars-input-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.star-input-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 10px;
-}
-
-.star-input-group {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.star-input-group label {
-    flex: none;
-    width: 150px;
-    white-space: nowrap;
-    text-align: right;
-    margin-right: 20px;
-}
-
-.star-input-group input {
-    flex: none;
-    width: 150px;
-}
-
-#starCanvas {
-    display: block;
-    margin: 20px auto;
-}
-
-.operation-selection {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-    margin-top: 20px;
-    font-size: 20px;
-}
-
-.operation-selection label {
-    flex: none;
-    width: 150px;
-    white-space: nowrap;
-    text-align: right;
-    margin-right: 20px;
-    font-size: 20px;
-}
-
-.operation-selection select {
-	-webkit-appearance: none;
-    padding-left: 4px;
-    flex: none;
-    width: 150px;
-    font-size: 20px;
-}
-</style>
-<div class="sheet-container">
-	<script type="text/javascript">
-// in different environments the path is different
-const paths = [
-  '../js/overlay/stars.js',
-  './js/overlay/stars.js',
-  '/js/overlay/stars.js'
-];
-async function fileExists(path) {
-  try {
-    const response = await fetch(path, { method: 'HEAD' });
-    return response.ok;
-  } catch (e) {
-    return false;
-  }
-}
-(async () => {
-  for (const path of paths) {
-    if (await fileExists(path)) {
-      const script = document.createElement('script');
-      script.type = 'module';
-      script.src = path;
-      script.defer = true;
-      document.head.appendChild(script);
-      break;
-    }
-  }
-})();
-    </script>
-	<h1 id="stars-rotation-2" class="demo-title"><a class="header" href="#stars-rotation-2">Stars Rotation</a></h1>
-	<div class="rotating-stars-input-container">
-	    <div class="star-input-container">
-	        <h3 id="subject-star-2" class="title"><a class="header" href="#subject-star-2">Subject Star</a></h3>
-	        <div class="star-input-group">
-	            <label for="subjFirstRadius">First Radius: </label>
-	            <input type="range" id="subjFirstRadius" min="10" max="100" value="60">
-	        </div>
-	        <div class="star-input-group">
-	            <label for="subjSecondRadius">Second Radius: </label>
-	            <input type="range" id="subjSecondRadius" min="10" max="100" value="30">
-	        </div>
-	        <div class="star-input-group">
-	            <label for="subjRotationSpeed">Rotation Speed: </label>
-	            <input type="range" id="subjRotationSpeed" min="1" max="100" value="5">
-	        </div>
-	        <div class="star-input-group">
-	            <label for="subjAngleCount">Corners Count: </label>
-	            <input type="range" id="subjAngleCount" min="3" max="24" value="7">
-	        </div>
-	    </div>
-	    <div class="star-input-container">
-	        <h3 id="clip-star-2" class="title"><a class="header" href="#clip-star-2">Clip Star</a></h3>
-	        <div class="star-input-group">
-	            <label for="clipFirstRadius">First Radius: </label>
-	            <input type="range" id="clipFirstRadius" min="10" max="100" value="60">
-	        </div>
-	        <div class="star-input-group">
-	            <label for="clipSecondRadius">Second Radius: </label>
-	            <input type="range" id="clipSecondRadius" min="10" max="100" value="30">
-	        </div>
-	        <div class="star-input-group">
-	            <label for="clipRotationSpeed">Rotation Speed: </label>
-	            <input type="range" id="clipRotationSpeed" min="1" max="100" value="5">
-	        </div>
-	        <div class="star-input-group">
-	            <label for="clipAngleCount">Corners Count: </label>
-	            <input type="range" id="clipAngleCount" min="3" max="24" value="7">
-	        </div>
-	    </div>
-	</div>
-    <div class="operation-selection">
-        <label for="operationType">Operation: </label>
-        <select id="operationType">
-            <option value="Xor">Xor</option>
-            <option value="Union">Union</option>
-            <option value="Intersect">Intersect</option>
-            <option value="Difference">Difference</option>
-            <option value="InverseDifference">InverseDifference</option>
-            <option value="Subject">Subject</option>
-            <option value="Clip">Clip</option>
-		</select>
-    </div>
-    <canvas id="starCanvas" width="750" height="750"></canvas>
-</div>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="filling-rules"><a class="header" href="#filling-rules">Filling Rules</a></h1>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="documentation"><a class="header" href="#documentation">Documentation</a></h1>
+<hr />
+<h2 id="filling-rules"><a class="header" href="#filling-rules">Filling Rules</a></h2>
+<p>Filling rules determine how the interior of a shape is defined. iOverlay supports 4 filling rules:</p>
+<ul>
+<li><strong>Even-Odd</strong>: A point is inside the shape if a ray drawn from the point crosses the shape's edges an odd number of times.</li>
+<li><strong>Non-Zero</strong>: A point is inside the shape if the total winding number around the point is non-zero.</li>
+<li><strong>Positive</strong>: Only regions with a positive winding number are considered inside.</li>
+<li><strong>Negative</strong>: Only regions with a negative winding number are considered inside.</li>
+</ul>
+<hr />
+<h2 id="overlay-rules"><a class="header" href="#overlay-rules">Overlay Rules</a></h2>
+<p>Overlay rules define how two shapes interact during Boolean operations:</p>
+<ul>
+<li><strong>Union (A ∪ B)</strong>: Combines the areas of both shapes.</li>
+<li><strong>Intersection (A ∩ B)</strong>: Retains only the overlapping area of both shapes.</li>
+<li><strong>Difference (A - B)</strong>: Subtracts the area of shape B from shape A.</li>
+<li><strong>Exclusion (A ⊕ B)</strong>: Combines the areas of both shapes but excludes the overlapping region.</li>
+</ul>
+<hr />
+<h2 id="contours"><a class="header" href="#contours">Contours</a></h2>
+<p>Contours represent the boundaries of shapes and are categorized as:</p>
+<ul>
+<li><strong>Outer Contours</strong>: Define the external boundary of a shape, ordered in a counterclockwise direction.</li>
+<li><strong>Inner Contours (Holes)</strong>: Define holes within a shape, ordered in a clockwise direction.</li>
+</ul>
+<hr />
+<h2 id="overlay-graph"><a class="header" href="#overlay-graph">Overlay Graph</a></h2>
+<p>The overlay graph is a data structure that represents the intersections and overlays of two geometric objects. It is constructed by dividing all segments of the object contours into non-intersecting parts, where segments can only touch at their endpoints. Each segment in the graph contains information about its association with the original shapes, facilitating efficient Boolean operations.</p>
+<hr />
+<h2 id="extract-shapes"><a class="header" href="#extract-shapes">Extract Shapes</a></h2>
+<p>After applying Boolean operations, the resulting shapes are extracted through a series of steps:</p>
+<ol>
+<li><strong>Build Contour</strong>: Starting from the leftmost node, the algorithm traverses connected segments to form contours, marking each segment as visited to prevent duplication.</li>
+<li><strong>Define Contour</strong>: Determines whether a contour is outer or inner based on its orientation and position.</li>
+<li><strong>Matching Contours</strong>: Associates inner contours with their corresponding outer contours by analyzing spatial relationships.</li>
+</ol>
+<hr />
+<div style="break-before: page; page-break-before: always;"></div><h1 id="filling-rules-1"><a class="header" href="#filling-rules-1">Filling Rules</a></h1>
 <h2 id="even-odd"><a class="header" href="#even-odd">Even-Odd</a></h2>
 <p><img src="overlay/filling_rules/even-odd.svg" alt="Even-Odd" /></p>
 <h2 id="non-zero"><a class="header" href="#non-zero">Non-Zero</a></h2>
@@ -1416,14 +1144,14 @@ async function fileExists(path) {
 <p><img src="overlay/filling_rules/positive.svg" alt="Positive" /></p>
 <h2 id="negative"><a class="header" href="#negative">Negative</a></h2>
 <p><img src="overlay/filling_rules/negative.svg" alt="Negative" /></p>
-<h2 id="filling-rules-1"><a class="header" href="#filling-rules-1">Filling Rules:</a></h2>
+<h2 id="filling-rules-2"><a class="header" href="#filling-rules-2">Filling Rules:</a></h2>
 <ul>
 <li><strong>Even-Odd</strong>: Only odd numbered sub-regions are filled</li>
 <li><strong>Non-Zero</strong>: Only non-zero sub-regions are filled</li>
 <li><strong>Positive</strong>: Only positive sub-regions are filled</li>
 <li><strong>Negative</strong>: Only negative sub-regions are filled</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="overlay-rules"><a class="header" href="#overlay-rules">Overlay Rules</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="overlay-rules-1"><a class="header" href="#overlay-rules-1">Overlay Rules</a></h1>
 <img src="overlay/overlay_rules/ab.svg" alt="AB" style="width:50%;">
 <h2 id="union-a-or-b"><a class="header" href="#union-a-or-b">Union, A or B</a></h2>
 <img src="overlay/overlay_rules/union.svg" alt="Union" style="width:50%;">
@@ -1435,7 +1163,7 @@ async function fileExists(path) {
 <img src="overlay/overlay_rules/difference_ba.svg" alt="Inverse Difference" style="width:50%;">
 <h2 id="exclusion-a-xor-b"><a class="header" href="#exclusion-a-xor-b">Exclusion, A xor B</a></h2>
 <img src="overlay/overlay_rules/exclusion.svg" alt="Exclusion" style="width:50%;">
-<div style="break-before: page; page-break-before: always;"></div><h1 id="contours"><a class="header" href="#contours">Contours</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="contours-1"><a class="header" href="#contours-1">Contours</a></h1>
 <h2 id="outer-and-inner"><a class="header" href="#outer-and-inner">Outer and Inner</a></h2>
 <p><img src="overlay/contours/contour.svg" alt="Contour" />
 In the context of the <a href="overlay/contours/../overlay_graph/overlay_graph.html">Overlay Graph</a>, contours are used to represent the boundaries of geometric objects. These contours are classified into two types: <span style="color:#ff3333ff;"><strong>outer</strong></span> contours and <span style="color:#1a8effff;"><strong>inner</strong></span> contours.</p>
@@ -1450,7 +1178,7 @@ In the context of the <a href="overlay/contours/../overlay_graph/overlay_graph.h
 <li>Inner contours represent enclosed areas within an outer contour, often referred to as "holes" or "caves."</li>
 </ul>
 <p><em>Both <span style="color:#ff3333ff;"><strong>outer</strong></span> and <span style="color:#1a8effff;"><strong>inner</strong></span> contours must be simple, meaning they must not self-intersect and must not share edges with other contours.</em></p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="overlay-graph"><a class="header" href="#overlay-graph">Overlay Graph</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="overlay-graph-1"><a class="header" href="#overlay-graph-1">Overlay Graph</a></h1>
 <p><img src="overlay/overlay_graph/example.svg" alt="Example" />
 An Overlay Graph is a data structure representing the intersections and overlays of two geometric objects (<span style="color:#ff3333ff;"><strong>A</strong></span> and <span style="color:#1a8effff;"><strong>B</strong></span>) defined by closed contours in 2D space.</p>
 <p>The graph is constructed by dividing all the segments of the object contours into non-intersecting parts, where segments can only touch at their endpoints.
@@ -1481,7 +1209,7 @@ The side associated with both bodies <span style="color:#ff3333ff;"><strong>A</s
 <p>The resulting segments of <strong>C</strong> must belong to either body <span style="color:#ff3333ff;"><strong>A</strong></span> or body <span style="color:#1a8effff;"><strong>B</strong></span>, but not to both simultaneously. The opposite side of each segment must either belong to both bodies or to neither.<br />
 The side associated with one of the bodies (<span style="color:#ff3333ff;"><strong>A</strong></span> or <span style="color:#1a8effff;"><strong>B</strong></span>) will represent the inner part of the resulting shape.
 <img src="overlay/overlay_graph/exclusion.svg" alt="Example" /></p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="extract-shapes"><a class="header" href="#extract-shapes">Extract Shapes</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="extract-shapes-1"><a class="header" href="#extract-shapes-1">Extract Shapes</a></h1>
 <p>Once we apply boolean filter to <a href="overlay/extract/../overlay_graph/overlay_graph.html">Overlay Graph</a>, we can begin extract contours.</p>
 <h2 id="build-contour"><a class="header" href="#build-contour">Build Contour</a></h2>
 <h3 id="outer-contour-1"><a class="header" href="#outer-contour-1">Outer Contour</a></h3>
@@ -1557,6 +1285,12 @@ $$</p>
 <ul>
 <li>Swift Version: <a href="https://github.com/iShape-Swift/iTriangle">iShape-Swift/iTriangle</a></li>
 <li>Rust Version: <a href="https://github.com/iShape-Rust/iTriangle">iShape-Rust/iTriangle</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="demo-1"><a class="header" href="#demo-1">Demo</a></h1>
+<p>This section contains interactive examples that demonstrate how <strong>iTriangle</strong> performs triangulation and tessellation.</p>
+<ul>
+<li><strong><a href="triangle/./triangulation.html">Triangulation</a></strong> – Basic polygon triangulation.</li>
+<li><strong><a href="triangle/./tessellation.html">Tessellation</a></strong> – Subdivision of polygons into smaller.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><style>
 
@@ -1694,164 +1428,6 @@ async function fileExists(path) {
 })();
 </script>
 	<h1 id="triangulation" class="demo-title"><a class="header" href="#triangulation">Triangulation</a></h1>
-    <div class="operation-selection">
-        <div class="operation-content">
-            <label for="mode">Mode: </label>
-            <select id="mode">
-                <option value="Delaunay">Delaunay</option>
-                <option value="Raw">Raw</option>
-                <option value="Convex">Convex</option>
-            </select>
-        </div>
-    </div>
-    <div class="operation-selection">
-        <div class="operation-content">
-            <label for="points">Steiner Points: </label>
-            <input style="flex-grow: 0;" type="checkbox" id="points" name="points" value="true" checked>
-        </div>
-    </div>
-    <div class="editor-input-container">
-        <button type="button" class="nav-button" id="test-prev">Prev</button>
-        <h3 class="test-title" id="test-name">Title</h3>
-        <button type="button" class="nav-button" id="test-next">Next</button>
-    </div>
-    <canvas id="editorCanvas" width="800" height="800"></canvas>
-</div><div style="break-before: page; page-break-before: always;"></div><style>
-
-.demo-title {
-    text-align: center;
-}
-
-.test-title {
-    text-align: center;
-    margin-top: 0;
-}
-
-.sheet-container {
-    max-width: 1000px;
-    min-width: 800px;
-    margin: auto;
- }
-
-.operation-selection {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-    margin-top: 20px;
-    font-size: 20px;
-}
-
-.operation-content {
-    width: 320px;
-    display: flex;
-    align-items: center;
-}
-
-.operation-selection label {
-    flex: none;
-    width: 150px;
-    white-space: nowrap;
-    text-align: right;
-    margin-right: 20px;
-    font-size: 20px;
-}
-
-.operation-selection select {
-    flex-grow: 1;
-    width: auto;
-    min-width: 0;
-    font-size: 20px;
-}
-
-.operation-selection input {
-    flex-grow: 1;
-    width: auto;
-    min-width: 0;
-    font-size: 20px;
-}
-
-#editorCanvas {
-    display: block;
-    border: 2px dotted #80808080;
-}
-
-.editor-input-container {
-    margin-top: 60px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.editor-input-tool {
-    display: flex;
-    flex-direction: row;
-    flex-grow: 1;
-    justify-content: center;
-    margin: 30px;
-}
-
-.editor-input-group {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    width: 160px;
-}
-
-.input-wrapper {
-    display: flex;
-    align-items: center;
-    flex: 1;
-    margin-left: 32px;
-}
-
-.editor-input-group label {
-    white-space: nowrap;
-    text-align: left;
-    margin-right: 10px;
-    flex: 1;
-}
-
-.editor-input-group input {
-    margin-left: auto;
-}
-
-.nav-button {
-    width: 100px;
-    height: 32px;
-    font-size: 14px;
-}
-
-</style>
-<div class="sheet-container">
-	<script type="text/javascript">
-// in different environments the path is different
-const paths = [
-  '../js/triangle/triangulation.js',
-  './js/triangle/triangulation.js',
-  '/js/triangle/triangulation.js'
-];
-async function fileExists(path) {
-  try {
-    const response = await fetch(path, { method: 'HEAD' });
-    return response.ok;
-  } catch (e) {
-    return false;
-  }
-}
-(async () => {
-  for (const path of paths) {
-    if (await fileExists(path)) {
-      const script = document.createElement('script');
-      script.type = 'module';
-      script.src = path;
-      script.defer = true;
-      document.head.appendChild(script);
-      break;
-    }
-  }
-})();
-</script>
-	<h1 id="triangulation-1" class="demo-title"><a class="header" href="#triangulation-1">Triangulation</a></h1>
     <div class="operation-selection">
         <div class="operation-content">
             <label for="mode">Mode: </label>
