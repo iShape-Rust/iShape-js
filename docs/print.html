@@ -1213,9 +1213,9 @@ The side associated with one of the bodies (<span style="color:#ff3333ff;"><stro
 <p>Once we apply boolean filter to <a href="overlay/extract/../overlay_graph/overlay_graph.html">Overlay Graph</a>, we can begin extract contours.</p>
 <h2 id="build-contour"><a class="header" href="#build-contour">Build Contour</a></h2>
 <h3 id="outer-contour-1"><a class="header" href="#outer-contour-1">Outer Contour</a></h3>
-<p><img src="overlay/extract/extract_outer_contour.svg" alt="Extract Contour" /></p>
+<p><img src="overlay/extract/extract_outer_contour_clockwise.svg" alt="Extract Contour" /></p>
 <h3 id="inner-contour"><a class="header" href="#inner-contour">Inner Contour</a></h3>
-<p><img src="overlay/extract/extract_inner_contour_clockwise.svg" alt="Extract Contour" /></p>
+<p><img src="overlay/extract/extract_inner_clockwise.svg" alt="Extract Contour" /></p>
 <p>The algorithm starts by selecting the leftmost node and proceeds by choosing the topmost segment connected to that node. The process continues by traversing to the next node along the selected segment.</p>
 <p>At each node, the algorithm selects the next segment by rotating around the current node in a clockwise/counterclockwise direction for inner/outer contours and taking the first nearest segment.</p>
 <p>To prevent segments from being visited twice, each segment is marked as visited upon traversal.</p>

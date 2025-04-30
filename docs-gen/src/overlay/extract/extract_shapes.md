@@ -5,9 +5,9 @@ Once we apply boolean filter to [Overlay Graph](../overlay_graph/overlay_graph.m
 ## Build Contour
 
 ### Outer Contour
-![Extract Contour](extract_outer_contour.svg)
+![Extract Contour](extract_outer_contour_clockwise.svg)
 ### Inner Contour
-![Extract Contour](extract_inner_contour_clockwise.svg)
+![Extract Contour](extract_inner_clockwise.svg)
 
 The algorithm starts by selecting the leftmost node and proceeds by choosing the topmost segment connected to that node. The process continues by traversing to the next node along the selected segment.
 
