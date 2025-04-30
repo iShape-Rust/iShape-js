@@ -11,13 +11,13 @@ Once we apply boolean filter to [Overlay Graph](../overlay_graph/overlay_graph.m
 
 The algorithm starts by selecting the leftmost node and proceeds by choosing the topmost segment connected to that node. The process continues by traversing to the next node along the selected segment.
 
-At each node, the algorithm selects the next segment by rotating around the current node in a clockwise/counterclockwise direction for inner/outer contours and taking the first nearest segment.
+At each node, the algorithm selects the next segment by rotating around the current node in a clockwise/counterclockwise direction for outer/inner contours and taking the first nearest segment.
 
 To prevent segments from being visited twice, each segment is marked as visited upon traversal.
 
 This process continues until the contour is complete, forming either an <span style="color:#ff3333ff;">**outer**</span> or <span style="color:#1a8effff;">**inner**</span> contour.
 
-By following this approach, <span style="color:#ff3333ff;">**outer**</span> contours are extracted in a clockwise direction, while <span style="color:#1a8effff;">**inner**</span> contours are extracted in a counterclockwise direction.
+By following this approach, <span style="color:#ff3333ff;">**outer**</span> contours are extracted in a counter-clockwise direction, while <span style="color:#1a8effff;">**inner**</span> contours are extracted in a clockwise direction.
 
 ## Define Contour
 ![Define Contour](define_contour.svg)

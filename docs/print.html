@@ -1217,10 +1217,10 @@ The side associated with one of the bodies (<span style="color:#ff3333ff;"><stro
 <h3 id="inner-contour"><a class="header" href="#inner-contour">Inner Contour</a></h3>
 <p><img src="overlay/extract/extract_inner_clockwise.svg" alt="Extract Contour" /></p>
 <p>The algorithm starts by selecting the leftmost node and proceeds by choosing the topmost segment connected to that node. The process continues by traversing to the next node along the selected segment.</p>
-<p>At each node, the algorithm selects the next segment by rotating around the current node in a clockwise/counterclockwise direction for inner/outer contours and taking the first nearest segment.</p>
+<p>At each node, the algorithm selects the next segment by rotating around the current node in a clockwise/counterclockwise direction for outer/inner contours and taking the first nearest segment.</p>
 <p>To prevent segments from being visited twice, each segment is marked as visited upon traversal.</p>
 <p>This process continues until the contour is complete, forming either an <span style="color:#ff3333ff;"><strong>outer</strong></span> or <span style="color:#1a8effff;"><strong>inner</strong></span> contour.</p>
-<p>By following this approach, <span style="color:#ff3333ff;"><strong>outer</strong></span> contours are extracted in a clockwise direction, while <span style="color:#1a8effff;"><strong>inner</strong></span> contours are extracted in a counterclockwise direction.</p>
+<p>By following this approach, <span style="color:#ff3333ff;"><strong>outer</strong></span> contours are extracted in a counter-clockwise direction, while <span style="color:#1a8effff;"><strong>inner</strong></span> contours are extracted in a clockwise direction.</p>
 <h2 id="define-contour"><a class="header" href="#define-contour">Define Contour</a></h2>
 <p><img src="overlay/extract/define_contour.svg" alt="Define Contour" /></p>
 <p>To define a contour, the algorithm begins by identifying the leftmost and topmost segment in the contour. The classification of the contour is determined as follows:</p>
