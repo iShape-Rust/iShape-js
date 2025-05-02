@@ -21,4 +21,5 @@
 	- [Demo](./triangle/demo.md)
 		- [Triangulation](./triangle/triangulation.md)
 		- [Tessellation](./triangle/tessellation.md)
+	- [Performance Comparison](./triangle/performance/performance.md)
     - [Delaunay](./triangle/delaunay.md)

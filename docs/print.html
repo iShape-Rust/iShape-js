@@ -1608,6 +1608,86 @@ async function fileExists(path) {
         <button type="button" class="nav-button" id="test-next">Next</button>
     </div>
     <canvas id="editorCanvas" width="800" height="800"></canvas>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="performance-comparison-1"><a class="header" href="#performance-comparison-1">Performance Comparison</a></h1>
+<p>Benchmark project is <a href="https://github.com/iShape-Rust/iTriangle/tree/main/performance">here</a>.</p>
+<p>All tests were run on a machine with the following specifications:<br />
+<strong>3 GHz 6-Core Intel Core i5, 40GB 2667 MHz DDR4</strong></p>
+<p>All results are presented in seconds.</p>
+<h2 id="solvers-1"><a class="header" href="#solvers-1">Solvers:</a></h2>
+<ul>
+<li><strong>iTriangle(Unchecked-Raw)</strong> v0.31.0</li>
+<li><strong>iTriangle(Raw)</strong> v0.31.0</li>
+<li><strong>iTriangle(Delaunay)</strong> v0.31.0</li>
+</ul>
+<h2 id="simple-star-test"><a class="header" href="#simple-star-test">Simple Star Test</a></h2>
+<p>This test generates and triangulate 10,000 unique star-shaped polygons, one at a time.
+Each shape is defined by:</p>
+<ul>
+<li>A unique radius scale (100 variations)</li>
+<li>A unique rotation (100 steps across a full circle)</li>
+<li>A given number of corners (count), each with 10 points</li>
+</ul>
+<p><em>All shapes are clean (non-intersecting), and no mesh is reused — each one is processed independently.</em></p>
+<p align="center">
+  <img src="triangle/performance/test_0.svg" width="200"/>
+</p>
+<div class="table-wrapper"><table><thead><tr><th>Count</th><th>Unchecked</th><th>Raw</th><th>Delaunay</th></tr></thead><tbody>
+<tr><td>4</td><td>0.047844</td><td>0.074298</td><td>0.139643</td></tr>
+<tr><td>8</td><td>0.098785</td><td>0.165002</td><td>0.284868</td></tr>
+<tr><td>16</td><td>0.210214</td><td>0.369625</td><td>0.591876</td></tr>
+<tr><td>32</td><td>0.455352</td><td>0.875200</td><td>1.256099</td></tr>
+<tr><td>64</td><td>0.987139</td><td>2.241044</td><td>2.873866</td></tr>
+<tr><td>128</td><td>2.107867</td><td>5.867757</td><td>7.073528</td></tr>
+<tr><td>256</td><td>4.481360</td><td>16.652639</td><td>18.894593</td></tr>
+<tr><td>512</td><td>9.372721</td><td>46.585559</td><td>50.478053</td></tr>
+</tbody></table>
+</div>
+<h2 id="star-with-hole-test"><a class="header" href="#star-with-hole-test">Star with Hole Test</a></h2>
+<p>This test generates and triangulates 10,000 unique star-shaped polygons with a central hole, one at a time.
+Each shape is defined by:</p>
+<ul>
+<li>A unique radius scale (100 variations)</li>
+<li>A unique rotation (100 steps across a full circle)</li>
+<li>A central hole generated as a smaller star</li>
+<li>A given number of corners (count), each with 10 points</li>
+</ul>
+<p><em>All shapes are clean (non-intersecting), and no mesh is reused — each one is processed independently.</em></p>
+<p align="center">
+  <img src="triangle/performance/test_1.svg" width="200"/>
+</p>
+<div class="table-wrapper"><table><thead><tr><th>Count</th><th>Unchecked</th><th>Raw</th><th>Delaunay</th></tr></thead><tbody>
+<tr><td>4</td><td>0.110370</td><td>0.268433</td><td>0.369640</td></tr>
+<tr><td>8</td><td>0.229584</td><td>0.593994</td><td>0.781789</td></tr>
+<tr><td>16</td><td>0.480577</td><td>1.344304</td><td>1.689566</td></tr>
+<tr><td>32</td><td>1.031568</td><td>3.294683</td><td>3.976463</td></tr>
+<tr><td>64</td><td>2.223870</td><td>8.547062</td><td>9.689934</td></tr>
+<tr><td>128</td><td>4.708570</td><td>24.225092</td><td>26.156747</td></tr>
+<tr><td>256</td><td>9.891213</td><td>64.140800</td><td>71.023947</td></tr>
+</tbody></table>
+</div>
+<h2 id="rect-with-star-holes-test"><a class="header" href="#rect-with-star-holes-test">Rect with Star Holes Test</a></h2>
+<p>This test generates and triangulates 25 unique rectangles filled with many 5 corners star-shaped holes.</p>
+<p>Each shape is defined by:</p>
+<ul>
+<li>A large outer rectangle</li>
+<li>A grid of count × count small stars as holes, each with:</li>
+<li>A varying radius scale (5 variations)</li>
+<li>A unique rotation (5 variations)</li>
+<li>5 corners per star, with 10 points per corner.</li>
+</ul>
+<p><em>All shapes are clean (non-intersecting), and no mesh is reused — each one is processed independently.</em></p>
+<p align="center">
+  <img src="triangle/performance/test_2.svg" width="200"/>
+</p>
+<div class="table-wrapper"><table><thead><tr><th>Count</th><th>Unchecked</th><th>Raw</th><th>Delaunay</th></tr></thead><tbody>
+<tr><td>4</td><td>0.003435</td><td>0.009029</td><td>0.037794</td></tr>
+<tr><td>8</td><td>0.013662</td><td>0.035041</td><td>0.112566</td></tr>
+<tr><td>16</td><td>0.062749</td><td>0.152936</td><td>0.313631</td></tr>
+<tr><td>32</td><td>0.268670</td><td>0.534618</td><td>0.927747</td></tr>
+<tr><td>64</td><td>1.343702</td><td>2.542741</td><td>4.774121</td></tr>
+<tr><td>128</td><td>5.680361</td><td>10.131110</td><td>23.526240</td></tr>
+<tr><td>256</td><td>25.201445</td><td>45.647115</td><td>196.863314</td></tr>
+</tbody></table>
 </div><div style="break-before: page; page-break-before: always;"></div><style>
 .MathJax_Display {
   text-align: left !important;
