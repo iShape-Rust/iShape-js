@@ -9,10 +9,10 @@ All results are presented in seconds.
 
 ## Solvers:
 
-- **iTriangle(Unchecked-Raw)** v0.31.0
-- **iTriangle(Raw)** v0.31.0
-- **iTriangle(Delaunay)** v0.31.0
-- **earcutr** [v0.4.3](https://crates.io/crates/earcutr)
+- **iTriangle(Unchecked-Raw)** v0.31.0 _– fast triangulation without validation or simplification_
+- **iTriangle(Raw)** v0.31.0 _– includes input cleaning and simplification_
+- **iTriangle(Delaunay)** v0.31.0 _– applies Delaunay refinement after raw triangulation_
+- **earcutr** [v0.4.3](https://crates.io/crates/earcutr) _– fast ear clipping implementation for polygons with holes, but no support for self-intersections or complex topology_
 
 
 ## Simple Star Test

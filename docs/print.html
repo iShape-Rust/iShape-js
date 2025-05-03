@@ -1615,10 +1615,10 @@ async function fileExists(path) {
 <p>All results are presented in seconds.</p>
 <h2 id="solvers-1"><a class="header" href="#solvers-1">Solvers:</a></h2>
 <ul>
-<li><strong>iTriangle(Unchecked-Raw)</strong> v0.31.0</li>
-<li><strong>iTriangle(Raw)</strong> v0.31.0</li>
-<li><strong>iTriangle(Delaunay)</strong> v0.31.0</li>
-<li><strong>earcutr</strong> <a href="https://crates.io/crates/earcutr">v0.4.3</a></li>
+<li><strong>iTriangle(Unchecked-Raw)</strong> v0.31.0 <em>– fast triangulation without validation or simplification</em></li>
+<li><strong>iTriangle(Raw)</strong> v0.31.0 <em>– includes input cleaning and simplification</em></li>
+<li><strong>iTriangle(Delaunay)</strong> v0.31.0 <em>– applies Delaunay refinement after raw triangulation</em></li>
+<li><strong>earcutr</strong> <a href="https://crates.io/crates/earcutr">v0.4.3</a> <em>– fast ear clipping implementation for polygons with holes, but no support for self-intersections or complex topology</em></li>
 </ul>
 <h2 id="simple-star-test"><a class="header" href="#simple-star-test">Simple Star Test</a></h2>
 <p>This test generates and triangulate 10,000 unique star-shaped polygons, one at a time.
