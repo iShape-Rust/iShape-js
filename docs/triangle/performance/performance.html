@@ -161,11 +161,13 @@
 <p>All results are presented in seconds.</p>
 <h2 id="solvers"><a class="header" href="#solvers">Solvers:</a></h2>
 <ul>
-<li><strong>iTriangle(Unchecked-Raw)</strong> v0.31.0 <em>– fast triangulation without validation or simplification</em></li>
-<li><strong>iTriangle(Raw)</strong> v0.31.0 <em>– includes input validation and simplification</em></li>
-<li><strong>iTriangle(Delaunay)</strong> v0.31.0 <em>– applies Delaunay refinement after raw triangulation</em></li>
-<li><strong>earcutr(MapBox)</strong> v0.4.3 – Rust <a href="https://crates.io/crates/earcutr">port</a></li>
-<li><strong>earcut(MapBox)</strong> v2.2.4 – C++ <a href="https://github.com/mapbox/earcut.hpp">official</a></li>
+<li><strong>iTriangle(Unchecked-Raw)</strong> v0.31.0 <em>– only raw triangulation, no validation check</em></li>
+<li><strong>iTriangle(Unchecked-Delaunay)</strong> v0.31.0 <em>– raw triangulation and refinement Delaunay</em></li>
+<li><strong>iTriangle(Raw)</strong> v0.31.0 <em>– validation and raw triangulation</em></li>
+<li><strong>iTriangle(Delaunay)</strong> v0.31.0 <em>– validation, raw triangulation and refinement Delaunay</em></li>
+<li><strong>earcutr(MapBox)</strong> v0.4.3 – Rust <a href="https://crates.io/crates/earcutr">port</a><em>– only raw triangulation, no validation check</em></li>
+<li><strong>earcut(MapBox)</strong> v2.2.4 – C++ <a href="https://github.com/mapbox/earcut.hpp">official</a><em>– only raw triangulation, no validation check</em></li>
+<li><strong>triangle</strong> v1.6 – C <a href="https://www.cs.cmu.edu/~quake/triangle.html">official</a><em>– constraint Delaunay triangulation, no validation check</em></li>
 </ul>
 <h2 id="simple-star-test"><a class="header" href="#simple-star-test">Simple Star Test</a></h2>
 <p>This test generates and triangulate 10,000 unique star-shaped polygons, one at a time.
@@ -179,15 +181,15 @@ Each shape is defined by:</p>
 <p align="center">
   <img src="test_0.svg" width="200"/>
 </p>
-<div class="table-wrapper"><table><thead><tr><th>Count</th><th>Unchecked</th><th>Raw</th><th>Delaunay</th><th>Earcutr(Rust)</th><th>Earcut(C++)</th></tr></thead><tbody>
-<tr><td>4</td><td>0.047844</td><td>0.074298</td><td>0.139643</td><td>0.057268</td><td>0.025066</td></tr>
-<tr><td>8</td><td>0.098785</td><td>0.165002</td><td>0.284868</td><td>0.127877</td><td>0.0668991</td></tr>
-<tr><td>16</td><td>0.210214</td><td>0.369625</td><td>0.591876</td><td>0.290149</td><td>0.219485</td></tr>
-<tr><td>32</td><td>0.455352</td><td>0.875200</td><td>1.256099</td><td>0.693053</td><td>0.494215</td></tr>
-<tr><td>64</td><td>0.987139</td><td>2.241044</td><td>2.873866</td><td>1.699206</td><td>1.2837</td></tr>
-<tr><td>128</td><td>2.107867</td><td>5.867757</td><td>7.073528</td><td>4.253521</td><td>3.15526</td></tr>
-<tr><td>256</td><td>4.481360</td><td>16.652639</td><td>18.894593</td><td>11.460828</td><td>8.58501</td></tr>
-<tr><td>512</td><td>9.372721</td><td>46.585559</td><td>50.478053</td><td>40.623172</td><td>32.9052</td></tr>
+<div class="table-wrapper"><table><thead><tr><th>Count</th><th>Un-Raw</th><th>Un-Delaunay</th><th>Raw</th><th>Delaunay</th><th>Earcutr(Rust)</th><th>Earcut(C++)</th><th>Triangle(C)</th></tr></thead><tbody>
+<tr><td>4</td><td>0.047844</td><td>0.115777</td><td>0.074298</td><td>0.139643</td><td>0.057268</td><td>0.025066</td><td>0.460071</td></tr>
+<tr><td>8</td><td>0.098785</td><td>0.228447</td><td>0.165002</td><td>0.284868</td><td>0.127877</td><td>0.0668991</td><td>0.884584</td></tr>
+<tr><td>16</td><td>0.210214</td><td>0.448489</td><td>0.369625</td><td>0.591876</td><td>0.290149</td><td>0.219485</td><td>1.52763</td></tr>
+<tr><td>32</td><td>0.455352</td><td>0.882377</td><td>0.875200</td><td>1.256099</td><td>0.693053</td><td>0.494215</td><td>3.07119</td></tr>
+<tr><td>64</td><td>0.987139</td><td>1.760142</td><td>2.241044</td><td>2.873866</td><td>1.699206</td><td>1.2837</td><td>6.14373</td></tr>
+<tr><td>128</td><td>2.107867</td><td>3.493123</td><td>5.867757</td><td>7.073528</td><td>4.253521</td><td>3.15526</td><td>11.7701</td></tr>
+<tr><td>256</td><td>4.481360</td><td>6.983705</td><td>16.652639</td><td>18.894593</td><td>11.460828</td><td>8.58501</td><td>23.1163</td></tr>
+<tr><td>512</td><td>9.372721</td><td>13.960055</td><td>46.585559</td><td>50.478053</td><td>40.623172</td><td>32.9052</td><td>45.0489</td></tr>
 </tbody></table>
 </div>
 <h2 id="star-with-hole-test"><a class="header" href="#star-with-hole-test">Star with Hole Test</a></h2>
@@ -203,14 +205,14 @@ Each shape is defined by:</p>
 <p align="center">
   <img src="test_1.svg" width="200"/>
 </p>
-<div class="table-wrapper"><table><thead><tr><th>Count</th><th>Unchecked</th><th>Raw</th><th>Delaunay</th><th>Earcutr(Rust)</th><th>Earcut(C++)</th></tr></thead><tbody>
-<tr><td>4</td><td>0.110370</td><td>0.268433</td><td>0.369640</td><td>0.187054</td><td>0.136161</td></tr>
-<tr><td>8</td><td>0.229584</td><td>0.593994</td><td>0.781789</td><td>0.492114</td><td>0.454629</td></tr>
-<tr><td>16</td><td>0.480577</td><td>1.344304</td><td>1.689566</td><td>1.537897</td><td>1.52663</td></tr>
-<tr><td>32</td><td>1.031568</td><td>3.294683</td><td>3.976463</td><td>6.108676</td><td>5.16188</td></tr>
-<tr><td>64</td><td>2.223870</td><td>8.547062</td><td>9.689934</td><td>29.415327</td><td>25.1207</td></tr>
-<tr><td>128</td><td>4.708570</td><td>24.225092</td><td>26.156747</td><td>201.363290</td><td>161.923</td></tr>
-<tr><td>256</td><td>9.891213</td><td>64.140800</td><td>71.023947</td><td>---</td><td>---</td></tr>
+<div class="table-wrapper"><table><thead><tr><th>Count</th><th>Un-Raw</th><th>Un-Delaunay</th><th>Raw</th><th>Delaunay</th><th>Earcutr(Rust)</th><th>Earcut(C++)</th><th>Triangle(C)</th></tr></thead><tbody>
+<tr><td>4</td><td>0.110370</td><td>0.212785</td><td>0.268433</td><td>0.369640</td><td>0.187054</td><td>0.136161</td><td>0.801385</td></tr>
+<tr><td>8</td><td>0.229584</td><td>0.423034</td><td>0.593994</td><td>0.781789</td><td>0.492114</td><td>0.454629</td><td>1.59074</td></tr>
+<tr><td>16</td><td>0.480577</td><td>0.830413</td><td>1.344304</td><td>1.689566</td><td>1.537897</td><td>1.52663</td><td>3.12989</td></tr>
+<tr><td>32</td><td>1.031568</td><td>1.754029</td><td>3.294683</td><td>3.976463</td><td>6.108676</td><td>5.16188</td><td>6.21763</td></tr>
+<tr><td>64</td><td>2.223870</td><td>3.289262</td><td>8.547062</td><td>9.689934</td><td>29.415327</td><td>25.1207</td><td>12.29</td></tr>
+<tr><td>128</td><td>4.708570</td><td>6.567074</td><td>24.225092</td><td>26.156747</td><td>201.363290</td><td>161.923</td><td>24.6715</td></tr>
+<tr><td>256</td><td>9.891213</td><td>13.818567</td><td>64.140800</td><td>71.023947</td><td>---</td><td>---</td><td>50.5745</td></tr>
 </tbody></table>
 </div>
 <h2 id="rect-with-star-holes-test"><a class="header" href="#rect-with-star-holes-test">Rect with Star Holes Test</a></h2>
@@ -227,14 +229,14 @@ Each shape is defined by:</p>
 <p align="center">
   <img src="test_2.svg" width="200"/>
 </p>
-<div class="table-wrapper"><table><thead><tr><th>Count</th><th>Unchecked</th><th>Raw</th><th>Delaunay</th><th>Earcutr(Rust)</th><th>Earcut(C++)</th></tr></thead><tbody>
-<tr><td>4</td><td>0.003435</td><td>0.009029</td><td>0.037794</td><td>0.037897</td><td>0.00531192</td></tr>
-<tr><td>8</td><td>0.013662</td><td>0.035041</td><td>0.112566</td><td>0.076405</td><td>0.0431032</td></tr>
-<tr><td>16</td><td>0.062749</td><td>0.152936</td><td>0.313631</td><td>0.605979</td><td>0.571262</td></tr>
-<tr><td>32</td><td>0.268670</td><td>0.534618</td><td>0.927747</td><td>7.496754</td><td>0.54836</td></tr>
-<tr><td>64</td><td>1.343702</td><td>2.542741</td><td>4.774121</td><td>210.383871</td><td>201.28</td></tr>
-<tr><td>128</td><td>5.680361</td><td>10.131110</td><td>23.526240</td><td>---</td><td>---</td></tr>
-<tr><td>256</td><td>25.201445</td><td>45.647115</td><td>196.863314</td><td>---</td><td>---</td></tr>
+<div class="table-wrapper"><table><thead><tr><th>Count</th><th>Un-Raw</th><th>Un-Delaunay</th><th>Raw</th><th>Delaunay</th><th>Earcutr(Rust)</th><th>Earcut(C++)</th><th>Triangle(C)</th></tr></thead><tbody>
+<tr><td>4</td><td>0.003435</td><td>0.009057</td><td>0.009029</td><td>0.037794</td><td>0.037897</td><td>0.00531192</td><td>0.0281862</td></tr>
+<tr><td>8</td><td>0.013662</td><td>0.030481</td><td>0.035041</td><td>0.112566</td><td>0.076405</td><td>0.0431032</td><td>0.094576</td></tr>
+<tr><td>16</td><td>0.062749</td><td>0.130746</td><td>0.152936</td><td>0.313631</td><td>0.605979</td><td>0.571262</td><td>0.329305</td></tr>
+<tr><td>32</td><td>0.268670</td><td>0.586956</td><td>0.534618</td><td>0.927747</td><td>7.496754</td><td>0.54836</td><td>1.34492</td></tr>
+<tr><td>64</td><td>1.343702</td><td>3.520728</td><td>2.542741</td><td>4.774121</td><td>210.383871</td><td>201.28</td><td>5.86257</td></tr>
+<tr><td>128</td><td>5.680361</td><td>19.395140</td><td>10.131110</td><td>23.526240</td><td>---</td><td>---</td><td>28.4693</td></tr>
+<tr><td>256</td><td>25.201445</td><td>182.099675</td><td>45.647115</td><td>196.863314</td><td>---</td><td>---</td><td>175.662</td></tr>
 </tbody></table>
 </div>
                     </main>
