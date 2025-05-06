@@ -3,7 +3,7 @@
 <p align="center">
   <img src="readme/balloons.svg" width="250"/>
 </p>
-2D geometry library for triangulation and poly-bool operations such as union, intersection, difference and xor.
+A fast 2D geometry library in WebAssembly for JavaScript and TypeScript. Supports polygon boolean operations, buffering, and triangulation.
 
 ## [Demo](https://ishape-rust.github.io/iShape-js/overlay/stars_demo.html)
 Try out iShape with an interactive demo.
