@@ -9,10 +9,10 @@ All results are presented in seconds.
 
 ## Solvers:
 
-- **iTriangle(Unchecked-Raw)** v0.31.0 _– only raw triangulation, no validation check_
-- **iTriangle(Unchecked-Delaunay)** v0.31.0 _– raw triangulation and refinement Delaunay_
-- **iTriangle(Raw)** v0.31.0 _– validation and raw triangulation_
-- **iTriangle(Delaunay)** v0.31.0 _– validation, raw triangulation and refinement Delaunay_
+- **iTriangle(Unchecked-Raw)** v0.32.0 _– only raw triangulation, no validation check_
+- **iTriangle(Unchecked-Delaunay)** v0.32.0 _– raw triangulation and refinement Delaunay_
+- **iTriangle(Raw)** v0.32.0 _– validation and raw triangulation_
+- **iTriangle(Delaunay)** v0.32.0 _– validation, raw triangulation and refinement Delaunay_
 - **earcutr(MapBox)** v0.4.3 – Rust [port](https://crates.io/crates/earcutr)_– only raw triangulation, no validation check_
 - **earcut(MapBox)** v2.2.4 – C++ [official](https://github.com/mapbox/earcut.hpp)_– only raw triangulation, no validation check_
 - **triangle** v1.6 – C [official](https://www.cs.cmu.edu/~quake/triangle.html)_– constraint Delaunay triangulation, no validation check_
