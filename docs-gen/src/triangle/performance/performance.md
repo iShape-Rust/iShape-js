@@ -13,7 +13,9 @@ td, th {
 
 # Performance Comparison
 
-Benchmark project is [here](https://github.com/iShape-Rust/iTriangle/tree/main/performance).
+Benchmark projects are:
+- [rust](https://github.com/iShape-Rust/iTriangle/tree/main/performance)
+- [cpp](https://github.com/iShape-Rust/cpp_triangle_performance_app)
 
 All tests were run on a machine with the following specifications:  
 **3 GHz 6-Core Intel Core i5, 40GB 2667 MHz DDR4**  
