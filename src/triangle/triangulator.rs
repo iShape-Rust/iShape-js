@@ -1,7 +1,8 @@
+use alloc::vec::Vec;
 use crate::data::NestedData;
 use i_triangle::float::delaunay::Delaunay as RustDelaunay;
 use i_triangle::float::triangulatable::Triangulatable;
-use i_triangle::float::triangulation::RawTriangulation as RustRawTriangulation;
+use i_triangle::float::triangulation::{RawTriangulation as RustRawTriangulation, Triangulation};
 use wasm_bindgen::prelude::wasm_bindgen;
 use wasm_bindgen::JsValue;
 
@@ -57,7 +58,7 @@ impl Triangulator {
 impl RawTriangulation {
     #[wasm_bindgen]
     pub fn to_triangulation(&self) -> JsValue {
-        let triangulation = self.raw.to_triangulation();
+        let triangulation: Triangulation<[f64; 2], usize> = self.raw.to_triangulation();
         serde_wasm_bindgen::to_value(&triangulation).unwrap()
     }
 
@@ -73,7 +74,7 @@ impl RawTriangulation {
 impl Delaunay {
     #[wasm_bindgen]
     pub fn to_triangulation(&self) -> JsValue {
-        let triangulation = self.delaunay.to_triangulation();
+        let triangulation: Triangulation<[f64; 2], usize> = self.delaunay.to_triangulation();
         serde_wasm_bindgen::to_value(&triangulation).unwrap()
     }
 

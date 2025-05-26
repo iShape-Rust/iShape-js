@@ -1,14 +1,14 @@
+use alloc::vec::Vec;
 use i_triangle::i_overlay::i_float::adapter::FloatPointAdapter;
 use i_triangle::i_overlay::vector::edge::VectorEdge;
-use serde::{Deserialize, Serialize};
-use std::fmt;
+use core::fmt;
 use wasm_bindgen::JsValue;
 
 pub type ShapesData = Vec<ShapeData>;
 pub type ShapeData = Vec<ContourData>;
 pub type ContourData = Vec<[f64; 2]>;
 
-#[derive(Deserialize)]
+#[derive(serde::Deserialize)]
 #[serde(untagged)]
 pub(super) enum NestedData {
     Contour(ContourData),
@@ -27,7 +27,7 @@ impl NestedData {
     }
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize)]
 pub struct VectorData {
     pub ax: f64,
     pub ay: f64,
@@ -36,7 +36,7 @@ pub struct VectorData {
     pub fill: u8,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize)]
 pub struct VectorsData {
     pub vectors: Vec<VectorData>,
 }
