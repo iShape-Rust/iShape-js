@@ -1610,10 +1610,11 @@ async function fileExists(path) {
     <canvas id="editorCanvas" width="800" height="800"></canvas>
 </div><div style="break-before: page; page-break-before: always;"></div><style>
 table {
-    width: 100% !important;
+    max-width: 550px;
     table-layout: auto;
-    font-size: 0.8em;
     padding: 2px 2px;
+    margin-left: 0;      /* Aligns table to the left */
+    margin-right: auto;  /* Prevents centering */
 }
 
 td, th {
@@ -1626,87 +1627,144 @@ td, th {
 <li><a href="https://github.com/iShape-Rust/iTriangle/tree/main/performance">rust</a></li>
 <li><a href="https://github.com/iShape-Rust/cpp_triangle_performance_app">cpp</a></li>
 </ul>
-<p>All tests were run on a machine with the following specifications:<br />
+<p>All benchmarks were executed on the following machine:<br />
 <strong>3 GHz 6-Core Intel Core i5, 40GB 2667 MHz DDR4</strong></p>
-<p>All results are presented in seconds.</p>
-<h2 id="solvers-1"><a class="header" href="#solvers-1">Solvers:</a></h2>
+<p>All results are presented in microseconds (10⁻⁶ sec).</p>
+<p>Each test was repeated multiple times, and the average result is shown.</p>
+<p>All input shapes are clean (non-self-intersecting), and the logic was optimized to achieve maximum performance.</p>
+<h2 id="solvers-1"><a class="header" href="#solvers-1">Solvers</a></h2>
 <ul>
-<li><strong>iTriangle(Unchecked-Raw)</strong> v0.32.0 <em>– only raw triangulation, no validation check</em></li>
-<li><strong>iTriangle(Unchecked-Delaunay)</strong> v0.32.0 <em>– raw triangulation and refinement Delaunay</em></li>
-<li><strong>iTriangle(Raw)</strong> v0.32.0 <em>– validation and raw triangulation</em></li>
-<li><strong>iTriangle(Delaunay)</strong> v0.32.0 <em>– validation, raw triangulation and refinement Delaunay</em></li>
-<li><strong>earcutr(MapBox)</strong> v0.4.3 – Rust <a href="https://crates.io/crates/earcutr">port</a><em>– only raw triangulation, no validation check</em></li>
-<li><strong>earcut(MapBox)</strong> v2.2.4 – C++ <a href="https://github.com/mapbox/earcut.hpp">official</a><em>– only raw triangulation, no validation check</em></li>
-<li><strong>triangle</strong> v1.6 – C <a href="https://www.cs.cmu.edu/~quake/triangle.html">official</a><em>– constraint Delaunay triangulation, no validation check</em></li>
+<li><strong>iTriangle (Earcut64, Rust)</strong> v0.36.1 — raw triangulation, no holes, limited to ≤64 points, validation disabled</li>
+<li><strong>iTriangle (Monotone, Rust)</strong> v0.36.1 — raw triangulation, validation disabled</li>
+<li><strong>iTriangle (Delaunay, Rust)</strong> v0.36.1 — Delaunay triangulation, validation disabled</li>
+<li><strong>MapBox (Earcut Rust)</strong> v0.5.0 – Rust <a href="https://crates.io/crates/earcutr">port</a> – raw triangulation, validation disabled</li>
+<li><strong>MapBox (Earcut C++)</strong> v2.2.4 – C++ <a href="https://github.com/mapbox/earcut.hpp">official</a> – raw triangulation, validation disabled</li>
+<li><strong>Triangle (Delaunay C)</strong> v1.6 – C <a href="https://www.cs.cmu.edu/~quake/triangle.html">official</a> - constrained Delaunay triangulation, validation disabled</li>
 </ul>
-<h2 id="simple-star-test"><a class="header" href="#simple-star-test">Simple Star Test</a></h2>
-<p>This test generates and triangulate 10,000 unique star-shaped polygons, one at a time.
-Each shape is defined by:</p>
-<ul>
-<li>A unique radius scale (100 variations)</li>
-<li>A unique rotation (100 steps across a full circle)</li>
-<li>A given number of corners (count), each with 10 points</li>
-</ul>
-<p><em>All shapes are clean (non-intersecting), and no mesh is reused — each one is processed independently.</em></p>
+<h2 id="star-test"><a class="header" href="#star-test">Star Test</a></h2>
 <p align="center">
   <img src="triangle/performance/test_0.svg" width="200"/>
 </p>
-<div class="table-wrapper"><table><thead><tr><th>Count</th><th>Un-Raw</th><th>Un-Delaunay</th><th>Raw</th><th>Delaunay</th><th>Earcutr (Rust)</th><th>Earcut (C++)</th><th>Triangle (C)</th></tr></thead><tbody>
-<tr><td>4</td><td>0.042724</td><td>0.111433</td><td>0.079023</td><td>0.149286</td><td>0.057268</td><td>0.02506</td><td>0.46007</td></tr>
-<tr><td>8</td><td>0.083704</td><td>0.217058</td><td>0.169321</td><td>0.303273</td><td>0.127877</td><td>0.06689</td><td>0.88458</td></tr>
-<tr><td>16</td><td>0.174608</td><td>0.403747</td><td>0.373843</td><td>0.616759</td><td>0.290149</td><td>0.21948</td><td>1.52763</td></tr>
-<tr><td>32</td><td>0.363115</td><td>0.773319</td><td>0.832105</td><td>1.253739</td><td>0.693053</td><td>0.49421</td><td>3.07119</td></tr>
-<tr><td>64</td><td>0.769955</td><td>1.490260</td><td>2.077839</td><td>2.849603</td><td>1.699206</td><td>1.2837</td><td>6.14373</td></tr>
-<tr><td>128</td><td>1.688746</td><td>2.911652</td><td>5.533498</td><td>6.883017</td><td>4.253521</td><td>3.15526</td><td>11.7701</td></tr>
-<tr><td>256</td><td>3.465031</td><td>5.761777</td><td>16.05451</td><td>18.57409</td><td>11.46082</td><td>8.58501</td><td>23.1163</td></tr>
-<tr><td>512</td><td>7.063979</td><td>11.47869</td><td>45.20263</td><td>49.50912</td><td>40.62317</td><td>32.9052</td><td>45.0489</td></tr>
+<h3 id="raw"><a class="header" href="#raw">Raw</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Count</th><th>Earcut64</th><th>Monotone</th><th>Earcut Rust</th><th>Earcut C++</th></tr></thead><tbody>
+<tr><td>8</td><td>0.28</td><td>0.5</td><td>0.73</td><td>0.42</td></tr>
+<tr><td>16</td><td>0.6</td><td>1.6</td><td>1.23</td><td>0.5</td></tr>
+<tr><td>32</td><td>1.54</td><td>3.9</td><td>2.6</td><td>1.2</td></tr>
+<tr><td>64</td><td>4.46</td><td>8.35</td><td>5.6</td><td>3.3</td></tr>
+<tr><td>128</td><td>-</td><td>17.8</td><td>12.6</td><td>8.4</td></tr>
+<tr><td>256</td><td>-</td><td>37.5</td><td>29.1</td><td>22.9</td></tr>
+<tr><td>512</td><td>-</td><td>79.7</td><td>80.7</td><td>72.7</td></tr>
+<tr><td>1024</td><td>-</td><td>172</td><td>259</td><td>209</td></tr>
+<tr><td>2048</td><td>-</td><td>388</td><td>736</td><td>641</td></tr>
+<tr><td>4096</td><td>-</td><td>898</td><td>3158</td><td>2804</td></tr>
+<tr><td>8192</td><td>-</td><td>1824</td><td>13435</td><td>11479</td></tr>
+<tr><td>16384</td><td>-</td><td>3846</td><td>51688</td><td>44017</td></tr>
 </tbody></table>
 </div>
-<h2 id="star-with-hole-test"><a class="header" href="#star-with-hole-test">Star with Hole Test</a></h2>
-<p>This test generates and triangulates 10,000 unique star-shaped polygons with a central hole, one at a time.
-Each shape is defined by:</p>
-<ul>
-<li>A unique radius scale (100 variations)</li>
-<li>A unique rotation (100 steps across a full circle)</li>
-<li>A central hole generated as a smaller star</li>
-<li>A given number of corners (count), each with 10 points</li>
-</ul>
-<p><em>All shapes are clean (non-intersecting), and no mesh is reused — each one is processed independently.</em></p>
+<h3 id="delaunay"><a class="header" href="#delaunay">Delaunay</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Count</th><th>iTriangle</th><th>Triangle</th></tr></thead><tbody>
+<tr><td>8</td><td>0.46</td><td>4.3</td></tr>
+<tr><td>16</td><td>1.0</td><td>8.3</td></tr>
+<tr><td>32</td><td>2.5</td><td>25</td></tr>
+<tr><td>64</td><td>6.65</td><td>130</td></tr>
+<tr><td>128</td><td>19.7</td><td>271</td></tr>
+<tr><td>256</td><td>40.5</td><td>523</td></tr>
+<tr><td>512</td><td>85.9</td><td>1006</td></tr>
+<tr><td>1024</td><td>194</td><td>1704</td></tr>
+<tr><td>2048</td><td>424</td><td>2828</td></tr>
+<tr><td>4096</td><td>987</td><td>4806</td></tr>
+<tr><td>8192</td><td>2074</td><td>8581</td></tr>
+<tr><td>16384</td><td>4533</td><td>16384</td></tr>
+</tbody></table>
+</div>
+<h2 id="spiral-test-1"><a class="header" href="#spiral-test-1">Spiral Test</a></h2>
 <p align="center">
   <img src="triangle/performance/test_1.svg" width="200"/>
 </p>
-<div class="table-wrapper"><table><thead><tr><th>Count</th><th>Un-Raw</th><th>Un-Delaunay</th><th>Raw</th><th>Delaunay</th><th>Earcutr (Rust)</th><th>Earcut (C++)</th><th>Triangle (C)</th></tr></thead><tbody>
-<tr><td>4</td><td>0.094518</td><td>0.201821</td><td>0.250895</td><td>0.361006</td><td>0.187054</td><td>0.136161</td><td>0.80138</td></tr>
-<tr><td>8</td><td>0.187340</td><td>0.380116</td><td>0.533652</td><td>0.743455</td><td>0.492114</td><td>0.454629</td><td>1.59074</td></tr>
-<tr><td>16</td><td>0.388725</td><td>0.728224</td><td>1.200238</td><td>1.579734</td><td>1.537897</td><td>1.52663</td><td>3.12989</td></tr>
-<tr><td>32</td><td>0.796857</td><td>1.477642</td><td>3.011562</td><td>3.662901</td><td>6.108676</td><td>5.16188</td><td>6.21763</td></tr>
-<tr><td>64</td><td>1.686455</td><td>2.747037</td><td>7.879640</td><td>9.071579</td><td>29.41532</td><td>25.1207</td><td>12.29</td></tr>
-<tr><td>128</td><td>3.601513</td><td>5.478580</td><td>22.38637</td><td>24.40913</td><td>201.3632</td><td>161.923</td><td>24.6715</td></tr>
-<tr><td>256</td><td>7.615879</td><td>11.41139</td><td>63.66546</td><td>67.22043</td><td>---</td><td>---</td><td>50.5745</td></tr>
+<h3 id="raw-1"><a class="header" href="#raw-1">Raw</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Count</th><th>Earcut64</th><th>Monotone</th><th>Earcut Rust</th><th>Earcut C++</th></tr></thead><tbody>
+<tr><td>8</td><td>0.33</td><td>0.7</td><td>0.79</td><td>0.42</td></tr>
+<tr><td>16</td><td>1.13</td><td>1.4</td><td>1.71</td><td>0.77</td></tr>
+<tr><td>32</td><td>4.22</td><td>3.0</td><td>6.44</td><td>3.4</td></tr>
+<tr><td>64</td><td>19.1</td><td>6.2</td><td>18.6</td><td>19.8</td></tr>
+<tr><td>128</td><td>-</td><td>12.8</td><td>71.6</td><td>66</td></tr>
+<tr><td>256</td><td>-</td><td>26.7</td><td>295</td><td>306</td></tr>
+<tr><td>512</td><td>-</td><td>55.5</td><td>1230</td><td>1438</td></tr>
+<tr><td>1024</td><td>-</td><td>120</td><td>5301</td><td>7595</td></tr>
+<tr><td>2048</td><td>-</td><td>279</td><td>22682</td><td>50140</td></tr>
+<tr><td>4096</td><td>-</td><td>685</td><td>96933</td><td>376060</td></tr>
+<tr><td>8192</td><td>-</td><td>1435</td><td>416943</td><td>3.7kk</td></tr>
+<tr><td>16384</td><td>-</td><td>3080</td><td>1812147</td><td>43.4kk</td></tr>
 </tbody></table>
 </div>
-<h2 id="rect-with-star-holes-test"><a class="header" href="#rect-with-star-holes-test">Rect with Star Holes Test</a></h2>
-<p>This test generates and triangulates 25 unique rectangles filled with many 5 corners star-shaped holes.</p>
-<p>Each shape is defined by:</p>
-<ul>
-<li>A large outer rectangle</li>
-<li>A grid of count × count small stars as holes, each with:</li>
-<li>A varying radius scale (5 variations)</li>
-<li>A unique rotation (5 variations)</li>
-<li>5 corners per star, with 10 points per corner.</li>
-</ul>
-<p><em>All shapes are clean (non-intersecting), and no mesh is reused — each one is processed independently.</em></p>
+<h3 id="delaunay-1"><a class="header" href="#delaunay-1">Delaunay</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Count</th><th>iTriangle</th><th>Triangle</th></tr></thead><tbody>
+<tr><td>8</td><td>0.51</td><td>3.2</td></tr>
+<tr><td>16</td><td>1.6</td><td>8.7</td></tr>
+<tr><td>32</td><td>5.0</td><td>21.5</td></tr>
+<tr><td>64</td><td>19.9</td><td>35.6</td></tr>
+<tr><td>128</td><td>14.6</td><td>66.9</td></tr>
+<tr><td>256</td><td>29.7</td><td>166</td></tr>
+<tr><td>512</td><td>62.2</td><td>340</td></tr>
+<tr><td>1024</td><td>139</td><td>728</td></tr>
+<tr><td>2048</td><td>313</td><td>1469</td></tr>
+<tr><td>4096</td><td>735</td><td>82948</td></tr>
+<tr><td>8192</td><td>1442</td><td>6609</td></tr>
+<tr><td>16384</td><td>3463</td><td>13863</td></tr>
+</tbody></table>
+</div>
+<h2 id="star-with-hole-test"><a class="header" href="#star-with-hole-test">Star with Hole Test</a></h2>
 <p align="center">
   <img src="triangle/performance/test_2.svg" width="200"/>
 </p>
-<div class="table-wrapper"><table><thead><tr><th>Count</th><th>Un-Raw</th><th>Un-Delaunay</th><th>Raw</th><th>Delaunay</th><th>Earcutr (Rust)</th><th>Earcut (C++)</th><th>Triangle (C)</th></tr></thead><tbody>
-<tr><td>4</td><td>0.002339</td><td>0.008275</td><td>0.009139</td><td>0.042705</td><td>0.037897</td><td>0.005311</td><td>0.02818</td></tr>
-<tr><td>8</td><td>0.008906</td><td>0.024921</td><td>0.036900</td><td>0.104350</td><td>0.076405</td><td>0.043103</td><td>0.09457</td></tr>
-<tr><td>16</td><td>0.044372</td><td>0.116687</td><td>0.142827</td><td>0.323554</td><td>0.605979</td><td>0.571262</td><td>0.32930</td></tr>
-<tr><td>32</td><td>0.186836</td><td>0.510489</td><td>0.460254</td><td>0.936904</td><td>7.496754</td><td>8.54836</td><td>1.34492</td></tr>
-<tr><td>64</td><td>0.786142</td><td>2.617753</td><td>1.985195</td><td>4.231544</td><td>210.3838</td><td>201.28</td><td>5.86257</td></tr>
-<tr><td>128</td><td>4.351395</td><td>18.80902</td><td>9.719830</td><td>24.87851</td><td>---</td><td>---</td><td>28.4693</td></tr>
-<tr><td>256</td><td>18.93581</td><td>149.7484</td><td>37.08732</td><td>179.9286</td><td>---</td><td>---</td><td>175.662</td></tr>
+<h3 id="raw-2"><a class="header" href="#raw-2">Raw</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Count</th><th>Monotone</th><th>Earcut Rust</th><th>Earcut C++</th></tr></thead><tbody>
+<tr><td>128</td><td>12.1</td><td>31.9</td><td>30.2</td></tr>
+<tr><td>256</td><td>22.4</td><td>86.6</td><td>78.8</td></tr>
+<tr><td>512</td><td>42.3</td><td>227</td><td>222</td></tr>
+<tr><td>1024</td><td>84.4</td><td>650</td><td>593</td></tr>
+<tr><td>2048</td><td>174</td><td>2053</td><td>1825</td></tr>
+<tr><td>4096</td><td>333</td><td>7102</td><td>5702</td></tr>
+<tr><td>8192</td><td>755</td><td>26197</td><td>22390</td></tr>
+<tr><td>16384</td><td>1636</td><td>102874</td><td>80154</td></tr>
+</tbody></table>
+</div>
+<h3 id="delaunay-2"><a class="header" href="#delaunay-2">Delaunay</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Count</th><th>iTriangle</th><th>Triangle</th></tr></thead><tbody>
+<tr><td>128</td><td>16.8</td><td>201</td></tr>
+<tr><td>256</td><td>32.8</td><td>410</td></tr>
+<tr><td>512</td><td>61.6</td><td>808</td></tr>
+<tr><td>1024</td><td>121</td><td>1616</td></tr>
+<tr><td>2048</td><td>250</td><td>3055</td></tr>
+<tr><td>4096</td><td>505</td><td>6410</td></tr>
+<tr><td>8192</td><td>1401</td><td>12919</td></tr>
+<tr><td>16384</td><td>4093</td><td>30704</td></tr>
+</tbody></table>
+</div>
+<h2 id="star-with-8-holes-test"><a class="header" href="#star-with-8-holes-test">Star with 8 holes Test</a></h2>
+<p align="center">
+  <img src="triangle/performance/test_3.svg" width="200"/>
+</p>
+<h3 id="raw-3"><a class="header" href="#raw-3">Raw</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Count</th><th>Monotone</th><th>Earcut Rust</th><th>Earcut C++</th></tr></thead><tbody>
+<tr><td>256</td><td>19.3</td><td>117</td><td>43</td></tr>
+<tr><td>512</td><td>30.3</td><td>260</td><td>107</td></tr>
+<tr><td>1024</td><td>53.7</td><td>437</td><td>270</td></tr>
+<tr><td>2048</td><td>107</td><td>5018</td><td>576</td></tr>
+<tr><td>4096</td><td>200</td><td>40596</td><td>1517</td></tr>
+<tr><td>8192</td><td>388</td><td>156287</td><td>3802</td></tr>
+<tr><td>16384</td><td>797</td><td>273567</td><td>12687</td></tr>
+</tbody></table>
+</div>
+<h3 id="delaunay-3"><a class="header" href="#delaunay-3">Delaunay</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Count</th><th>iTriangle</th><th>Triangle</th></tr></thead><tbody>
+<tr><td>256</td><td>23.7</td><td>330</td></tr>
+<tr><td>512</td><td>41.6</td><td>546</td></tr>
+<tr><td>1024</td><td>71.4</td><td>951</td></tr>
+<tr><td>2048</td><td>143</td><td>1777</td></tr>
+<tr><td>4096</td><td>276</td><td>3398</td></tr>
+<tr><td>8192</td><td>567</td><td>6921</td></tr>
+<tr><td>16384</td><td>1539</td><td>13748</td></tr>
 </tbody></table>
 </div><div style="break-before: page; page-break-before: always;"></div><style>
 .MathJax_Display {
@@ -1756,7 +1814,7 @@ window.addEventListener('DOMContentLoaded', function() {
   })();
 });
 </script>
-<h2 id="delaunay"><a class="header" href="#delaunay">Delaunay</a></h2>
+<h2 id="delaunay-4"><a class="header" href="#delaunay-4">Delaunay</a></h2>
 <p style="font-style: italic;">Click on the canvas to drag the points</p>
 <canvas id="delaunayCanvas" width="500" height="500"></canvas>
 <h3 id="what-is-the-delaunay-condition"><a class="header" href="#what-is-the-delaunay-condition">What is the Delaunay Condition?</a></h3>
