@@ -29,9 +29,9 @@ All input shapes are clean (non-self-intersecting), and the logic was optimized 
 
 ## Solvers
 
-- **iTriangle (Earcut64, Rust)** v0.36.2 — raw triangulation, no holes, limited to ≤64 points, validation disabled
-- **iTriangle (Monotone, Rust)** v0.36.2 — raw triangulation, validation disabled
-- **iTriangle (Delaunay, Rust)** v0.36.2 — Delaunay triangulation, validation disabled
+- **iTriangle (Earcut64, Rust)** v0.36.3 — raw triangulation, no holes, limited to ≤64 points, validation disabled
+- **iTriangle (Monotone, Rust)** v0.36.3 — raw triangulation, validation disabled
+- **iTriangle (Delaunay, Rust)** v0.36.3 — Delaunay triangulation, validation disabled
 - **MapBox (Earcut Rust)** v0.5.0 – Rust [port](https://crates.io/crates/earcutr) – raw triangulation, validation disabled
 - **MapBox (Earcut C++)** v2.2.4 – C++ [official](https://github.com/mapbox/earcut.hpp) – raw triangulation, validation disabled
 - **Triangle (Delaunay C)** v1.6 – C [official](https://www.cs.cmu.edu/~quake/triangle.html) - constrained Delaunay triangulation, validation disabled
@@ -47,10 +47,10 @@ All input shapes are clean (non-self-intersecting), and the logic was optimized 
 
 |Count | Earcut64 |Monotone      |Earcut Rust    |Earcut C++  |
 |------|----------|--------------|---------------|------------|
-|8     | 0.28     |0.5           |0.73           |0.42        |
-|16    | 0.64     |1.6           |1.23           |0.5         |
-|32    | 1.61     |3.9           |2.6            |1.2         |
-|64    | 4.45     |8.35          |5.6            |3.3         |
+|8     | 0.3      |0.5           |0.73           |0.42        |
+|16    | 0.66     |1.6           |1.23           |0.5         |
+|32    | 1.6      |3.9           |2.6            |1.2         |
+|64    | 4.6      |8.35          |5.6            |3.3         |
 |128   | -        |17.8          |12.6           |8.4         |
 |256   | -        |37.5          |29.1           |22.9        |
 |512   | -        |79.7          |80.7           |72.7        |
@@ -90,8 +90,8 @@ All input shapes are clean (non-self-intersecting), and the logic was optimized 
 |------|----------|--------------|-------------|------------|
 |8     | 0.35     |0.7           | 0.77        |0.42        |
 |16    | 1.2      |1.4           | 1.66        |0.77        |
-|32    | 4.2      |3.0           | 6.25        |3.4         |
-|64    | 16.1     |6.2           | 18.6        |19.8        |
+|32    | 4.0      |3.0           | 6.25        |3.4         |
+|64    | 15.4     |6.2           | 18.6        |19.8        |
 |128   | -        |12.8          | 71.6        |66          |
 |256   | -        |26.7          | 295         |306         |
 |512   | -        |55.5          | 1230        |1438        |
