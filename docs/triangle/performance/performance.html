@@ -180,9 +180,9 @@ td, th {
 <p>All input shapes are clean (non-self-intersecting), and the logic was optimized to achieve maximum performance.</p>
 <h2 id="solvers"><a class="header" href="#solvers">Solvers</a></h2>
 <ul>
-<li><strong>iTriangle (Earcut64, Rust)</strong> v0.36.2 — raw triangulation, no holes, limited to ≤64 points, validation disabled</li>
-<li><strong>iTriangle (Monotone, Rust)</strong> v0.36.2 — raw triangulation, validation disabled</li>
-<li><strong>iTriangle (Delaunay, Rust)</strong> v0.36.2 — Delaunay triangulation, validation disabled</li>
+<li><strong>iTriangle (Earcut64, Rust)</strong> v0.36.3 — raw triangulation, no holes, limited to ≤64 points, validation disabled</li>
+<li><strong>iTriangle (Monotone, Rust)</strong> v0.36.3 — raw triangulation, validation disabled</li>
+<li><strong>iTriangle (Delaunay, Rust)</strong> v0.36.3 — Delaunay triangulation, validation disabled</li>
 <li><strong>MapBox (Earcut Rust)</strong> v0.5.0 – Rust <a href="https://crates.io/crates/earcutr">port</a> – raw triangulation, validation disabled</li>
 <li><strong>MapBox (Earcut C++)</strong> v2.2.4 – C++ <a href="https://github.com/mapbox/earcut.hpp">official</a> – raw triangulation, validation disabled</li>
 <li><strong>Triangle (Delaunay C)</strong> v1.6 – C <a href="https://www.cs.cmu.edu/~quake/triangle.html">official</a> - constrained Delaunay triangulation, validation disabled</li>
@@ -193,10 +193,10 @@ td, th {
 </p>
 <h3 id="raw"><a class="header" href="#raw">Raw</a></h3>
 <div class="table-wrapper"><table><thead><tr><th>Count</th><th>Earcut64</th><th>Monotone</th><th>Earcut Rust</th><th>Earcut C++</th></tr></thead><tbody>
-<tr><td>8</td><td>0.28</td><td>0.5</td><td>0.73</td><td>0.42</td></tr>
-<tr><td>16</td><td>0.64</td><td>1.6</td><td>1.23</td><td>0.5</td></tr>
-<tr><td>32</td><td>1.61</td><td>3.9</td><td>2.6</td><td>1.2</td></tr>
-<tr><td>64</td><td>4.45</td><td>8.35</td><td>5.6</td><td>3.3</td></tr>
+<tr><td>8</td><td>0.3</td><td>0.5</td><td>0.73</td><td>0.42</td></tr>
+<tr><td>16</td><td>0.66</td><td>1.6</td><td>1.23</td><td>0.5</td></tr>
+<tr><td>32</td><td>1.6</td><td>3.9</td><td>2.6</td><td>1.2</td></tr>
+<tr><td>64</td><td>4.6</td><td>8.35</td><td>5.6</td><td>3.3</td></tr>
 <tr><td>128</td><td>-</td><td>17.8</td><td>12.6</td><td>8.4</td></tr>
 <tr><td>256</td><td>-</td><td>37.5</td><td>29.1</td><td>22.9</td></tr>
 <tr><td>512</td><td>-</td><td>79.7</td><td>80.7</td><td>72.7</td></tr>
@@ -231,8 +231,8 @@ td, th {
 <div class="table-wrapper"><table><thead><tr><th>Count</th><th>Earcut64</th><th>Monotone</th><th>Earcut Rust</th><th>Earcut C++</th></tr></thead><tbody>
 <tr><td>8</td><td>0.35</td><td>0.7</td><td>0.77</td><td>0.42</td></tr>
 <tr><td>16</td><td>1.2</td><td>1.4</td><td>1.66</td><td>0.77</td></tr>
-<tr><td>32</td><td>4.2</td><td>3.0</td><td>6.25</td><td>3.4</td></tr>
-<tr><td>64</td><td>16.1</td><td>6.2</td><td>18.6</td><td>19.8</td></tr>
+<tr><td>32</td><td>4.0</td><td>3.0</td><td>6.25</td><td>3.4</td></tr>
+<tr><td>64</td><td>15.4</td><td>6.2</td><td>18.6</td><td>19.8</td></tr>
 <tr><td>128</td><td>-</td><td>12.8</td><td>71.6</td><td>66</td></tr>
 <tr><td>256</td><td>-</td><td>26.7</td><td>295</td><td>306</td></tr>
 <tr><td>512</td><td>-</td><td>55.5</td><td>1230</td><td>1438</td></tr>
