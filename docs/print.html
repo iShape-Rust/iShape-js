@@ -13,42 +13,54 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="favicon.svg">
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="fonts/fonts.css">
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-4b6c79bb.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc.js"></script>
+        <script src="toc-034434df.js"></script>
     </head>
     <body>
-    <div id="body-container">
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -62,7 +74,8 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -71,55 +84,59 @@
             html.classList.add("js");
         </script>
 
-        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
-        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
                 <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
             </noscript>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <div id="page-wrapper" class="page-wrapper">
+        <div id="mdbook-page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
-                            <i class="fa fa-bars"></i>
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
                         </label>
-                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                            <i class="fa fa-paint-brush"></i>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
                         </button>
-                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
-                            <i class="fa fa-search"></i>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
                         </button>
                     </div>
 
@@ -127,36 +144,41 @@
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
-                            <i id="print-button" class="fa fa-print"></i>
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
                         </a>
 
                     </div>
                 </div>
 
-                <div id="search-wrapper" class="hidden">
-                    <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
                     </form>
-                    <div id="searchresults-outer" class="searchresults-outer hidden">
-                        <div id="searchresults-header" class="searchresults-header"></div>
-                        <ul id="searchresults">
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
                         </ul>
                     </div>
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script>
-                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
-                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
-                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
                         link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
                     });
                 </script>
 
-                <div id="content" class="content">
+                <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="ioverlay"><a class="header" href="#ioverlay">iOverlay</a></h1>
-<p><img src="overlay/balloons.svg" alt="Balloons" /></p>
+<p><img src="overlay/balloons.svg" alt="Balloons"></p>
 <h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
 <ul>
 <li>The iOverlay is a poly-bool library that supports main operations such as union, intersection, difference, xor, and self-intersection.</li>
@@ -174,17 +196,20 @@
 <li>Rust Version: <a href="https://github.com/iShape-Rust/iOverlay">iShape-Rust/iOverlay</a></li>
 <li>JS Version: <a href="https://github.com/iShape-Rust/iShape-js">iShape-Rust/iShape-js</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="demo"><a class="header" href="#demo">Demo</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="demo"><a class="header" href="#demo">Demo</a></h1>
 <p>This section showcases interactive examples built using <strong>iOverlay</strong>.</p>
 <p>Use the demos below to explore how the library performs boolean operations on 2D shapes in real time.</p>
 <ul>
-<li><strong><a href="overlay/./stars_demo.html">Stars Rotation</a></strong> – See overlapping polygons rotate and combine.</li>
-<li><strong><a href="overlay/./shapes_editor.html">Shapes Editor</a></strong> – Draw and modify shapes live in the browser.</li>
-<li><strong><a href="overlay/./stroke.html">Stroke</a></strong> – Test stroke generation.</li>
-<li><strong><a href="overlay/./outline.html">Outline</a></strong> – Test outline generation.</li>
-<li><strong><a href="overlay/./overlay_editor.html">Overlay Editor</a></strong> – Wasm interactive editor.</li>
+<li><strong><a href="#stars-rotation">Stars Rotation</a></strong> – See overlapping polygons rotate and combine.</li>
+<li><strong><a href="#shapes-editor">Shapes Editor</a></strong> – Draw and modify shapes live in the browser.</li>
+<li><strong><a href="#stroke">Stroke</a></strong> – Test stroke generation.</li>
+<li><strong><a href="#outline">Outline</a></strong> – Test outline generation.</li>
+<li><strong><a href="#overlay-editor">Overlay Editor</a></strong> – Wasm interactive editor.</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><style>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="stars-rotation"><a href="#stars-rotation" class="header">Stars Rotation</a></h1>
+<style>
 
 .demo-title {
     color: #333;
@@ -289,48 +314,77 @@ async function fileExists(path) {
   }
 })();
     </script>
-	<h1 id="stars-rotation" class="demo-title"><a class="header" href="#stars-rotation">Stars Rotation</a></h1>
-	<div class="rotating-stars-input-container">
-	    <div class="star-input-container">
-	        <h3 id="subject-star" class="title"><a class="header" href="#subject-star">Subject Star</a></h3>
-	        <div class="star-input-group">
+	
+<h1 class="demo-title">Stars Rotation</h1>
+
+	
+<div class="rotating-stars-input-container">
+	    
+<div class="star-input-container">
+	        
+<h3 class="title">Subject Star</h3>
+
+	        
+<div class="star-input-group">
 	            <label for="subjFirstRadius">First Radius: </label>
 	            <input type="range" id="subjFirstRadius" min="10" max="100" value="60">
 	        </div>
-	        <div class="star-input-group">
+
+	        
+<div class="star-input-group">
 	            <label for="subjSecondRadius">Second Radius: </label>
 	            <input type="range" id="subjSecondRadius" min="10" max="100" value="30">
 	        </div>
-	        <div class="star-input-group">
+
+	        
+<div class="star-input-group">
 	            <label for="subjRotationSpeed">Rotation Speed: </label>
 	            <input type="range" id="subjRotationSpeed" min="1" max="100" value="5">
 	        </div>
-	        <div class="star-input-group">
+
+	        
+<div class="star-input-group">
 	            <label for="subjAngleCount">Corners Count: </label>
 	            <input type="range" id="subjAngleCount" min="3" max="24" value="7">
 	        </div>
+
 	    </div>
-	    <div class="star-input-container">
-	        <h3 id="clip-star" class="title"><a class="header" href="#clip-star">Clip Star</a></h3>
-	        <div class="star-input-group">
+
+	    
+<div class="star-input-container">
+	        
+<h3 class="title">Clip Star</h3>
+
+	        
+<div class="star-input-group">
 	            <label for="clipFirstRadius">First Radius: </label>
 	            <input type="range" id="clipFirstRadius" min="10" max="100" value="60">
 	        </div>
-	        <div class="star-input-group">
+
+	        
+<div class="star-input-group">
 	            <label for="clipSecondRadius">Second Radius: </label>
 	            <input type="range" id="clipSecondRadius" min="10" max="100" value="30">
 	        </div>
-	        <div class="star-input-group">
+
+	        
+<div class="star-input-group">
 	            <label for="clipRotationSpeed">Rotation Speed: </label>
 	            <input type="range" id="clipRotationSpeed" min="1" max="100" value="5">
 	        </div>
-	        <div class="star-input-group">
+
+	        
+<div class="star-input-group">
 	            <label for="clipAngleCount">Corners Count: </label>
 	            <input type="range" id="clipAngleCount" min="3" max="24" value="7">
 	        </div>
+
 	    </div>
+
 	</div>
-    <div class="operation-selection">
+
+    
+<div class="operation-selection">
         <label for="operationType">Operation: </label>
         <select id="operationType">
             <option value="Xor">Xor</option>
@@ -342,9 +396,13 @@ async function fileExists(path) {
             <option value="Clip">Clip</option>
 		</select>
     </div>
+
     <canvas id="starCanvas" width="750" height="750"></canvas>
 </div>
-<div style="break-before: page; page-break-before: always;"></div><style>
+
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="shapes-editor"><a href="#shapes-editor" class="header">Shapes Editor</a></h1>
+<style>
 
 .demo-title {
     text-align: center;
@@ -465,8 +523,11 @@ async function fileExists(path) {
   }
 })();
 </script>
-	<h1 id="shapes-editor" class="demo-title"><a class="header" href="#shapes-editor">Shapes Editor</a></h1>
-    <div class="operation-selection">
+	
+<h1 class="demo-title">Shapes Editor</h1>
+
+    
+<div class="operation-selection">
         <label for="overlayRule">OverlayRule: </label>
         <select id="overlayRule">
             <option value="Union">Union</option>
@@ -478,40 +539,64 @@ async function fileExists(path) {
             <option value="Clip">Clip</option>
         </select>
     </div>
-    <div class="operation-selection">
+
+    
+<div class="operation-selection">
         <label for="fillRule">FillRule: </label>
         <select id="fillRule">
             <option value="EvenOdd">EvenOdd</option>
             <option value="NonZero">NonZero</option>
         </select>
     </div>
-    <div class="editor-input-tool">
-        <div class="editor-input-group">
-            <div class="input-wrapper">
+
+    
+<div class="editor-input-tool">
+        
+<div class="editor-input-group">
+            
+<div class="input-wrapper">
                 <label for="snap">Snap to Grid: </label>
-                <input type="checkbox" id="snap" name="snap" value="true" checked>
+                <input type="checkbox" id="snap" name="snap" value="true" checked="">
             </div>
+
         </div>
-        <div class="editor-input-group">
-            <div class="input-wrapper">
+
+        
+<div class="editor-input-group">
+            
+<div class="input-wrapper">
                 <label for="fill">Fill Segments: </label>
-                <input type="checkbox" id="fill" name="fill" value="true" checked>
+                <input type="checkbox" id="fill" name="fill" value="true" checked="">
             </div>
+
         </div>
-        <div class="editor-input-group">
-            <div class="input-wrapper">
+
+        
+<div class="editor-input-group">
+            
+<div class="input-wrapper">
                 <label for="arrows">Show Arrows: </label>
-                <input type="checkbox" id="arrows" name="arrows" value="true" checked>
+                <input type="checkbox" id="arrows" name="arrows" value="true" checked="">
             </div>
+
         </div>
+
     </div>
-    <div class="editor-input-container">
+
+    
+<div class="editor-input-container">
         <button type="button" class="nav-button" id="test-prev">Prev</button>
-        <h3 class="test-title" id="test-name">Title</h3>
+        
+<h3 class="test-title" id="test-name">Title</h3>
+
         <button type="button" class="nav-button" id="test-next">Next</button>
     </div>
+
     <canvas id="editorCanvas" width="750" height="1000"></canvas>
-</div><div style="break-before: page; page-break-before: always;"></div><style>
+</div>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="stroke"><a href="#stroke" class="header">Stroke</a></h1>
+<style>
 
 .demo-title {
     text-align: center;
@@ -646,27 +731,43 @@ async function fileExists(path) {
   }
 })();
 </script>
-	<h1 id="stroke-offset" class="demo-title"><a class="header" href="#stroke-offset">Stroke Offset</a></h1>
-    <div class="operation-selection">
-        <div class="operation-content">
+	
+<h1 class="demo-title">Stroke Offset</h1>
+
+    
+<div class="operation-selection">
+        
+<div class="operation-content">
             <label for="strokeWidth">Stroke Width:</label>
             <input type="range" id="strokeWidth" min="0" max="500" value="50">
         </div>
+
     </div>
-    <div class="operation-selection">
-        <div class="operation-content">
+
+    
+<div class="operation-selection">
+        
+<div class="operation-content">
             <label for="roundAngle">Round Angle:</label>
             <input type="range" id="roundAngle" min="0" max="100" value="10">
         </div>
+
     </div>
-    <div class="operation-selection">
-        <div class="operation-content">
+
+    
+<div class="operation-selection">
+        
+<div class="operation-content">
             <label for="miterLimit">Miter Limit:</label>
             <input type="range" id="miterLimit" min="0" max="314" value="10">
         </div>
+
     </div>
-    <div class="operation-selection">
-        <div class="operation-content">
+
+    
+<div class="operation-selection">
+        
+<div class="operation-content">
             <label for="startCap">Start Cap: </label>
             <select id="startCap">
                 <option value="Butt">Butt</option>
@@ -674,9 +775,13 @@ async function fileExists(path) {
                 <option value="Square">Square</option>
             </select>
         </div>
+
     </div>
-    <div class="operation-selection">
-        <div class="operation-content">
+
+    
+<div class="operation-selection">
+        
+<div class="operation-content">
             <label for="endCap">End Cap: </label>
             <select id="endCap">
                 <option value="Butt">Butt</option>
@@ -684,9 +789,13 @@ async function fileExists(path) {
                 <option value="Square">Square</option>
             </select>
         </div>
+
     </div>
-    <div class="operation-selection">
-        <div class="operation-content">
+
+    
+<div class="operation-selection">
+        
+<div class="operation-content">
             <label for="lineJoin">LineJoin: </label>
             <select id="lineJoin">
                 <option value="Bevel">Bevel</option>
@@ -694,20 +803,33 @@ async function fileExists(path) {
                 <option value="Round">Round</option>
             </select>
         </div>
+
     </div>
-    <div class="operation-selection">
-        <div class="operation-content">
+
+    
+<div class="operation-selection">
+        
+<div class="operation-content">
             <label for="closePath">Close Path: </label>
             <input style="flex-grow: 0;" type="checkbox" id="closePath" name="closePath" value="false">
         </div>
+
     </div>
-    <div class="editor-input-container">
-        <button type="button" class="nav-button" id="test-prev">Prev</button>
-        <h3 class="test-title" id="test-name">Title</h3>
-        <button type="button" class="nav-button" id="test-next">Next</button>
+
+    
+<div class="editor-input-container">
+        <button type="button" class="nav-button" id="test-prev-1">Prev</button>
+        
+<h3 class="test-title" id="test-name-1">Title</h3>
+
+        <button type="button" class="nav-button" id="test-next-1">Next</button>
     </div>
-    <canvas id="editorCanvas" width="800" height="800"></canvas>
-</div><div style="break-before: page; page-break-before: always;"></div><style>
+
+    <canvas id="editorCanvas-1" width="800" height="800"></canvas>
+</div>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="outline"><a href="#outline" class="header">Outline</a></h1>
+<style>
 
 .demo-title {
     text-align: center;
@@ -842,48 +964,77 @@ async function fileExists(path) {
   }
 })();
 </script>
-	<h1 id="outline" class="demo-title"><a class="header" href="#outline">Outline</a></h1>
-    <div class="operation-selection">
-        <div class="operation-content">
+	
+<h1 class="demo-title">Outline</h1>
+
+    
+<div class="operation-selection">
+        
+<div class="operation-content">
             <label for="outerOffset">Outer Offset:</label>
             <input type="range" id="outerOffset" min="-500" max="500" value="50">
         </div>
+
     </div>
-    <div class="operation-selection">
-        <div class="operation-content">
+
+    
+<div class="operation-selection">
+        
+<div class="operation-content">
             <label for="roundAngle">Inner Offset:</label>
             <input type="range" id="innerOffset" min="-500" max="500" value="50">
         </div>
+
     </div>
-    <div class="operation-selection">
-        <div class="operation-content">
+
+    
+<div class="operation-selection">
+        
+<div class="operation-content">
             <label for="roundAngle">Round Angle:</label>
-            <input type="range" id="roundAngle" min="0" max="100" value="10">
+            <input type="range" id="roundAngle-1" min="0" max="100" value="10">
         </div>
+
     </div>
-    <div class="operation-selection">
-        <div class="operation-content">
+
+    
+<div class="operation-selection">
+        
+<div class="operation-content">
             <label for="miterLimit">Miter Limit:</label>
-            <input type="range" id="miterLimit" min="0" max="314" value="10">
+            <input type="range" id="miterLimit-1" min="0" max="314" value="10">
         </div>
+
     </div>
-    <div class="operation-selection">
-        <div class="operation-content">
+
+    
+<div class="operation-selection">
+        
+<div class="operation-content">
             <label for="lineJoin">LineJoin: </label>
-            <select id="lineJoin">
+            <select id="lineJoin-1">
                 <option value="Bevel">Bevel</option>
                 <option value="Miter">Miter</option>
                 <option value="Round">Round</option>
             </select>
         </div>
+
     </div>
-    <div class="editor-input-container">
-        <button type="button" class="nav-button" id="test-prev">Prev</button>
-        <h3 class="test-title" id="test-name">Title</h3>
-        <button type="button" class="nav-button" id="test-next">Next</button>
+
+    
+<div class="editor-input-container">
+        <button type="button" class="nav-button" id="test-prev-2">Prev</button>
+        
+<h3 class="test-title" id="test-name-2">Title</h3>
+
+        <button type="button" class="nav-button" id="test-next-2">Next</button>
     </div>
-    <canvas id="editorCanvas" width="800" height="800"></canvas>
-</div><div style="break-before: page; page-break-before: always;"></div><style>
+
+    <canvas id="editorCanvas-2" width="800" height="800"></canvas>
+</div>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="overlay-editor"><a href="#overlay-editor" class="header">Overlay Editor</a></h1>
+<style>
 :root {
     --content-max-width: none;
     width: auto;
@@ -928,14 +1079,23 @@ async function fileExists(path) {
 }
 </style>
 <div class="sheet-container">
-    <h1 id="overlay-editor" class="demo-title"><a class="header" href="#overlay-editor">Overlay Editor</a></h1>
-    <div id="unsupported-warning">
-        <p>Your browser does not support WebGPU.</p>
-        <p>Please use a WebGPU-supported browser, such as the latest version of Chrome.</p>
-        <img src="overlay/./webgpu.svg" alt="WebGPU not supported">
+    
+<h1 class="demo-title">Overlay Editor</h1>
+
+    
+<div id="unsupported-warning">
+        
+<p>Your browser does not support WebGPU.</p>
+
+        
+<p>Please use a WebGPU-supported browser, such as the latest version of Chrome.</p>
+
+        <img src="overlay/webgpu.svg" alt="WebGPU not supported">
     </div>
+
     <canvas id="iced" width="800" height="800"></canvas>
 </div>
+
 <script type="text/javascript">
 (async () => {
   // Feature detection for WebGPU
@@ -974,10 +1134,10 @@ async function fileExists(path) {
 
 })();
 </script>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="performance-comparison"><a class="header" href="#performance-comparison">Performance Comparison</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="performance-comparison"><a class="header" href="#performance-comparison">Performance Comparison</a></h1>
 <p>Benchmark project is <a href="https://github.com/iShape-Rust/iOverlayPerformance">here</a>.</p>
-<p>All tests were run on a machine with the following specifications:<br />
-<strong>3 GHz 6-Core Intel Core i5, 40GB 2667 MHz DDR4</strong></p>
+<p>All tests were run on a machine with the following specifications:<br><strong>3 GHz 6-Core Intel Core i5, 40GB 2667 MHz DDR4</strong></p>
 <p>All results are presented in seconds.</p>
 <h2 id="solvers"><a class="header" href="#solvers">Solvers:</a></h2>
 <ul>
@@ -987,8 +1147,13 @@ async function fileExists(path) {
 <li><strong>Boost(C++)</strong>  v1.86.0</li>
 </ul>
 <h2 id="checkerboard-test"><a class="header" href="#checkerboard-test">Checkerboard Test</a></h2>
-<p><img src="overlay/performance/test_0.svg" alt="Checkerboard Test" /></p>
-<div class="table-wrapper"><table><thead><tr><th>Squares</th><th>Swift</th><th>Rust (mt off)</th><th>Rust (mt on)</th><th>Clipper2</th><th>Boost</th></tr></thead><tbody>
+<p><img src="overlay/performance/test_0.svg" alt="Checkerboard Test"></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Squares</th><th>Swift</th><th>Rust (mt off)</th><th>Rust (mt on)</th><th>Clipper2</th><th>Boost</th></tr>
+</thead>
+<tbody>
 <tr><td>5</td><td>0.000014</td><td>0.000006</td><td>0.000006</td><td>0.000007</td><td>0.000045</td></tr>
 <tr><td>25</td><td>0.000100</td><td>0.000036</td><td>0.000036</td><td>0.000038</td><td>0.000595</td></tr>
 <tr><td>113</td><td>0.000589</td><td>0.000197</td><td>0.000196</td><td>0.000208</td><td>0.004446</td></tr>
@@ -996,15 +1161,21 @@ async function fileExists(path) {
 <tr><td>1985</td><td>0.012643</td><td>0.004914</td><td>0.004935</td><td>0.005182</td><td>1.103624</td></tr>
 <tr><td>8065</td><td>0.055664</td><td>0.020674</td><td>0.019785</td><td>0.024013</td><td>21.080339</td></tr>
 <tr><td>32513</td><td>0.234840</td><td>0.091871</td><td>0.083285</td><td>0.154054</td><td>412.630289</td></tr>
-<tr><td>130561</td><td>0.993920</td><td>0.424643</td><td>0.372978</td><td>1.067439</td><td>----</td></tr>
-<tr><td>523265</td><td>4.410302</td><td>2.043570</td><td>2.008339</td><td>8.346041</td><td>----</td></tr>
-<tr><td>2095105</td><td>18.451646</td><td>9.291384</td><td>7.936810</td><td>73.312335</td><td>----</td></tr>
-<tr><td>8384513</td><td>78.719305</td><td>38.639666</td><td>33.742216</td><td>644.337867</td><td>----</td></tr>
-</tbody></table>
+<tr><td>130561</td><td>0.993920</td><td>0.424643</td><td>0.372978</td><td>1.067439</td><td>––</td></tr>
+<tr><td>523265</td><td>4.410302</td><td>2.043570</td><td>2.008339</td><td>8.346041</td><td>––</td></tr>
+<tr><td>2095105</td><td>18.451646</td><td>9.291384</td><td>7.936810</td><td>73.312335</td><td>––</td></tr>
+<tr><td>8384513</td><td>78.719305</td><td>38.639666</td><td>33.742216</td><td>644.337867</td><td>––</td></tr>
+</tbody>
+</table>
 </div>
 <h2 id="not-overlap-test"><a class="header" href="#not-overlap-test">Not Overlap Test</a></h2>
-<p><img src="overlay/performance/test_1.svg" alt="Not Overlap Test" /></p>
-<div class="table-wrapper"><table><thead><tr><th>Squares</th><th>Swift</th><th>Rust (mt off)</th><th>Rust (mt on)</th><th>Clipper2</th><th>Boost</th></tr></thead><tbody>
+<p><img src="overlay/performance/test_1.svg" alt="Not Overlap Test"></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Squares</th><th>Swift</th><th>Rust (mt off)</th><th>Rust (mt on)</th><th>Clipper2</th><th>Boost</th></tr>
+</thead>
+<tbody>
 <tr><td>5</td><td>0.000009</td><td>0.000003</td><td>0.000003</td><td>0.000005</td><td>0.000003</td></tr>
 <tr><td>25</td><td>0.000041</td><td>0.000012</td><td>0.000011</td><td>0.000021</td><td>0.000021</td></tr>
 <tr><td>113</td><td>0.000204</td><td>0.000061</td><td>0.000062</td><td>0.000097</td><td>0.000223</td></tr>
@@ -1013,14 +1184,20 @@ async function fileExists(path) {
 <tr><td>8065</td><td>0.021336</td><td>0.005912</td><td>0.005425</td><td>0.010783</td><td>0.558494</td></tr>
 <tr><td>32513</td><td>0.089523</td><td>0.028454</td><td>0.024718</td><td>0.056281</td><td>8.852867</td></tr>
 <tr><td>130561</td><td>0.375594</td><td>0.127448</td><td>0.107485</td><td>0.369146</td><td>146.041905</td></tr>
-<tr><td>523265</td><td>1.663087</td><td>0.635898</td><td>0.538060</td><td>2.695334</td><td>----</td></tr>
-<tr><td>2095105</td><td>6.947932</td><td>2.708549</td><td>2.470210</td><td>20.665812</td><td>----</td></tr>
-<tr><td>8384513</td><td>28.777569</td><td>13.514846</td><td>9.601191</td><td>167.966801</td><td>----</td></tr>
-</tbody></table>
+<tr><td>523265</td><td>1.663087</td><td>0.635898</td><td>0.538060</td><td>2.695334</td><td>––</td></tr>
+<tr><td>2095105</td><td>6.947932</td><td>2.708549</td><td>2.470210</td><td>20.665812</td><td>––</td></tr>
+<tr><td>8384513</td><td>28.777569</td><td>13.514846</td><td>9.601191</td><td>167.966801</td><td>––</td></tr>
+</tbody>
+</table>
 </div>
 <h2 id="lines-net-test"><a class="header" href="#lines-net-test">Lines Net Test</a></h2>
-<p><img src="overlay/performance/test_2.svg" alt="Lines Net Test" /></p>
-<div class="table-wrapper"><table><thead><tr><th>Squares</th><th>Swift</th><th>Rust (mt off)</th><th>Rust (mt on)</th><th>Clipper2</th><th>Boost</th></tr></thead><tbody>
+<p><img src="overlay/performance/test_2.svg" alt="Lines Net Test"></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Squares</th><th>Swift</th><th>Rust (mt off)</th><th>Rust (mt on)</th><th>Clipper2</th><th>Boost</th></tr>
+</thead>
+<tbody>
 <tr><td>4</td><td>0.000014</td><td>0.000004</td><td>0.000004</td><td>0.000004</td><td>0.000014</td></tr>
 <tr><td>8</td><td>0.000049</td><td>0.000014</td><td>0.000014</td><td>0.000012</td><td>0.000054</td></tr>
 <tr><td>16</td><td>0.000195</td><td>0.000049</td><td>0.000050</td><td>0.000043</td><td>0.000370</td></tr>
@@ -1028,16 +1205,22 @@ async function fileExists(path) {
 <tr><td>64</td><td>0.004994</td><td>0.001013</td><td>0.001016</td><td>0.000749</td><td>0.055749</td></tr>
 <tr><td>128</td><td>0.021239</td><td>0.004046</td><td>0.003970</td><td>0.003441</td><td>23.531991</td></tr>
 <tr><td>256</td><td>0.091427</td><td>0.018815</td><td>0.020870</td><td>0.018417</td><td>412.528984</td></tr>
-<tr><td>512</td><td>0.255989</td><td>0.088601</td><td>0.096745</td><td>0.115229</td><td>----</td></tr>
-<tr><td>1024</td><td>1.146842</td><td>0.417128</td><td>0.397470</td><td>0.759640</td><td>----</td></tr>
-<tr><td>2048</td><td>4.808548</td><td>1.844754</td><td>1.537385</td><td>5.595165</td><td>----</td></tr>
-<tr><td>4096</td><td>20.190101</td><td>7.514548</td><td>7.696920</td><td>45.934461</td><td>----</td></tr>
-</tbody></table>
+<tr><td>512</td><td>0.255989</td><td>0.088601</td><td>0.096745</td><td>0.115229</td><td>––</td></tr>
+<tr><td>1024</td><td>1.146842</td><td>0.417128</td><td>0.397470</td><td>0.759640</td><td>––</td></tr>
+<tr><td>2048</td><td>4.808548</td><td>1.844754</td><td>1.537385</td><td>5.595165</td><td>––</td></tr>
+<tr><td>4096</td><td>20.190101</td><td>7.514548</td><td>7.696920</td><td>45.934461</td><td>––</td></tr>
+</tbody>
+</table>
 </div>
 <h2 id="spiral-test"><a class="header" href="#spiral-test">Spiral Test</a></h2>
-<p><img src="overlay/performance/test_3.svg" alt="Spiral Test" />
+<p><img src="overlay/performance/test_3.svg" alt="Spiral Test">
 <em>* There is now boost results for this test</em></p>
-<div class="table-wrapper"><table><thead><tr><th>Squares</th><th>Swift</th><th>Rust (mt off)</th><th>Rust (mt on)</th><th>Clipper2</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Squares</th><th>Swift</th><th>Rust (mt off)</th><th>Rust (mt on)</th><th>Clipper2</th></tr>
+</thead>
+<tbody>
 <tr><td>2</td><td>0.000006</td><td>0.000002</td><td>0.000002</td><td>0.000002</td></tr>
 <tr><td>4</td><td>0.000010</td><td>0.000005</td><td>0.000005</td><td>0.000004</td></tr>
 <tr><td>8</td><td>0.000019</td><td>0.000009</td><td>0.000009</td><td>0.000007</td></tr>
@@ -1058,11 +1241,17 @@ async function fileExists(path) {
 <tr><td>262144</td><td>1.979541</td><td>0.781770</td><td>0.833816</td><td>21.171540</td></tr>
 <tr><td>524288</td><td>4.101912</td><td>1.417144</td><td>1.472624</td><td>72.147615</td></tr>
 <tr><td>1048576</td><td>8.254108</td><td>3.188509</td><td>3.232834</td><td>259.866180</td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <h2 id="windows-test"><a class="header" href="#windows-test">Windows Test</a></h2>
-<p><img src="overlay/performance/test_4.svg" alt="Windows Test" /></p>
-<div class="table-wrapper"><table><thead><tr><th>Squares</th><th>Swift</th><th>Rust (mt off)</th><th>Rust (mt on)</th><th>Clipper2</th><th>Boost</th></tr></thead><tbody>
+<p><img src="overlay/performance/test_4.svg" alt="Windows Test"></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Squares</th><th>Swift</th><th>Rust (mt off)</th><th>Rust (mt on)</th><th>Clipper2</th><th>Boost</th></tr>
+</thead>
+<tbody>
 <tr><td>8</td><td>0.000016</td><td>0.000006</td><td>0.000006</td><td>0.000008</td><td>0.000006</td></tr>
 <tr><td>32</td><td>0.000062</td><td>0.000021</td><td>0.000021</td><td>0.000028</td><td>0.000037</td></tr>
 <tr><td>128</td><td>0.000276</td><td>0.000096</td><td>0.000097</td><td>0.000112</td><td>0.000266</td></tr>
@@ -1071,14 +1260,20 @@ async function fileExists(path) {
 <tr><td>8192</td><td>0.023805</td><td>0.007519</td><td>0.006780</td><td>0.012364</td><td>0.448009</td></tr>
 <tr><td>32768</td><td>0.104822</td><td>0.038832</td><td>0.034149</td><td>0.076850</td><td>7.013886</td></tr>
 <tr><td>131072</td><td>0.445712</td><td>0.192338</td><td>0.159685</td><td>0.568316</td><td>109.745463</td></tr>
-<tr><td>524288</td><td>1.862371</td><td>0.835050</td><td>0.703147</td><td>4.142673</td><td>----</td></tr>
-<tr><td>2097152</td><td>7.657815</td><td>3.761808</td><td>3.182362</td><td>33.165570</td><td>----</td></tr>
-<tr><td>8388608</td><td>30.833973</td><td>15.476744</td><td>12.058687</td><td>265.387333</td><td>----</td></tr>
-</tbody></table>
+<tr><td>524288</td><td>1.862371</td><td>0.835050</td><td>0.703147</td><td>4.142673</td><td>––</td></tr>
+<tr><td>2097152</td><td>7.657815</td><td>3.761808</td><td>3.182362</td><td>33.165570</td><td>––</td></tr>
+<tr><td>8388608</td><td>30.833973</td><td>15.476744</td><td>12.058687</td><td>265.387333</td><td>––</td></tr>
+</tbody>
+</table>
 </div>
 <h2 id="nested-squares-test"><a class="header" href="#nested-squares-test">Nested Squares Test</a></h2>
-<p><img src="overlay/performance/test_5.svg" alt="Nested_Squares Test" /></p>
-<div class="table-wrapper"><table><thead><tr><th>Squares</th><th>Swift</th><th>Rust (mt off)</th><th>Rust (mt on)</th><th>Clipper2</th><th>Boost</th></tr></thead><tbody>
+<p><img src="overlay/performance/test_5.svg" alt="Nested_Squares Test"></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Squares</th><th>Swift</th><th>Rust (mt off)</th><th>Rust (mt on)</th><th>Clipper2</th><th>Boost</th></tr>
+</thead>
+<tbody>
 <tr><td>4</td><td>0.000022</td><td>0.000009</td><td>0.000009</td><td>0.000012</td><td>0.000153</td></tr>
 <tr><td>8</td><td>0.000045</td><td>0.000017</td><td>0.000017</td><td>0.000023</td><td>0.000387</td></tr>
 <tr><td>16</td><td>0.000098</td><td>0.000035</td><td>0.000034</td><td>0.000050</td><td>0.000792</td></tr>
@@ -1092,22 +1287,25 @@ async function fileExists(path) {
 <tr><td>4096</td><td>0.150601</td><td>0.060516</td><td>0.044756</td><td>2.347209</td><td>11.419096</td></tr>
 <tr><td>8192</td><td>0.311691</td><td>0.245160</td><td>0.165539</td><td>10.612424</td><td>49.299261</td></tr>
 <tr><td>16384</td><td>0.752357</td><td>0.485605</td><td>0.331655</td><td>46.205474</td><td>206.646450</td></tr>
-<tr><td>32768</td><td>2.581991</td><td>1.814993</td><td>1.148905</td><td>251.260857</td><td>----</td></tr>
-<tr><td>65536</td><td>10.368794</td><td>4.031631</td><td>2.197493</td><td>3502.233611</td><td>----</td></tr>
-<tr><td>131072</td><td>23.250746</td><td>15.731705</td><td>8.194153</td><td>----</td><td>----</td></tr>
-<tr><td>262144</td><td>48.529555</td><td>30.809760</td><td>15.285741</td><td>----</td><td>----</td></tr>
-</tbody></table>
-</div><div style="break-before: page; page-break-before: always;"></div><h1 id="documentation"><a class="header" href="#documentation">Documentation</a></h1>
-<hr />
+<tr><td>32768</td><td>2.581991</td><td>1.814993</td><td>1.148905</td><td>251.260857</td><td>––</td></tr>
+<tr><td>65536</td><td>10.368794</td><td>4.031631</td><td>2.197493</td><td>3502.233611</td><td>––</td></tr>
+<tr><td>131072</td><td>23.250746</td><td>15.731705</td><td>8.194153</td><td>––</td><td>––</td></tr>
+<tr><td>262144</td><td>48.529555</td><td>30.809760</td><td>15.285741</td><td>––</td><td>––</td></tr>
+</tbody>
+</table>
+</div>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="documentation"><a class="header" href="#documentation">Documentation</a></h1>
+<hr>
 <h2 id="filling-rules"><a class="header" href="#filling-rules">Filling Rules</a></h2>
 <p>Filling rules determine how the interior of a shape is defined. iOverlay supports 4 filling rules:</p>
 <ul>
-<li><strong>Even-Odd</strong>: A point is inside the shape if a ray drawn from the point crosses the shape's edges an odd number of times.</li>
+<li><strong>Even-Odd</strong>: A point is inside the shape if a ray drawn from the point crosses the shape’s edges an odd number of times.</li>
 <li><strong>Non-Zero</strong>: A point is inside the shape if the total winding number around the point is non-zero.</li>
 <li><strong>Positive</strong>: Only regions with a positive winding number are considered inside.</li>
 <li><strong>Negative</strong>: Only regions with a negative winding number are considered inside.</li>
 </ul>
-<hr />
+<hr>
 <h2 id="overlay-rules"><a class="header" href="#overlay-rules">Overlay Rules</a></h2>
 <p>Overlay rules define how two shapes interact during Boolean operations:</p>
 <ul>
@@ -1116,17 +1314,17 @@ async function fileExists(path) {
 <li><strong>Difference (A - B)</strong>: Subtracts the area of shape B from shape A.</li>
 <li><strong>Exclusion (A ⊕ B)</strong>: Combines the areas of both shapes but excludes the overlapping region.</li>
 </ul>
-<hr />
+<hr>
 <h2 id="contours"><a class="header" href="#contours">Contours</a></h2>
 <p>Contours represent the boundaries of shapes and are categorized as:</p>
 <ul>
 <li><strong>Outer Contours</strong>: Define the external boundary of a shape, ordered in a counterclockwise direction.</li>
 <li><strong>Inner Contours (Holes)</strong>: Define holes within a shape, ordered in a clockwise direction.</li>
 </ul>
-<hr />
+<hr>
 <h2 id="overlay-graph"><a class="header" href="#overlay-graph">Overlay Graph</a></h2>
 <p>The overlay graph is a data structure that represents the intersections and overlays of two geometric objects. It is constructed by dividing all segments of the object contours into non-intersecting parts, where segments can only touch at their endpoints. Each segment in the graph contains information about its association with the original shapes, facilitating efficient Boolean operations.</p>
-<hr />
+<hr>
 <h2 id="extract-shapes"><a class="header" href="#extract-shapes">Extract Shapes</a></h2>
 <p>After applying Boolean operations, the resulting shapes are extracted through a series of steps:</p>
 <ol>
@@ -1134,24 +1332,25 @@ async function fileExists(path) {
 <li><strong>Define Contour</strong>: Determines whether a contour is outer or inner based on its orientation and position.</li>
 <li><strong>Matching Contours</strong>: Associates inner contours with their corresponding outer contours by analyzing spatial relationships.</li>
 </ol>
-<hr />
-<div style="break-before: page; page-break-before: always;"></div><h1 id="filling-rules-1"><a class="header" href="#filling-rules-1">Filling Rules</a></h1>
+<hr><div style="break-before: page; page-break-before: always;"></div>
+<h1 id="filling-rules-1"><a class="header" href="#filling-rules-1">Filling Rules</a></h1>
 <h2 id="even-odd"><a class="header" href="#even-odd">Even-Odd</a></h2>
-<p><img src="overlay/filling_rules/even-odd.svg" alt="Even-Odd" /></p>
+<p><img src="overlay/filling_rules/even-odd.svg" alt="Even-Odd"></p>
 <h2 id="non-zero"><a class="header" href="#non-zero">Non-Zero</a></h2>
-<p><img src="overlay/filling_rules/non-zero.svg" alt="Non-Zero" /></p>
+<p><img src="overlay/filling_rules/non-zero.svg" alt="Non-Zero"></p>
 <h2 id="positive"><a class="header" href="#positive">Positive</a></h2>
-<p><img src="overlay/filling_rules/positive.svg" alt="Positive" /></p>
+<p><img src="overlay/filling_rules/positive.svg" alt="Positive"></p>
 <h2 id="negative"><a class="header" href="#negative">Negative</a></h2>
-<p><img src="overlay/filling_rules/negative.svg" alt="Negative" /></p>
-<h2 id="filling-rules-2"><a class="header" href="#filling-rules-2">Filling Rules:</a></h2>
+<p><img src="overlay/filling_rules/negative.svg" alt="Negative"></p>
+<h2 id="filling-rules-1-1"><a class="header" href="#filling-rules-1-1">Filling Rules:</a></h2>
 <ul>
 <li><strong>Even-Odd</strong>: Only odd numbered sub-regions are filled</li>
 <li><strong>Non-Zero</strong>: Only non-zero sub-regions are filled</li>
 <li><strong>Positive</strong>: Only positive sub-regions are filled</li>
 <li><strong>Negative</strong>: Only negative sub-regions are filled</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="overlay-rules-1"><a class="header" href="#overlay-rules-1">Overlay Rules</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="overlay-rules-1"><a class="header" href="#overlay-rules-1">Overlay Rules</a></h1>
 <img src="overlay/overlay_rules/ab.svg" alt="AB" style="width:50%;">
 <h2 id="union-a-or-b"><a class="header" href="#union-a-or-b">Union, A or B</a></h2>
 <img src="overlay/overlay_rules/union.svg" alt="Union" style="width:50%;">
@@ -1163,10 +1362,11 @@ async function fileExists(path) {
 <img src="overlay/overlay_rules/difference_ba.svg" alt="Inverse Difference" style="width:50%;">
 <h2 id="exclusion-a-xor-b"><a class="header" href="#exclusion-a-xor-b">Exclusion, A xor B</a></h2>
 <img src="overlay/overlay_rules/exclusion.svg" alt="Exclusion" style="width:50%;">
-<div style="break-before: page; page-break-before: always;"></div><h1 id="contours-1"><a class="header" href="#contours-1">Contours</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="contours-1"><a class="header" href="#contours-1">Contours</a></h1>
 <h2 id="outer-and-inner"><a class="header" href="#outer-and-inner">Outer and Inner</a></h2>
-<p><img src="overlay/contours/contour.svg" alt="Contour" />
-In the context of the <a href="overlay/contours/../overlay_graph/overlay_graph.html">Overlay Graph</a>, contours are used to represent the boundaries of geometric objects. These contours are classified into two types: <span style="color:#ff3333ff;"><strong>outer</strong></span> contours and <span style="color:#1a8effff;"><strong>inner</strong></span> contours.</p>
+<p><img src="overlay/contours/contour.svg" alt="Contour">
+In the context of the <a href="#overlay-graph-1">Overlay Graph</a>, contours are used to represent the boundaries of geometric objects. These contours are classified into two types: <span style="color:#ff3333ff;"><strong>outer</strong></span> contours and <span style="color:#1a8effff;"><strong>inner</strong></span> contours.</p>
 <h3 id="outer-contour"><a class="header" href="#outer-contour">Outer Contour:</a></h3>
 <ul>
 <li>An outer contour is a sequence of points ordered in a <strong>counterclockwise</strong> direction.</li>
@@ -1175,11 +1375,12 @@ In the context of the <a href="overlay/contours/../overlay_graph/overlay_graph.h
 <h3 id="inner-contour-hole-or-cave"><a class="header" href="#inner-contour-hole-or-cave">Inner Contour (Hole or Cave):</a></h3>
 <ul>
 <li>An inner contour is a sequence of points ordered in a <strong>clockwise</strong> direction.</li>
-<li>Inner contours represent enclosed areas within an outer contour, often referred to as "holes" or "caves."</li>
+<li>Inner contours represent enclosed areas within an outer contour, often referred to as “holes” or “caves.”</li>
 </ul>
 <p><em>Both <span style="color:#ff3333ff;"><strong>outer</strong></span> and <span style="color:#1a8effff;"><strong>inner</strong></span> contours must be simple, meaning they must not self-intersect and must not share edges with other contours.</em></p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="overlay-graph-1"><a class="header" href="#overlay-graph-1">Overlay Graph</a></h1>
-<p><img src="overlay/overlay_graph/example.svg" alt="Example" />
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="overlay-graph-1"><a class="header" href="#overlay-graph-1">Overlay Graph</a></h1>
+<p><img src="overlay/overlay_graph/example.svg" alt="Example">
 An Overlay Graph is a data structure representing the intersections and overlays of two geometric objects (<span style="color:#ff3333ff;"><strong>A</strong></span> and <span style="color:#1a8effff;"><strong>B</strong></span>) defined by closed contours in 2D space.</p>
 <p>The graph is constructed by dividing all the segments of the object contours into non-intersecting parts, where segments can only touch at their endpoints.
 Each segment in the graph contains the following properties:</p>
@@ -1187,42 +1388,38 @@ Each segment in the graph contains the following properties:</p>
 <li>For each side of the segment, it stores information about its membership to object <span style="color:#ff3333ff;"><strong>A</strong></span> and object <span style="color:#1a8effff;"><strong>B</strong></span></li>
 <li>Segments do not intersect each other, but they may touch at their endpoints.</li>
 </ul>
-<p>for more Overlay Graph examples see <a href="overlay/overlay_graph/../shapes_editor.html">Shape Editor</a></p>
+<p>for more Overlay Graph examples see <a href="#shapes-editor">Shape Editor</a></p>
 <h2 id="filter-segments"><a class="header" href="#filter-segments">Filter Segments</a></h2>
 <h3 id="difference-c--a---b"><a class="header" href="#difference-c--a---b">Difference, C = A - B</a></h3>
-<p>The resulting segments of <strong>C</strong> must not be inside body <span style="color:#1a8effff;"><strong>B</strong></span> and must belong to body <span style="color:#ff3333ff;"><strong>A</strong></span> on one side.<br />
-The side associated solely with body <span style="color:#ff3333ff;"><strong>A</strong></span> will represent the inner part of the resulting shape.</p>
-<p><img src="overlay/overlay_graph/difference_ab.svg" alt="Example" /></p>
+<p>The resulting segments of <strong>C</strong> must not be inside body <span style="color:#1a8effff;"><strong>B</strong></span> and must belong to body <span style="color:#ff3333ff;"><strong>A</strong></span> on one side.<br>The side associated solely with body <span style="color:#ff3333ff;"><strong>A</strong></span> will represent the inner part of the resulting shape.</p>
+<p><img src="overlay/overlay_graph/difference_ab.svg" alt="Example"></p>
 <h3 id="difference-c--b---a"><a class="header" href="#difference-c--b---a">Difference, C = B - A</a></h3>
-<p>The resulting segments of <strong>C</strong> must not be inside body <span style="color:#ff3333ff;"><strong>A</strong></span> and must belong to body <span style="color:#1a8effff;"><strong>B</strong></span> on one side.<br />
-The side associated solely with body <span style="color:#1a8effff;"><strong>B</strong></span> will represent the inner part of the resulting shape.
-<img src="overlay/overlay_graph/difference_ba.svg" alt="Example" /></p>
+<p>The resulting segments of <strong>C</strong> must not be inside body <span style="color:#ff3333ff;"><strong>A</strong></span> and must belong to body <span style="color:#1a8effff;"><strong>B</strong></span> on one side.<br>The side associated solely with body <span style="color:#1a8effff;"><strong>B</strong></span> will represent the inner part of the resulting shape.
+<img src="overlay/overlay_graph/difference_ba.svg" alt="Example"></p>
 <h3 id="union-c--a-or-b"><a class="header" href="#union-c--a-or-b">Union, C = A or B</a></h3>
-<p>The resulting segments of <strong>C</strong> must belong to either body <span style="color:#ff3333ff;"><strong>A</strong></span> or body <span style="color:#1a8effff;"><strong>B</strong></span>, or to both. The opposite side of each segment must not belong to anybody.<br />
-The side associated with one of the bodies will represent the inner part of the resulting shape.
-<img src="overlay/overlay_graph/union.svg" alt="Example" /></p>
+<p>The resulting segments of <strong>C</strong> must belong to either body <span style="color:#ff3333ff;"><strong>A</strong></span> or body <span style="color:#1a8effff;"><strong>B</strong></span>, or to both. The opposite side of each segment must not belong to anybody.<br>The side associated with one of the bodies will represent the inner part of the resulting shape.
+<img src="overlay/overlay_graph/union.svg" alt="Example"></p>
 <h3 id="intersection-c--a-and-b"><a class="header" href="#intersection-c--a-and-b">Intersection, C = A and B</a></h3>
-<p>The resulting segments of <strong>C</strong> must belong to both bodies <span style="color:#ff3333ff;"><strong>A</strong></span> and <span style="color:#1a8effff;"><strong>B</strong></span>. The opposite side of each segment must not belong to both bodies simultaneously.<br />
-The side associated with both bodies <span style="color:#ff3333ff;"><strong>A</strong></span> and <span style="color:#1a8effff;"><strong>B</strong></span> will represent the inner part of the resulting shape.
-<img src="overlay/overlay_graph/intersection.svg" alt="Example" /></p>
+<p>The resulting segments of <strong>C</strong> must belong to both bodies <span style="color:#ff3333ff;"><strong>A</strong></span> and <span style="color:#1a8effff;"><strong>B</strong></span>. The opposite side of each segment must not belong to both bodies simultaneously.<br>The side associated with both bodies <span style="color:#ff3333ff;"><strong>A</strong></span> and <span style="color:#1a8effff;"><strong>B</strong></span> will represent the inner part of the resulting shape.
+<img src="overlay/overlay_graph/intersection.svg" alt="Example"></p>
 <h3 id="exclusion-c--a-xor-b"><a class="header" href="#exclusion-c--a-xor-b">Exclusion, C = A xor B</a></h3>
-<p>The resulting segments of <strong>C</strong> must belong to either body <span style="color:#ff3333ff;"><strong>A</strong></span> or body <span style="color:#1a8effff;"><strong>B</strong></span>, but not to both simultaneously. The opposite side of each segment must either belong to both bodies or to neither.<br />
-The side associated with one of the bodies (<span style="color:#ff3333ff;"><strong>A</strong></span> or <span style="color:#1a8effff;"><strong>B</strong></span>) will represent the inner part of the resulting shape.
-<img src="overlay/overlay_graph/exclusion.svg" alt="Example" /></p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="extract-shapes-1"><a class="header" href="#extract-shapes-1">Extract Shapes</a></h1>
-<p>Once we apply boolean filter to <a href="overlay/extract/../overlay_graph/overlay_graph.html">Overlay Graph</a>, we can begin extract contours.</p>
+<p>The resulting segments of <strong>C</strong> must belong to either body <span style="color:#ff3333ff;"><strong>A</strong></span> or body <span style="color:#1a8effff;"><strong>B</strong></span>, but not to both simultaneously. The opposite side of each segment must either belong to both bodies or to neither.<br>The side associated with one of the bodies (<span style="color:#ff3333ff;"><strong>A</strong></span> or <span style="color:#1a8effff;"><strong>B</strong></span>) will represent the inner part of the resulting shape.
+<img src="overlay/overlay_graph/exclusion.svg" alt="Example"></p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="extract-shapes-1"><a class="header" href="#extract-shapes-1">Extract Shapes</a></h1>
+<p>Once we apply boolean filter to <a href="#overlay-graph-1">Overlay Graph</a>, we can begin extract contours.</p>
 <h2 id="build-contour"><a class="header" href="#build-contour">Build Contour</a></h2>
 <h3 id="outer-contour-1"><a class="header" href="#outer-contour-1">Outer Contour</a></h3>
-<p><img src="overlay/extract/extract_outer_contour_clockwise.svg" alt="Extract Contour" /></p>
+<p><img src="overlay/extract/extract_outer_contour_clockwise.svg" alt="Extract Contour"></p>
 <h3 id="inner-contour"><a class="header" href="#inner-contour">Inner Contour</a></h3>
-<p><img src="overlay/extract/extract_inner_clockwise.svg" alt="Extract Contour" /></p>
+<p><img src="overlay/extract/extract_inner_clockwise.svg" alt="Extract Contour"></p>
 <p>The algorithm starts by selecting the leftmost node and proceeds by choosing the topmost segment connected to that node. The process continues by traversing to the next node along the selected segment.</p>
 <p>At each node, the algorithm selects the next segment by rotating around the current node in a clockwise/counterclockwise direction for outer/inner contours and taking the first nearest segment.</p>
 <p>To prevent segments from being visited twice, each segment is marked as visited upon traversal.</p>
 <p>This process continues until the contour is complete, forming either an <span style="color:#ff3333ff;"><strong>outer</strong></span> or <span style="color:#1a8effff;"><strong>inner</strong></span> contour.</p>
 <p>By following this approach, <span style="color:#ff3333ff;"><strong>outer</strong></span> contours are extracted in a counter-clockwise direction, while <span style="color:#1a8effff;"><strong>inner</strong></span> contours are extracted in a clockwise direction.</p>
 <h2 id="define-contour"><a class="header" href="#define-contour">Define Contour</a></h2>
-<p><img src="overlay/extract/define_contour.svg" alt="Define Contour" /></p>
+<p><img src="overlay/extract/define_contour.svg" alt="Define Contour"></p>
 <p>To define a contour, the algorithm begins by identifying the leftmost and topmost segment in the contour. The classification of the contour is determined as follows:</p>
 <ul>
 <li>If the left-top side of the segment is classified as the <span style="color:#ff3333ff;"><strong>outer</strong></span> side, then the contour is an <span style="color:#ff3333ff;"><strong>outer</strong></span> contour.</li>
@@ -1230,10 +1427,10 @@ The side associated with one of the bodies (<span style="color:#ff3333ff;"><stro
 </ul>
 <p>This method ensures each contour is correctly classified based on its orientation in 2D space.</p>
 <h2 id="define-shape"><a class="header" href="#define-shape">Define Shape</a></h2>
-<p><img src="overlay/extract/define_shape.svg" alt="Define Shape" /></p>
+<p><img src="overlay/extract/define_shape.svg" alt="Define Shape"></p>
 <p>A shape is defined as a group of contours, where the first contour is always an <span style="color:#ff3333ff;"><strong>outer</strong></span> contour, and the subsequent contours (if any) are <span style="color:#1a8effff;"><strong>inner</strong></span> contours.</p>
 <h2 id="matching-contours"><a class="header" href="#matching-contours">Matching Contours</a></h2>
-<p><img src="overlay/extract/matching_contours.svg" alt="Matching Contours" />
+<p><img src="overlay/extract/matching_contours.svg" alt="Matching Contours">
 To match <span style="color:#1a8effff;"><strong>inner</strong></span> contours to their corresponding <span style="color:#ff3333ff;"><strong>outer</strong></span> contours:</p>
 <ol>
 <li>Draw a line <strong>downward</strong> from any point on the <span style="color:#1a8effff;"><strong>inner</strong></span> (<strong>target</strong>) contour.</li>
@@ -1245,7 +1442,7 @@ To match <span style="color:#1a8effff;"><strong>inner</strong></span> contours t
 </ul>
 <h2 id="define-segment-under-point"><a class="header" href="#define-segment-under-point">Define Segment under Point</a></h2>
 <h2 id="segment-under-point"><a class="header" href="#segment-under-point">Segment under Point</a></h2>
-<p><img src="overlay/extract/segment_under_point.svg" alt="Segment Under Point" /></p>
+<p><img src="overlay/extract/segment_under_point.svg" alt="Segment Under Point"></p>
 <p>To determine whether a segment <strong>AB</strong> is below a point <strong>P</strong>, one may be tempted to compute the value of y<sub>m</sub> at the point of intersection <strong>M</strong>, where a vertical line is dropped from <strong>P</strong> onto <strong>AB</strong> (i.e., x<sub>p</sub> = x<sub>m</sub>):</p>
 <p>$$
 y_{m} = \frac{y_{a} - y_{b}}{x_{a} - x_{b}}\cdot(x_{m} - x_{a}) + y_{a}
@@ -1260,16 +1457,17 @@ $$</p>
 <h2 id="selecting-the-closest-segment-under-point"><a class="header" href="#selecting-the-closest-segment-under-point">Selecting the Closest Segment under Point</a></h2>
 <p>When multiple segments are positioned below point <strong>P</strong>, we need to determine which segment is the closest to <strong>P</strong>. This scenario can be divided into three distinct cases based on the configuration of the segments relative to <strong>P</strong>.</p>
 <h3 id="left-case"><a class="header" href="#left-case">Left Case</a></h3>
-<p><img src="overlay/extract/segment_under_segment_a.svg" alt="Left Case" /></p>
+<p><img src="overlay/extract/segment_under_segment_a.svg" alt="Left Case"></p>
 <p>When both segments share a common left vertex <strong>A</strong>, we check the positions of their right endpoints. If the vertices <strong>B<sub>0</sub></strong>, <strong>B<sub>1</sub></strong>, and <strong>A</strong> form a clockwise pattern, then <strong>AB<sub>0</sub></strong> is closer to <strong>P</strong> than <strong>AB<sub>1</sub></strong>.</p>
 <h3 id="right-case"><a class="header" href="#right-case">Right Case</a></h3>
-<p><img src="overlay/extract/segment_under_segment_b.svg" alt="Right Case" /></p>
+<p><img src="overlay/extract/segment_under_segment_b.svg" alt="Right Case"></p>
 <p>When both segments share a common right vertex <strong>B</strong>, we check the positions of their left endpoints. If the vertices <strong>A<sub>0</sub></strong>, <strong>A<sub>1</sub></strong>, and <strong>B</strong> form a clockwise pattern, then <strong>A<sub>1</sub>B</strong> is closer to <strong>P</strong> than <strong>A<sub>0</sub>B</strong>.</p>
 <h3 id="middle-case"><a class="header" href="#middle-case">Middle Case</a></h3>
-<p><img src="overlay/extract/segment_under_segment_ab.svg" alt="Middle Case" /></p>
+<p><img src="overlay/extract/segment_under_segment_ab.svg" alt="Middle Case"></p>
 <p>In this case, one of the vertices (e.g., <strong>A<sub>1</sub></strong> or <strong>B<sub>0</sub></strong>) lies inside the opposite segment. We use the point-segment comparison method to determine which of the segments is closer to <strong>P</strong>.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="itriangle"><a class="header" href="#itriangle">iTriangle</a></h1>
-<p><img src="triangle/eagle.svg" alt="Eagle triangulation" /></p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="itriangle"><a class="header" href="#itriangle">iTriangle</a></h1>
+<p><img src="triangle/eagle.svg" alt="Eagle triangulation"></p>
 <h2 id="introduction-1"><a class="header" href="#introduction-1">Introduction</a></h2>
 <ul>
 <li>Easy way to get your triangulation!</li>
@@ -1286,13 +1484,16 @@ $$</p>
 <li>Swift Version: <a href="https://github.com/iShape-Swift/iTriangle">iShape-Swift/iTriangle</a></li>
 <li>Rust Version: <a href="https://github.com/iShape-Rust/iTriangle">iShape-Rust/iTriangle</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="demo-1"><a class="header" href="#demo-1">Demo</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="demo-1"><a class="header" href="#demo-1">Demo</a></h1>
 <p>This section contains interactive examples that demonstrate how <strong>iTriangle</strong> performs triangulation and tessellation.</p>
 <ul>
-<li><strong><a href="triangle/./triangulation.html">Triangulation</a></strong> – Basic polygon triangulation.</li>
-<li><strong><a href="triangle/./tessellation.html">Tessellation</a></strong> – Subdivision of polygons into smaller.</li>
+<li><strong><a href="#triangulation">Triangulation</a></strong> – Basic polygon triangulation.</li>
+<li><strong><a href="#tessellation">Tessellation</a></strong> – Subdivision of polygons into smaller.</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><style>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="triangulation"><a href="#triangulation" class="header">Triangulation</a></h1>
+<style>
 
 .demo-title {
     text-align: center;
@@ -1427,9 +1628,13 @@ async function fileExists(path) {
   }
 })();
 </script>
-	<h1 id="triangulation" class="demo-title"><a class="header" href="#triangulation">Triangulation</a></h1>
-    <div class="operation-selection">
-        <div class="operation-content">
+	
+<h1 class="demo-title">Triangulation</h1>
+
+    
+<div class="operation-selection">
+        
+<div class="operation-content">
             <label for="mode">Mode: </label>
             <select id="mode">
                 <option value="Delaunay">Delaunay</option>
@@ -1437,20 +1642,33 @@ async function fileExists(path) {
                 <option value="Convex">Convex</option>
             </select>
         </div>
+
     </div>
-    <div class="operation-selection">
-        <div class="operation-content">
+
+    
+<div class="operation-selection">
+        
+<div class="operation-content">
             <label for="points">Steiner Points: </label>
-            <input style="flex-grow: 0;" type="checkbox" id="points" name="points" value="true" checked>
+            <input style="flex-grow: 0;" type="checkbox" id="points" name="points" value="true" checked="">
         </div>
+
     </div>
-    <div class="editor-input-container">
-        <button type="button" class="nav-button" id="test-prev">Prev</button>
-        <h3 class="test-title" id="test-name">Title</h3>
-        <button type="button" class="nav-button" id="test-next">Next</button>
+
+    
+<div class="editor-input-container">
+        <button type="button" class="nav-button" id="test-prev-3">Prev</button>
+        
+<h3 class="test-title" id="test-name-3">Title</h3>
+
+        <button type="button" class="nav-button" id="test-next-3">Next</button>
     </div>
-    <canvas id="editorCanvas" width="800" height="800"></canvas>
-</div><div style="break-before: page; page-break-before: always;"></div><style>
+
+    <canvas id="editorCanvas-3" width="800" height="800"></canvas>
+</div>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="tessellation"><a href="#tessellation" class="header">Tessellation</a></h1>
+<style>
 
 .demo-title {
     text-align: center;
@@ -1585,30 +1803,45 @@ async function fileExists(path) {
   }
 })();
 </script>
-	<h1 id="tessellation" class="demo-title"><a class="header" href="#tessellation">Tessellation</a></h1>
-    <div class="operation-selection">
-        <div class="operation-content">
+	
+<h1 class="demo-title">Tessellation</h1>
+
+    
+<div class="operation-selection">
+        
+<div class="operation-content">
             <label for="mode">Mode: </label>
-            <select id="mode">
+            <select id="mode-1">
                 <option value="Triangles">Triangles</option>
                 <option value="Centroids">Centroids</option>
                 <option value="Convex">Convex</option>
             </select>
         </div>
+
     </div>
-    <div class="operation-selection">
-        <div class="operation-content">
+
+    
+<div class="operation-selection">
+        
+<div class="operation-content">
             <label for="maxArea">Max Area</label>
             <input type="range" id="maxArea" min="10" max="100" value="40">
         </div>
+
     </div>
-    <div class="editor-input-container">
-        <button type="button" class="nav-button" id="test-prev">Prev</button>
-        <h3 class="test-title" id="test-name">Title</h3>
-        <button type="button" class="nav-button" id="test-next">Next</button>
+
+    
+<div class="editor-input-container">
+        <button type="button" class="nav-button" id="test-prev-4">Prev</button>
+        
+<h3 class="test-title" id="test-name-4">Title</h3>
+
+        <button type="button" class="nav-button" id="test-next-4">Next</button>
     </div>
-    <canvas id="editorCanvas" width="800" height="800"></canvas>
-</div><div style="break-before: page; page-break-before: always;"></div><style>
+
+    <canvas id="editorCanvas-4" width="800" height="800"></canvas>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><style>
 table {
     max-width: 550px;
     table-layout: auto;
@@ -1627,8 +1860,7 @@ td, th {
 <li><a href="https://github.com/iShape-Rust/iTriangle/tree/main/performance">rust</a></li>
 <li><a href="https://github.com/iShape-Rust/cpp_triangle_performance_app">cpp</a></li>
 </ul>
-<p>All benchmarks were executed on the following machine:<br />
-<strong>3 GHz 6-Core Intel Core i5, 40GB 2667 MHz DDR4</strong></p>
+<p>All benchmarks were executed on the following machine:<br><strong>3 GHz 6-Core Intel Core i5, 40GB 2667 MHz DDR4</strong></p>
 <p>All results are presented in microseconds (10⁻⁶ sec).</p>
 <p>Each test was repeated multiple times, and the average result is shown.</p>
 <p>All input shapes are clean (non-self-intersecting), and the logic was optimized to achieve maximum performance.</p>
@@ -1643,10 +1875,16 @@ td, th {
 </ul>
 <h2 id="star-test"><a class="header" href="#star-test">Star Test</a></h2>
 <p align="center">
-  <img src="triangle/performance/test_0.svg" width="200"/>
+  <img src="triangle/performance/test_0.svg" width="200" />
 </p>
+
 <h3 id="raw"><a class="header" href="#raw">Raw</a></h3>
-<div class="table-wrapper"><table><thead><tr><th>Count</th><th>Earcut64</th><th>Monotone</th><th>Earcut Rust</th><th>Earcut C++</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Count</th><th>Earcut64</th><th>Monotone</th><th>Earcut Rust</th><th>Earcut C++</th></tr>
+</thead>
+<tbody>
 <tr><td>8</td><td>0.3</td><td>0.5</td><td>0.73</td><td>0.42</td></tr>
 <tr><td>16</td><td>0.66</td><td>1.6</td><td>1.23</td><td>0.5</td></tr>
 <tr><td>32</td><td>1.6</td><td>3.9</td><td>2.6</td><td>1.2</td></tr>
@@ -1659,10 +1897,16 @@ td, th {
 <tr><td>4096</td><td>-</td><td>898</td><td>3158</td><td>2804</td></tr>
 <tr><td>8192</td><td>-</td><td>1824</td><td>13435</td><td>11479</td></tr>
 <tr><td>16384</td><td>-</td><td>3846</td><td>51688</td><td>44017</td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <h3 id="delaunay"><a class="header" href="#delaunay">Delaunay</a></h3>
-<div class="table-wrapper"><table><thead><tr><th>Count</th><th>iTriangle</th><th>Triangle</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Count</th><th>iTriangle</th><th>Triangle</th></tr>
+</thead>
+<tbody>
 <tr><td>8</td><td>0.46</td><td>4.3</td></tr>
 <tr><td>16</td><td>1.0</td><td>8.3</td></tr>
 <tr><td>32</td><td>2.5</td><td>25</td></tr>
@@ -1675,14 +1919,21 @@ td, th {
 <tr><td>4096</td><td>987</td><td>4806</td></tr>
 <tr><td>8192</td><td>2074</td><td>8581</td></tr>
 <tr><td>16384</td><td>4533</td><td>16384</td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <h2 id="spiral-test-1"><a class="header" href="#spiral-test-1">Spiral Test</a></h2>
 <p align="center">
-  <img src="triangle/performance/test_1.svg" width="200"/>
+  <img src="triangle/performance/test_1.svg" width="200" />
 </p>
+
 <h3 id="raw-1"><a class="header" href="#raw-1">Raw</a></h3>
-<div class="table-wrapper"><table><thead><tr><th>Count</th><th>Earcut64</th><th>Monotone</th><th>Earcut Rust</th><th>Earcut C++</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Count</th><th>Earcut64</th><th>Monotone</th><th>Earcut Rust</th><th>Earcut C++</th></tr>
+</thead>
+<tbody>
 <tr><td>8</td><td>0.35</td><td>0.7</td><td>0.77</td><td>0.42</td></tr>
 <tr><td>16</td><td>1.2</td><td>1.4</td><td>1.66</td><td>0.77</td></tr>
 <tr><td>32</td><td>4.0</td><td>3.0</td><td>6.25</td><td>3.4</td></tr>
@@ -1695,10 +1946,16 @@ td, th {
 <tr><td>4096</td><td>-</td><td>685</td><td>96933</td><td>376060</td></tr>
 <tr><td>8192</td><td>-</td><td>1435</td><td>416943</td><td>3.7kk</td></tr>
 <tr><td>16384</td><td>-</td><td>3080</td><td>1812147</td><td>43.4kk</td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <h3 id="delaunay-1"><a class="header" href="#delaunay-1">Delaunay</a></h3>
-<div class="table-wrapper"><table><thead><tr><th>Count</th><th>iTriangle</th><th>Triangle</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Count</th><th>iTriangle</th><th>Triangle</th></tr>
+</thead>
+<tbody>
 <tr><td>8</td><td>0.51</td><td>3.2</td></tr>
 <tr><td>16</td><td>1.54</td><td>8.7</td></tr>
 <tr><td>32</td><td>4.7</td><td>21.5</td></tr>
@@ -1711,14 +1968,21 @@ td, th {
 <tr><td>4096</td><td>735</td><td>82948</td></tr>
 <tr><td>8192</td><td>1442</td><td>6609</td></tr>
 <tr><td>16384</td><td>3463</td><td>13863</td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <h2 id="star-with-hole-test"><a class="header" href="#star-with-hole-test">Star with Hole Test</a></h2>
 <p align="center">
-  <img src="triangle/performance/test_2.svg" width="200"/>
+  <img src="triangle/performance/test_2.svg" width="200" />
 </p>
+
 <h3 id="raw-2"><a class="header" href="#raw-2">Raw</a></h3>
-<div class="table-wrapper"><table><thead><tr><th>Count</th><th>Monotone</th><th>Earcut Rust</th><th>Earcut C++</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Count</th><th>Monotone</th><th>Earcut Rust</th><th>Earcut C++</th></tr>
+</thead>
+<tbody>
 <tr><td>128</td><td>12.1</td><td>31.9</td><td>30.2</td></tr>
 <tr><td>256</td><td>22.4</td><td>86.6</td><td>78.8</td></tr>
 <tr><td>512</td><td>42.3</td><td>227</td><td>222</td></tr>
@@ -1727,10 +1991,16 @@ td, th {
 <tr><td>4096</td><td>333</td><td>7102</td><td>5702</td></tr>
 <tr><td>8192</td><td>755</td><td>26197</td><td>22390</td></tr>
 <tr><td>16384</td><td>1636</td><td>102874</td><td>80154</td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <h3 id="delaunay-2"><a class="header" href="#delaunay-2">Delaunay</a></h3>
-<div class="table-wrapper"><table><thead><tr><th>Count</th><th>iTriangle</th><th>Triangle</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Count</th><th>iTriangle</th><th>Triangle</th></tr>
+</thead>
+<tbody>
 <tr><td>128</td><td>16.8</td><td>201</td></tr>
 <tr><td>256</td><td>32.8</td><td>410</td></tr>
 <tr><td>512</td><td>61.6</td><td>808</td></tr>
@@ -1739,14 +2009,21 @@ td, th {
 <tr><td>4096</td><td>505</td><td>6410</td></tr>
 <tr><td>8192</td><td>1401</td><td>12919</td></tr>
 <tr><td>16384</td><td>4093</td><td>30704</td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <h2 id="star-with-8-holes-test"><a class="header" href="#star-with-8-holes-test">Star with 8 holes Test</a></h2>
 <p align="center">
-  <img src="triangle/performance/test_3.svg" width="200"/>
+  <img src="triangle/performance/test_3.svg" width="200" />
 </p>
+
 <h3 id="raw-3"><a class="header" href="#raw-3">Raw</a></h3>
-<div class="table-wrapper"><table><thead><tr><th>Count</th><th>Monotone</th><th>Earcut Rust</th><th>Earcut C++</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Count</th><th>Monotone</th><th>Earcut Rust</th><th>Earcut C++</th></tr>
+</thead>
+<tbody>
 <tr><td>256</td><td>19.3</td><td>117</td><td>43</td></tr>
 <tr><td>512</td><td>30.3</td><td>260</td><td>107</td></tr>
 <tr><td>1024</td><td>53.7</td><td>437</td><td>270</td></tr>
@@ -1754,10 +2031,16 @@ td, th {
 <tr><td>4096</td><td>200</td><td>40596</td><td>1517</td></tr>
 <tr><td>8192</td><td>388</td><td>156287</td><td>3802</td></tr>
 <tr><td>16384</td><td>797</td><td>273567</td><td>12687</td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <h3 id="delaunay-3"><a class="header" href="#delaunay-3">Delaunay</a></h3>
-<div class="table-wrapper"><table><thead><tr><th>Count</th><th>iTriangle</th><th>Triangle</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Count</th><th>iTriangle</th><th>Triangle</th></tr>
+</thead>
+<tbody>
 <tr><td>256</td><td>23.7</td><td>330</td></tr>
 <tr><td>512</td><td>41.6</td><td>546</td></tr>
 <tr><td>1024</td><td>71.4</td><td>951</td></tr>
@@ -1765,8 +2048,12 @@ td, th {
 <tr><td>4096</td><td>276</td><td>3398</td></tr>
 <tr><td>8192</td><td>567</td><td>6921</td></tr>
 <tr><td>16384</td><td>1539</td><td>13748</td></tr>
-</tbody></table>
-</div><div style="break-before: page; page-break-before: always;"></div><style>
+</tbody>
+</table>
+</div>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="delaunay-5"><a href="#delaunay-5" class="header">Delaunay</a></h1>
+<style>
 .MathJax_Display {
   text-align: left !important;
   margin: 40px;
@@ -1816,11 +2103,12 @@ window.addEventListener('DOMContentLoaded', function() {
 </script>
 <h2 id="delaunay-4"><a class="header" href="#delaunay-4">Delaunay</a></h2>
 <p style="font-style: italic;">Click on the canvas to drag the points</p>
+
 <canvas id="delaunayCanvas" width="500" height="500"></canvas>
 <h3 id="what-is-the-delaunay-condition"><a class="header" href="#what-is-the-delaunay-condition">What is the Delaunay Condition?</a></h3>
-<p>When creating a triangulation network, the Delaunay condition aims to form triangles such that their circumscribed circles do not contain any other points from the dataset. In simpler terms, it ensures that triangles are "well-shaped" rather than "skinny," making the network more balanced and useful for various applications.</p>
+<p>When creating a triangulation network, the Delaunay condition aims to form triangles such that their circumscribed circles do not contain any other points from the dataset. In simpler terms, it ensures that triangles are “well-shaped” rather than “skinny,” making the network more balanced and useful for various applications.</p>
 <br>
-<p><img src="triangle/delaunay_condition.svg" alt="Delaunay condition" /></p>
+<p><img src="triangle/delaunay_condition.svg" alt="Delaunay condition"></p>
 <br>
 <p>If the condition \(\alpha + \beta &lt; \pi\) holds, it implies that the point \(P\) will lie outside the circumscribed circle. This confirms that a pair of triangles satisfies the Delaunay condition.</p>
 <p>$$
@@ -1834,7 +2122,7 @@ $$</p>
 \cos(\alpha) = \frac{\vec{a} \cdot \vec{b}}{|a||b|} = \frac{a_{x}b_{x} + a_{y}b_{y}}{|a||b|}
 $$</p>
 <p>$$
-\sin(\alpha) = \sqrt{1- \cos^2(\alpha)} = ... = \frac{|a_{x}b_{y} - b_{x}a_{y}|}{|a||b|} = \frac{|\vec{a} \times \vec{b}|}{|a||b|}
+\sin(\alpha) = \sqrt{1- \cos^2(\alpha)} = … = \frac{|a_{x}b_{y} - b_{x}a_{y}|}{|a||b|} = \frac{|\vec{a} \times \vec{b}|}{|a||b|}
 $$</p>
 <p>Calculating \(\cos(\beta)\) and \(\sin(\beta)\):</p>
 <p>$$
@@ -1872,6 +2160,12 @@ $$</p>
 
         </div>
 
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
         <!-- Livereload script (if served using the cli tool) -->
         <script>
             const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
@@ -1890,19 +2184,18 @@ $$</p>
         </script>
 
 
-
         <script>
             window.playground_copyable = true;
         </script>
 
 
-        <script src="elasticlunr.min.js"></script>
-        <script src="mark.min.js"></script>
-        <script src="searcher.js"></script>
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
 
-        <script src="clipboard.min.js"></script>
-        <script src="highlight.js"></script>
-        <script src="book.js"></script>
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
 
@@ -1913,6 +2206,7 @@ $$</p>
             });
         });
         </script>
+
 
     </div>
     </body>
