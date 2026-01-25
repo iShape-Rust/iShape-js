@@ -68,7 +68,7 @@ impl StrokeStyle {
 
     #[wasm_bindgen]
     pub fn get_line_join(&self) -> LineJoin {
-        self.join.clone()
+        self.join
     }
 
     #[wasm_bindgen]
@@ -88,7 +88,7 @@ impl StrokeStyle {
 
     #[wasm_bindgen]
     pub fn get_start_cap(&self) -> LineCap {
-        self.start_cap.clone()
+        self.start_cap
     }
 
     #[wasm_bindgen]
@@ -98,7 +98,7 @@ impl StrokeStyle {
 
     #[wasm_bindgen]
     pub fn get_end_cap(&self) -> LineCap {
-        self.end_cap.clone()
+        self.end_cap
     }
 
     #[wasm_bindgen]

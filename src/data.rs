@@ -19,11 +19,7 @@ pub(super) enum NestedData {
 impl NestedData {
     pub(super) fn with_json(js_value: JsValue) -> Option<Self> {
         let nested_data: Result<NestedData, _> = serde_wasm_bindgen::from_value(js_value);
-        if let Ok(data) = nested_data {
-            Some(data)
-        } else {
-            None
-        }
+        nested_data.ok()
     }
 }
 
