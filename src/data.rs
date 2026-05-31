@@ -38,7 +38,7 @@ pub struct VectorsData {
 }
 
 impl VectorsData {
-    pub(super) fn create(vectors: Vec<VectorEdge>, adapter: &FloatPointAdapter<[f64; 2], f64>) -> Self {
+    pub(super) fn create(vectors: Vec<VectorEdge>, adapter: &FloatPointAdapter<[f64; 2]>) -> Self {
         let mut list = Vec::with_capacity(vectors.len());
         for vector in vectors.into_iter() {
             let a = adapter.int_to_float(&vector.a);

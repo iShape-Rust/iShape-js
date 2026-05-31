@@ -9,7 +9,7 @@ use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
 pub struct Overlay {
-    overlay: FloatOverlay<[f64; 2], f64>,
+    overlay: FloatOverlay<[f64; 2]>,
 }
 
 #[wasm_bindgen]

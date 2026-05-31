@@ -596,6 +596,16 @@ export class Triangulator {
 }
 if (Symbol.dispose) Triangulator.prototype[Symbol.dispose] = Triangulator.prototype.free;
 
+/**
+ * @param {any} contours_js
+ * @param {FillRule} fill_rule
+ * @returns {any | undefined}
+ */
+export function simplify(contours_js, fill_rule) {
+    const ret = wasm.simplify(contours_js, fill_rule);
+    return ret;
+}
+
 function __wbg_get_imports() {
     const import0 = {
         __proto__: null,

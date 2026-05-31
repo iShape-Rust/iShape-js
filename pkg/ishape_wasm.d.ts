@@ -122,6 +122,8 @@ export class Triangulator {
     triangulate_with_points(path_js: any, points_js: any): RawTriangulation;
 }
 
+export function simplify(contours_js: any, fill_rule: FillRule): any | undefined;
+
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
@@ -164,6 +166,7 @@ export interface InitOutput {
     readonly overlay_separate_vectors: (a: number, b: number) => any;
     readonly rawtriangulation_into_delaunay: (a: number) => number;
     readonly rawtriangulation_to_triangulation: (a: number) => any;
+    readonly simplify: (a: any, b: number) => any;
     readonly strokebuilder_build: (a: number, b: any, c: number) => any;
     readonly strokebuilder_with_style: (a: number) => number;
     readonly strokestyle_create: () => number;
@@ -180,14 +183,14 @@ export interface InitOutput {
     readonly triangulator_create: () => number;
     readonly triangulator_triangulate: (a: number, b: any) => number;
     readonly triangulator_triangulate_with_points: (a: number, b: any, c: any) => number;
+    readonly __wbg_outlinestyle_free: (a: number, b: number) => void;
+    readonly __wbg_strokestyle_free: (a: number, b: number) => void;
     readonly __wbg_set_strokestyle_miter_limit: (a: number, b: number) => void;
     readonly __wbg_set_strokestyle_round_angle: (a: number, b: number) => void;
     readonly __wbg_set_strokestyle_width: (a: number, b: number) => void;
     readonly __wbg_get_strokestyle_miter_limit: (a: number) => number;
     readonly __wbg_get_strokestyle_round_angle: (a: number) => number;
     readonly __wbg_get_strokestyle_width: (a: number) => number;
-    readonly __wbg_outlinestyle_free: (a: number, b: number) => void;
-    readonly __wbg_strokestyle_free: (a: number, b: number) => void;
     readonly __wbg_rawtriangulation_free: (a: number, b: number) => void;
     readonly __wbindgen_malloc: (a: number, b: number) => number;
     readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
