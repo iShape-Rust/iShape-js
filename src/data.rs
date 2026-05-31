@@ -14,6 +14,14 @@ extern "C" {
     pub type PathDataJs;
     #[wasm_bindgen(typescript_type = "ContourData")]
     pub type ContourDataJs;
+    #[wasm_bindgen(typescript_type = "ShapeData")]
+    pub type ShapeDataJs;
+    #[wasm_bindgen(typescript_type = "ShapesData")]
+    pub type ShapesDataJs;
+    #[wasm_bindgen(typescript_type = "TriangulationData")]
+    pub type TriangulationDataJs;
+    #[wasm_bindgen(typescript_type = "SeparatedVectors")]
+    pub type SeparatedVectorsJs;
 }
 
 #[wasm_bindgen(typescript_custom_section)]
@@ -22,7 +30,24 @@ export type PathData = ContourData | ShapeData | ShapesData;
 export type ContourData = [number, number][];
 export type ShapeData = ContourData[];
 export type ShapesData = ShapeData[];
-"#;
+
+/** The result of triangulation, containing the points and the triangles formed by those points. */
+export type TriangulationData = {
+    /** Each pair of numbers represents the x and y coordinates of a point. */
+    points: [number, number][];
+    /** Each group of three numbers represents the indices of the points that form a triangle. */
+    triangles: number[];
+};
+
+export type SeparatedVectors = {
+    vectors: {
+        ax: number;
+        ay: number;
+        bx: number;
+        by: number;
+        fill: number;
+    }[]
+};"#;
 
 #[derive(serde::Deserialize)]
 #[serde(untagged)]

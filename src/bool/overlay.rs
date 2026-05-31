@@ -1,6 +1,6 @@
 use crate::bool::fill_rule::FillRule;
 use crate::bool::overlay_rule::OverlayRule;
-use crate::data::{NestedData, PathDataJs, VectorsData};
+use crate::data::{NestedData, PathDataJs, SeparatedVectorsJs, ShapesDataJs, VectorsData};
 use alloc::vec::Vec;
 use i_triangle::i_overlay::core::fill_rule::FillRule as RustFillRule;
 use i_triangle::i_overlay::core::overlay_rule::OverlayRule as RustOverlayRule;
@@ -56,17 +56,17 @@ impl Overlay {
     }
 
     #[wasm_bindgen]
-    pub fn overlay(mut self, overlay_rule: OverlayRule, fill_rule: FillRule) -> JsValue {
+    pub fn overlay(mut self, overlay_rule: OverlayRule, fill_rule: FillRule) -> ShapesDataJs {
         let overlay_rule = RustOverlayRule::from(overlay_rule);
         let fill_rule = RustFillRule::from(fill_rule);
 
         let shapes = self.overlay.overlay(overlay_rule, fill_rule);
 
-        serde_wasm_bindgen::to_value(&shapes).unwrap()
+        serde_wasm_bindgen::to_value(&shapes).unwrap().into()
     }
 
     #[wasm_bindgen]
-    pub fn separate_vectors(mut self, fill_rule: FillRule) -> JsValue {
+    pub fn separate_vectors(mut self, fill_rule: FillRule) -> SeparatedVectorsJs {
         let fill_rule = RustFillRule::from(fill_rule);
         let data = if let Some(float_graph) = self.overlay.build_graph_view(fill_rule) {
             let vectors = float_graph.graph.extract_separate_vectors();
@@ -74,6 +74,6 @@ impl Overlay {
         } else {
             VectorsData { vectors: Vec::new() }
         };
-        serde_wasm_bindgen::to_value(&data).unwrap()
+        serde_wasm_bindgen::to_value(&data).unwrap().into()
     }
 }
