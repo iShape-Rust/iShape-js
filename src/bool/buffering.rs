@@ -1,5 +1,5 @@
 use crate::bool::style::{OutlineStyle, StrokeStyle};
-use crate::data::NestedData;
+use crate::data::{NestedData, PathDataJs};
 use i_triangle::i_overlay::mesh::outline::offset::OutlineOffset;
 use i_triangle::i_overlay::mesh::stroke::offset::StrokeOffset;
 use wasm_bindgen::prelude::wasm_bindgen;
@@ -23,7 +23,7 @@ impl StrokeBuilder {
     }
 
     #[wasm_bindgen]
-    pub fn build(&self, path_js: JsValue, is_closed_path: bool) -> JsValue {
+    pub fn build(&self, path_js: PathDataJs, is_closed_path: bool) -> JsValue {
         let style = self.style.rust_style();
 
         let path_data = NestedData::with_json(path_js).unwrap();
@@ -45,7 +45,7 @@ impl OutlineBuilder {
     }
 
     #[wasm_bindgen]
-    pub fn build(&self, path_js: JsValue) -> JsValue {
+    pub fn build(&self, path_js: PathDataJs) -> JsValue {
         let style = self.style.rust_style();
 
         let path_data = NestedData::with_json(path_js).unwrap();

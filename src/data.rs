@@ -2,11 +2,27 @@ use alloc::vec::Vec;
 use core::fmt;
 use i_triangle::i_overlay::i_float::adapter::FloatPointAdapter;
 use i_triangle::i_overlay::vector::edge::VectorEdge;
-use wasm_bindgen::JsValue;
+use wasm_bindgen::prelude::wasm_bindgen;
 
 pub type ShapesData = Vec<ShapeData>;
 pub type ShapeData = Vec<ContourData>;
 pub type ContourData = Vec<[f64; 2]>;
+
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(typescript_type = "PathData")]
+    pub type PathDataJs;
+    #[wasm_bindgen(typescript_type = "ContourData")]
+    pub type ContourDataJs;
+}
+
+#[wasm_bindgen(typescript_custom_section)]
+const PATH_DATA_TYPE: &'static str = r#"
+export type PathData = ContourData | ShapeData | ShapesData;
+export type ContourData = [number, number][];
+export type ShapeData = ContourData[];
+export type ShapesData = ShapeData[];
+"#;
 
 #[derive(serde::Deserialize)]
 #[serde(untagged)]
@@ -17,8 +33,8 @@ pub(super) enum NestedData {
 }
 
 impl NestedData {
-    pub(super) fn with_json(js_value: JsValue) -> Option<Self> {
-        let nested_data: Result<NestedData, _> = serde_wasm_bindgen::from_value(js_value);
+    pub(super) fn with_json(data: PathDataJs) -> Option<Self> {
+        let nested_data: Result<NestedData, _> = serde_wasm_bindgen::from_value(data.into());
         nested_data.ok()
     }
 }

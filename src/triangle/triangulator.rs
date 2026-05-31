@@ -1,4 +1,4 @@
-use crate::data::NestedData;
+use crate::data::{ContourDataJs, NestedData, PathDataJs};
 use alloc::vec::Vec;
 use i_triangle::float::delaunay::Delaunay as RustDelaunay;
 use i_triangle::float::triangulatable::Triangulatable;
@@ -27,7 +27,7 @@ impl Triangulator {
     }
 
     #[wasm_bindgen]
-    pub fn triangulate(&self, path_js: JsValue) -> RawTriangulation {
+    pub fn triangulate(&self, path_js: PathDataJs) -> RawTriangulation {
         let path_data = NestedData::with_json(path_js).unwrap();
         let raw = match path_data {
             NestedData::Contour(contour) => contour.triangulate(),
@@ -39,8 +39,8 @@ impl Triangulator {
     }
 
     #[wasm_bindgen]
-    pub fn triangulate_with_points(&self, path_js: JsValue, points_js: JsValue) -> RawTriangulation {
-        let points_data: Result<Vec<[f64; 2]>, _> = serde_wasm_bindgen::from_value(points_js);
+    pub fn triangulate_with_points(&self, path_js: PathDataJs, points_js: ContourDataJs) -> RawTriangulation {
+        let points_data: Result<Vec<[f64; 2]>, _> = serde_wasm_bindgen::from_value(points_js.into());
         let points = points_data.unwrap();
         let path_data = NestedData::with_json(path_js).unwrap();
         let raw = match path_data {

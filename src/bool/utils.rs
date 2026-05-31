@@ -1,11 +1,11 @@
-use crate::bool::fill_rule::FillRule;
+use crate::{bool::fill_rule::FillRule, data::PathDataJs};
 use crate::data::NestedData;
 use i_triangle::i_overlay::core::fill_rule::FillRule as RustFillRule;
 use i_triangle::i_overlay::float::simplify::SimplifyShape;
 use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
 
 #[wasm_bindgen]
-pub fn simplify(contours_js: JsValue, fill_rule: FillRule) -> Option<JsValue> {
+pub fn simplify(contours_js: PathDataJs, fill_rule: FillRule) -> Option<JsValue> {
     let nested = NestedData::with_json(contours_js)?;
 
     let fill_rule = RustFillRule::from(fill_rule);

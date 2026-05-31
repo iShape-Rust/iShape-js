@@ -1,6 +1,6 @@
 use crate::bool::fill_rule::FillRule;
 use crate::bool::overlay_rule::OverlayRule;
-use crate::data::{NestedData, VectorsData};
+use crate::data::{NestedData, PathDataJs, VectorsData};
 use alloc::vec::Vec;
 use i_triangle::i_overlay::core::fill_rule::FillRule as RustFillRule;
 use i_triangle::i_overlay::core::overlay_rule::OverlayRule as RustOverlayRule;
@@ -15,7 +15,7 @@ pub struct Overlay {
 #[wasm_bindgen]
 impl Overlay {
     #[wasm_bindgen]
-    pub fn new_with_subj_and_clip(subj_js: JsValue, clip_js: JsValue) -> Option<Overlay> {
+    pub fn new_with_subj_and_clip(subj_js: PathDataJs, clip_js: PathDataJs) -> Option<Overlay> {
         let subj = NestedData::with_json(subj_js)?;
         let clip = NestedData::with_json(clip_js)?;
 
