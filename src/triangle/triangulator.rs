@@ -3,8 +3,8 @@ use alloc::vec::Vec;
 use i_triangle::float::delaunay::Delaunay as RustDelaunay;
 use i_triangle::float::triangulatable::Triangulatable;
 use i_triangle::float::triangulation::{RawTriangulation as RustRawTriangulation, Triangulation};
-use wasm_bindgen::JsValue;
 use wasm_bindgen::prelude::wasm_bindgen;
+use wasm_bindgen::JsValue;
 
 #[wasm_bindgen]
 pub struct RawTriangulation {

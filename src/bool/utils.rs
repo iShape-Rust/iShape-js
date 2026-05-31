@@ -2,7 +2,7 @@ use crate::bool::fill_rule::FillRule;
 use crate::data::NestedData;
 use i_triangle::i_overlay::core::fill_rule::FillRule as RustFillRule;
 use i_triangle::i_overlay::float::simplify::SimplifyShape;
-use wasm_bindgen::{JsValue, prelude::wasm_bindgen};
+use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
 
 #[wasm_bindgen]
 pub fn simplify(contours_js: JsValue, fill_rule: FillRule) -> Option<JsValue> {
