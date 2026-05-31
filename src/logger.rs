@@ -1,11 +1,11 @@
 // use std::panic;
 // use std::sync::Once;
 // // use log::info;
-// 
+//
 // pub(crate) struct Logger {}
-// 
+//
 // static INIT_LOGGER: Once = Once::new();
-// 
+//
 // impl Logger {
 //     pub(crate) fn prepare() {
 //         panic::set_hook(Box::new(console_error_panic_hook::hook));

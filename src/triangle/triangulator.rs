@@ -1,5 +1,5 @@
-use alloc::vec::Vec;
 use crate::data::NestedData;
+use alloc::vec::Vec;
 use i_triangle::float::delaunay::Delaunay as RustDelaunay;
 use i_triangle::float::triangulatable::Triangulatable;
 use i_triangle::float::triangulation::{RawTriangulation as RustRawTriangulation, Triangulation};
@@ -21,7 +21,6 @@ pub struct Triangulator {}
 
 #[wasm_bindgen]
 impl Triangulator {
-
     #[wasm_bindgen(constructor)]
     pub fn create() -> Self {
         Self {}
@@ -91,7 +90,8 @@ impl Delaunay {
 
     #[wasm_bindgen]
     pub fn refine_with_circumcenters_by_obtuse_angle(&mut self, min_area: f64) {
-        self.delaunay.refine_with_circumcenters_by_obtuse_angle_mut(min_area);
+        self.delaunay
+            .refine_with_circumcenters_by_obtuse_angle_mut(min_area);
     }
 
     #[wasm_bindgen]

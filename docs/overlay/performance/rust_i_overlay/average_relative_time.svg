@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="300" viewBox="0 0 860 300" role="img" aria-labelledby="title desc">
+<title id="title">Average Relative Time</title>
+<desc id="desc">Geometric mean relative time across benchmark rows where every solver has a result. i32 off is the baseline.</desc>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="190" y="24" font-size="20" font-weight="700" fill="#111827">Average relative time, i32 off = 1.00x</text>
+<line x1="413.6" y1="34" x2="413.6" y2="256" stroke="#e5e7eb"/><text x="413.6" y="280" text-anchor="middle" font-size="12" fill="#4b5563">0.50</text>
+<line x1="525.4" y1="34" x2="525.4" y2="256" stroke="#e5e7eb"/><text x="525.4" y="280" text-anchor="middle" font-size="12" fill="#4b5563">0.75</text>
+<line x1="637.2" y1="34" x2="637.2" y2="256" stroke="#e5e7eb"/><text x="637.2" y="280" text-anchor="middle" font-size="12" fill="#4b5563">1.00</text>
+<line x1="749.0" y1="34" x2="749.0" y2="256" stroke="#e5e7eb"/><text x="749.0" y="280" text-anchor="middle" font-size="12" fill="#4b5563">1.25</text>
+<line x1="637.2" y1="34" x2="637.2" y2="256" stroke="#111827" stroke-dasharray="4 4"/>
+<text x="178" y="64.7" text-anchor="end" font-size="14" fill="#111827">i16 off</text>
+<rect x="190" y="50.0" width="411.7" height="21.7" fill="#2f80ed"/>
+<text x="609.7" y="64.7" font-size="13" fill="#111827">0.92x</text>
+<text x="178" y="100.4" text-anchor="end" font-size="14" fill="#111827">i32 off</text>
+<rect x="190" y="85.7" width="447.2" height="21.7" fill="#27ae60"/>
+<text x="645.2" y="100.4" font-size="13" fill="#111827">1.00x</text>
+<text x="178" y="136.1" text-anchor="end" font-size="14" fill="#111827">i64 off</text>
+<rect x="190" y="121.3" width="579.6" height="21.7" fill="#9b51e0"/>
+<text x="777.6" y="136.1" font-size="13" fill="#111827">1.30x</text>
+<text x="178" y="171.7" text-anchor="end" font-size="14" fill="#111827">i16 on</text>
+<rect x="190" y="157.0" width="382.1" height="21.7" fill="#f2994a"/>
+<text x="580.1" y="171.7" font-size="13" fill="#111827">0.85x</text>
+<text x="178" y="207.4" text-anchor="end" font-size="14" fill="#111827">i32 on</text>
+<rect x="190" y="192.7" width="384.8" height="21.7" fill="#eb5757"/>
+<text x="582.8" y="207.4" font-size="13" fill="#111827">0.86x</text>
+<text x="178" y="243.1" text-anchor="end" font-size="14" fill="#111827">i64 on</text>
+<rect x="190" y="228.3" width="483.7" height="21.7" fill="#4f4f4f"/>
+<text x="681.7" y="243.1" font-size="13" fill="#111827">1.08x</text>
+<text x="190" y="296" font-size="12" fill="#4b5563">Lower is faster. Apple M4, 24 GB.</text>
+</svg>

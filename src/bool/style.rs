@@ -1,8 +1,8 @@
-use wasm_bindgen::prelude::wasm_bindgen;
-use i_triangle::i_overlay::mesh::style::StrokeStyle as RustStrokeStyle;
-use i_triangle::i_overlay::mesh::style::OutlineStyle as RustOutlineStyle;
 use i_triangle::i_overlay::mesh::style::LineCap as RustLineCap;
 use i_triangle::i_overlay::mesh::style::LineJoin as RustLineJoin;
+use i_triangle::i_overlay::mesh::style::OutlineStyle as RustOutlineStyle;
+use i_triangle::i_overlay::mesh::style::StrokeStyle as RustStrokeStyle;
+use wasm_bindgen::prelude::wasm_bindgen;
 
 #[wasm_bindgen]
 #[derive(Debug, Clone, Copy)]
@@ -30,7 +30,7 @@ pub struct OutlineStyle {
 pub enum LineCap {
     Butt,
     Round,
-    Square
+    Square,
 }
 
 #[wasm_bindgen]
@@ -43,7 +43,6 @@ pub enum LineJoin {
 
 #[wasm_bindgen]
 impl StrokeStyle {
-
     #[wasm_bindgen(constructor)]
     pub fn create() -> Self {
         StrokeStyle {

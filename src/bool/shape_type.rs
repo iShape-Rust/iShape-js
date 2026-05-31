@@ -11,7 +11,7 @@ impl From<ShapeType> for RustShapeType {
     fn from(shape_type: ShapeType) -> Self {
         match shape_type {
             ShapeType::Subject => RustShapeType::Subject,
-            ShapeType::Clip => RustShapeType::Clip
+            ShapeType::Clip => RustShapeType::Clip,
         }
     }
 }

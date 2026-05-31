@@ -1,5 +1,5 @@
-use wasm_bindgen::prelude::*;
 use i_triangle::i_overlay::core::overlay_rule::OverlayRule as RustOverlayRule;
+use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
 pub enum OverlayRule {
@@ -21,7 +21,7 @@ impl From<OverlayRule> for RustOverlayRule {
             OverlayRule::Union => RustOverlayRule::Union,
             OverlayRule::Difference => RustOverlayRule::Difference,
             OverlayRule::InverseDifference => RustOverlayRule::InverseDifference,
-            OverlayRule::Xor => RustOverlayRule::Xor
+            OverlayRule::Xor => RustOverlayRule::Xor,
         }
     }
 }

@@ -2,6 +2,8 @@
 
 Benchmark project is [here](https://github.com/iShape-Rust/iOverlayPerformance).
 
+For Rust-only solver precision benchmarks, see [Rust iOverlay Solver Benchmarks](./rust_i_overlay.md).
+
 All tests were run on a machine with the following specifications:  
 **3 GHz 6-Core Intel Core i5, 40GB 2667 MHz DDR4**  
 

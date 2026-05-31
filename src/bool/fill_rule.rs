@@ -15,7 +15,7 @@ impl From<FillRule> for RustFillRule {
             FillRule::EvenOdd => RustFillRule::EvenOdd,
             FillRule::NonZero => RustFillRule::NonZero,
             FillRule::Positive => RustFillRule::Positive,
-            FillRule::Negative => RustFillRule::Negative
+            FillRule::Negative => RustFillRule::Negative,
         }
     }
 }

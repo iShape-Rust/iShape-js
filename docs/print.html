@@ -38,10 +38,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-4b6c79bb.js";
+            window.path_to_searchindex_js = "searchindex-6cca56a9.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-034434df.js"></script>
+        <script src="toc-3cdf222e.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -1137,6 +1137,7 @@ async function fileExists(path) {
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="performance-comparison"><a class="header" href="#performance-comparison">Performance Comparison</a></h1>
 <p>Benchmark project is <a href="https://github.com/iShape-Rust/iOverlayPerformance">here</a>.</p>
+<p>For Rust-only solver precision benchmarks, see <a href="#rust-ioverlay-solver-benchmarks">Rust iOverlay Solver Benchmarks</a>.</p>
 <p>All tests were run on a machine with the following specifications:<br><strong>3 GHz 6-Core Intel Core i5, 40GB 2667 MHz DDR4</strong></p>
 <p>All results are presented in seconds.</p>
 <h2 id="solvers"><a class="header" href="#solvers">Solvers:</a></h2>
@@ -1291,6 +1292,158 @@ async function fileExists(path) {
 <tr><td>65536</td><td>10.368794</td><td>4.031631</td><td>2.197493</td><td>3502.233611</td><td>––</td></tr>
 <tr><td>131072</td><td>23.250746</td><td>15.731705</td><td>8.194153</td><td>––</td><td>––</td></tr>
 <tr><td>262144</td><td>48.529555</td><td>30.809760</td><td>15.285741</td><td>––</td><td>––</td></tr>
+</tbody>
+</table>
+</div>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="rust-ioverlay-solver-benchmarks"><a class="header" href="#rust-ioverlay-solver-benchmarks">Rust iOverlay Solver Benchmarks</a></h1>
+<p>All results were measured on <strong>Apple M4, 24 GB</strong>. Values are seconds per operation. The benchmark project is in <a href="https://github.com/iShape-Rust/iOverlay/tree/main/performance/rust_app"><code>performance/rust_app</code></a> in the <a href="https://github.com/iShape-Rust/iOverlay">iOverlay repository</a>.</p>
+<ul>
+<li><code>i16/i32/64</code> math solvers</li>
+<li><code>on/off</code> multithreading feature</li>
+</ul>
+<h2 id="average-comparison"><a class="header" href="#average-comparison">Average Comparison</a></h2>
+<p><img src="overlay/performance/rust_i_overlay/average_relative_time.svg" alt="Average relative time"></p>
+<h2 id="checkerboard-test-1"><a class="header" href="#checkerboard-test-1">Checkerboard Test</a></h2>
+<p><img src="overlay/performance/test_0.svg" alt="Checkerboard Test"></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: right">N</th><th style="text-align: right">i16 off</th><th style="text-align: right">i32 off</th><th style="text-align: right">i64 off</th><th style="text-align: right">i16 on</th><th style="text-align: right">i32 on</th><th style="text-align: right">i64 on</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: right">2</td><td style="text-align: right">0.000002</td><td style="text-align: right">0.000002</td><td style="text-align: right">0.000003</td><td style="text-align: right">0.000003</td><td style="text-align: right">0.000002</td><td style="text-align: right">0.000003</td></tr>
+<tr><td style="text-align: right">4</td><td style="text-align: right">0.000015</td><td style="text-align: right">0.000015</td><td style="text-align: right">0.000017</td><td style="text-align: right">0.000015</td><td style="text-align: right">0.000015</td><td style="text-align: right">0.000017</td></tr>
+<tr><td style="text-align: right">8</td><td style="text-align: right">0.000082</td><td style="text-align: right">0.000082</td><td style="text-align: right">0.000099</td><td style="text-align: right">0.000083</td><td style="text-align: right">0.000081</td><td style="text-align: right">0.000099</td></tr>
+<tr><td style="text-align: right">16</td><td style="text-align: right">0.000426</td><td style="text-align: right">0.000412</td><td style="text-align: right">0.000498</td><td style="text-align: right">0.000437</td><td style="text-align: right">0.000409</td><td style="text-align: right">0.000501</td></tr>
+<tr><td style="text-align: right">32</td><td style="text-align: right">0.002236</td><td style="text-align: right">0.002318</td><td style="text-align: right">0.002733</td><td style="text-align: right">0.002305</td><td style="text-align: right">0.002299</td><td style="text-align: right">0.002752</td></tr>
+<tr><td style="text-align: right">64</td><td style="text-align: right">0.008070</td><td style="text-align: right">0.008659</td><td style="text-align: right">0.010388</td><td style="text-align: right">0.007140</td><td style="text-align: right">0.007243</td><td style="text-align: right">0.008616</td></tr>
+<tr><td style="text-align: right">128</td><td style="text-align: right">0.037559</td><td style="text-align: right">0.040512</td><td style="text-align: right">0.050085</td><td style="text-align: right">0.027857</td><td style="text-align: right">0.028986</td><td style="text-align: right">0.035981</td></tr>
+<tr><td style="text-align: right">256</td><td style="text-align: right">0.167375</td><td style="text-align: right">0.178425</td><td style="text-align: right">0.219622</td><td style="text-align: right">0.120606</td><td style="text-align: right">0.125711</td><td style="text-align: right">0.158665</td></tr>
+<tr><td style="text-align: right">512</td><td style="text-align: right">0.776731</td><td style="text-align: right">0.827264</td><td style="text-align: right">1.011703</td><td style="text-align: right">0.568957</td><td style="text-align: right">0.592768</td><td style="text-align: right">0.724087</td></tr>
+<tr><td style="text-align: right">1024</td><td style="text-align: right">3.385874</td><td style="text-align: right">3.611125</td><td style="text-align: right">4.393880</td><td style="text-align: right">2.413621</td><td style="text-align: right">2.610431</td><td style="text-align: right">3.127404</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="not-overlap-test-1"><a class="header" href="#not-overlap-test-1">Not Overlap Test</a></h2>
+<p><img src="overlay/performance/test_1.svg" alt="Not Overlap Test"></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: right">N</th><th style="text-align: right">i16 off</th><th style="text-align: right">i32 off</th><th style="text-align: right">i64 off</th><th style="text-align: right">i16 on</th><th style="text-align: right">i32 on</th><th style="text-align: right">i64 on</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: right">5</td><td style="text-align: right">0.000001</td><td style="text-align: right">0.000001</td><td style="text-align: right">0.000001</td><td style="text-align: right">0.000001</td><td style="text-align: right">0.000001</td><td style="text-align: right">0.000001</td></tr>
+<tr><td style="text-align: right">25</td><td style="text-align: right">0.000005</td><td style="text-align: right">0.000005</td><td style="text-align: right">0.000006</td><td style="text-align: right">0.000005</td><td style="text-align: right">0.000005</td><td style="text-align: right">0.000006</td></tr>
+<tr><td style="text-align: right">113</td><td style="text-align: right">0.000024</td><td style="text-align: right">0.000024</td><td style="text-align: right">0.000027</td><td style="text-align: right">0.000024</td><td style="text-align: right">0.000024</td><td style="text-align: right">0.000028</td></tr>
+<tr><td style="text-align: right">481</td><td style="text-align: right">0.000136</td><td style="text-align: right">0.000133</td><td style="text-align: right">0.000152</td><td style="text-align: right">0.000138</td><td style="text-align: right">0.000132</td><td style="text-align: right">0.000151</td></tr>
+<tr><td style="text-align: right">1985</td><td style="text-align: right">0.000901</td><td style="text-align: right">0.000912</td><td style="text-align: right">0.001046</td><td style="text-align: right">0.000908</td><td style="text-align: right">0.000908</td><td style="text-align: right">0.001053</td></tr>
+<tr><td style="text-align: right">8065</td><td style="text-align: right">0.002461</td><td style="text-align: right">0.002725</td><td style="text-align: right">0.003178</td><td style="text-align: right">0.002176</td><td style="text-align: right">0.002322</td><td style="text-align: right">0.002579</td></tr>
+<tr><td style="text-align: right">32513</td><td style="text-align: right">0.011272</td><td style="text-align: right">0.012319</td><td style="text-align: right">0.014719</td><td style="text-align: right">0.008377</td><td style="text-align: right">0.008956</td><td style="text-align: right">0.010409</td></tr>
+<tr><td style="text-align: right">130561</td><td style="text-align: right">0.048214</td><td style="text-align: right">0.053420</td><td style="text-align: right">0.065100</td><td style="text-align: right">0.034438</td><td style="text-align: right">0.036901</td><td style="text-align: right">0.044266</td></tr>
+<tr><td style="text-align: right">523265</td><td style="text-align: right">0.220364</td><td style="text-align: right">0.240664</td><td style="text-align: right">0.301577</td><td style="text-align: right">0.158055</td><td style="text-align: right">0.177118</td><td style="text-align: right">0.217189</td></tr>
+<tr><td style="text-align: right">2095105</td><td style="text-align: right">0.927191</td><td style="text-align: right">1.037521</td><td style="text-align: right">1.300260</td><td style="text-align: right">0.687777</td><td style="text-align: right">0.745187</td><td style="text-align: right">0.920391</td></tr>
+<tr><td style="text-align: right">8384513</td><td style="text-align: right"></td><td style="text-align: right">4.580672</td><td style="text-align: right">5.667204</td><td style="text-align: right"></td><td style="text-align: right">3.282416</td><td style="text-align: right">3.948376</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="lines-net-test-1"><a class="header" href="#lines-net-test-1">Lines Net Test</a></h2>
+<p><img src="overlay/performance/test_2.svg" alt="Lines Net Test"></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: right">N</th><th style="text-align: right">i16 off</th><th style="text-align: right">i32 off</th><th style="text-align: right">i64 off</th><th style="text-align: right">i16 on</th><th style="text-align: right">i32 on</th><th style="text-align: right">i64 on</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: right">4</td><td style="text-align: right">0.000002</td><td style="text-align: right">0.000002</td><td style="text-align: right">0.000002</td><td style="text-align: right">0.000002</td><td style="text-align: right">0.000002</td><td style="text-align: right">0.000002</td></tr>
+<tr><td style="text-align: right">8</td><td style="text-align: right">0.000006</td><td style="text-align: right">0.000006</td><td style="text-align: right">0.000007</td><td style="text-align: right">0.000006</td><td style="text-align: right">0.000006</td><td style="text-align: right">0.000007</td></tr>
+<tr><td style="text-align: right">16</td><td style="text-align: right">0.000020</td><td style="text-align: right">0.000020</td><td style="text-align: right">0.000025</td><td style="text-align: right">0.000021</td><td style="text-align: right">0.000020</td><td style="text-align: right">0.000025</td></tr>
+<tr><td style="text-align: right">32</td><td style="text-align: right">0.000091</td><td style="text-align: right">0.000087</td><td style="text-align: right">0.000113</td><td style="text-align: right">0.000092</td><td style="text-align: right">0.000087</td><td style="text-align: right">0.000114</td></tr>
+<tr><td style="text-align: right">64</td><td style="text-align: right">0.000392</td><td style="text-align: right">0.000425</td><td style="text-align: right">0.000486</td><td style="text-align: right">0.000403</td><td style="text-align: right">0.000423</td><td style="text-align: right">0.000497</td></tr>
+<tr><td style="text-align: right">128</td><td style="text-align: right">0.001717</td><td style="text-align: right">0.001791</td><td style="text-align: right">0.002161</td><td style="text-align: right">0.001716</td><td style="text-align: right">0.001829</td><td style="text-align: right">0.002118</td></tr>
+<tr><td style="text-align: right">256</td><td style="text-align: right">0.008280</td><td style="text-align: right">0.008733</td><td style="text-align: right">0.010305</td><td style="text-align: right">0.007047</td><td style="text-align: right">0.007510</td><td style="text-align: right">0.008971</td></tr>
+<tr><td style="text-align: right">512</td><td style="text-align: right">0.037633</td><td style="text-align: right">0.039941</td><td style="text-align: right">0.048515</td><td style="text-align: right">0.030516</td><td style="text-align: right">0.032208</td><td style="text-align: right">0.041422</td></tr>
+<tr><td style="text-align: right">1024</td><td style="text-align: right">0.168466</td><td style="text-align: right">0.181488</td><td style="text-align: right">0.219835</td><td style="text-align: right">0.130099</td><td style="text-align: right">0.145159</td><td style="text-align: right">0.181670</td></tr>
+<tr><td style="text-align: right">2048</td><td style="text-align: right">0.751282</td><td style="text-align: right">0.806123</td><td style="text-align: right">0.991209</td><td style="text-align: right">0.569064</td><td style="text-align: right">0.622211</td><td style="text-align: right">0.780686</td></tr>
+<tr><td style="text-align: right">4096</td><td style="text-align: right"></td><td style="text-align: right">3.557761</td><td style="text-align: right">4.420209</td><td style="text-align: right"></td><td style="text-align: right">2.687778</td><td style="text-align: right">3.220613</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="spiral-test-1"><a class="header" href="#spiral-test-1">Spiral Test</a></h2>
+<p><img src="overlay/performance/test_3.svg" alt="Spiral Test"></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: right">N</th><th style="text-align: right">i16 off</th><th style="text-align: right">i32 off</th><th style="text-align: right">i64 off</th><th style="text-align: right">i16 on</th><th style="text-align: right">i32 on</th><th style="text-align: right">i64 on</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: right">2</td><td style="text-align: right">0.000001</td><td style="text-align: right">0.000001</td><td style="text-align: right">0.000001</td><td style="text-align: right">0.000001</td><td style="text-align: right">0.000001</td><td style="text-align: right">0.000001</td></tr>
+<tr><td style="text-align: right">4</td><td style="text-align: right">0.000002</td><td style="text-align: right">0.000002</td><td style="text-align: right">0.000003</td><td style="text-align: right">0.000002</td><td style="text-align: right">0.000002</td><td style="text-align: right">0.000003</td></tr>
+<tr><td style="text-align: right">8</td><td style="text-align: right">0.000005</td><td style="text-align: right">0.000005</td><td style="text-align: right">0.000007</td><td style="text-align: right">0.000005</td><td style="text-align: right">0.000005</td><td style="text-align: right">0.000008</td></tr>
+<tr><td style="text-align: right">16</td><td style="text-align: right">0.000007</td><td style="text-align: right">0.000010</td><td style="text-align: right">0.000016</td><td style="text-align: right">0.000007</td><td style="text-align: right">0.000010</td><td style="text-align: right">0.000016</td></tr>
+<tr><td style="text-align: right">32</td><td style="text-align: right">0.000015</td><td style="text-align: right">0.000021</td><td style="text-align: right">0.000034</td><td style="text-align: right">0.000015</td><td style="text-align: right">0.000020</td><td style="text-align: right">0.000033</td></tr>
+<tr><td style="text-align: right">64</td><td style="text-align: right">0.000031</td><td style="text-align: right">0.000043</td><td style="text-align: right">0.000071</td><td style="text-align: right">0.000031</td><td style="text-align: right">0.000042</td><td style="text-align: right">0.000069</td></tr>
+<tr><td style="text-align: right">128</td><td style="text-align: right">0.000086</td><td style="text-align: right">0.000092</td><td style="text-align: right">0.000159</td><td style="text-align: right">0.000076</td><td style="text-align: right">0.000104</td><td style="text-align: right">0.000154</td></tr>
+<tr><td style="text-align: right">256</td><td style="text-align: right">0.000251</td><td style="text-align: right">0.000298</td><td style="text-align: right">0.000376</td><td style="text-align: right">0.000279</td><td style="text-align: right">0.000245</td><td style="text-align: right">0.000380</td></tr>
+<tr><td style="text-align: right">512</td><td style="text-align: right">0.000698</td><td style="text-align: right">0.000790</td><td style="text-align: right">0.001018</td><td style="text-align: right">0.000764</td><td style="text-align: right">0.000748</td><td style="text-align: right">0.001008</td></tr>
+<tr><td style="text-align: right">1024</td><td style="text-align: right">0.001818</td><td style="text-align: right">0.002041</td><td style="text-align: right">0.002658</td><td style="text-align: right">0.001962</td><td style="text-align: right">0.001984</td><td style="text-align: right">0.002594</td></tr>
+<tr><td style="text-align: right">2048</td><td style="text-align: right">0.004124</td><td style="text-align: right">0.004207</td><td style="text-align: right">0.005736</td><td style="text-align: right">0.003950</td><td style="text-align: right">0.004483</td><td style="text-align: right">0.005705</td></tr>
+<tr><td style="text-align: right">4096</td><td style="text-align: right">0.005286</td><td style="text-align: right">0.007974</td><td style="text-align: right">0.009687</td><td style="text-align: right">0.004374</td><td style="text-align: right">0.006270</td><td style="text-align: right">0.005941</td></tr>
+<tr><td style="text-align: right">8192</td><td style="text-align: right">0.010566</td><td style="text-align: right">0.012796</td><td style="text-align: right">0.017713</td><td style="text-align: right">0.008446</td><td style="text-align: right">0.009434</td><td style="text-align: right">0.010722</td></tr>
+<tr><td style="text-align: right">16384</td><td style="text-align: right">0.022061</td><td style="text-align: right">0.028001</td><td style="text-align: right">0.037901</td><td style="text-align: right">0.017347</td><td style="text-align: right">0.019526</td><td style="text-align: right">0.023228</td></tr>
+<tr><td style="text-align: right">32768</td><td style="text-align: right">0.045513</td><td style="text-align: right">0.050997</td><td style="text-align: right">0.075060</td><td style="text-align: right">0.033183</td><td style="text-align: right">0.034397</td><td style="text-align: right">0.042546</td></tr>
+<tr><td style="text-align: right">65536</td><td style="text-align: right">0.094961</td><td style="text-align: right">0.113348</td><td style="text-align: right">0.165686</td><td style="text-align: right">0.065167</td><td style="text-align: right">0.074229</td><td style="text-align: right">0.091817</td></tr>
+<tr><td style="text-align: right">131072</td><td style="text-align: right">0.201415</td><td style="text-align: right">0.223653</td><td style="text-align: right">0.336338</td><td style="text-align: right">0.131789</td><td style="text-align: right">0.146095</td><td style="text-align: right">0.192015</td></tr>
+<tr><td style="text-align: right">262144</td><td style="text-align: right">0.431597</td><td style="text-align: right">0.541526</td><td style="text-align: right">0.780771</td><td style="text-align: right">0.301777</td><td style="text-align: right">0.350941</td><td style="text-align: right">0.449105</td></tr>
+<tr><td style="text-align: right">524288</td><td style="text-align: right">0.666660</td><td style="text-align: right">1.034178</td><td style="text-align: right">1.536626</td><td style="text-align: right">0.456391</td><td style="text-align: right">0.744520</td><td style="text-align: right">0.922172</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="windows-test-1"><a class="header" href="#windows-test-1">Windows Test</a></h2>
+<p><img src="overlay/performance/test_4.svg" alt="Windows Test"></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: right">N</th><th style="text-align: right">i16 off</th><th style="text-align: right">i32 off</th><th style="text-align: right">i64 off</th><th style="text-align: right">i16 on</th><th style="text-align: right">i32 on</th><th style="text-align: right">i64 on</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: right">8</td><td style="text-align: right">0.000003</td><td style="text-align: right">0.000003</td><td style="text-align: right">0.000003</td><td style="text-align: right">0.000003</td><td style="text-align: right">0.000002</td><td style="text-align: right">0.000003</td></tr>
+<tr><td style="text-align: right">32</td><td style="text-align: right">0.000009</td><td style="text-align: right">0.000008</td><td style="text-align: right">0.000010</td><td style="text-align: right">0.000009</td><td style="text-align: right">0.000009</td><td style="text-align: right">0.000010</td></tr>
+<tr><td style="text-align: right">128</td><td style="text-align: right">0.000038</td><td style="text-align: right">0.000038</td><td style="text-align: right">0.000043</td><td style="text-align: right">0.000038</td><td style="text-align: right">0.000038</td><td style="text-align: right">0.000043</td></tr>
+<tr><td style="text-align: right">512</td><td style="text-align: right">0.000205</td><td style="text-align: right">0.000195</td><td style="text-align: right">0.000225</td><td style="text-align: right">0.000204</td><td style="text-align: right">0.000194</td><td style="text-align: right">0.000224</td></tr>
+<tr><td style="text-align: right">2048</td><td style="text-align: right">0.001127</td><td style="text-align: right">0.001133</td><td style="text-align: right">0.001338</td><td style="text-align: right">0.001129</td><td style="text-align: right">0.001138</td><td style="text-align: right">0.001340</td></tr>
+<tr><td style="text-align: right">8192</td><td style="text-align: right">0.003188</td><td style="text-align: right">0.003421</td><td style="text-align: right">0.004013</td><td style="text-align: right">0.002633</td><td style="text-align: right">0.002809</td><td style="text-align: right">0.003138</td></tr>
+<tr><td style="text-align: right">32768</td><td style="text-align: right">0.013917</td><td style="text-align: right">0.015584</td><td style="text-align: right">0.018626</td><td style="text-align: right">0.010163</td><td style="text-align: right">0.010892</td><td style="text-align: right">0.012617</td></tr>
+<tr><td style="text-align: right">131072</td><td style="text-align: right">0.063098</td><td style="text-align: right">0.069925</td><td style="text-align: right">0.088967</td><td style="text-align: right">0.045737</td><td style="text-align: right">0.049875</td><td style="text-align: right">0.061721</td></tr>
+<tr><td style="text-align: right">524288</td><td style="text-align: right">0.277322</td><td style="text-align: right">0.312258</td><td style="text-align: right">0.384434</td><td style="text-align: right">0.199035</td><td style="text-align: right">0.224817</td><td style="text-align: right">0.267889</td></tr>
+<tr><td style="text-align: right">2097152</td><td style="text-align: right">1.211561</td><td style="text-align: right">1.382459</td><td style="text-align: right">1.709374</td><td style="text-align: right">0.909131</td><td style="text-align: right">1.007965</td><td style="text-align: right">1.175990</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="nested-squares-test-1"><a class="header" href="#nested-squares-test-1">Nested Squares Test</a></h2>
+<p><img src="overlay/performance/test_5.svg" alt="Nested Squares Test"></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: right">N</th><th style="text-align: right">i16 off</th><th style="text-align: right">i32 off</th><th style="text-align: right">i64 off</th><th style="text-align: right">i16 on</th><th style="text-align: right">i32 on</th><th style="text-align: right">i64 on</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: right">4</td><td style="text-align: right">0.000004</td><td style="text-align: right">0.000004</td><td style="text-align: right">0.000005</td><td style="text-align: right">0.000004</td><td style="text-align: right">0.000004</td><td style="text-align: right">0.000004</td></tr>
+<tr><td style="text-align: right">8</td><td style="text-align: right">0.000007</td><td style="text-align: right">0.000007</td><td style="text-align: right">0.000008</td><td style="text-align: right">0.000007</td><td style="text-align: right">0.000008</td><td style="text-align: right">0.000009</td></tr>
+<tr><td style="text-align: right">16</td><td style="text-align: right">0.000015</td><td style="text-align: right">0.000015</td><td style="text-align: right">0.000018</td><td style="text-align: right">0.000015</td><td style="text-align: right">0.000015</td><td style="text-align: right">0.000018</td></tr>
+<tr><td style="text-align: right">32</td><td style="text-align: right">0.000034</td><td style="text-align: right">0.000033</td><td style="text-align: right">0.000040</td><td style="text-align: right">0.000034</td><td style="text-align: right">0.000033</td><td style="text-align: right">0.000040</td></tr>
+<tr><td style="text-align: right">64</td><td style="text-align: right">0.000082</td><td style="text-align: right">0.000079</td><td style="text-align: right">0.000096</td><td style="text-align: right">0.000083</td><td style="text-align: right">0.000080</td><td style="text-align: right">0.000097</td></tr>
+<tr><td style="text-align: right">128</td><td style="text-align: right">0.000224</td><td style="text-align: right">0.000213</td><td style="text-align: right">0.000250</td><td style="text-align: right">0.000228</td><td style="text-align: right">0.000214</td><td style="text-align: right">0.000253</td></tr>
+<tr><td style="text-align: right">256</td><td style="text-align: right">0.000651</td><td style="text-align: right">0.000659</td><td style="text-align: right">0.000760</td><td style="text-align: right">0.000698</td><td style="text-align: right">0.000672</td><td style="text-align: right">0.000756</td></tr>
+<tr><td style="text-align: right">512</td><td style="text-align: right">0.002065</td><td style="text-align: right">0.002060</td><td style="text-align: right">0.002837</td><td style="text-align: right">0.002015</td><td style="text-align: right">0.002109</td><td style="text-align: right">0.002833</td></tr>
+<tr><td style="text-align: right">1024</td><td style="text-align: right">0.005356</td><td style="text-align: right">0.005223</td><td style="text-align: right">0.007613</td><td style="text-align: right">0.005271</td><td style="text-align: right">0.005426</td><td style="text-align: right">0.007585</td></tr>
+<tr><td style="text-align: right">2048</td><td style="text-align: right">0.009238</td><td style="text-align: right">0.011609</td><td style="text-align: right">0.015553</td><td style="text-align: right">0.007070</td><td style="text-align: right">0.007757</td><td style="text-align: right">0.009880</td></tr>
+<tr><td style="text-align: right">4096</td><td style="text-align: right">0.057300</td><td style="text-align: right">0.023309</td><td style="text-align: right">0.031292</td><td style="text-align: right">0.058529</td><td style="text-align: right">0.014683</td><td style="text-align: right">0.018457</td></tr>
+<tr><td style="text-align: right">8192</td><td style="text-align: right"></td><td style="text-align: right">0.081856</td><td style="text-align: right">0.113196</td><td style="text-align: right"></td><td style="text-align: right">0.046014</td><td style="text-align: right">0.059750</td></tr>
+<tr><td style="text-align: right">16384</td><td style="text-align: right"></td><td style="text-align: right">0.181416</td><td style="text-align: right">0.245353</td><td style="text-align: right"></td><td style="text-align: right">0.087646</td><td style="text-align: right">0.122264</td></tr>
+<tr><td style="text-align: right">32768</td><td style="text-align: right"></td><td style="text-align: right">0.667394</td><td style="text-align: right">0.961019</td><td style="text-align: right"></td><td style="text-align: right">0.322707</td><td style="text-align: right">0.431346</td></tr>
+<tr><td style="text-align: right">65536</td><td style="text-align: right"></td><td style="text-align: right">1.401006</td><td style="text-align: right">2.059438</td><td style="text-align: right"></td><td style="text-align: right">0.653741</td><td style="text-align: right">0.933473</td></tr>
+<tr><td style="text-align: right">131072</td><td style="text-align: right"></td><td style="text-align: right">5.445065</td><td style="text-align: right">8.138039</td><td style="text-align: right"></td><td style="text-align: right">2.410910</td><td style="text-align: right">3.822923</td></tr>
 </tbody>
 </table>
 </div>
@@ -1922,7 +2075,7 @@ td, th {
 </tbody>
 </table>
 </div>
-<h2 id="spiral-test-1"><a class="header" href="#spiral-test-1">Spiral Test</a></h2>
+<h2 id="spiral-test-2"><a class="header" href="#spiral-test-2">Spiral Test</a></h2>
 <p align="center">
   <img src="triangle/performance/test_1.svg" width="200" />
 </p>

@@ -10,6 +10,7 @@
 		- [Outline](./overlay/outline.md)
 		- [Overlay Editor](./overlay/overlay_editor.md)
     - [Performance Comparison](./overlay/performance/performance.md)
+    - [Rust Solver Benchmarks](./overlay/performance/rust_i_overlay.md)
 	- [Documentation](./overlay/doc.md)
 		- [Filling Rules](./overlay/filling_rules/filling_rules.md)
 		- [Overlay Rules](./overlay/overlay_rules/overlay_rules.md)
