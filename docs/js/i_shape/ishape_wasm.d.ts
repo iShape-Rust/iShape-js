@@ -1,15 +1,39 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export type PathData = ContourData | ShapeData | ShapesData;
+export type ContourData = [number, number][];
+export type ShapeData = ContourData[];
+export type ShapesData = ShapeData[];
+
+/** The result of triangulation, containing the points and the triangles formed by those points. */
+export type TriangulationData = {
+    /** Each pair of numbers represents the x and y coordinates of a point. */
+    points: [number, number][];
+    /** Each group of three numbers represents the indices of the points that form a triangle. */
+    indices: number[];
+};
+
+export type SeparatedVectors = {
+    vectors: {
+        ax: number;
+        ay: number;
+        bx: number;
+        by: number;
+        fill: number;
+    }[]
+};
+
+
 export class Delaunay {
     private constructor();
     free(): void;
     [Symbol.dispose](): void;
     refine_with_circumcenters(min_area: number): void;
     refine_with_circumcenters_by_obtuse_angle(min_area: number): void;
-    to_centroid_net(min_area: number): any;
-    to_convex_polygons(): any;
-    to_triangulation(): any;
+    to_centroid_net(min_area: number): ShapeData;
+    to_convex_polygons(): ShapeData;
+    to_triangulation(): TriangulationData;
 }
 
 export enum FillRule {
@@ -35,7 +59,7 @@ export class OutlineBuilder {
     private constructor();
     free(): void;
     [Symbol.dispose](): void;
-    build(path_js: any): any;
+    build(path_js: PathData): ShapesData;
     static with_style(style: OutlineStyle): OutlineBuilder;
     style: OutlineStyle;
 }
@@ -55,9 +79,9 @@ export class Overlay {
     private constructor();
     free(): void;
     [Symbol.dispose](): void;
-    static new_with_subj_and_clip(subj_js: any, clip_js: any): Overlay | undefined;
-    overlay(overlay_rule: OverlayRule, fill_rule: FillRule): any;
-    separate_vectors(fill_rule: FillRule): any;
+    static new_with_subj_and_clip(subj_js: PathData, clip_js: PathData): Overlay | undefined;
+    overlay(overlay_rule: OverlayRule, fill_rule: FillRule): ShapesData;
+    separate_vectors(fill_rule: FillRule): SeparatedVectors;
 }
 
 export enum OverlayRule {
@@ -75,7 +99,7 @@ export class RawTriangulation {
     free(): void;
     [Symbol.dispose](): void;
     into_delaunay(): Delaunay;
-    to_triangulation(): any;
+    to_triangulation(): TriangulationData;
 }
 
 export enum ShapeType {
@@ -87,7 +111,7 @@ export class StrokeBuilder {
     private constructor();
     free(): void;
     [Symbol.dispose](): void;
-    build(path_js: any, is_closed_path: boolean): any;
+    build(path_js: PathData, is_closed_path: boolean): ShapesData;
     static with_style(style: StrokeStyle): StrokeBuilder;
     style: StrokeStyle;
 }
@@ -118,11 +142,11 @@ export class Triangulator {
     free(): void;
     [Symbol.dispose](): void;
     constructor();
-    triangulate(path_js: any): RawTriangulation;
-    triangulate_with_points(path_js: any, points_js: any): RawTriangulation;
+    triangulate(path_js: PathData): RawTriangulation;
+    triangulate_with_points(path_js: PathData, points_js: ContourData): RawTriangulation;
 }
 
-export function simplify(contours_js: any, fill_rule: FillRule): any | undefined;
+export function simplify(contours_js: PathData, fill_rule: FillRule): ShapesData | undefined;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 

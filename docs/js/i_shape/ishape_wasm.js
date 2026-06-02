@@ -32,21 +32,21 @@ export class Delaunay {
     }
     /**
      * @param {number} min_area
-     * @returns {any}
+     * @returns {ShapeData}
      */
     to_centroid_net(min_area) {
         const ret = wasm.delaunay_to_centroid_net(this.__wbg_ptr, min_area);
         return ret;
     }
     /**
-     * @returns {any}
+     * @returns {ShapeData}
      */
     to_convex_polygons() {
         const ret = wasm.delaunay_to_convex_polygons(this.__wbg_ptr);
         return ret;
     }
     /**
-     * @returns {any}
+     * @returns {TriangulationData}
      */
     to_triangulation() {
         const ret = wasm.delaunay_to_triangulation(this.__wbg_ptr);
@@ -109,8 +109,8 @@ export class OutlineBuilder {
         return OutlineStyle.__wrap(ret);
     }
     /**
-     * @param {any} path_js
-     * @returns {any}
+     * @param {PathData} path_js
+     * @returns {ShapesData}
      */
     build(path_js) {
         const ret = wasm.outlinebuilder_build(this.__wbg_ptr, path_js);
@@ -248,8 +248,8 @@ export class Overlay {
         wasm.__wbg_overlay_free(ptr, 0);
     }
     /**
-     * @param {any} subj_js
-     * @param {any} clip_js
+     * @param {PathData} subj_js
+     * @param {PathData} clip_js
      * @returns {Overlay | undefined}
      */
     static new_with_subj_and_clip(subj_js, clip_js) {
@@ -259,7 +259,7 @@ export class Overlay {
     /**
      * @param {OverlayRule} overlay_rule
      * @param {FillRule} fill_rule
-     * @returns {any}
+     * @returns {ShapesData}
      */
     overlay(overlay_rule, fill_rule) {
         const ptr = this.__destroy_into_raw();
@@ -268,7 +268,7 @@ export class Overlay {
     }
     /**
      * @param {FillRule} fill_rule
-     * @returns {any}
+     * @returns {SeparatedVectors}
      */
     separate_vectors(fill_rule) {
         const ptr = this.__destroy_into_raw();
@@ -318,7 +318,7 @@ export class RawTriangulation {
         return Delaunay.__wrap(ret);
     }
     /**
-     * @returns {any}
+     * @returns {TriangulationData}
      */
     to_triangulation() {
         const ret = wasm.rawtriangulation_to_triangulation(this.__wbg_ptr);
@@ -369,9 +369,9 @@ export class StrokeBuilder {
         wasm.__wbg_set_strokebuilder_style(this.__wbg_ptr, ptr0);
     }
     /**
-     * @param {any} path_js
+     * @param {PathData} path_js
      * @param {boolean} is_closed_path
-     * @returns {any}
+     * @returns {ShapesData}
      */
     build(path_js, is_closed_path) {
         const ret = wasm.strokebuilder_build(this.__wbg_ptr, path_js, is_closed_path);
@@ -577,7 +577,7 @@ export class Triangulator {
         return this;
     }
     /**
-     * @param {any} path_js
+     * @param {PathData} path_js
      * @returns {RawTriangulation}
      */
     triangulate(path_js) {
@@ -585,8 +585,8 @@ export class Triangulator {
         return RawTriangulation.__wrap(ret);
     }
     /**
-     * @param {any} path_js
-     * @param {any} points_js
+     * @param {PathData} path_js
+     * @param {ContourData} points_js
      * @returns {RawTriangulation}
      */
     triangulate_with_points(path_js, points_js) {
@@ -597,9 +597,9 @@ export class Triangulator {
 if (Symbol.dispose) Triangulator.prototype[Symbol.dispose] = Triangulator.prototype.free;
 
 /**
- * @param {any} contours_js
+ * @param {PathData} contours_js
  * @param {FillRule} fill_rule
- * @returns {any | undefined}
+ * @returns {ShapesData | undefined}
  */
 export function simplify(contours_js, fill_rule) {
     const ret = wasm.simplify(contours_js, fill_rule);
