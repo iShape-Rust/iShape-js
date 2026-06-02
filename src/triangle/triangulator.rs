@@ -1,10 +1,9 @@
-use crate::data::NestedData;
+use crate::data::{ContourDataJs, NestedData, PathDataJs, ShapeDataJs, TriangulationDataJs};
 use alloc::vec::Vec;
 use i_triangle::float::delaunay::Delaunay as RustDelaunay;
 use i_triangle::float::triangulatable::Triangulatable;
 use i_triangle::float::triangulation::{RawTriangulation as RustRawTriangulation, Triangulation};
 use wasm_bindgen::prelude::wasm_bindgen;
-use wasm_bindgen::JsValue;
 
 #[wasm_bindgen]
 pub struct RawTriangulation {
@@ -27,7 +26,7 @@ impl Triangulator {
     }
 
     #[wasm_bindgen]
-    pub fn triangulate(&self, path_js: JsValue) -> RawTriangulation {
+    pub fn triangulate(&self, path_js: PathDataJs) -> RawTriangulation {
         let path_data = NestedData::with_json(path_js).unwrap();
         let raw = match path_data {
             NestedData::Contour(contour) => contour.triangulate(),
@@ -39,8 +38,8 @@ impl Triangulator {
     }
 
     #[wasm_bindgen]
-    pub fn triangulate_with_points(&self, path_js: JsValue, points_js: JsValue) -> RawTriangulation {
-        let points_data: Result<Vec<[f64; 2]>, _> = serde_wasm_bindgen::from_value(points_js);
+    pub fn triangulate_with_points(&self, path_js: PathDataJs, points_js: ContourDataJs) -> RawTriangulation {
+        let points_data: Result<Vec<[f64; 2]>, _> = serde_wasm_bindgen::from_value(points_js.into());
         let points = points_data.unwrap();
         let path_data = NestedData::with_json(path_js).unwrap();
         let raw = match path_data {
@@ -56,9 +55,9 @@ impl Triangulator {
 #[wasm_bindgen]
 impl RawTriangulation {
     #[wasm_bindgen]
-    pub fn to_triangulation(&self) -> JsValue {
+    pub fn to_triangulation(&self) -> TriangulationDataJs {
         let triangulation: Triangulation<[f64; 2], usize> = self.raw.to_triangulation();
-        serde_wasm_bindgen::to_value(&triangulation).unwrap()
+        serde_wasm_bindgen::to_value(&triangulation).unwrap().into()
     }
 
     #[wasm_bindgen]
@@ -72,15 +71,15 @@ impl RawTriangulation {
 #[wasm_bindgen]
 impl Delaunay {
     #[wasm_bindgen]
-    pub fn to_triangulation(&self) -> JsValue {
+    pub fn to_triangulation(&self) -> TriangulationDataJs {
         let triangulation: Triangulation<[f64; 2], usize> = self.delaunay.to_triangulation();
-        serde_wasm_bindgen::to_value(&triangulation).unwrap()
+        serde_wasm_bindgen::to_value(&triangulation).unwrap().into()
     }
 
     #[wasm_bindgen]
-    pub fn to_convex_polygons(&self) -> JsValue {
+    pub fn to_convex_polygons(&self) -> ShapeDataJs {
         let polygons = self.delaunay.to_convex_polygons();
-        serde_wasm_bindgen::to_value(&polygons).unwrap()
+        serde_wasm_bindgen::to_value(&polygons).unwrap().into()
     }
 
     #[wasm_bindgen]
@@ -95,8 +94,8 @@ impl Delaunay {
     }
 
     #[wasm_bindgen]
-    pub fn to_centroid_net(&self, min_area: f64) -> JsValue {
+    pub fn to_centroid_net(&self, min_area: f64) -> ShapeDataJs {
         let centroids = self.delaunay.to_centroid_net(min_area);
-        serde_wasm_bindgen::to_value(&centroids).unwrap()
+        serde_wasm_bindgen::to_value(&centroids).unwrap().into()
     }
 }
