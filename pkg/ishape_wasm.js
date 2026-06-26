@@ -2,7 +2,6 @@
 
 export class Delaunay {
     static __wrap(ptr) {
-        ptr = ptr >>> 0;
         const obj = Object.create(Delaunay.prototype);
         obj.__wbg_ptr = ptr;
         DelaunayFinalization.register(obj, obj.__wbg_ptr, obj);
@@ -85,7 +84,6 @@ export const LineJoin = Object.freeze({
 
 export class OutlineBuilder {
     static __wrap(ptr) {
-        ptr = ptr >>> 0;
         const obj = Object.create(OutlineBuilder.prototype);
         obj.__wbg_ptr = ptr;
         OutlineBuilderFinalization.register(obj, obj.__wbg_ptr, obj);
@@ -139,7 +137,6 @@ if (Symbol.dispose) OutlineBuilder.prototype[Symbol.dispose] = OutlineBuilder.pr
 
 export class OutlineStyle {
     static __wrap(ptr) {
-        ptr = ptr >>> 0;
         const obj = Object.create(OutlineStyle.prototype);
         obj.__wbg_ptr = ptr;
         OutlineStyleFinalization.register(obj, obj.__wbg_ptr, obj);
@@ -192,7 +189,7 @@ export class OutlineStyle {
     }
     constructor() {
         const ret = wasm.outlinestyle_create();
-        this.__wbg_ptr = ret >>> 0;
+        this.__wbg_ptr = ret;
         OutlineStyleFinalization.register(this, this.__wbg_ptr, this);
         return this;
     }
@@ -231,7 +228,6 @@ if (Symbol.dispose) OutlineStyle.prototype[Symbol.dispose] = OutlineStyle.protot
 
 export class Overlay {
     static __wrap(ptr) {
-        ptr = ptr >>> 0;
         const obj = Object.create(Overlay.prototype);
         obj.__wbg_ptr = ptr;
         OverlayFinalization.register(obj, obj.__wbg_ptr, obj);
@@ -293,7 +289,6 @@ export const OverlayRule = Object.freeze({
 
 export class RawTriangulation {
     static __wrap(ptr) {
-        ptr = ptr >>> 0;
         const obj = Object.create(RawTriangulation.prototype);
         obj.__wbg_ptr = ptr;
         RawTriangulationFinalization.register(obj, obj.__wbg_ptr, obj);
@@ -337,7 +332,6 @@ export const ShapeType = Object.freeze({
 
 export class StrokeBuilder {
     static __wrap(ptr) {
-        ptr = ptr >>> 0;
         const obj = Object.create(StrokeBuilder.prototype);
         obj.__wbg_ptr = ptr;
         StrokeBuilderFinalization.register(obj, obj.__wbg_ptr, obj);
@@ -392,7 +386,6 @@ if (Symbol.dispose) StrokeBuilder.prototype[Symbol.dispose] = StrokeBuilder.prot
 
 export class StrokeStyle {
     static __wrap(ptr) {
-        ptr = ptr >>> 0;
         const obj = Object.create(StrokeStyle.prototype);
         obj.__wbg_ptr = ptr;
         StrokeStyleFinalization.register(obj, obj.__wbg_ptr, obj);
@@ -426,14 +419,14 @@ export class StrokeStyle {
      * @returns {number}
      */
     get miter_limit() {
-        const ret = wasm.__wbg_get_outlinestyle_round_angle(this.__wbg_ptr);
+        const ret = wasm.__wbg_get_strokestyle_miter_limit(this.__wbg_ptr);
         return ret;
     }
     /**
      * @returns {number}
      */
     get round_angle() {
-        const ret = wasm.__wbg_get_outlinestyle_inner_offset(this.__wbg_ptr);
+        const ret = wasm.__wbg_get_strokestyle_round_angle(this.__wbg_ptr);
         return ret;
     }
     /**
@@ -447,7 +440,7 @@ export class StrokeStyle {
      * @returns {number}
      */
     get width() {
-        const ret = wasm.__wbg_get_outlinestyle_outer_offset(this.__wbg_ptr);
+        const ret = wasm.__wbg_get_strokestyle_width(this.__wbg_ptr);
         return ret;
     }
     /**
@@ -466,13 +459,13 @@ export class StrokeStyle {
      * @param {number} arg0
      */
     set miter_limit(arg0) {
-        wasm.__wbg_set_outlinestyle_round_angle(this.__wbg_ptr, arg0);
+        wasm.__wbg_set_strokestyle_miter_limit(this.__wbg_ptr, arg0);
     }
     /**
      * @param {number} arg0
      */
     set round_angle(arg0) {
-        wasm.__wbg_set_outlinestyle_inner_offset(this.__wbg_ptr, arg0);
+        wasm.__wbg_set_strokestyle_round_angle(this.__wbg_ptr, arg0);
     }
     /**
      * @param {LineCap} arg0
@@ -484,11 +477,11 @@ export class StrokeStyle {
      * @param {number} arg0
      */
     set width(arg0) {
-        wasm.__wbg_set_outlinestyle_outer_offset(this.__wbg_ptr, arg0);
+        wasm.__wbg_set_strokestyle_width(this.__wbg_ptr, arg0);
     }
     constructor() {
         const ret = wasm.strokestyle_create();
-        this.__wbg_ptr = ret >>> 0;
+        this.__wbg_ptr = ret;
         StrokeStyleFinalization.register(this, this.__wbg_ptr, this);
         return this;
     }
@@ -572,7 +565,7 @@ export class Triangulator {
     }
     constructor() {
         const ret = wasm.triangulator_create();
-        this.__wbg_ptr = ret >>> 0;
+        this.__wbg_ptr = ret;
         TriangulatorFinalization.register(this, this.__wbg_ptr, this);
         return this;
     }
@@ -605,64 +598,63 @@ export function simplify(contours_js, fill_rule) {
     const ret = wasm.simplify(contours_js, fill_rule);
     return ret;
 }
-
 function __wbg_get_imports() {
     const import0 = {
         __proto__: null,
-        __wbg_Error_8c4e43fe74559d73: function(arg0, arg1) {
+        __wbg_Error_92b29b0548f8b746: function(arg0, arg1) {
             const ret = Error(getStringFromWasm0(arg0, arg1));
             return ret;
         },
-        __wbg___wbindgen_bigint_get_as_i64_8fcf4ce7f1ca72a2: function(arg0, arg1) {
+        __wbg___wbindgen_bigint_get_as_i64_d968e41184ae354f: function(arg0, arg1) {
             const v = arg1;
             const ret = typeof(v) === 'bigint' ? v : undefined;
             getDataViewMemory0().setBigInt64(arg0 + 8 * 1, isLikeNone(ret) ? BigInt(0) : ret, true);
             getDataViewMemory0().setInt32(arg0 + 4 * 0, !isLikeNone(ret), true);
         },
-        __wbg___wbindgen_boolean_get_bbbb1c18aa2f5e25: function(arg0) {
+        __wbg___wbindgen_boolean_get_fa956cfa2d1bd751: function(arg0) {
             const v = arg0;
             const ret = typeof(v) === 'boolean' ? v : undefined;
             return isLikeNone(ret) ? 0xFFFFFF : ret ? 1 : 0;
         },
-        __wbg___wbindgen_debug_string_0bc8482c6e3508ae: function(arg0, arg1) {
+        __wbg___wbindgen_debug_string_c25d447a39f5578f: function(arg0, arg1) {
             const ret = debugString(arg1);
             const ptr1 = passStringToWasm0(ret, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
             const len1 = WASM_VECTOR_LEN;
             getDataViewMemory0().setInt32(arg0 + 4 * 1, len1, true);
             getDataViewMemory0().setInt32(arg0 + 4 * 0, ptr1, true);
         },
-        __wbg___wbindgen_in_47fa6863be6f2f25: function(arg0, arg1) {
+        __wbg___wbindgen_in_aca499c5de7ff5e5: function(arg0, arg1) {
             const ret = arg0 in arg1;
             return ret;
         },
-        __wbg___wbindgen_is_bigint_31b12575b56f32fc: function(arg0) {
+        __wbg___wbindgen_is_bigint_2f76dc55065b4273: function(arg0) {
             const ret = typeof(arg0) === 'bigint';
             return ret;
         },
-        __wbg___wbindgen_is_function_0095a73b8b156f76: function(arg0) {
+        __wbg___wbindgen_is_function_1ff95bcc5517c252: function(arg0) {
             const ret = typeof(arg0) === 'function';
             return ret;
         },
-        __wbg___wbindgen_is_object_5ae8e5880f2c1fbd: function(arg0) {
+        __wbg___wbindgen_is_object_a27215656b807791: function(arg0) {
             const val = arg0;
             const ret = typeof(val) === 'object' && val !== null;
             return ret;
         },
-        __wbg___wbindgen_jsval_eq_11888390b0186270: function(arg0, arg1) {
+        __wbg___wbindgen_jsval_eq_e659fcf7b0e32763: function(arg0, arg1) {
             const ret = arg0 === arg1;
             return ret;
         },
-        __wbg___wbindgen_jsval_loose_eq_9dd77d8cd6671811: function(arg0, arg1) {
+        __wbg___wbindgen_jsval_loose_eq_db4c3b15f63fc170: function(arg0, arg1) {
             const ret = arg0 == arg1;
             return ret;
         },
-        __wbg___wbindgen_number_get_8ff4255516ccad3e: function(arg0, arg1) {
+        __wbg___wbindgen_number_get_394265ed1e1b84ee: function(arg0, arg1) {
             const obj = arg1;
             const ret = typeof(obj) === 'number' ? obj : undefined;
             getDataViewMemory0().setFloat64(arg0 + 8 * 1, isLikeNone(ret) ? 0 : ret, true);
             getDataViewMemory0().setInt32(arg0 + 4 * 0, !isLikeNone(ret), true);
         },
-        __wbg___wbindgen_string_get_72fb696202c56729: function(arg0, arg1) {
+        __wbg___wbindgen_string_get_b0ca35b86a603356: function(arg0, arg1) {
             const obj = arg1;
             const ret = typeof(obj) === 'string' ? obj : undefined;
             var ptr1 = isLikeNone(ret) ? 0 : passStringToWasm0(ret, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
@@ -670,30 +662,34 @@ function __wbg_get_imports() {
             getDataViewMemory0().setInt32(arg0 + 4 * 1, len1, true);
             getDataViewMemory0().setInt32(arg0 + 4 * 0, ptr1, true);
         },
-        __wbg___wbindgen_throw_be289d5034ed271b: function(arg0, arg1) {
+        __wbg___wbindgen_throw_344f42d3211c4765: function(arg0, arg1) {
             throw new Error(getStringFromWasm0(arg0, arg1));
         },
-        __wbg_call_389efe28435a9388: function() { return handleError(function (arg0, arg1) {
+        __wbg_call_8a2dd23819f8a60a: function() { return handleError(function (arg0, arg1) {
             const ret = arg0.call(arg1);
             return ret;
         }, arguments); },
-        __wbg_done_57b39ecd9addfe81: function(arg0) {
+        __wbg_done_89b2b13e91a60321: function(arg0) {
             const ret = arg0.done;
             return ret;
         },
-        __wbg_entries_58c7934c745daac7: function(arg0) {
+        __wbg_entries_015dc610cd81ede0: function(arg0) {
             const ret = Object.entries(arg0);
             return ret;
         },
-        __wbg_get_9b94d73e6221f75c: function(arg0, arg1) {
+        __wbg_get_507a50627bffa49b: function(arg0, arg1) {
             const ret = arg0[arg1 >>> 0];
             return ret;
         },
-        __wbg_get_b3ed3ad4be2bc8ac: function() { return handleError(function (arg0, arg1) {
+        __wbg_get_c7eb1f358a7654df: function() { return handleError(function (arg0, arg1) {
             const ret = Reflect.get(arg0, arg1);
             return ret;
         }, arguments); },
-        __wbg_instanceof_ArrayBuffer_c367199e2fa2aa04: function(arg0) {
+        __wbg_get_unchecked_6e0ad6d2a41b06f6: function(arg0, arg1) {
+            const ret = arg0[arg1 >>> 0];
+            return ret;
+        },
+        __wbg_instanceof_ArrayBuffer_4480b9e0068a8adb: function(arg0) {
             let result;
             try {
                 result = arg0 instanceof ArrayBuffer;
@@ -703,7 +699,7 @@ function __wbg_get_imports() {
             const ret = result;
             return ret;
         },
-        __wbg_instanceof_Map_53af74335dec57f4: function(arg0) {
+        __wbg_instanceof_Map_e5b5e3db98422fcc: function(arg0) {
             let result;
             try {
                 result = arg0 instanceof Map;
@@ -713,7 +709,7 @@ function __wbg_get_imports() {
             const ret = result;
             return ret;
         },
-        __wbg_instanceof_Uint8Array_9b9075935c74707c: function(arg0) {
+        __wbg_instanceof_Uint8Array_309b927aaf7a3fc7: function(arg0) {
             let result;
             try {
                 result = arg0 instanceof Uint8Array;
@@ -723,56 +719,56 @@ function __wbg_get_imports() {
             const ret = result;
             return ret;
         },
-        __wbg_isArray_d314bb98fcf08331: function(arg0) {
+        __wbg_isArray_0677c962b281d01a: function(arg0) {
             const ret = Array.isArray(arg0);
             return ret;
         },
-        __wbg_isSafeInteger_bfbc7332a9768d2a: function(arg0) {
+        __wbg_isSafeInteger_04f36e4056f1b851: function(arg0) {
             const ret = Number.isSafeInteger(arg0);
             return ret;
         },
-        __wbg_iterator_6ff6560ca1568e55: function() {
+        __wbg_iterator_6f722e4a93058b71: function() {
             const ret = Symbol.iterator;
             return ret;
         },
-        __wbg_length_32ed9a279acd054c: function(arg0) {
+        __wbg_length_1f0964f4a5e2c6d8: function(arg0) {
             const ret = arg0.length;
             return ret;
         },
-        __wbg_length_35a7bace40f36eac: function(arg0) {
+        __wbg_length_370319915dc99107: function(arg0) {
             const ret = arg0.length;
             return ret;
         },
-        __wbg_new_361308b2356cecd0: function() {
-            const ret = new Object();
-            return ret;
-        },
-        __wbg_new_3eb36ae241fe6f44: function() {
+        __wbg_new_32b398fb48b6d94a: function() {
             const ret = new Array();
             return ret;
         },
-        __wbg_new_dd2b680c8bf6ae29: function(arg0) {
+        __wbg_new_cd45aabdf6073e84: function(arg0) {
             const ret = new Uint8Array(arg0);
             return ret;
         },
-        __wbg_next_3482f54c49e8af19: function() { return handleError(function (arg0) {
-            const ret = arg0.next();
+        __wbg_new_da52cf8fe3429cb2: function() {
+            const ret = new Object();
             return ret;
-        }, arguments); },
-        __wbg_next_418f80d8f5303233: function(arg0) {
+        },
+        __wbg_next_6dbf2c0ac8cde20f: function(arg0) {
             const ret = arg0.next;
             return ret;
         },
-        __wbg_prototypesetcall_bdcdcc5842e4d77d: function(arg0, arg1, arg2) {
+        __wbg_next_71f2aa1cb3d1e37e: function() { return handleError(function (arg0) {
+            const ret = arg0.next();
+            return ret;
+        }, arguments); },
+        __wbg_prototypesetcall_4770620bbe4688a0: function(arg0, arg1, arg2) {
             Uint8Array.prototype.set.call(getArrayU8FromWasm0(arg0, arg1), arg2);
         },
-        __wbg_set_3f1d0b984ed272ed: function(arg0, arg1, arg2) {
+        __wbg_set_6be42768c690e380: function(arg0, arg1, arg2) {
             arg0[arg1] = arg2;
         },
-        __wbg_set_f43e577aea94465b: function(arg0, arg1, arg2) {
+        __wbg_set_8a16b38e4805b298: function(arg0, arg1, arg2) {
             arg0[arg1 >>> 0] = arg2;
         },
-        __wbg_value_0546255b415e96c1: function(arg0) {
+        __wbg_value_a5d5488a9589444a: function(arg0) {
             const ret = arg0.value;
             return ret;
         },
@@ -814,28 +810,28 @@ function __wbg_get_imports() {
 
 const DelaunayFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
-    : new FinalizationRegistry(ptr => wasm.__wbg_delaunay_free(ptr >>> 0, 1));
+    : new FinalizationRegistry(ptr => wasm.__wbg_delaunay_free(ptr, 1));
 const OutlineBuilderFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
-    : new FinalizationRegistry(ptr => wasm.__wbg_outlinebuilder_free(ptr >>> 0, 1));
+    : new FinalizationRegistry(ptr => wasm.__wbg_outlinebuilder_free(ptr, 1));
 const OutlineStyleFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
-    : new FinalizationRegistry(ptr => wasm.__wbg_outlinestyle_free(ptr >>> 0, 1));
+    : new FinalizationRegistry(ptr => wasm.__wbg_outlinestyle_free(ptr, 1));
 const OverlayFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
-    : new FinalizationRegistry(ptr => wasm.__wbg_overlay_free(ptr >>> 0, 1));
+    : new FinalizationRegistry(ptr => wasm.__wbg_overlay_free(ptr, 1));
 const RawTriangulationFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
-    : new FinalizationRegistry(ptr => wasm.__wbg_rawtriangulation_free(ptr >>> 0, 1));
+    : new FinalizationRegistry(ptr => wasm.__wbg_rawtriangulation_free(ptr, 1));
 const StrokeBuilderFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
-    : new FinalizationRegistry(ptr => wasm.__wbg_strokebuilder_free(ptr >>> 0, 1));
+    : new FinalizationRegistry(ptr => wasm.__wbg_strokebuilder_free(ptr, 1));
 const StrokeStyleFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
-    : new FinalizationRegistry(ptr => wasm.__wbg_strokestyle_free(ptr >>> 0, 1));
+    : new FinalizationRegistry(ptr => wasm.__wbg_strokestyle_free(ptr, 1));
 const TriangulatorFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
-    : new FinalizationRegistry(ptr => wasm.__wbg_triangulator_free(ptr >>> 0, 1));
+    : new FinalizationRegistry(ptr => wasm.__wbg_triangulator_free(ptr, 1));
 
 function addToExternrefTable0(obj) {
     const idx = wasm.__externref_table_alloc();
@@ -928,8 +924,7 @@ function getDataViewMemory0() {
 }
 
 function getStringFromWasm0(ptr, len) {
-    ptr = ptr >>> 0;
-    return decodeText(ptr, len);
+    return decodeText(ptr >>> 0, len);
 }
 
 let cachedUint8ArrayMemory0 = null;
@@ -1019,8 +1014,9 @@ if (!('encodeInto' in cachedTextEncoder)) {
 
 let WASM_VECTOR_LEN = 0;
 
-let wasmModule, wasm;
+let wasmModule, wasmInstance, wasm;
 function __wbg_finalize_init(instance, module) {
+    wasmInstance = instance;
     wasm = instance.exports;
     wasmModule = module;
     cachedDataViewMemory0 = null;
