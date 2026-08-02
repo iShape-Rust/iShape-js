@@ -1,59 +1,28 @@
-function normalize(vector) {
-    const magnitude = Math.sqrt(vector.x ** 2 + vector.y ** 2);
-    return { x: vector.x / magnitude, y: vector.y / magnitude };
-}
-
-function sub(vectorA, vectorB) {
-    return { x: vectorA.x - vectorB.x, y: vectorA.y - vectorB.y };
-}
-
-function add(vectorA, vectorB) {
-    return { x: vectorA.x + vectorB.x, y: vectorA.y + vectorB.y };
-}
-
-function mul(vector, scalar) {
-    return { x: vector.x * scalar, y: vector.y * scalar };
-}
-
+import { Vector } from "../geometry/vector.js";
 export class Segment {
-  constructor(link) {
-    this.start = { x: link.ax, y: link.ay };
-    this.end = { x: link.bx, y: link.by };
-  }
-
-  get subjTopPos() {
-    const n = normalize(sub(this.start, this.end));
-    const o = { x: n.y, y: -n.x };
-    return add(
-      mul(add(this.start, this.end), 0.5),
-      add(mul(o, 6), mul(n, 4))
-    );
-  }
-
-  get subjBottomPos() {
-    const n = normalize(sub(this.start, this.end));
-    const o = { x: -n.y, y: n.x };
-    return add(
-      mul(add(this.start, this.end), 0.5),
-      add(mul(o, 6), mul(n, 4))
-    );
-  }
-
-  get clipTopPos() {
-    const n = normalize(sub(this.start, this.end));
-    const o = { x: n.y, y: -n.x };
-    return add(
-      mul(add(this.start, this.end), 0.5),
-      add(mul(o, 6), mul(n, -4))
-    );
-  }
-
-  get clipBottomPos() {
-    const n = normalize(sub(this.start, this.end));
-    const o = { x: -n.y, y: n.x };
-    return add(
-      mul(add(this.start, this.end), 0.5),
-      add(mul(o, 6), mul(n, -4))
-    );
-  }
+    constructor(link) {
+        this.start = new Vector(link.ax, link.ay);
+        this.end = new Vector(link.bx, link.by);
+    }
+    get subjTopPos() {
+        return this.labelPosition(6, 4);
+    }
+    get subjBottomPos() {
+        return this.labelPosition(-6, 4);
+    }
+    get clipTopPos() {
+        return this.labelPosition(6, -4);
+    }
+    get clipBottomPos() {
+        return this.labelPosition(-6, -4);
+    }
+    labelPosition(normalOffset, tangentOffset) {
+        const tangent = this.start.sub(this.end).normalized();
+        const normal = tangent.perpendicular().negated();
+        const midpoint = this.start.lerp(this.end, 0.5);
+        return midpoint
+            .add(normal.scale(normalOffset))
+            .add(tangent.scale(tangentOffset));
+    }
 }
+//# sourceMappingURL=segment.js.map

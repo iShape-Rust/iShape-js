@@ -3,7 +3,7 @@ export const tests = [
         name: "Square",
         shapes: [
             [
-                [[300.0, 300.0], [500.0, 300.0], [500.0, 500.0],[300.0, 500.0]]
+                [[300.0, 300.0], [500.0, 300.0], [500.0, 500.0], [300.0, 500.0]]
             ]
         ]
     },
@@ -51,4 +51,5 @@ export const tests = [
             ]
         ]
     },
-]
+];
+//# sourceMappingURL=outline_data.js.map

@@ -48,4 +48,5 @@ export const tests = [
             ]
         ]
     }
-]
+];
+//# sourceMappingURL=stroke_data.js.map
