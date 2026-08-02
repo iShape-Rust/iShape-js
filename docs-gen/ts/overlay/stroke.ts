@@ -1,5 +1,6 @@
 import init, {LineCap, LineJoin, StrokeStyle, StrokeBuilder} from '../i_shape/ishape_wasm.js';
-import {requireCanvas2D, requireElement} from '../common/dom.js';
+import {clientToCanvasPoint, requireCanvas2D, requireElement} from '../common/dom.js';
+import {bindRangeOutput, formatHundredths, formatTestTitle} from '../common/demo.js';
 import type {Contour, Shape, WorkingArea} from '../geometry/path.js';
 import type {Point} from '../geometry/vector.js';
 import * as data from './stroke_data.js';
@@ -7,6 +8,13 @@ import * as data from './stroke_data.js';
 const strokeWidthSlider = requireElement('strokeWidth', HTMLInputElement);
 const roundAngleSlider = requireElement('roundAngle', HTMLInputElement);
 const miterLimitSlider = requireElement('miterLimit', HTMLInputElement);
+const strokeWidthOutput = requireElement('strokeWidthValue', HTMLOutputElement);
+const roundAngleOutput = requireElement('roundAngleValue', HTMLOutputElement);
+const miterLimitOutput = requireElement('miterLimitValue', HTMLOutputElement);
+
+bindRangeOutput(strokeWidthSlider, strokeWidthOutput);
+bindRangeOutput(roundAngleSlider, roundAngleOutput, formatHundredths);
+bindRangeOutput(miterLimitSlider, miterLimitOutput, formatHundredths);
 
 const startCapSelect = requireElement('startCap', HTMLSelectElement);
 const endCapSelect = requireElement('endCap', HTMLSelectElement);
@@ -50,7 +58,7 @@ if (window.devicePixelRatio > 1) {
 async function run(): Promise<void> {
     await init();
     requestAnimationFrame(draw);
-    testTitle.textContent = data.tests[testIndex].name;
+    testTitle.textContent = formatTestTitle(testIndex, data.tests.length, data.tests[testIndex].name);
 }
 
 void run();
@@ -63,14 +71,14 @@ prevButton.addEventListener('click', function () {
     const n = data.tests.length;
     testIndex = (testIndex - 1 + n) % n;
     requestAnimationFrame(draw);
-    testTitle.textContent = data.tests[testIndex].name;
+    testTitle.textContent = formatTestTitle(testIndex, data.tests.length, data.tests[testIndex].name);
 });
 
 nextButton.addEventListener('click', function () {
     const n = data.tests.length;
     testIndex = (testIndex + 1) % n;
     requestAnimationFrame(draw);
-    testTitle.textContent = data.tests[testIndex].name;
+    testTitle.textContent = formatTestTitle(testIndex, data.tests.length, data.tests[testIndex].name);
 });
 
 startCapSelect.addEventListener('change', updateFrame);
@@ -123,8 +131,7 @@ canvas.addEventListener('mouseout', function (event) {
 });
 
 function pressDown(eX: number, eY: number): void {
-    const x = eX - canvas.getBoundingClientRect().left;
-    const y = eY - canvas.getBoundingClientRect().top;
+    const [x, y] = clientToCanvasPoint(canvas, eX, eY, scale);
 
     const test = data.tests[testIndex];
     isMousePressed = true;
@@ -140,8 +147,7 @@ function pressDown(eX: number, eY: number): void {
 }
 
 function move(eX: number, eY: number): void {
-    let x = eX - canvas.getBoundingClientRect().left;
-    let y = eY - canvas.getBoundingClientRect().top;
+    const [x, y] = clientToCanvasPoint(canvas, eX, eY, scale);
 
     if (isMousePressed) {
         // Left mouse button was pressed

@@ -1,3 +1,5 @@
+import type { Point } from "../geometry/vector.js";
+
 type ElementConstructor<T extends Element> = {
     new (): T;
 };
@@ -25,4 +27,24 @@ export function requireCanvas2D(id: string): {
     }
 
     return { canvas, context };
+}
+
+export function clientToCanvasPoint(
+    canvas: HTMLCanvasElement,
+    clientX: number,
+    clientY: number,
+    backingScale = 1,
+): Point {
+    const bounds = canvas.getBoundingClientRect();
+    if (bounds.width === 0 || bounds.height === 0) {
+        throw new Error(`Canvas #${canvas.id} has no visible size`);
+    }
+
+    const logicalWidth = canvas.width / backingScale;
+    const logicalHeight = canvas.height / backingScale;
+
+    return [
+        (clientX - bounds.left) * logicalWidth / bounds.width,
+        (clientY - bounds.top) * logicalHeight / bounds.height,
+    ];
 }

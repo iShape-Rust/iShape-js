@@ -28,6 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/demo-e0106bfb.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -37,7 +38,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-44691e32.js";
+            window.path_to_searchindex_js = "../searchindex-fe18eccd.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-3cdf222e.js"></script>
@@ -176,83 +177,7 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <style>
-
-.demo-title {
-    color: #333;
-    text-align: center;
-}
-
-.sheet-container {
-    max-width: 1000px;
-    margin: auto;
- }
-
-.rotating-stars-input-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.star-input-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 10px;
-}
-
-.star-input-group {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.star-input-group label {
-    flex: none;
-    width: 150px;
-    white-space: nowrap;
-    text-align: right;
-    margin-right: 20px;
-}
-
-.star-input-group input {
-    flex: none;
-    width: 150px;
-}
-
-#starCanvas {
-    display: block;
-    margin: 20px auto;
-}
-
-.operation-selection {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-    margin-top: 20px;
-    font-size: 20px;
-}
-
-.operation-selection label {
-    flex: none;
-    width: 150px;
-    white-space: nowrap;
-    text-align: right;
-    margin-right: 20px;
-    font-size: 20px;
-}
-
-.operation-selection select {
-	-webkit-appearance: none;
-    padding-left: 4px;
-    flex: none;
-    width: 150px;
-    font-size: 20px;
-}
-</style>
-<div class="sheet-container">
+                        <div class="demo-shell">
 	<script type="text/javascript">
 // in different environments the path is different
 const paths = [
@@ -285,86 +210,98 @@ async function fileExists(path) {
 <h1 class="demo-title">Stars Rotation</h1>
 
 	
-<div class="rotating-stars-input-container">
+<div class="demo-controls">
 	    
-<div class="star-input-container">
+<div class="demo-control-group">
 	        
 <h3 class="title">Subject Star</h3>
 
 	        
-<div class="star-input-group">
+<div class="demo-control demo-control--range">
 	            <label for="subjFirstRadius">First Radius: </label>
 	            <input type="range" id="subjFirstRadius" min="10" max="100" value="60">
+	            <output class="demo-value" id="subjFirstRadiusValue" for="subjFirstRadius">60</output>
 	        </div>
 
 	        
-<div class="star-input-group">
+<div class="demo-control demo-control--range">
 	            <label for="subjSecondRadius">Second Radius: </label>
 	            <input type="range" id="subjSecondRadius" min="10" max="100" value="30">
+	            <output class="demo-value" id="subjSecondRadiusValue" for="subjSecondRadius">30</output>
 	        </div>
 
 	        
-<div class="star-input-group">
+<div class="demo-control demo-control--range">
 	            <label for="subjRotationSpeed">Rotation Speed: </label>
 	            <input type="range" id="subjRotationSpeed" min="1" max="100" value="5">
+	            <output class="demo-value" id="subjRotationSpeedValue" for="subjRotationSpeed">5</output>
 	        </div>
 
 	        
-<div class="star-input-group">
-	            <label for="subjAngleCount">Corners Count: </label>
+<div class="demo-control demo-control--range">
+	            <label for="subjAngleCount">Corner Count: </label>
 	            <input type="range" id="subjAngleCount" min="3" max="24" value="7">
+	            <output class="demo-value" id="subjAngleCountValue" for="subjAngleCount">7</output>
 	        </div>
 
 	    </div>
 
 	    
-<div class="star-input-container">
+<div class="demo-control-group">
 	        
 <h3 class="title">Clip Star</h3>
 
 	        
-<div class="star-input-group">
+<div class="demo-control demo-control--range">
 	            <label for="clipFirstRadius">First Radius: </label>
 	            <input type="range" id="clipFirstRadius" min="10" max="100" value="60">
+	            <output class="demo-value" id="clipFirstRadiusValue" for="clipFirstRadius">60</output>
 	        </div>
 
 	        
-<div class="star-input-group">
+<div class="demo-control demo-control--range">
 	            <label for="clipSecondRadius">Second Radius: </label>
 	            <input type="range" id="clipSecondRadius" min="10" max="100" value="30">
+	            <output class="demo-value" id="clipSecondRadiusValue" for="clipSecondRadius">30</output>
 	        </div>
 
 	        
-<div class="star-input-group">
+<div class="demo-control demo-control--range">
 	            <label for="clipRotationSpeed">Rotation Speed: </label>
 	            <input type="range" id="clipRotationSpeed" min="1" max="100" value="5">
+	            <output class="demo-value" id="clipRotationSpeedValue" for="clipRotationSpeed">5</output>
 	        </div>
 
 	        
-<div class="star-input-group">
-	            <label for="clipAngleCount">Corners Count: </label>
+<div class="demo-control demo-control--range">
+	            <label for="clipAngleCount">Corner Count: </label>
 	            <input type="range" id="clipAngleCount" min="3" max="24" value="7">
+	            <output class="demo-value" id="clipAngleCountValue" for="clipAngleCount">7</output>
 	        </div>
 
 	    </div>
+<div class="demo-control demo-control--wide">
+            <label for="operationType">Operation:</label>
+            <select id="operationType">
+                <option value="Xor">Xor</option>
+                <option value="Union">Union</option>
+                <option value="Intersect">Intersect</option>
+                <option value="Difference">Difference</option>
+                <option value="InverseDifference">Inverse Difference</option>
+                <option value="Subject">Subject</option>
+                <option value="Clip">Clip</option>
+		    </select>
+        </div>
 
-	</div>
-
-    
-<div class="operation-selection">
-        <label for="operationType">Operation: </label>
-        <select id="operationType">
-            <option value="Xor">Xor</option>
-            <option value="Union">Union</option>
-            <option value="Intersect">Intersect</option>
-            <option value="Difference">Difference</option>
-            <option value="InverseDifference">InverseDifference</option>
-            <option value="Subject">Subject</option>
-            <option value="Clip">Clip</option>
-		</select>
     </div>
 
-    <canvas id="starCanvas" width="750" height="750"></canvas>
+    
+<div class="demo-actions">
+        <button type="button" class="demo-button" id="animation-toggle" aria-pressed="false">Pause</button>
+        <button type="button" class="demo-button" id="animation-reset">Reset</button>
+    </div>
+
+    <canvas class="demo-canvas demo-canvas--stars" id="starCanvas" width="750" height="750"></canvas>
 </div>
 
 

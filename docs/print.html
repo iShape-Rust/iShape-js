@@ -29,6 +29,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/demo-e0106bfb.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -38,7 +39,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-44691e32.js";
+            window.path_to_searchindex_js = "searchindex-fe18eccd.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-3cdf222e.js"></script>
@@ -209,83 +210,7 @@
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="stars-rotation"><a href="#stars-rotation" class="header">Stars Rotation</a></h1>
-<style>
-
-.demo-title {
-    color: #333;
-    text-align: center;
-}
-
-.sheet-container {
-    max-width: 1000px;
-    margin: auto;
- }
-
-.rotating-stars-input-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.star-input-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 10px;
-}
-
-.star-input-group {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.star-input-group label {
-    flex: none;
-    width: 150px;
-    white-space: nowrap;
-    text-align: right;
-    margin-right: 20px;
-}
-
-.star-input-group input {
-    flex: none;
-    width: 150px;
-}
-
-#starCanvas {
-    display: block;
-    margin: 20px auto;
-}
-
-.operation-selection {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-    margin-top: 20px;
-    font-size: 20px;
-}
-
-.operation-selection label {
-    flex: none;
-    width: 150px;
-    white-space: nowrap;
-    text-align: right;
-    margin-right: 20px;
-    font-size: 20px;
-}
-
-.operation-selection select {
-	-webkit-appearance: none;
-    padding-left: 4px;
-    flex: none;
-    width: 150px;
-    font-size: 20px;
-}
-</style>
-<div class="sheet-container">
+<div class="demo-shell">
 	<script type="text/javascript">
 // in different environments the path is different
 const paths = [
@@ -318,183 +243,103 @@ async function fileExists(path) {
 <h1 class="demo-title">Stars Rotation</h1>
 
 	
-<div class="rotating-stars-input-container">
+<div class="demo-controls">
 	    
-<div class="star-input-container">
+<div class="demo-control-group">
 	        
 <h3 class="title">Subject Star</h3>
 
 	        
-<div class="star-input-group">
+<div class="demo-control demo-control--range">
 	            <label for="subjFirstRadius">First Radius: </label>
 	            <input type="range" id="subjFirstRadius" min="10" max="100" value="60">
+	            <output class="demo-value" id="subjFirstRadiusValue" for="subjFirstRadius">60</output>
 	        </div>
 
 	        
-<div class="star-input-group">
+<div class="demo-control demo-control--range">
 	            <label for="subjSecondRadius">Second Radius: </label>
 	            <input type="range" id="subjSecondRadius" min="10" max="100" value="30">
+	            <output class="demo-value" id="subjSecondRadiusValue" for="subjSecondRadius">30</output>
 	        </div>
 
 	        
-<div class="star-input-group">
+<div class="demo-control demo-control--range">
 	            <label for="subjRotationSpeed">Rotation Speed: </label>
 	            <input type="range" id="subjRotationSpeed" min="1" max="100" value="5">
+	            <output class="demo-value" id="subjRotationSpeedValue" for="subjRotationSpeed">5</output>
 	        </div>
 
 	        
-<div class="star-input-group">
-	            <label for="subjAngleCount">Corners Count: </label>
+<div class="demo-control demo-control--range">
+	            <label for="subjAngleCount">Corner Count: </label>
 	            <input type="range" id="subjAngleCount" min="3" max="24" value="7">
+	            <output class="demo-value" id="subjAngleCountValue" for="subjAngleCount">7</output>
 	        </div>
 
 	    </div>
 
 	    
-<div class="star-input-container">
+<div class="demo-control-group">
 	        
 <h3 class="title">Clip Star</h3>
 
 	        
-<div class="star-input-group">
+<div class="demo-control demo-control--range">
 	            <label for="clipFirstRadius">First Radius: </label>
 	            <input type="range" id="clipFirstRadius" min="10" max="100" value="60">
+	            <output class="demo-value" id="clipFirstRadiusValue" for="clipFirstRadius">60</output>
 	        </div>
 
 	        
-<div class="star-input-group">
+<div class="demo-control demo-control--range">
 	            <label for="clipSecondRadius">Second Radius: </label>
 	            <input type="range" id="clipSecondRadius" min="10" max="100" value="30">
+	            <output class="demo-value" id="clipSecondRadiusValue" for="clipSecondRadius">30</output>
 	        </div>
 
 	        
-<div class="star-input-group">
+<div class="demo-control demo-control--range">
 	            <label for="clipRotationSpeed">Rotation Speed: </label>
 	            <input type="range" id="clipRotationSpeed" min="1" max="100" value="5">
+	            <output class="demo-value" id="clipRotationSpeedValue" for="clipRotationSpeed">5</output>
 	        </div>
 
 	        
-<div class="star-input-group">
-	            <label for="clipAngleCount">Corners Count: </label>
+<div class="demo-control demo-control--range">
+	            <label for="clipAngleCount">Corner Count: </label>
 	            <input type="range" id="clipAngleCount" min="3" max="24" value="7">
+	            <output class="demo-value" id="clipAngleCountValue" for="clipAngleCount">7</output>
 	        </div>
 
 	    </div>
+<div class="demo-control demo-control--wide">
+            <label for="operationType">Operation:</label>
+            <select id="operationType">
+                <option value="Xor">Xor</option>
+                <option value="Union">Union</option>
+                <option value="Intersect">Intersect</option>
+                <option value="Difference">Difference</option>
+                <option value="InverseDifference">Inverse Difference</option>
+                <option value="Subject">Subject</option>
+                <option value="Clip">Clip</option>
+		    </select>
+        </div>
 
-	</div>
-
-    
-<div class="operation-selection">
-        <label for="operationType">Operation: </label>
-        <select id="operationType">
-            <option value="Xor">Xor</option>
-            <option value="Union">Union</option>
-            <option value="Intersect">Intersect</option>
-            <option value="Difference">Difference</option>
-            <option value="InverseDifference">InverseDifference</option>
-            <option value="Subject">Subject</option>
-            <option value="Clip">Clip</option>
-		</select>
     </div>
 
-    <canvas id="starCanvas" width="750" height="750"></canvas>
+    
+<div class="demo-actions">
+        <button type="button" class="demo-button" id="animation-toggle" aria-pressed="false">Pause</button>
+        <button type="button" class="demo-button" id="animation-reset">Reset</button>
+    </div>
+
+    <canvas class="demo-canvas demo-canvas--stars" id="starCanvas" width="750" height="750"></canvas>
 </div>
 
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="shapes-editor"><a href="#shapes-editor" class="header">Shapes Editor</a></h1>
-<style>
-
-.demo-title {
-    text-align: center;
-}
-
-.test-title {
-    text-align: center;
-    margin-top: 0;
-}
-
-.sheet-container {
-    max-width: 1000px;
-    margin: auto;
- }
-
-.operation-selection {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-    margin-top: 20px;
-    font-size: 20px;
-}
-
-.operation-selection label {
-    flex: none;
-    width: 150px;
-    white-space: nowrap;
-    text-align: right;
-    margin-right: 20px;
-    font-size: 20px;
-}
-
-.operation-selection select {
-	-webkit-appearance: none;
-    padding-left: 4px;
-    flex: none;
-    width: 150px;
-    font-size: 20px;
-}
-
-#editorCanvas {
-    display: block;
-    border: 2px dotted #80808080;
-}
-
-.editor-input-container {
-    display: flex;
-    justify-content: space-between;
-}
-
-.editor-input-tool {
-    display: flex;
-    flex-direction: row;
-    flex-grow: 1;
-    justify-content: center;
-    margin: 30px;
-}
-
-.editor-input-group {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    width: 160px;
-}
-
-.input-wrapper {
-    display: flex;
-    align-items: center;
-    flex: 1;
-    margin-left: 32px;
-}
-
-.editor-input-group label {
-    white-space: nowrap;
-    text-align: left;
-    margin-right: 10px;
-    flex: 1;
-}
-
-.editor-input-group input {
-    margin-left: auto;
-}
-
-.nav-button {
-    width: 100px;
-    height: 32px;
-    font-size: 14px;
-}
-
-</style>
-<div class="sheet-container">
+<div class="demo-shell">
 	<script type="text/javascript">
 // in different environments the path is different
 const paths = [
@@ -527,182 +372,56 @@ async function fileExists(path) {
 <h1 class="demo-title">Shapes Editor</h1>
 
     
-<div class="operation-selection">
-        <label for="overlayRule">OverlayRule: </label>
-        <select id="overlayRule">
-            <option value="Union">Union</option>
-            <option value="Intersect">Intersect</option>
-            <option value="Difference">Difference</option>
-            <option value="InverseDifference">InverseDifference</option>
-            <option value="Xor">Xor</option>
-            <option value="Subject">Subject</option>
-            <option value="Clip">Clip</option>
-        </select>
-    </div>
-
-    
-<div class="operation-selection">
-        <label for="fillRule">FillRule: </label>
-        <select id="fillRule">
-            <option value="EvenOdd">EvenOdd</option>
-            <option value="NonZero">NonZero</option>
-        </select>
-    </div>
-
-    
-<div class="editor-input-tool">
+<div class="demo-controls">
         
-<div class="editor-input-group">
-            
-<div class="input-wrapper">
-                <label for="snap">Snap to Grid: </label>
-                <input type="checkbox" id="snap" name="snap" value="true" checked="">
-            </div>
-
+<div class="demo-control">
+            <label for="overlayRule">Overlay Rule:</label>
+            <select id="overlayRule">
+                <option value="Union">Union</option>
+                <option value="Intersect">Intersect</option>
+                <option value="Difference">Difference</option>
+                <option value="InverseDifference">Inverse Difference</option>
+                <option value="Xor">Xor</option>
+                <option value="Subject">Subject</option>
+                <option value="Clip">Clip</option>
+            </select>
         </div>
 
         
-<div class="editor-input-group">
-            
-<div class="input-wrapper">
-                <label for="fill">Fill Segments: </label>
-                <input type="checkbox" id="fill" name="fill" value="true" checked="">
-            </div>
-
-        </div>
-
-        
-<div class="editor-input-group">
-            
-<div class="input-wrapper">
-                <label for="arrows">Show Arrows: </label>
-                <input type="checkbox" id="arrows" name="arrows" value="true" checked="">
-            </div>
-
+<div class="demo-control">
+            <label for="fillRule">Fill Rule:</label>
+            <select id="fillRule">
+                <option value="EvenOdd">Even–Odd</option>
+                <option value="NonZero">Non-Zero</option>
+            </select>
         </div>
 
     </div>
-
-    
-<div class="editor-input-container">
-        <button type="button" class="nav-button" id="test-prev">Prev</button>
+<div class="demo-options">
+        <label class="demo-option" for="snap">Snap to Grid <input type="checkbox" id="snap" name="snap" value="true" checked=""></label>
+        <label class="demo-option" for="fill">Fill Segments <input type="checkbox" id="fill" name="fill" value="true"></label>
+        <label class="demo-option" for="arrows">Show Arrows <input type="checkbox" id="arrows" name="arrows" value="true" checked=""></label>
+    </div>
+<div class="demo-legend" aria-label="Canvas legend">
+        <span class="demo-legend-item"><span class="demo-swatch demo-swatch--subject"></span>Subject</span>
+        <span class="demo-legend-item"><span class="demo-swatch demo-swatch--clip"></span>Clip</span>
+        <span class="demo-legend-item"><span class="demo-swatch demo-swatch--result"></span>Result</span>
+    </div>
+<p class="demo-hint">Drag a vertex to edit the shape.</p>
+<div class="demo-navigation">
+        <button type="button" class="demo-button" id="test-prev" aria-label="Previous test">← Prev</button>
         
-<h3 class="test-title" id="test-name">Title</h3>
+<h3 class="demo-test-title" id="test-name">Title</h3>
 
-        <button type="button" class="nav-button" id="test-next">Next</button>
+        <button type="button" class="demo-button" id="test-next" aria-label="Next test">Next →</button>
     </div>
 
-    <canvas id="editorCanvas" width="750" height="1000"></canvas>
+    <canvas class="demo-canvas demo-canvas--portrait demo-canvas--draggable" id="editorCanvas" width="750" height="1000"></canvas>
 </div>
+
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="stroke"><a href="#stroke" class="header">Stroke</a></h1>
-<style>
-
-.demo-title {
-    text-align: center;
-}
-
-.test-title {
-    text-align: center;
-    margin-top: 0;
-}
-
-.sheet-container {
-    max-width: 1000px;
-    min-width: 800px;
-    margin: auto;
- }
-
-.operation-selection {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-    margin-top: 20px;
-    font-size: 20px;
-}
-
-.operation-content {
-    width: 320px;
-    display: flex;
-    align-items: center;
-}
-
-.operation-selection label {
-    flex: none;
-    width: 150px;
-    white-space: nowrap;
-    text-align: right;
-    margin-right: 20px;
-    font-size: 20px;
-}
-
-.operation-selection select {
-    flex-grow: 1;
-    width: auto;
-    min-width: 0;
-    font-size: 20px;
-}
-
-.operation-selection input {
-    flex-grow: 1;
-    width: auto;
-    min-width: 0;
-    font-size: 20px;
-}
-
-#editorCanvas {
-    display: block;
-    border: 2px dotted #80808080;
-}
-
-.editor-input-container {
-    margin-top: 60px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.editor-input-tool {
-    display: flex;
-    flex-direction: row;
-    flex-grow: 1;
-    justify-content: center;
-    margin: 30px;
-}
-
-.editor-input-group {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    width: 160px;
-}
-
-.input-wrapper {
-    display: flex;
-    align-items: center;
-    flex: 1;
-    margin-left: 32px;
-}
-
-.editor-input-group label {
-    white-space: nowrap;
-    text-align: left;
-    margin-right: 10px;
-    flex: 1;
-}
-
-.editor-input-group input {
-    margin-left: auto;
-}
-
-.nav-button {
-    width: 100px;
-    height: 32px;
-    font-size: 14px;
-}
-
-</style>
-<div class="sheet-container">
+<div class="demo-shell">
 	<script type="text/javascript">
 // in different environments the path is different
 const paths = [
@@ -735,39 +454,30 @@ async function fileExists(path) {
 <h1 class="demo-title">Stroke Offset</h1>
 
     
-<div class="operation-selection">
+<div class="demo-controls">
         
-<div class="operation-content">
+<div class="demo-control demo-control--range">
             <label for="strokeWidth">Stroke Width:</label>
             <input type="range" id="strokeWidth" min="0" max="500" value="50">
+            <output class="demo-value" id="strokeWidthValue" for="strokeWidth">50</output>
         </div>
 
-    </div>
-
-    
-<div class="operation-selection">
         
-<div class="operation-content">
+<div class="demo-control demo-control--range">
             <label for="roundAngle">Round Angle:</label>
             <input type="range" id="roundAngle" min="0" max="100" value="10">
+            <output class="demo-value" id="roundAngleValue" for="roundAngle">0.1</output>
         </div>
 
-    </div>
-
-    
-<div class="operation-selection">
         
-<div class="operation-content">
+<div class="demo-control demo-control--range">
             <label for="miterLimit">Miter Limit:</label>
             <input type="range" id="miterLimit" min="0" max="314" value="10">
+            <output class="demo-value" id="miterLimitValue" for="miterLimit">0.1</output>
         </div>
 
-    </div>
-
-    
-<div class="operation-selection">
         
-<div class="operation-content">
+<div class="demo-control">
             <label for="startCap">Start Cap: </label>
             <select id="startCap">
                 <option value="Butt">Butt</option>
@@ -776,12 +486,8 @@ async function fileExists(path) {
             </select>
         </div>
 
-    </div>
-
-    
-<div class="operation-selection">
         
-<div class="operation-content">
+<div class="demo-control">
             <label for="endCap">End Cap: </label>
             <select id="endCap">
                 <option value="Butt">Butt</option>
@@ -790,13 +496,9 @@ async function fileExists(path) {
             </select>
         </div>
 
-    </div>
-
-    
-<div class="operation-selection">
         
-<div class="operation-content">
-            <label for="lineJoin">LineJoin: </label>
+<div class="demo-control">
+            <label for="lineJoin">Line Join: </label>
             <select id="lineJoin">
                 <option value="Bevel">Bevel</option>
                 <option value="Miter">Miter</option>
@@ -804,138 +506,28 @@ async function fileExists(path) {
             </select>
         </div>
 
-    </div>
-
-    
-<div class="operation-selection">
         
-<div class="operation-content">
+<div class="demo-control demo-control--toggle">
             <label for="closePath">Close Path: </label>
-            <input style="flex-grow: 0;" type="checkbox" id="closePath" name="closePath" value="false">
+            <input type="checkbox" id="closePath" name="closePath" value="false">
         </div>
 
     </div>
-
-    
-<div class="editor-input-container">
-        <button type="button" class="nav-button" id="test-prev-1">Prev</button>
+<p class="demo-hint">Drag a vertex to edit the path.</p>
+<div class="demo-navigation">
+        <button type="button" class="demo-button" id="test-prev-1" aria-label="Previous test">← Prev</button>
         
-<h3 class="test-title" id="test-name-1">Title</h3>
+<h3 class="demo-test-title" id="test-name-1">Title</h3>
 
-        <button type="button" class="nav-button" id="test-next-1">Next</button>
+        <button type="button" class="demo-button" id="test-next-1" aria-label="Next test">Next →</button>
     </div>
 
-    <canvas id="editorCanvas-1" width="800" height="800"></canvas>
+    <canvas class="demo-canvas demo-canvas--draggable" id="editorCanvas-1" width="800" height="800"></canvas>
 </div>
+
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="outline"><a href="#outline" class="header">Outline</a></h1>
-<style>
-
-.demo-title {
-    text-align: center;
-}
-
-.test-title {
-    text-align: center;
-    margin-top: 0;
-}
-
-.sheet-container {
-    max-width: 1000px;
-    min-width: 800px;
-    margin: auto;
- }
-
-.operation-selection {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-    margin-top: 20px;
-    font-size: 20px;
-}
-
-.operation-content {
-    width: 320px;
-    display: flex;
-    align-items: center;
-}
-
-.operation-selection label {
-    flex: none;
-    width: 150px;
-    white-space: nowrap;
-    text-align: right;
-    margin-right: 20px;
-    font-size: 20px;
-}
-
-.operation-selection select {
-    flex-grow: 1;
-    width: auto;
-    min-width: 0;
-    font-size: 20px;
-}
-
-.operation-selection input {
-    flex-grow: 1;
-    width: auto;
-    min-width: 0;
-    font-size: 20px;
-}
-
-#editorCanvas {
-    display: block;
-    border: 2px dotted #80808080;
-}
-
-.editor-input-container {
-    margin-top: 60px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.editor-input-tool {
-    display: flex;
-    flex-direction: row;
-    flex-grow: 1;
-    justify-content: center;
-    margin: 30px;
-}
-
-.editor-input-group {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    width: 160px;
-}
-
-.input-wrapper {
-    display: flex;
-    align-items: center;
-    flex: 1;
-    margin-left: 32px;
-}
-
-.editor-input-group label {
-    white-space: nowrap;
-    text-align: left;
-    margin-right: 10px;
-    flex: 1;
-}
-
-.editor-input-group input {
-    margin-left: auto;
-}
-
-.nav-button {
-    width: 100px;
-    height: 32px;
-    font-size: 14px;
-}
-
-</style>
-<div class="sheet-container">
+<div class="demo-shell">
 	<script type="text/javascript">
 // in different environments the path is different
 const paths = [
@@ -968,50 +560,38 @@ async function fileExists(path) {
 <h1 class="demo-title">Outline</h1>
 
     
-<div class="operation-selection">
+<div class="demo-controls">
         
-<div class="operation-content">
+<div class="demo-control demo-control--range">
             <label for="outerOffset">Outer Offset:</label>
             <input type="range" id="outerOffset" min="-500" max="500" value="50">
+            <output class="demo-value" id="outerOffsetValue" for="outerOffset">50</output>
         </div>
 
-    </div>
-
-    
-<div class="operation-selection">
         
-<div class="operation-content">
-            <label for="roundAngle">Inner Offset:</label>
+<div class="demo-control demo-control--range">
+            <label for="innerOffset">Inner Offset:</label>
             <input type="range" id="innerOffset" min="-500" max="500" value="50">
+            <output class="demo-value" id="innerOffsetValue" for="innerOffset">50</output>
         </div>
 
-    </div>
-
-    
-<div class="operation-selection">
         
-<div class="operation-content">
+<div class="demo-control demo-control--range">
             <label for="roundAngle">Round Angle:</label>
             <input type="range" id="roundAngle-1" min="0" max="100" value="10">
+            <output class="demo-value" id="roundAngleValue-1" for="roundAngle">0.1</output>
         </div>
 
-    </div>
-
-    
-<div class="operation-selection">
         
-<div class="operation-content">
+<div class="demo-control demo-control--range">
             <label for="miterLimit">Miter Limit:</label>
             <input type="range" id="miterLimit-1" min="0" max="314" value="10">
+            <output class="demo-value" id="miterLimitValue-1" for="miterLimit">0.1</output>
         </div>
 
-    </div>
-
-    
-<div class="operation-selection">
         
-<div class="operation-content">
-            <label for="lineJoin">LineJoin: </label>
+<div class="demo-control">
+            <label for="lineJoin">Line Join: </label>
             <select id="lineJoin-1">
                 <option value="Bevel">Bevel</option>
                 <option value="Miter">Miter</option>
@@ -1020,70 +600,35 @@ async function fileExists(path) {
         </div>
 
     </div>
-
-    
-<div class="editor-input-container">
-        <button type="button" class="nav-button" id="test-prev-2">Prev</button>
+<p class="demo-hint">Drag a vertex to edit the shape.</p>
+<div class="demo-navigation">
+        <button type="button" class="demo-button" id="test-prev-2" aria-label="Previous test">← Prev</button>
         
-<h3 class="test-title" id="test-name-2">Title</h3>
+<h3 class="demo-test-title" id="test-name-2">Title</h3>
 
-        <button type="button" class="nav-button" id="test-next-2">Next</button>
+        <button type="button" class="demo-button" id="test-next-2" aria-label="Next test">Next →</button>
     </div>
 
-    <canvas id="editorCanvas-2" width="800" height="800"></canvas>
+    <canvas class="demo-canvas demo-canvas--draggable" id="editorCanvas-2" width="800" height="800"></canvas>
 </div>
+
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="overlay-editor"><a href="#overlay-editor" class="header">Overlay Editor</a></h1>
 <style>
 :root {
     --content-max-width: none;
-    width: auto;
-}
-
-.demo-title {
-    color: #333;
-    text-align: center;
-}
-
-.sheet-container {
-    min-width: 1000px;
-    min-height: 1200px;
-    max-width: 1600px;
-    margin-left: 60px;
-    margin-right: 60px;
-    margin-top: 60px;
-}
-
-#iced {
-    max-width: 1000px; 
 }
 
 #unsupported-warning {
     display: none;
-    text-align: center;
-    font-size: 1.2em;
-    color: red;
-    padding: 20px;
-    margin-top: 200px;
-    margin-left: 120px;
-    margin-right: 120px;
-    background-color: #f9eaea;
-    border: 1px solid #d4a5a5;
-    border-radius: 5px;
-}
-
-#unsupported-warning img {
-    width: 150px;
-    height: auto;
-    margin-top: 10px;
 }
 </style>
-<div class="sheet-container">
+<div class="demo-shell demo-shell--wide">
     
 <h1 class="demo-title">Overlay Editor</h1>
 
     
-<div id="unsupported-warning">
+<div class="demo-warning" id="unsupported-warning">
         
 <p>Your browser does not support WebGPU.</p>
 
@@ -1092,8 +637,10 @@ async function fileExists(path) {
 
         <img src="overlay/webgpu.svg" alt="WebGPU not supported">
     </div>
+<div class="demo-app-viewport">
+        <canvas class="demo-app-canvas" id="iced" width="800" height="800"></canvas>
+    </div>
 
-    <canvas id="iced" width="800" height="800"></canvas>
 </div>
 
 <script type="text/javascript">
@@ -1646,113 +1193,7 @@ $$</p>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="triangulation"><a href="#triangulation" class="header">Triangulation</a></h1>
-<style>
-
-.demo-title {
-    text-align: center;
-}
-
-.test-title {
-    text-align: center;
-    margin-top: 0;
-}
-
-.sheet-container {
-    max-width: 1000px;
-    min-width: 800px;
-    margin: auto;
- }
-
-.operation-selection {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-    margin-top: 20px;
-    font-size: 20px;
-}
-
-.operation-content {
-    width: 320px;
-    display: flex;
-    align-items: center;
-}
-
-.operation-selection label {
-    flex: none;
-    width: 150px;
-    white-space: nowrap;
-    text-align: right;
-    margin-right: 20px;
-    font-size: 20px;
-}
-
-.operation-selection select {
-    flex-grow: 1;
-    width: auto;
-    min-width: 0;
-    font-size: 20px;
-}
-
-.operation-selection input {
-    flex-grow: 1;
-    width: auto;
-    min-width: 0;
-    font-size: 20px;
-}
-
-#editorCanvas {
-    display: block;
-    border: 2px dotted #80808080;
-}
-
-.editor-input-container {
-    margin-top: 60px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.editor-input-tool {
-    display: flex;
-    flex-direction: row;
-    flex-grow: 1;
-    justify-content: center;
-    margin: 30px;
-}
-
-.editor-input-group {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    width: 160px;
-}
-
-.input-wrapper {
-    display: flex;
-    align-items: center;
-    flex: 1;
-    margin-left: 32px;
-}
-
-.editor-input-group label {
-    white-space: nowrap;
-    text-align: left;
-    margin-right: 10px;
-    flex: 1;
-}
-
-.editor-input-group input {
-    margin-left: auto;
-}
-
-.nav-button {
-    width: 100px;
-    height: 32px;
-    font-size: 14px;
-}
-
-</style>
-<div class="sheet-container">
+<div class="demo-shell">
 	<script type="text/javascript">
 // in different environments the path is different
 const paths = [
@@ -1785,9 +1226,9 @@ async function fileExists(path) {
 <h1 class="demo-title">Triangulation</h1>
 
     
-<div class="operation-selection">
+<div class="demo-controls">
         
-<div class="operation-content">
+<div class="demo-control">
             <label for="mode">Mode: </label>
             <select id="mode">
                 <option value="Delaunay">Delaunay</option>
@@ -1796,138 +1237,28 @@ async function fileExists(path) {
             </select>
         </div>
 
-    </div>
-
-    
-<div class="operation-selection">
         
-<div class="operation-content">
+<div class="demo-control demo-control--toggle">
             <label for="points">Steiner Points: </label>
-            <input style="flex-grow: 0;" type="checkbox" id="points" name="points" value="true" checked="">
+            <input type="checkbox" id="points" name="points" value="true" checked="">
         </div>
 
     </div>
-
-    
-<div class="editor-input-container">
-        <button type="button" class="nav-button" id="test-prev-3">Prev</button>
+<p class="demo-hint">Drag a vertex to edit the shape.</p>
+<div class="demo-navigation">
+        <button type="button" class="demo-button" id="test-prev-3" aria-label="Previous test">← Prev</button>
         
-<h3 class="test-title" id="test-name-3">Title</h3>
+<h3 class="demo-test-title" id="test-name-3">Title</h3>
 
-        <button type="button" class="nav-button" id="test-next-3">Next</button>
+        <button type="button" class="demo-button" id="test-next-3" aria-label="Next test">Next →</button>
     </div>
 
-    <canvas id="editorCanvas-3" width="800" height="800"></canvas>
+    <canvas class="demo-canvas demo-canvas--draggable" id="editorCanvas-3" width="800" height="800"></canvas>
 </div>
+
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="tessellation"><a href="#tessellation" class="header">Tessellation</a></h1>
-<style>
-
-.demo-title {
-    text-align: center;
-}
-
-.test-title {
-    text-align: center;
-    margin-top: 0;
-}
-
-.sheet-container {
-    max-width: 1000px;
-    min-width: 800px;
-    margin: auto;
- }
-
-.operation-selection {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-    margin-top: 20px;
-    font-size: 20px;
-}
-
-.operation-content {
-    width: 320px;
-    display: flex;
-    align-items: center;
-}
-
-.operation-selection label {
-    flex: none;
-    width: 150px;
-    white-space: nowrap;
-    text-align: right;
-    margin-right: 20px;
-    font-size: 20px;
-}
-
-.operation-selection select {
-    flex-grow: 1;
-    width: auto;
-    min-width: 0;
-    font-size: 20px;
-}
-
-.operation-selection input {
-    flex-grow: 1;
-    width: auto;
-    min-width: 0;
-    font-size: 20px;
-}
-
-#editorCanvas {
-    display: block;
-    border: 2px dotted #80808080;
-}
-
-.editor-input-container {
-    margin-top: 60px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.editor-input-tool {
-    display: flex;
-    flex-direction: row;
-    flex-grow: 1;
-    justify-content: center;
-    margin: 30px;
-}
-
-.editor-input-group {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    width: 160px;
-}
-
-.input-wrapper {
-    display: flex;
-    align-items: center;
-    flex: 1;
-    margin-left: 32px;
-}
-
-.editor-input-group label {
-    white-space: nowrap;
-    text-align: left;
-    margin-right: 10px;
-    flex: 1;
-}
-
-.editor-input-group input {
-    margin-left: auto;
-}
-
-.nav-button {
-    width: 100px;
-    height: 32px;
-    font-size: 14px;
-}
-
-</style>
-<div class="sheet-container">
+<div class="demo-shell">
 	<script type="text/javascript">
 // in different environments the path is different
 const paths = [
@@ -1960,9 +1291,9 @@ async function fileExists(path) {
 <h1 class="demo-title">Tessellation</h1>
 
     
-<div class="operation-selection">
+<div class="demo-controls">
         
-<div class="operation-content">
+<div class="demo-control">
             <label for="mode">Mode: </label>
             <select id="mode-1">
                 <option value="Triangles">Triangles</option>
@@ -1971,29 +1302,26 @@ async function fileExists(path) {
             </select>
         </div>
 
-    </div>
-
-    
-<div class="operation-selection">
         
-<div class="operation-content">
-            <label for="maxArea">Max Area</label>
+<div class="demo-control demo-control--range">
+            <label for="maxArea">Max Area:</label>
             <input type="range" id="maxArea" min="10" max="100" value="40">
+            <output class="demo-value" id="maxAreaValue" for="maxArea">40</output>
         </div>
 
     </div>
-
-    
-<div class="editor-input-container">
-        <button type="button" class="nav-button" id="test-prev-4">Prev</button>
+<p class="demo-hint">Drag a vertex to edit the shape.</p>
+<div class="demo-navigation">
+        <button type="button" class="demo-button" id="test-prev-4" aria-label="Previous test">← Prev</button>
         
-<h3 class="test-title" id="test-name-4">Title</h3>
+<h3 class="demo-test-title" id="test-name-4">Title</h3>
 
-        <button type="button" class="nav-button" id="test-next-4">Next</button>
+        <button type="button" class="demo-button" id="test-next-4" aria-label="Next test">Next →</button>
     </div>
 
-    <canvas id="editorCanvas-4" width="800" height="800"></canvas>
+    <canvas class="demo-canvas demo-canvas--draggable" id="editorCanvas-4" width="800" height="800"></canvas>
 </div>
+
 <div style="break-before: page; page-break-before: always;"></div><style>
 table {
     max-width: 550px;
@@ -2298,7 +1626,7 @@ window.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <h2 id="delaunay-4"><a class="header" href="#delaunay-4">Delaunay</a></h2>
-<p style="font-style: italic;">Click on the canvas to drag the points</p>
+<p class="demo-hint">Drag a vertex to edit the triangulation.</p>
 
 <canvas id="delaunayCanvas" width="500" height="500"></canvas>
 <h3 id="what-is-the-delaunay-condition"><a class="header" href="#what-is-the-delaunay-condition">What is the Delaunay Condition?</a></h3>

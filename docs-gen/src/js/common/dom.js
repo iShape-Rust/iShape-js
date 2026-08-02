@@ -13,4 +13,16 @@ export function requireCanvas2D(id) {
     }
     return { canvas, context };
 }
+export function clientToCanvasPoint(canvas, clientX, clientY, backingScale = 1) {
+    const bounds = canvas.getBoundingClientRect();
+    if (bounds.width === 0 || bounds.height === 0) {
+        throw new Error(`Canvas #${canvas.id} has no visible size`);
+    }
+    const logicalWidth = canvas.width / backingScale;
+    const logicalHeight = canvas.height / backingScale;
+    return [
+        (clientX - bounds.left) * logicalWidth / bounds.width,
+        (clientY - bounds.top) * logicalHeight / bounds.height,
+    ];
+}
 //# sourceMappingURL=dom.js.map

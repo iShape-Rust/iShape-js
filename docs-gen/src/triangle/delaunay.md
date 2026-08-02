@@ -92,7 +92,7 @@ window.addEventListener('DOMContentLoaded', function() {
 </script>
 
 ## Delaunay
-<p style="font-style: italic;">Click on the canvas to drag the points</p>
+<p class="demo-hint">Drag a vertex to edit the triangulation.</p>
 <canvas id="delaunayCanvas" width="500" height="500"></canvas>
 
 ### What is the Delaunay Condition?

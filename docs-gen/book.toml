@@ -6,6 +6,7 @@ title = "iShape"
 
 [output.html]
 mathjax-support = true
+additional-css = ["theme/demo.css"]
 
 [build]
 build-dir = "../docs"

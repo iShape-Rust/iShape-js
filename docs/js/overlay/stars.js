@@ -1,9 +1,11 @@
 import init, { Overlay, FillRule, OverlayRule } from '../i_shape/ishape_wasm.js';
 import { requireCanvas2D, requireElement } from '../common/dom.js';
+import { bindRangeOutput } from '../common/demo.js';
 import { Vector } from '../geometry/vector.js';
 const { canvas, context: ctx } = requireCanvas2D('starCanvas');
 let subjAngle = 0;
 let clipAngle = 0;
+let animationFrameId = null;
 let lastFrameTime = 0;
 const maxFPS = 60;
 const frameDuration = 1000 / maxFPS;
@@ -16,6 +18,53 @@ const clipSecondRadiusSlider = requireElement('clipSecondRadius', HTMLInputEleme
 const clipRotationSpeedSlider = requireElement('clipRotationSpeed', HTMLInputElement);
 const clipAngleCountSlider = requireElement('clipAngleCount', HTMLInputElement);
 const operationTypeSelect = requireElement('operationType', HTMLSelectElement);
+const animationToggleButton = requireElement('animation-toggle', HTMLButtonElement);
+const animationResetButton = requireElement('animation-reset', HTMLButtonElement);
+const rangeInputs = [
+    subjFirstRadiusSlider,
+    subjSecondRadiusSlider,
+    subjRotationSpeedSlider,
+    subjAngleCountSlider,
+    clipFirstRadiusSlider,
+    clipSecondRadiusSlider,
+    clipRotationSpeedSlider,
+    clipAngleCountSlider,
+];
+const rangeOutputs = [
+    requireElement('subjFirstRadiusValue', HTMLOutputElement),
+    requireElement('subjSecondRadiusValue', HTMLOutputElement),
+    requireElement('subjRotationSpeedValue', HTMLOutputElement),
+    requireElement('subjAngleCountValue', HTMLOutputElement),
+    requireElement('clipFirstRadiusValue', HTMLOutputElement),
+    requireElement('clipSecondRadiusValue', HTMLOutputElement),
+    requireElement('clipRotationSpeedValue', HTMLOutputElement),
+    requireElement('clipAngleCountValue', HTMLOutputElement),
+];
+rangeInputs.forEach((input, index) => {
+    bindRangeOutput(input, rangeOutputs[index]);
+    input.addEventListener('input', scheduleDraw);
+});
+operationTypeSelect.addEventListener('change', scheduleDraw);
+const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+let isPaused = motionPreference.matches;
+animationToggleButton.addEventListener('click', () => {
+    isPaused = !isPaused;
+    lastFrameTime = performance.now();
+    updateAnimationToggle();
+    scheduleDraw();
+});
+animationResetButton.addEventListener('click', () => {
+    subjAngle = 0;
+    clipAngle = 0;
+    scheduleDraw();
+});
+motionPreference.addEventListener('change', (event) => {
+    if (event.matches) {
+        isPaused = true;
+        updateAnimationToggle();
+        scheduleDraw();
+    }
+});
 const colorStore = [
     "#FF9500", // Orange
     "#5856D6", // Purple
@@ -33,13 +82,15 @@ const colorStore = [
 void run();
 async function run() {
     await init(); // Initialize the wasm module
-    requestAnimationFrame(draw);
+    updateAnimationToggle();
+    scheduleDraw();
 }
 function draw(currentTime) {
+    animationFrameId = null;
     const deltaTime = currentTime - lastFrameTime;
     const a = 0.45 * 0.01 * Math.min(canvas.width, canvas.height);
-    if (deltaTime < frameDuration) {
-        requestAnimationFrame(draw);
+    if (!isPaused && deltaTime < frameDuration) {
+        scheduleDraw();
         return;
     }
     lastFrameTime = currentTime;
@@ -65,9 +116,20 @@ function draw(currentTime) {
         drawShape(ctx, shape, fill, stroke, 8);
         index += 1;
     });
-    subjAngle += subjRotationSpeed;
-    clipAngle -= clipRotationSpeed;
-    requestAnimationFrame(draw);
+    if (!isPaused) {
+        subjAngle += subjRotationSpeed;
+        clipAngle -= clipRotationSpeed;
+        scheduleDraw();
+    }
+}
+function scheduleDraw() {
+    if (animationFrameId === null) {
+        animationFrameId = requestAnimationFrame(draw);
+    }
+}
+function updateAnimationToggle() {
+    animationToggleButton.textContent = isPaused ? 'Resume' : 'Pause';
+    animationToggleButton.setAttribute('aria-pressed', String(isPaused));
 }
 function createStar(center, r0, r1, count, angle) {
     const da = Math.PI / count;

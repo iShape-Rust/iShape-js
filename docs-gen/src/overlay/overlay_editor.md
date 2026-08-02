@@ -1,56 +1,22 @@
 <style>
 :root {
     --content-max-width: none;
-    width: auto;
-}
-
-.demo-title {
-    color: #333;
-    text-align: center;
-}
-
-.sheet-container {
-    min-width: 1000px;
-    min-height: 1200px;
-    max-width: 1600px;
-    margin-left: 60px;
-    margin-right: 60px;
-    margin-top: 60px;
-}
-
-#iced {
-    max-width: 1000px; 
 }
 
 #unsupported-warning {
     display: none;
-    text-align: center;
-    font-size: 1.2em;
-    color: red;
-    padding: 20px;
-    margin-top: 200px;
-    margin-left: 120px;
-    margin-right: 120px;
-    background-color: #f9eaea;
-    border: 1px solid #d4a5a5;
-    border-radius: 5px;
-}
-
-#unsupported-warning img {
-    width: 150px;
-    height: auto;
-    margin-top: 10px;
 }
 </style>
 
-<div class="sheet-container">
+<div class="demo-shell demo-shell--wide">
     <h1 class="demo-title">Overlay Editor</h1>
-    <div id="unsupported-warning">
+    <div class="demo-warning" id="unsupported-warning">
         <p>Your browser does not support WebGPU.</p>
         <p>Please use a WebGPU-supported browser, such as the latest version of Chrome.</p>
         <img src="./webgpu.svg" alt="WebGPU not supported">
+    </div><div class="demo-app-viewport">
+        <canvas class="demo-app-canvas" id="iced" width="800" height="800"></canvas>
     </div>
-    <canvas id="iced" width="800" height="800"></canvas>
 </div>
 
 <script type="text/javascript">

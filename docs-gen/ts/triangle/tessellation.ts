@@ -1,6 +1,7 @@
 import init, { Triangulator, type TriangulationData } from "../i_shape/ishape_wasm.js";
 import * as data from './triangulation_data.js';
-import { requireCanvas2D, requireElement } from "../common/dom.js";
+import { clientToCanvasPoint, requireCanvas2D, requireElement } from "../common/dom.js";
+import { bindRangeOutput, formatTestTitle } from "../common/demo.js";
 import type { Contour, Shape, WorkingArea } from "../geometry/path.js";
 import type { Point } from "../geometry/vector.js";
 
@@ -12,6 +13,8 @@ const testTitle = requireElement("test-name", HTMLElement);
 const { canvas, context: ctx } = requireCanvas2D("editorCanvas");
 
 const maxAreaSlider = requireElement("maxArea", HTMLInputElement);
+const maxAreaOutput = requireElement("maxAreaValue", HTMLOutputElement);
+bindRangeOutput(maxAreaSlider, maxAreaOutput);
 
 const twoPI = 2 * Math.PI;
 
@@ -44,7 +47,7 @@ if (window.devicePixelRatio > 1) {
 
 async function run(): Promise<void> {
     await init();
-    testTitle.textContent = data.tests[testIndex].name;
+    testTitle.textContent = formatTestTitle(testIndex, data.tests.length, data.tests[testIndex].name);
     requestAnimationFrame(draw);
 }
 
@@ -58,14 +61,14 @@ prevButton.addEventListener('click', function () {
     const n = data.tests.length;
     testIndex = (testIndex - 1 + n) % n;
     requestAnimationFrame(draw);
-    testTitle.textContent = data.tests[testIndex].name;
+    testTitle.textContent = formatTestTitle(testIndex, data.tests.length, data.tests[testIndex].name);
 });
 
 nextButton.addEventListener('click', function () {
     const n = data.tests.length;
     testIndex = (testIndex + 1) % n;
     requestAnimationFrame(draw);
-    testTitle.textContent = data.tests[testIndex].name;
+    testTitle.textContent = formatTestTitle(testIndex, data.tests.length, data.tests[testIndex].name);
 });
 
 maxAreaSlider.addEventListener('change', updateFrame);
@@ -111,8 +114,7 @@ canvas.addEventListener('mouseout', function () {
 });
 
 function pressDown(eX: number, eY: number): void {
-    const x = eX - canvas.getBoundingClientRect().left;
-    const y = eY - canvas.getBoundingClientRect().top;
+    const [x, y] = clientToCanvasPoint(canvas, eX, eY, scale);
 
     const test = data.tests[testIndex];
     isMousePressed = true;
@@ -134,8 +136,7 @@ function pressDown(eX: number, eY: number): void {
 }
 
 function move(eX: number, eY: number): void {
-    const x = eX - canvas.getBoundingClientRect().left;
-    const y = eY - canvas.getBoundingClientRect().top;
+    const [x, y] = clientToCanvasPoint(canvas, eX, eY, scale);
 
     if (isMousePressed) {
         // Left mouse button was pressed

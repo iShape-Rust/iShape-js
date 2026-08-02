@@ -1,5 +1,6 @@
 import init, {Overlay, FillRule, OverlayRule, type SeparatedVectors} from '../i_shape/ishape_wasm.js';
-import {requireCanvas2D, requireElement} from '../common/dom.js';
+import {clientToCanvasPoint, requireCanvas2D, requireElement} from '../common/dom.js';
+import {formatTestTitle} from '../common/demo.js';
 import type {Shape, Shapes, WorkingArea} from '../geometry/path.js';
 import type {Point, Vector} from '../geometry/vector.js';
 import {Segment} from './segment.js';
@@ -60,7 +61,7 @@ if (window.devicePixelRatio > 1) {
 async function run(): Promise<void> {
     await init();
     requestAnimationFrame(draw);
-    testTitle.textContent = data.tests[testIndex].name;
+    testTitle.textContent = formatTestTitle(testIndex, data.tests.length, data.tests[testIndex].name);
 }
 
 void run();
@@ -69,14 +70,14 @@ prevButton.addEventListener('click', function () {
     const n = data.tests.length;
     testIndex = (testIndex - 1 + n) % n;
     requestAnimationFrame(draw);
-    testTitle.textContent = data.tests[testIndex].name;
+    testTitle.textContent = formatTestTitle(testIndex, data.tests.length, data.tests[testIndex].name);
 });
 
 nextButton.addEventListener('click', function () {
     const n = data.tests.length;
     testIndex = (testIndex + 1) % n;
     requestAnimationFrame(draw);
-    testTitle.textContent = data.tests[testIndex].name;
+    testTitle.textContent = formatTestTitle(testIndex, data.tests.length, data.tests[testIndex].name);
 });
 
 overlayRuleSelect.addEventListener('change', function (event) {
@@ -134,8 +135,7 @@ canvas.addEventListener('mouseout', function (event) {
 });
 
 function pressDown(eX: number, eY: number): void {
-    const x = eX - canvas.getBoundingClientRect().left;
-    const y = eY - canvas.getBoundingClientRect().top;
+    const [x, y] = clientToCanvasPoint(canvas, eX, eY, scale);
 
     const test = data.tests[testIndex];
     isMousePressed = true;
@@ -164,8 +164,7 @@ function pressDown(eX: number, eY: number): void {
 }
 
 function move(eX: number, eY: number): void {
-    let x = eX - canvas.getBoundingClientRect().left;
-    let y = eY - canvas.getBoundingClientRect().top;
+    let [x, y] = clientToCanvasPoint(canvas, eX, eY, scale);
 
     if (isMousePressed) {
         // Left mouse button was pressed
