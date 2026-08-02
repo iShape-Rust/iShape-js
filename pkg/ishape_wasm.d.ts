@@ -1,6 +1,67 @@
 /* tslint:disable */
 /* eslint-disable */
 
+/** A two-dimensional point. */
+export type CurvePoint = [number, number];
+
+export type CurveEllipseData = {
+    center: CurvePoint;
+    radiusX: number;
+    radiusY: number;
+    rotation: number;
+};
+
+/**
+ * A rational quadratic arc. Its control points and weights are the
+ * authoritative geometry; the ellipse is retained as semantic metadata.
+ */
+export type RationalArcData = {
+    ellipse: CurveEllipseData;
+    controlPoints: [CurvePoint, CurvePoint, CurvePoint];
+    weights: [number, number, number];
+    startAngle: number;
+    sweepAngle: number;
+};
+
+export type CurveSegmentData =
+| { type: "line"; to: CurvePoint }
+| { type: "quad"; ctrl: CurvePoint; to: CurvePoint }
+| { type: "cubic"; ctrl0: CurvePoint; ctrl1: CurvePoint; to: CurvePoint }
+| { type: "arc"; arc: RationalArcData };
+
+export type CurveContourData = {
+    start: CurvePoint;
+    segments: CurveSegmentData[];
+};
+
+export type CurveShapeData = CurveContourData[];
+export type CurveShapesData = CurveShapeData[];
+
+export type CurveConversionReport = {
+    contourCount: number;
+    collapsedContourCount: number;
+    collapsedSegmentCount: number;
+    linearizedArcCount: number;
+    hasDegeneracies: boolean;
+};
+
+export type CurveOverlayConversionReport = {
+    subject: CurveConversionReport;
+    clip?: CurveConversionReport;
+    hasDegeneracies: boolean;
+};
+
+export type CurveApproximationOptions = {
+    /** Absolute minimum accepted chord length in input coordinates. */
+    minChordLength?: number;
+    /** Maximum sine deviation used for near-linear classification. Default: 0.125. */
+    angleTolerance?: number;
+    /** Maximum local subdivision depth from 0 through 16. Default: 16. */
+    maxDepth?: number;
+};
+
+
+
 export type PathData = ContourData | ShapeData | ShapesData;
 export type ContourData = [number, number][];
 export type ShapeData = ContourData[];
@@ -24,6 +85,94 @@ export type SeparatedVectors = {
     }[]
 };
 
+
+/**
+ * Canvas-like builder for reusable closed curve geometry.
+ */
+export class CurveBuilder {
+    free(): void;
+    [Symbol.dispose](): void;
+    /**
+     * Adds a complete ellipse as a closed contour.
+     */
+    addEllipse(x: number, y: number, radiusX: number, radiusY: number, rotation: number, clockwise: boolean): void;
+    bezierCurveTo(cp1x: number, cp1y: number, cp2x: number, cp2y: number, x: number, y: number): void;
+    /**
+     * Builds one shape and resets the builder for reuse after success.
+     */
+    build(): CurveGeometry;
+    closeContour(): void;
+    /**
+     * Adds an elliptic arc. If no contour is active, its start point is used
+     * automatically. Otherwise, the current point must equal the arc start.
+     */
+    ellipticArcTo(x: number, y: number, radiusX: number, radiusY: number, rotation: number, startAngle: number, sweepAngle: number): void;
+    lineTo(x: number, y: number): void;
+    /**
+     * Starts a new contour. The preceding contour must already be closed.
+     */
+    moveTo(x: number, y: number): void;
+    constructor();
+    quadraticCurveTo(cpx: number, cpy: number, x: number, y: number): void;
+}
+
+/**
+ * Reusable curve geometry that can contain one or more shapes.
+ */
+export class CurveGeometry {
+    private constructor();
+    free(): void;
+    [Symbol.dispose](): void;
+    /**
+     * Converts this reusable geometry into ordinary JavaScript data.
+     */
+    toData(): CurveShapesData;
+    readonly contourCount: number;
+    readonly segmentCount: number;
+    readonly shapeCount: number;
+}
+
+/**
+ * Boolean overlay for reusable curve geometry.
+ */
+export class CurveOverlay {
+    free(): void;
+    [Symbol.dispose](): void;
+    /**
+     * Reports geometry collapsed or linearized during conversion.
+     */
+    conversionReport(): CurveOverlayConversionReport;
+    /**
+     * Creates a subject-only overlay for resolving its fill rule.
+     */
+    static fromSubject(subject: CurveGeometry): CurveOverlay;
+    /**
+     * Creates an overlay with an automatically selected conversion scale.
+     */
+    constructor(subject: CurveGeometry, clip: CurveGeometry);
+    /**
+     * Performs the operation. A CurveOverlay is consumed once; the returned
+     * CurveGeometry can be used directly in another operation.
+     */
+    overlay(overlayRule: OverlayRule, fillRule: FillRule): CurveGeometry;
+    /**
+     * Resolves subject contours using a fill rule. Create this operation with
+     * `CurveOverlay.fromSubject()` when no clip geometry is needed.
+     */
+    resolveSubject(fillRule: FillRule): CurveGeometry;
+    /**
+     * Returns the effective float-to-integer conversion scale.
+     */
+    scale(): number;
+    /**
+     * Configures curve approximation before running the operation.
+     */
+    setApproximation(options: CurveApproximationOptions): void;
+    /**
+     * Creates an overlay with an explicit float-to-integer scale.
+     */
+    static withScale(subject: CurveGeometry, clip: CurveGeometry, scale: number): CurveOverlay;
+}
 
 export class Delaunay {
     private constructor();
@@ -152,6 +301,9 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 
 export interface InitOutput {
     readonly memory: WebAssembly.Memory;
+    readonly __wbg_curvebuilder_free: (a: number, b: number) => void;
+    readonly __wbg_curvegeometry_free: (a: number, b: number) => void;
+    readonly __wbg_curveoverlay_free: (a: number, b: number) => void;
     readonly __wbg_delaunay_free: (a: number, b: number) => void;
     readonly __wbg_get_outlinebuilder_style: (a: number) => number;
     readonly __wbg_get_outlinestyle_inner_offset: (a: number) => number;
@@ -177,6 +329,27 @@ export interface InitOutput {
     readonly __wbg_set_strokestyle_start_cap: (a: number, b: number) => void;
     readonly __wbg_strokebuilder_free: (a: number, b: number) => void;
     readonly __wbg_triangulator_free: (a: number, b: number) => void;
+    readonly curvebuilder_addEllipse: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => [number, number];
+    readonly curvebuilder_bezierCurveTo: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => [number, number];
+    readonly curvebuilder_build: (a: number) => [number, number, number];
+    readonly curvebuilder_closeContour: (a: number) => [number, number];
+    readonly curvebuilder_ellipticArcTo: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number) => [number, number];
+    readonly curvebuilder_lineTo: (a: number, b: number, c: number) => [number, number];
+    readonly curvebuilder_moveTo: (a: number, b: number, c: number) => [number, number];
+    readonly curvebuilder_new: () => number;
+    readonly curvebuilder_quadraticCurveTo: (a: number, b: number, c: number, d: number, e: number) => [number, number];
+    readonly curvegeometry_contourCount: (a: number) => number;
+    readonly curvegeometry_segmentCount: (a: number) => number;
+    readonly curvegeometry_shapeCount: (a: number) => number;
+    readonly curvegeometry_toData: (a: number) => any;
+    readonly curveoverlay_conversionReport: (a: number) => [number, number, number];
+    readonly curveoverlay_fromSubject: (a: number) => number;
+    readonly curveoverlay_new: (a: number, b: number) => number;
+    readonly curveoverlay_overlay: (a: number, b: number, c: number) => [number, number, number];
+    readonly curveoverlay_resolveSubject: (a: number, b: number) => [number, number, number];
+    readonly curveoverlay_scale: (a: number) => [number, number, number];
+    readonly curveoverlay_setApproximation: (a: number, b: any) => [number, number];
+    readonly curveoverlay_withScale: (a: number, b: number, c: number) => [number, number, number];
     readonly delaunay_refine_with_circumcenters: (a: number, b: number) => void;
     readonly delaunay_refine_with_circumcenters_by_obtuse_angle: (a: number, b: number) => void;
     readonly delaunay_to_centroid_net: (a: number, b: number) => any;
@@ -221,6 +394,7 @@ export interface InitOutput {
     readonly __wbindgen_exn_store: (a: number) => void;
     readonly __externref_table_alloc: () => number;
     readonly __wbindgen_externrefs: WebAssembly.Table;
+    readonly __externref_table_dealloc: (a: number) => void;
     readonly __wbindgen_start: () => void;
 }
 

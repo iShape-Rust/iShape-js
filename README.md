@@ -3,7 +3,7 @@
 <p align="center">
   <img src="readme/balloons.svg" width="250"/>
 </p>
-A fast 2D geometry library in WebAssembly for JavaScript and TypeScript. Supports polygon boolean operations, buffering, and triangulation.
+A fast 2D geometry library in WebAssembly for JavaScript and TypeScript. Supports Boolean operations on polygons and Bézier curves, buffering, and triangulation.
 
 ## [Demo](https://ishape-rust.github.io/iShape-js/overlay/stars_demo.html)
 Try out iShape with an interactive demo.
@@ -17,6 +17,7 @@ Try out iShape with an interactive demo.
 ## Features
 
 - **Boolean Operations**: union, intersection, difference, and exclusion.
+- **Curves**: Boolean operations on lines, quadratic and cubic Bézier curves, and elliptic arcs.
 - **Polygons**: with holes, self-intersections, and multiple paths.
 - **Simplification**: removes degenerate vertices and merges collinear edges.
 - **Fill Rules**: even-odd, non-zero, positive and negative.
@@ -125,6 +126,60 @@ Full example is available [here](https://github.com/iShape-Rust/iShape-js/tree/m
 
 Import classes and initialize the WebAssembly module using init().
 Use the imported classes to perform geometric operations.
+
+## Curve Boolean Operations
+
+`CurveBuilder` uses the familiar Canvas-style path methods. Every contour must
+be closed before calling `build()`. The returned `CurveGeometry` is reusable:
+it can be passed directly into another Boolean operation without converting it
+to JavaScript data first.
+
+```javascript
+import init, {
+    CurveBuilder,
+    CurveOverlay,
+    OverlayRule,
+    FillRule,
+} from 'ishape_wasm';
+
+await init();
+
+const subjectBuilder = new CurveBuilder();
+subjectBuilder.moveTo(0, 0);
+subjectBuilder.bezierCurveTo(25, -30, 75, -30, 100, 0);
+subjectBuilder.lineTo(100, 80);
+subjectBuilder.lineTo(0, 80);
+subjectBuilder.closeContour();
+const subject = subjectBuilder.build();
+
+const clipBuilder = new CurveBuilder();
+clipBuilder.moveTo(40, -10);
+clipBuilder.lineTo(120, -10);
+clipBuilder.lineTo(120, 50);
+clipBuilder.lineTo(40, 50);
+clipBuilder.closeContour();
+const clip = clipBuilder.build();
+
+const operation = new CurveOverlay(subject, clip);
+const result = operation.overlay(OverlayRule.Intersect, FillRule.NonZero);
+
+// Ordinary typed JavaScript data for rendering or serialization.
+console.log(result.toData());
+```
+
+Use `quadraticCurveTo()` for quadratic Bézier segments,
+`ellipticArcTo()` for an arc in the active contour, or `addEllipse()` to append
+a complete ellipse as a new closed contour. Advanced callers can use
+`CurveOverlay.withScale()`, `setApproximation()`, and `conversionReport()` to
+control and inspect the discrete precision model. Approximation settings are
+optional, so callers only specify what they need:
+
+```javascript
+operation.setApproximation({ minChordLength: 0.001 });
+```
+
+To resolve self-intersections without a clip, use
+`CurveOverlay.fromSubject(geometry).resolveSubject(fillRule)`.
 
 # Overlay Rules
 | A,B | A ∪ B | A ∩ B | A - B | B - A | A ⊕ B |

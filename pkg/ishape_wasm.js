@@ -1,5 +1,297 @@
 /* @ts-self-types="./ishape_wasm.d.ts" */
 
+/**
+ * Canvas-like builder for reusable closed curve geometry.
+ */
+export class CurveBuilder {
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        CurveBuilderFinalization.unregister(this);
+        return ptr;
+    }
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_curvebuilder_free(ptr, 0);
+    }
+    /**
+     * Adds a complete ellipse as a closed contour.
+     * @param {number} x
+     * @param {number} y
+     * @param {number} radiusX
+     * @param {number} radiusY
+     * @param {number} rotation
+     * @param {boolean} clockwise
+     */
+    addEllipse(x, y, radiusX, radiusY, rotation, clockwise) {
+        const ret = wasm.curvebuilder_addEllipse(this.__wbg_ptr, x, y, radiusX, radiusY, rotation, clockwise);
+        if (ret[1]) {
+            throw takeFromExternrefTable0(ret[0]);
+        }
+    }
+    /**
+     * @param {number} cp1x
+     * @param {number} cp1y
+     * @param {number} cp2x
+     * @param {number} cp2y
+     * @param {number} x
+     * @param {number} y
+     */
+    bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y) {
+        const ret = wasm.curvebuilder_bezierCurveTo(this.__wbg_ptr, cp1x, cp1y, cp2x, cp2y, x, y);
+        if (ret[1]) {
+            throw takeFromExternrefTable0(ret[0]);
+        }
+    }
+    /**
+     * Builds one shape and resets the builder for reuse after success.
+     * @returns {CurveGeometry}
+     */
+    build() {
+        const ret = wasm.curvebuilder_build(this.__wbg_ptr);
+        if (ret[2]) {
+            throw takeFromExternrefTable0(ret[1]);
+        }
+        return CurveGeometry.__wrap(ret[0]);
+    }
+    closeContour() {
+        const ret = wasm.curvebuilder_closeContour(this.__wbg_ptr);
+        if (ret[1]) {
+            throw takeFromExternrefTable0(ret[0]);
+        }
+    }
+    /**
+     * Adds an elliptic arc. If no contour is active, its start point is used
+     * automatically. Otherwise, the current point must equal the arc start.
+     * @param {number} x
+     * @param {number} y
+     * @param {number} radiusX
+     * @param {number} radiusY
+     * @param {number} rotation
+     * @param {number} startAngle
+     * @param {number} sweepAngle
+     */
+    ellipticArcTo(x, y, radiusX, radiusY, rotation, startAngle, sweepAngle) {
+        const ret = wasm.curvebuilder_ellipticArcTo(this.__wbg_ptr, x, y, radiusX, radiusY, rotation, startAngle, sweepAngle);
+        if (ret[1]) {
+            throw takeFromExternrefTable0(ret[0]);
+        }
+    }
+    /**
+     * @param {number} x
+     * @param {number} y
+     */
+    lineTo(x, y) {
+        const ret = wasm.curvebuilder_lineTo(this.__wbg_ptr, x, y);
+        if (ret[1]) {
+            throw takeFromExternrefTable0(ret[0]);
+        }
+    }
+    /**
+     * Starts a new contour. The preceding contour must already be closed.
+     * @param {number} x
+     * @param {number} y
+     */
+    moveTo(x, y) {
+        const ret = wasm.curvebuilder_moveTo(this.__wbg_ptr, x, y);
+        if (ret[1]) {
+            throw takeFromExternrefTable0(ret[0]);
+        }
+    }
+    constructor() {
+        const ret = wasm.curvebuilder_new();
+        this.__wbg_ptr = ret;
+        CurveBuilderFinalization.register(this, this.__wbg_ptr, this);
+        return this;
+    }
+    /**
+     * @param {number} cpx
+     * @param {number} cpy
+     * @param {number} x
+     * @param {number} y
+     */
+    quadraticCurveTo(cpx, cpy, x, y) {
+        const ret = wasm.curvebuilder_quadraticCurveTo(this.__wbg_ptr, cpx, cpy, x, y);
+        if (ret[1]) {
+            throw takeFromExternrefTable0(ret[0]);
+        }
+    }
+}
+if (Symbol.dispose) CurveBuilder.prototype[Symbol.dispose] = CurveBuilder.prototype.free;
+
+/**
+ * Reusable curve geometry that can contain one or more shapes.
+ */
+export class CurveGeometry {
+    static __wrap(ptr) {
+        const obj = Object.create(CurveGeometry.prototype);
+        obj.__wbg_ptr = ptr;
+        CurveGeometryFinalization.register(obj, obj.__wbg_ptr, obj);
+        return obj;
+    }
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        CurveGeometryFinalization.unregister(this);
+        return ptr;
+    }
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_curvegeometry_free(ptr, 0);
+    }
+    /**
+     * @returns {number}
+     */
+    get contourCount() {
+        const ret = wasm.curvegeometry_contourCount(this.__wbg_ptr);
+        return ret >>> 0;
+    }
+    /**
+     * @returns {number}
+     */
+    get segmentCount() {
+        const ret = wasm.curvegeometry_segmentCount(this.__wbg_ptr);
+        return ret >>> 0;
+    }
+    /**
+     * @returns {number}
+     */
+    get shapeCount() {
+        const ret = wasm.curvegeometry_shapeCount(this.__wbg_ptr);
+        return ret >>> 0;
+    }
+    /**
+     * Converts this reusable geometry into ordinary JavaScript data.
+     * @returns {CurveShapesData}
+     */
+    toData() {
+        const ret = wasm.curvegeometry_toData(this.__wbg_ptr);
+        return ret;
+    }
+}
+if (Symbol.dispose) CurveGeometry.prototype[Symbol.dispose] = CurveGeometry.prototype.free;
+
+/**
+ * Boolean overlay for reusable curve geometry.
+ */
+export class CurveOverlay {
+    static __wrap(ptr) {
+        const obj = Object.create(CurveOverlay.prototype);
+        obj.__wbg_ptr = ptr;
+        CurveOverlayFinalization.register(obj, obj.__wbg_ptr, obj);
+        return obj;
+    }
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        CurveOverlayFinalization.unregister(this);
+        return ptr;
+    }
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_curveoverlay_free(ptr, 0);
+    }
+    /**
+     * Reports geometry collapsed or linearized during conversion.
+     * @returns {CurveOverlayConversionReport}
+     */
+    conversionReport() {
+        const ret = wasm.curveoverlay_conversionReport(this.__wbg_ptr);
+        if (ret[2]) {
+            throw takeFromExternrefTable0(ret[1]);
+        }
+        return takeFromExternrefTable0(ret[0]);
+    }
+    /**
+     * Creates a subject-only overlay for resolving its fill rule.
+     * @param {CurveGeometry} subject
+     * @returns {CurveOverlay}
+     */
+    static fromSubject(subject) {
+        _assertClass(subject, CurveGeometry);
+        const ret = wasm.curveoverlay_fromSubject(subject.__wbg_ptr);
+        return CurveOverlay.__wrap(ret);
+    }
+    /**
+     * Creates an overlay with an automatically selected conversion scale.
+     * @param {CurveGeometry} subject
+     * @param {CurveGeometry} clip
+     */
+    constructor(subject, clip) {
+        _assertClass(subject, CurveGeometry);
+        _assertClass(clip, CurveGeometry);
+        const ret = wasm.curveoverlay_new(subject.__wbg_ptr, clip.__wbg_ptr);
+        this.__wbg_ptr = ret;
+        CurveOverlayFinalization.register(this, this.__wbg_ptr, this);
+        return this;
+    }
+    /**
+     * Performs the operation. A CurveOverlay is consumed once; the returned
+     * CurveGeometry can be used directly in another operation.
+     * @param {OverlayRule} overlayRule
+     * @param {FillRule} fillRule
+     * @returns {CurveGeometry}
+     */
+    overlay(overlayRule, fillRule) {
+        const ret = wasm.curveoverlay_overlay(this.__wbg_ptr, overlayRule, fillRule);
+        if (ret[2]) {
+            throw takeFromExternrefTable0(ret[1]);
+        }
+        return CurveGeometry.__wrap(ret[0]);
+    }
+    /**
+     * Resolves subject contours using a fill rule. Create this operation with
+     * `CurveOverlay.fromSubject()` when no clip geometry is needed.
+     * @param {FillRule} fillRule
+     * @returns {CurveGeometry}
+     */
+    resolveSubject(fillRule) {
+        const ret = wasm.curveoverlay_resolveSubject(this.__wbg_ptr, fillRule);
+        if (ret[2]) {
+            throw takeFromExternrefTable0(ret[1]);
+        }
+        return CurveGeometry.__wrap(ret[0]);
+    }
+    /**
+     * Returns the effective float-to-integer conversion scale.
+     * @returns {number}
+     */
+    scale() {
+        const ret = wasm.curveoverlay_scale(this.__wbg_ptr);
+        if (ret[2]) {
+            throw takeFromExternrefTable0(ret[1]);
+        }
+        return ret[0];
+    }
+    /**
+     * Configures curve approximation before running the operation.
+     * @param {CurveApproximationOptions} options
+     */
+    setApproximation(options) {
+        const ret = wasm.curveoverlay_setApproximation(this.__wbg_ptr, options);
+        if (ret[1]) {
+            throw takeFromExternrefTable0(ret[0]);
+        }
+    }
+    /**
+     * Creates an overlay with an explicit float-to-integer scale.
+     * @param {CurveGeometry} subject
+     * @param {CurveGeometry} clip
+     * @param {number} scale
+     * @returns {CurveOverlay}
+     */
+    static withScale(subject, clip, scale) {
+        _assertClass(subject, CurveGeometry);
+        _assertClass(clip, CurveGeometry);
+        const ret = wasm.curveoverlay_withScale(subject.__wbg_ptr, clip.__wbg_ptr, scale);
+        if (ret[2]) {
+            throw takeFromExternrefTable0(ret[1]);
+        }
+        return CurveOverlay.__wrap(ret[0]);
+    }
+}
+if (Symbol.dispose) CurveOverlay.prototype[Symbol.dispose] = CurveOverlay.prototype.free;
+
 export class Delaunay {
     static __wrap(ptr) {
         const obj = Object.create(Delaunay.prototype);
@@ -605,6 +897,17 @@ function __wbg_get_imports() {
             const ret = Error(getStringFromWasm0(arg0, arg1));
             return ret;
         },
+        __wbg_Number_9a4e0ecb0fa16705: function(arg0) {
+            const ret = Number(arg0);
+            return ret;
+        },
+        __wbg_String_8564e559799eccda: function(arg0, arg1) {
+            const ret = String(arg1);
+            const ptr1 = passStringToWasm0(ret, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+            const len1 = WASM_VECTOR_LEN;
+            getDataViewMemory0().setInt32(arg0 + 4 * 1, len1, true);
+            getDataViewMemory0().setInt32(arg0 + 4 * 0, ptr1, true);
+        },
         __wbg___wbindgen_bigint_get_as_i64_d968e41184ae354f: function(arg0, arg1) {
             const v = arg1;
             const ret = typeof(v) === 'bigint' ? v : undefined;
@@ -638,6 +941,10 @@ function __wbg_get_imports() {
         __wbg___wbindgen_is_object_a27215656b807791: function(arg0) {
             const val = arg0;
             const ret = typeof(val) === 'object' && val !== null;
+            return ret;
+        },
+        __wbg___wbindgen_is_undefined_c05833b95a3cf397: function(arg0) {
+            const ret = arg0 === undefined;
             return ret;
         },
         __wbg___wbindgen_jsval_eq_e659fcf7b0e32763: function(arg0, arg1) {
@@ -687,6 +994,10 @@ function __wbg_get_imports() {
         }, arguments); },
         __wbg_get_unchecked_6e0ad6d2a41b06f6: function(arg0, arg1) {
             const ret = arg0[arg1 >>> 0];
+            return ret;
+        },
+        __wbg_get_with_ref_key_6412cf3094599694: function(arg0, arg1) {
+            const ret = arg0[arg1];
             return ret;
         },
         __wbg_instanceof_ArrayBuffer_4480b9e0068a8adb: function(arg0) {
@@ -808,6 +1119,15 @@ function __wbg_get_imports() {
     };
 }
 
+const CurveBuilderFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_curvebuilder_free(ptr, 1));
+const CurveGeometryFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_curvegeometry_free(ptr, 1));
+const CurveOverlayFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_curveoverlay_free(ptr, 1));
 const DelaunayFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
     : new FinalizationRegistry(ptr => wasm.__wbg_delaunay_free(ptr, 1));
@@ -983,6 +1303,12 @@ function passStringToWasm0(arg, malloc, realloc) {
 
     WASM_VECTOR_LEN = offset;
     return ptr;
+}
+
+function takeFromExternrefTable0(idx) {
+    const value = wasm.__wbindgen_externrefs.get(idx);
+    wasm.__externref_table_dealloc(idx);
+    return value;
 }
 
 let cachedTextDecoder = new TextDecoder('utf-8', { ignoreBOM: true, fatal: true });
