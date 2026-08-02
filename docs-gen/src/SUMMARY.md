@@ -27,5 +27,6 @@
 
 - [iCurve](./curve/curve.md)
 	- [Boolean Playground](./curve/boolean_playground.md)
+	- [TypeCurve](./curve/type_curve.md)
 	- [Getting Started](./curve/getting_started.md)
 	- [API Reference](./curve/api.md)

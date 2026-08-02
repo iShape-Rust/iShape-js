@@ -2,7 +2,7 @@ import init, { CurveBuilder, CurveOverlay, FillRule, OverlayRule, } from "../i_s
 import { requireCanvas2D, requireElement } from "../common/dom.js";
 const WIDTH = 1000;
 const HEIGHT = 680;
-const HANDLE_RADIUS = 7;
+const HANDLE_RADIUS = 5.5;
 const HANDLE_HIT_RADIUS = 16;
 const tests = [
     {
@@ -27,11 +27,11 @@ const tests = [
         create: createMoonTest,
     },
     {
-        name: "Maple Leaf & Dewdrop",
-        description: "A sharp-lobed maple leaf meets a smooth drop of water.",
-        operation: "Union",
+        name: "Heart & Sparkle",
+        description: "A soft heart overlaps a bright four-point sparkle.",
+        operation: "Xor",
         fillRule: "NonZero",
-        create: createMapleTest,
+        create: createHeartTest,
     },
 ];
 const { canvas, context: ctx } = requireCanvas2D("curve-canvas");
@@ -89,10 +89,10 @@ canvas.addEventListener("pointerdown", (event) => {
     }
     else {
         const paths = createInputPaths();
-        if (ctx.isPointInPath(paths.clip, point[0], point[1], "nonzero")) {
+        if (pathContainsPoint(paths.clip, point)) {
             dragState = { kind: "figure", figure: "clip", previous: point };
         }
-        else if (ctx.isPointInPath(paths.subject, point[0], point[1], "nonzero")) {
+        else if (pathContainsPoint(paths.subject, point)) {
             dragState = { kind: "figure", figure: "subject", previous: point };
         }
     }
@@ -129,6 +129,12 @@ canvas.addEventListener("pointerleave", () => {
         scheduleDraw();
     }
 });
+const canvasResizeObserver = new ResizeObserver(() => {
+    syncCanvasResolution();
+    scheduleDraw();
+});
+canvasResizeObserver.observe(canvas);
+syncCanvasResolution();
 createTestDots();
 updateTestUI();
 updateSelectedControls();
@@ -202,6 +208,7 @@ function scheduleDraw() {
 }
 function draw() {
     frameId = null;
+    syncCanvasResolution();
     let subjectGeometry = null;
     let clipGeometry = null;
     let overlay = null;
@@ -273,16 +280,16 @@ function drawScene(resultData) {
     drawBackground();
     resultData.forEach((shape) => {
         const path = curveShapeToPath(shape);
-        ctx.fillStyle = "rgba(16, 185, 129, 0.32)";
+        ctx.fillStyle = "rgba(16, 185, 129, 0.24)";
         ctx.strokeStyle = "#047857";
-        ctx.lineWidth = 5;
+        ctx.lineWidth = 2.25;
         ctx.setLineDash([]);
         ctx.fill(path, "nonzero");
         ctx.stroke(path);
     });
     const paths = createInputPaths();
-    drawInputPath(paths.subject, "rgba(249, 115, 22, 0.13)", "#ea580c");
-    drawInputPath(paths.clip, "rgba(37, 99, 235, 0.11)", "#2563eb");
+    drawInputPath(paths.subject, "rgba(249, 115, 22, 0.09)", "#ea580c");
+    drawInputPath(paths.clip, "rgba(37, 99, 235, 0.08)", "#2563eb");
     ctx.setLineDash([]);
     drawControlLines();
     drawHandles();
@@ -306,8 +313,8 @@ function drawBackground() {
 function drawInputPath(path, fill, stroke) {
     ctx.fillStyle = fill;
     ctx.strokeStyle = stroke;
-    ctx.lineWidth = 3;
-    ctx.setLineDash([11, 8]);
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([7, 6]);
     ctx.fill(path, selectedCanvasFillRule());
     ctx.stroke(path);
 }
@@ -316,6 +323,13 @@ function createInputPaths() {
         subject: figureToPath(subject),
         clip: figureToPath(clip),
     };
+}
+function pathContainsPoint(path, point) {
+    ctx.save();
+    ctx.resetTransform();
+    const contains = ctx.isPointInPath(path, point[0], point[1], "nonzero");
+    ctx.restore();
+    return contains;
 }
 function figureToPath(figure) {
     const path = new Path2D();
@@ -398,8 +412,8 @@ function drawFigureControlLines(figure, color) {
         });
     }
     ctx.strokeStyle = color;
-    ctx.lineWidth = 1.4;
-    ctx.setLineDash([4, 5]);
+    ctx.lineWidth = 0.8;
+    ctx.setLineDash([3, 5]);
     ctx.stroke();
 }
 function drawControlLine(position, from, to) {
@@ -426,7 +440,7 @@ function drawHandle(point, color, control, highlighted) {
     ctx.arc(point[0], point[1], radius, 0, Math.PI * 2);
     ctx.fillStyle = control ? "#ffffff" : color;
     ctx.strokeStyle = color;
-    ctx.lineWidth = highlighted ? 4 : 3;
+    ctx.lineWidth = highlighted ? 2.25 : 1.4;
     ctx.fill();
     ctx.stroke();
 }
@@ -543,9 +557,24 @@ function endDrag(event) {
 function clientToCanvasPoint(event) {
     const rect = canvas.getBoundingClientRect();
     return [
-        (event.clientX - rect.left) * (canvas.width / rect.width),
-        (event.clientY - rect.top) * (canvas.height / rect.height),
+        (event.clientX - rect.left) * (WIDTH / rect.width),
+        (event.clientY - rect.top) * (HEIGHT / rect.height),
     ];
+}
+function syncCanvasResolution() {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) {
+        return;
+    }
+    const pixelRatio = Math.min(3, Math.max(1, window.devicePixelRatio || 1));
+    const backingWidth = Math.max(1, Math.round(rect.width * pixelRatio));
+    const backingHeight = Math.max(1, Math.round(rect.height * pixelRatio));
+    if (canvas.width === backingWidth && canvas.height === backingHeight) {
+        return;
+    }
+    canvas.width = backingWidth;
+    canvas.height = backingHeight;
+    ctx.setTransform(backingWidth / WIDTH, 0, 0, backingHeight / HEIGHT, 0, 0);
 }
 function selectedOverlayRule() {
     return OverlayRule[operationName];
@@ -700,68 +729,37 @@ function createMoonTest() {
         },
     };
 }
-function createMapleTest() {
-    const mapleStart = [0, -160];
-    const maplePoints = [
-        [24, -104],
-        [70, -132],
-        [58, -72],
-        [120, -88],
-        [88, -32],
-        [148, -8],
-        [84, 20],
-        [104, 72],
-        [42, 52],
-        [18, 102],
-        [15, 170],
-        [-15, 170],
-        [-18, 102],
-        [-42, 52],
-        [-104, 72],
-        [-84, 20],
-        [-148, -8],
-        [-88, -32],
-        [-120, -88],
-        [-58, -72],
-        [-70, -132],
-        [-24, -104],
-        mapleStart,
-    ];
-    const mapleSegments = [];
-    let previous = mapleStart;
-    maplePoints.forEach((to) => {
-        const dx = to[0] - previous[0];
-        const dy = to[1] - previous[1];
-        const length = Math.hypot(dx, dy);
-        const bend = length > 60 ? 5 : 2.5;
-        const normalX = length === 0 ? 0 : dy / length;
-        const normalY = length === 0 ? 0 : -dx / length;
-        mapleSegments.push({
-            type: "cubic",
-            ctrl0: [previous[0] + dx * 0.32 + normalX * bend, previous[1] + dy * 0.32 + normalY * bend],
-            ctrl1: [previous[0] + dx * 0.68 + normalX * bend, previous[1] + dy * 0.68 + normalY * bend],
-            to,
-        });
-        previous = to;
-    });
-    const dropStart = [0, -120];
+function createHeartTest() {
+    const heartStart = [0, 154];
+    const sparkleStart = [0, -132];
     return {
         subject: {
             kind: "path",
-            position: [390, 315],
+            position: [420, 330],
             contours: [{
-                    start: mapleStart,
-                    segments: mapleSegments,
+                    start: heartStart,
+                    segments: [
+                        { type: "cubic", ctrl0: [-34, 116], ctrl1: [-152, 62], to: [-152, -22] },
+                        { type: "cubic", ctrl0: [-152, -108], ctrl1: [-58, -142], to: [0, -62] },
+                        { type: "cubic", ctrl0: [58, -142], ctrl1: [152, -108], to: [152, -22] },
+                        { type: "cubic", ctrl0: [152, 62], ctrl1: [34, 116], to: heartStart },
+                    ],
                 }],
         },
         clip: {
             kind: "path",
-            position: [610, 330],
+            position: [590, 322],
             contours: [{
-                    start: dropStart,
+                    start: sparkleStart,
                     segments: [
-                        { type: "cubic", ctrl0: [76, -34], ctrl1: [106, 52], to: [0, 126] },
-                        { type: "cubic", ctrl0: [-106, 52], ctrl1: [-76, -34], to: dropStart },
+                        { type: "cubic", ctrl0: [7, -82], ctrl1: [14, -48], to: [30, -30] },
+                        { type: "cubic", ctrl0: [50, -13], ctrl1: [82, -7], to: [132, 0] },
+                        { type: "cubic", ctrl0: [82, 7], ctrl1: [50, 13], to: [30, 30] },
+                        { type: "cubic", ctrl0: [14, 48], ctrl1: [7, 82], to: [0, 132] },
+                        { type: "cubic", ctrl0: [-7, 82], ctrl1: [-14, 48], to: [-30, 30] },
+                        { type: "cubic", ctrl0: [-50, 13], ctrl1: [-82, 7], to: [-132, 0] },
+                        { type: "cubic", ctrl0: [-82, -7], ctrl1: [-50, -13], to: [-30, -30] },
+                        { type: "cubic", ctrl0: [-14, -48], ctrl1: [-7, -82], to: sparkleStart },
                     ],
                 }],
         },

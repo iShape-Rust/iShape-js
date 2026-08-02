@@ -1,5 +1,6 @@
 import init, { Overlay, FillRule, OverlayRule } from '../i_shape/ishape_wasm.js';
 import { clientToCanvasPoint, requireCanvas2D, requireElement } from '../common/dom.js';
+import { findNearestPoint } from '../common/canvas_editor.js';
 import { formatTestTitle } from '../common/demo.js';
 import { Segment } from './segment.js';
 import * as data from './editor_data.js';
@@ -175,11 +176,9 @@ function move(eX, eY) {
 }
 function findPoint(shape, x, y) {
     for (let path of shape) {
-        for (let point of path) {
-            const [px, py] = point;
-            if (Math.abs(px - x) < 10 && Math.abs(py - y) < 10) {
-                return point;
-            }
+        const point = findNearestPoint(path, x, y, 10);
+        if (point !== null) {
+            return point;
         }
     }
     return null;

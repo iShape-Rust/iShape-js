@@ -76,7 +76,7 @@ type PlaygroundTest = {
 
 const WIDTH = 1000;
 const HEIGHT = 680;
-const HANDLE_RADIUS = 7;
+const HANDLE_RADIUS = 5.5;
 const HANDLE_HIT_RADIUS = 16;
 
 const tests: PlaygroundTest[] = [
@@ -102,11 +102,11 @@ const tests: PlaygroundTest[] = [
         create: createMoonTest,
     },
     {
-        name: "Maple Leaf & Dewdrop",
-        description: "A sharp-lobed maple leaf meets a smooth drop of water.",
-        operation: "Union",
+        name: "Heart & Sparkle",
+        description: "A soft heart overlaps a bright four-point sparkle.",
+        operation: "Xor",
         fillRule: "NonZero",
-        create: createMapleTest,
+        create: createHeartTest,
     },
 ];
 
@@ -173,9 +173,9 @@ canvas.addEventListener("pointerdown", (event) => {
         dragState = {kind: "handle", handle};
     } else {
         const paths = createInputPaths();
-        if (ctx.isPointInPath(paths.clip, point[0], point[1], "nonzero")) {
+        if (pathContainsPoint(paths.clip, point)) {
             dragState = {kind: "figure", figure: "clip", previous: point};
-        } else if (ctx.isPointInPath(paths.subject, point[0], point[1], "nonzero")) {
+        } else if (pathContainsPoint(paths.subject, point)) {
             dragState = {kind: "figure", figure: "subject", previous: point};
         }
     }
@@ -217,6 +217,13 @@ canvas.addEventListener("pointerleave", () => {
         scheduleDraw();
     }
 });
+
+const canvasResizeObserver = new ResizeObserver(() => {
+    syncCanvasResolution();
+    scheduleDraw();
+});
+canvasResizeObserver.observe(canvas);
+syncCanvasResolution();
 
 createTestDots();
 updateTestUI();
@@ -298,6 +305,7 @@ function scheduleDraw(): void {
 
 function draw(): void {
     frameId = null;
+    syncCanvasResolution();
     let subjectGeometry: CurveGeometry | null = null;
     let clipGeometry: CurveGeometry | null = null;
     let overlay: CurveOverlay | null = null;
@@ -380,17 +388,17 @@ function drawScene(resultData: CurveShapesData): void {
 
     resultData.forEach((shape) => {
         const path = curveShapeToPath(shape);
-        ctx.fillStyle = "rgba(16, 185, 129, 0.32)";
+        ctx.fillStyle = "rgba(16, 185, 129, 0.24)";
         ctx.strokeStyle = "#047857";
-        ctx.lineWidth = 5;
+        ctx.lineWidth = 2.25;
         ctx.setLineDash([]);
         ctx.fill(path, "nonzero");
         ctx.stroke(path);
     });
 
     const paths = createInputPaths();
-    drawInputPath(paths.subject, "rgba(249, 115, 22, 0.13)", "#ea580c");
-    drawInputPath(paths.clip, "rgba(37, 99, 235, 0.11)", "#2563eb");
+    drawInputPath(paths.subject, "rgba(249, 115, 22, 0.09)", "#ea580c");
+    drawInputPath(paths.clip, "rgba(37, 99, 235, 0.08)", "#2563eb");
     ctx.setLineDash([]);
     drawControlLines();
     drawHandles();
@@ -417,8 +425,8 @@ function drawBackground(): void {
 function drawInputPath(path: Path2D, fill: string, stroke: string): void {
     ctx.fillStyle = fill;
     ctx.strokeStyle = stroke;
-    ctx.lineWidth = 3;
-    ctx.setLineDash([11, 8]);
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([7, 6]);
     ctx.fill(path, selectedCanvasFillRule());
     ctx.stroke(path);
 }
@@ -428,6 +436,14 @@ function createInputPaths(): {subject: Path2D; clip: Path2D} {
         subject: figureToPath(subject),
         clip: figureToPath(clip),
     };
+}
+
+function pathContainsPoint(path: Path2D, point: Point): boolean {
+    ctx.save();
+    ctx.resetTransform();
+    const contains = ctx.isPointInPath(path, point[0], point[1], "nonzero");
+    ctx.restore();
+    return contains;
 }
 
 function figureToPath(figure: Figure): Path2D {
@@ -534,8 +550,8 @@ function drawFigureControlLines(figure: Figure, color: string): void {
         });
     }
     ctx.strokeStyle = color;
-    ctx.lineWidth = 1.4;
-    ctx.setLineDash([4, 5]);
+    ctx.lineWidth = 0.8;
+    ctx.setLineDash([3, 5]);
     ctx.stroke();
 }
 
@@ -566,7 +582,7 @@ function drawHandle(point: Point, color: string, control: boolean, highlighted: 
     ctx.arc(point[0], point[1], radius, 0, Math.PI * 2);
     ctx.fillStyle = control ? "#ffffff" : color;
     ctx.strokeStyle = color;
-    ctx.lineWidth = highlighted ? 4 : 3;
+    ctx.lineWidth = highlighted ? 2.25 : 1.4;
     ctx.fill();
     ctx.stroke();
 }
@@ -695,9 +711,27 @@ function endDrag(event: PointerEvent): void {
 function clientToCanvasPoint(event: PointerEvent): Point {
     const rect = canvas.getBoundingClientRect();
     return [
-        (event.clientX - rect.left) * (canvas.width / rect.width),
-        (event.clientY - rect.top) * (canvas.height / rect.height),
+        (event.clientX - rect.left) * (WIDTH / rect.width),
+        (event.clientY - rect.top) * (HEIGHT / rect.height),
     ];
+}
+
+function syncCanvasResolution(): void {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) {
+        return;
+    }
+
+    const pixelRatio = Math.min(3, Math.max(1, window.devicePixelRatio || 1));
+    const backingWidth = Math.max(1, Math.round(rect.width * pixelRatio));
+    const backingHeight = Math.max(1, Math.round(rect.height * pixelRatio));
+    if (canvas.width === backingWidth && canvas.height === backingHeight) {
+        return;
+    }
+
+    canvas.width = backingWidth;
+    canvas.height = backingHeight;
+    ctx.setTransform(backingWidth / WIDTH, 0, 0, backingHeight / HEIGHT, 0, 0);
 }
 
 function selectedOverlayRule(): OverlayRule {
@@ -869,68 +903,37 @@ function createMoonTest(): TestFigures {
     };
 }
 
-function createMapleTest(): TestFigures {
-    const mapleStart: Point = [0, -160];
-    const maplePoints: Point[] = [
-        [24, -104],
-        [70, -132],
-        [58, -72],
-        [120, -88],
-        [88, -32],
-        [148, -8],
-        [84, 20],
-        [104, 72],
-        [42, 52],
-        [18, 102],
-        [15, 170],
-        [-15, 170],
-        [-18, 102],
-        [-42, 52],
-        [-104, 72],
-        [-84, 20],
-        [-148, -8],
-        [-88, -32],
-        [-120, -88],
-        [-58, -72],
-        [-70, -132],
-        [-24, -104],
-        mapleStart,
-    ];
-    const mapleSegments: PathSegment[] = [];
-    let previous = mapleStart;
-    maplePoints.forEach((to) => {
-        const dx = to[0] - previous[0];
-        const dy = to[1] - previous[1];
-        const length = Math.hypot(dx, dy);
-        const bend = length > 60 ? 5 : 2.5;
-        const normalX = length === 0 ? 0 : dy / length;
-        const normalY = length === 0 ? 0 : -dx / length;
-        mapleSegments.push({
-            type: "cubic",
-            ctrl0: [previous[0] + dx * 0.32 + normalX * bend, previous[1] + dy * 0.32 + normalY * bend],
-            ctrl1: [previous[0] + dx * 0.68 + normalX * bend, previous[1] + dy * 0.68 + normalY * bend],
-            to,
-        });
-        previous = to;
-    });
-    const dropStart: Point = [0, -120];
+function createHeartTest(): TestFigures {
+    const heartStart: Point = [0, 154];
+    const sparkleStart: Point = [0, -132];
     return {
         subject: {
             kind: "path",
-            position: [390, 315],
+            position: [420, 330],
             contours: [{
-                start: mapleStart,
-                segments: mapleSegments,
+                start: heartStart,
+                segments: [
+                    {type: "cubic", ctrl0: [-34, 116], ctrl1: [-152, 62], to: [-152, -22]},
+                    {type: "cubic", ctrl0: [-152, -108], ctrl1: [-58, -142], to: [0, -62]},
+                    {type: "cubic", ctrl0: [58, -142], ctrl1: [152, -108], to: [152, -22]},
+                    {type: "cubic", ctrl0: [152, 62], ctrl1: [34, 116], to: heartStart},
+                ],
             }],
         },
         clip: {
             kind: "path",
-            position: [610, 330],
+            position: [590, 322],
             contours: [{
-                start: dropStart,
+                start: sparkleStart,
                 segments: [
-                    {type: "cubic", ctrl0: [76, -34], ctrl1: [106, 52], to: [0, 126]},
-                    {type: "cubic", ctrl0: [-106, 52], ctrl1: [-76, -34], to: dropStart},
+                    {type: "cubic", ctrl0: [7, -82], ctrl1: [14, -48], to: [30, -30]},
+                    {type: "cubic", ctrl0: [50, -13], ctrl1: [82, -7], to: [132, 0]},
+                    {type: "cubic", ctrl0: [82, 7], ctrl1: [50, 13], to: [30, 30]},
+                    {type: "cubic", ctrl0: [14, 48], ctrl1: [7, 82], to: [0, 132]},
+                    {type: "cubic", ctrl0: [-7, 82], ctrl1: [-14, 48], to: [-30, 30]},
+                    {type: "cubic", ctrl0: [-50, 13], ctrl1: [-82, 7], to: [-132, 0]},
+                    {type: "cubic", ctrl0: [-82, -7], ctrl1: [-50, -13], to: [-30, -30]},
+                    {type: "cubic", ctrl0: [-14, -48], ctrl1: [-7, -82], to: sparkleStart},
                 ],
             }],
         },

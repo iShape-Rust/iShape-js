@@ -14,6 +14,7 @@ Try out iShape with an interactive demo.
 - [Polygon Offset](https://ishape-rust.github.io/iShape-js/overlay/outline.html)
 - [Triangulation](https://ishape-rust.github.io/iShape-js/triangle/triangulation.html)
 - [iCurve Boolean Playground](https://ishape-rust.github.io/iShape-js/curve/boolean_playground.html)
+- [iCurve TypeCurve](https://ishape-rust.github.io/iShape-js/curve/type_curve.html)
 
 ## Features
 

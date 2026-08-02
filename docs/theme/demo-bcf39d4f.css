@@ -9,6 +9,14 @@
     max-width: 1200px;
 }
 
+.curve-playground-page {
+    --content-max-width: 1320px;
+}
+
+.curve-playground-page .curve-playground.demo-shell--wide {
+    max-width: 1320px;
+}
+
 .demo-title {
     margin: 0 0 1rem;
     color: inherit;
@@ -585,6 +593,197 @@
     opacity: 1;
 }
 
+/* Keep the Boolean Playground controls visually light without shrinking their
+   pointer hit areas below a comfortable size. */
+.curve-playground:not(.type-curve) .curve-playground__test-switcher {
+    gap: 0.75rem;
+    padding: 0.6rem 0.75rem;
+    border-color: rgba(100, 116, 139, 0.16);
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.045), rgba(37, 99, 235, 0.045));
+}
+
+.curve-playground:not(.type-curve) .curve-playground__test-arrow {
+    width: 2.3rem;
+    min-width: 2.3rem;
+    min-height: 2.3rem;
+    border-width: 1px;
+    font-size: 1rem;
+}
+
+.curve-playground:not(.type-curve) .curve-playground__test-dot {
+    height: 0.25rem;
+}
+
+.curve-playground:not(.type-curve) .curve-playground__panel {
+    gap: 0.7rem;
+    padding: 0.7rem;
+    border-color: rgba(100, 116, 139, 0.16);
+    border-radius: 10px;
+    background: rgba(127, 127, 127, 0.045);
+    box-shadow: 0 5px 18px rgba(15, 23, 42, 0.035);
+}
+
+.curve-playground:not(.type-curve) .curve-playground__control-block {
+    gap: 0.3rem;
+}
+
+.curve-playground:not(.type-curve) .curve-playground__segments {
+    gap: 0.3rem;
+}
+
+.curve-playground:not(.type-curve) .curve-playground__segment {
+    min-height: 2.15rem;
+    padding: 0.3rem 0.65rem;
+    border-color: rgba(100, 116, 139, 0.22);
+    font-size: 0.82rem;
+    font-weight: 550;
+}
+
+.curve-playground:not(.type-curve) .curve-playground__segment:hover {
+    border-color: rgba(79, 70, 229, 0.55);
+    transform: none;
+}
+
+.curve-playground:not(.type-curve) .curve-playground__segment.is-active {
+    border-color: #6366f1;
+    background: #6366f1;
+    box-shadow: 0 2px 7px rgba(79, 70, 229, 0.18);
+}
+
+.curve-playground:not(.type-curve) .curve-playground__segment:focus-visible,
+.curve-playground:not(.type-curve) .curve-playground__reset:focus-visible {
+    outline-width: 2px;
+}
+
+.curve-playground:not(.type-curve) .curve-playground__reset {
+    min-height: 2.2rem;
+    padding: 0.35rem 0.7rem;
+    border-width: 1px;
+    font-size: 0.82rem;
+}
+
+.curve-playground:not(.type-curve) .curve-playground__key {
+    border-width: 1px;
+}
+
+.curve-playground:not(.type-curve) .curve-playground__handle-key {
+    width: 0.62rem;
+    height: 0.62rem;
+    border-width: 1px;
+}
+
+.curve-playground:not(.type-curve) .curve-playground__canvas {
+    border-color: rgba(100, 116, 139, 0.22);
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.07);
+}
+
+.curve-playground:not(.type-curve) .curve-playground__canvas-hint {
+    padding: 0.25rem 0.5rem;
+    border-color: rgba(100, 116, 139, 0.14);
+    font-size: 0.7rem;
+}
+
+.curve-playground:not(.type-curve) .curve-playground__stats {
+    gap: 0.45rem;
+    margin-top: 0.55rem;
+}
+
+.curve-playground:not(.type-curve) .curve-playground__stat {
+    padding: 0.55rem 0.65rem;
+    border-color: rgba(100, 116, 139, 0.15);
+    border-radius: 7px;
+    background: rgba(127, 127, 127, 0.035);
+}
+
+/* TypeCurve extends the Shapes Editor / Boolean Playground demo system without
+   changing either existing demo's layout or interaction styles. */
+.type-curve {
+    --curve-selected: #7c3aed;
+}
+
+.type-curve .curve-playground__text-controls {
+    display: grid;
+    grid-template-columns: minmax(14rem, 1.4fr) minmax(13rem, 1fr) auto;
+    align-items: end;
+    gap: 0.85rem;
+}
+
+.type-curve .curve-playground__field {
+    display: grid;
+    gap: 0.4rem;
+}
+
+.type-curve .curve-playground__field .curve-playground__label {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.type-curve .curve-playground__field output {
+    color: var(--links);
+    font-variant-numeric: tabular-nums;
+}
+
+.type-curve .curve-playground__text-input {
+    width: 100%;
+    min-height: 2.75rem;
+    box-sizing: border-box;
+    padding: 0.55rem 0.75rem;
+    border: 1px solid rgba(100, 116, 139, 0.34);
+    border-radius: 9px;
+    color: inherit;
+    font: 600 1rem/1.2 inherit;
+    letter-spacing: 0.04em;
+    background: var(--bg);
+}
+
+.type-curve .curve-playground__text-input:focus,
+.type-curve .curve-playground__field input[type="range"]:focus-visible {
+    outline: 3px solid rgba(99, 102, 241, 0.35);
+    outline-offset: 2px;
+}
+
+.type-curve .curve-playground__field-help {
+    margin: -0.45rem 0 0;
+    font-size: 0.75rem;
+    opacity: 0.62;
+}
+
+.type-curve .curve-playground__control-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(12rem, 0.8fr);
+    gap: 1rem;
+}
+
+.type-curve .curve-playground__canvas {
+    aspect-ratio: 25 / 13;
+}
+
+.type-curve .curve-playground__key--selected {
+    border-width: 3px;
+    border-style: dotted;
+    color: var(--curve-selected);
+}
+
+.type-curve .curve-playground__handle-key {
+    border-color: var(--curve-selected);
+}
+
+.type-curve .curve-playground__stats {
+    grid-template-columns: 1.2fr 1.45fr repeat(3, 1fr);
+}
+
+.type-curve .curve-playground__attribution {
+    max-width: 820px;
+    margin: 0.9rem auto 0;
+    font-size: 0.72rem;
+    line-height: 1.55;
+    opacity: 0.66;
+    text-align: center;
+}
+
 @media (max-width: 700px) {
     .demo-controls {
         grid-template-columns: 1fr;
@@ -681,6 +880,19 @@
     .curve-playground__stat strong {
         font-size: 0.8rem;
     }
+
+    .type-curve .curve-playground__text-controls,
+    .type-curve .curve-playground__control-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .type-curve .curve-playground__field--size {
+        padding-top: 0.2rem;
+    }
+
+    .type-curve .curve-playground__stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 
 @media (max-width: 420px) {
@@ -689,6 +901,10 @@
     }
 
     .curve-playground__stats {
+        grid-template-columns: 1fr;
+    }
+
+    .type-curve .curve-playground__stats {
         grid-template-columns: 1fr;
     }
 }
