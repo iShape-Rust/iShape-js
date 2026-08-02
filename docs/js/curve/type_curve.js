@@ -1,10 +1,10 @@
 import init, { CurveBuilder, CurveOverlay, FillRule, OverlayRule, } from "../i_shape/ishape_wasm.js";
 import { findNearestPoint, clampPoint } from "../common/canvas_editor.js";
-import { clientToCanvasPoint, requireCanvas2D, requireElement } from "../common/dom.js";
+import { requireCanvas2D, requireElement } from "../common/dom.js";
 import { parse } from "../vendor/opentype.min.mjs";
 const WIDTH = 1000;
 const HEIGHT = 520;
-const HANDLE_RADIUS = 9.6;
+const HANDLE_RADIUS = 5.5;
 const HANDLE_HIT_RADIUS = 24;
 const GLYPH_BASELINE = 390;
 const DEFAULT_FONT_SIZE = 240;
@@ -115,6 +115,12 @@ canvas.addEventListener("pointerleave", () => {
         scheduleDraw();
     }
 });
+const canvasResizeObserver = new ResizeObserver(() => {
+    syncCanvasResolution();
+    scheduleDraw();
+});
+canvasResizeObserver.observe(canvas);
+syncCanvasResolution();
 void run();
 async function run() {
     try {
@@ -224,6 +230,7 @@ function scheduleDraw() {
 }
 function draw() {
     frameId = null;
+    syncCanvasResolution();
     const subjects = glyphs.filter((glyph) => glyph.role === "subject");
     const clips = glyphs.filter((glyph) => glyph.role === "clip");
     if (subjects.length === 0) {
@@ -322,9 +329,9 @@ function drawScene(resultData) {
     drawBackground();
     resultData.forEach((shape) => {
         const path = curveShapeToPath(shape);
-        ctx.fillStyle = "rgba(16, 185, 129, 0.34)";
+        ctx.fillStyle = "rgba(16, 185, 129, 0.24)";
         ctx.strokeStyle = "#047857";
-        ctx.lineWidth = 8;
+        ctx.lineWidth = 2.25;
         ctx.setLineDash([]);
         ctx.fill(path, "nonzero");
         ctx.stroke(path);
@@ -334,8 +341,8 @@ function drawScene(resultData) {
     if (selected !== null) {
         const path = objectToPath(selected);
         ctx.strokeStyle = "#7c3aed";
-        ctx.lineWidth = 11;
-        ctx.setLineDash([3, 6]);
+        ctx.lineWidth = 3;
+        ctx.setLineDash([3, 5]);
         ctx.stroke(path);
         drawControlLines(selected);
         drawHandles(selected);
@@ -371,10 +378,10 @@ function drawBackground() {
 function drawObject(object) {
     const path = objectToPath(object);
     const isSubject = object.role === "subject";
-    ctx.fillStyle = isSubject ? "rgba(249, 115, 22, 0.12)" : "rgba(37, 99, 235, 0.10)";
+    ctx.fillStyle = isSubject ? "rgba(249, 115, 22, 0.09)" : "rgba(37, 99, 235, 0.08)";
     ctx.strokeStyle = isSubject ? "#ea580c" : "#2563eb";
-    ctx.lineWidth = 4;
-    ctx.setLineDash([4, 7]);
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4, 6]);
     ctx.fill(path, canvasFillRule());
     ctx.stroke(path);
 }
@@ -441,8 +448,8 @@ function drawControlLines(object) {
         });
     });
     ctx.strokeStyle = "rgba(124, 58, 237, 0.55)";
-    ctx.lineWidth = 2;
-    ctx.setLineDash([4, 5]);
+    ctx.lineWidth = 0.8;
+    ctx.setLineDash([3, 5]);
     ctx.stroke();
 }
 function controlLine(object, from, to) {
@@ -459,7 +466,7 @@ function drawHandles(object) {
         ctx.arc(point[0], point[1], radius, 0, Math.PI * 2);
         ctx.fillStyle = handle.control ? "#ffffff" : "#7c3aed";
         ctx.strokeStyle = "#7c3aed";
-        ctx.lineWidth = highlighted ? 6 : 4;
+        ctx.lineWidth = highlighted ? 2.25 : 1.4;
         ctx.fill();
         ctx.stroke();
     });
@@ -497,7 +504,7 @@ function findHandle(object, worldPoint) {
 function hitObject(point) {
     const ordered = [...glyphs].reverse();
     for (const object of ordered) {
-        if (ctx.isPointInPath(objectToPath(object), point[0], point[1], canvasFillRule())) {
+        if (pathContainsPoint(objectToPath(object), point)) {
             return object;
         }
     }
@@ -523,7 +530,33 @@ function endDrag(event) {
     scheduleDraw();
 }
 function pointerPoint(event) {
-    return clientToCanvasPoint(canvas, event.clientX, event.clientY);
+    const rect = canvas.getBoundingClientRect();
+    return [
+        (event.clientX - rect.left) * (WIDTH / rect.width),
+        (event.clientY - rect.top) * (HEIGHT / rect.height),
+    ];
+}
+function pathContainsPoint(path, point) {
+    ctx.save();
+    ctx.resetTransform();
+    const contains = ctx.isPointInPath(path, point[0], point[1], canvasFillRule());
+    ctx.restore();
+    return contains;
+}
+function syncCanvasResolution() {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) {
+        return;
+    }
+    const pixelRatio = Math.min(3, Math.max(1, window.devicePixelRatio || 1));
+    const backingWidth = Math.max(1, Math.round(rect.width * pixelRatio));
+    const backingHeight = Math.max(1, Math.round(rect.height * pixelRatio));
+    if (canvas.width === backingWidth && canvas.height === backingHeight) {
+        return;
+    }
+    canvas.width = backingWidth;
+    canvas.height = backingHeight;
+    ctx.setTransform(backingWidth / WIDTH, 0, 0, backingHeight / HEIGHT, 0, 0);
 }
 function canvasFillRule() {
     return fillRuleName === "EvenOdd" ? "evenodd" : "nonzero";

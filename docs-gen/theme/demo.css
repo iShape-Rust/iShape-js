@@ -17,6 +17,11 @@
     max-width: 1320px;
 }
 
+.curve-playground-page .nav-chapters,
+.curve-playground-page .nav-wrapper {
+    display: none;
+}
+
 .demo-title {
     margin: 0 0 1rem;
     color: inherit;
@@ -593,9 +598,9 @@
     opacity: 1;
 }
 
-/* Keep the Boolean Playground controls visually light without shrinking their
+/* Keep the curve demos' controls visually light without shrinking their
    pointer hit areas below a comfortable size. */
-.curve-playground:not(.type-curve) .curve-playground__test-switcher {
+.curve-playground .curve-playground__test-switcher {
     gap: 0.75rem;
     padding: 0.6rem 0.75rem;
     border-color: rgba(100, 116, 139, 0.16);
@@ -603,7 +608,7 @@
     background: linear-gradient(135deg, rgba(249, 115, 22, 0.045), rgba(37, 99, 235, 0.045));
 }
 
-.curve-playground:not(.type-curve) .curve-playground__test-arrow {
+.curve-playground .curve-playground__test-arrow {
     width: 2.3rem;
     min-width: 2.3rem;
     min-height: 2.3rem;
@@ -611,11 +616,11 @@
     font-size: 1rem;
 }
 
-.curve-playground:not(.type-curve) .curve-playground__test-dot {
+.curve-playground .curve-playground__test-dot {
     height: 0.25rem;
 }
 
-.curve-playground:not(.type-curve) .curve-playground__panel {
+.curve-playground .curve-playground__panel {
     gap: 0.7rem;
     padding: 0.7rem;
     border-color: rgba(100, 116, 139, 0.16);
@@ -624,15 +629,15 @@
     box-shadow: 0 5px 18px rgba(15, 23, 42, 0.035);
 }
 
-.curve-playground:not(.type-curve) .curve-playground__control-block {
+.curve-playground .curve-playground__control-block {
     gap: 0.3rem;
 }
 
-.curve-playground:not(.type-curve) .curve-playground__segments {
+.curve-playground .curve-playground__segments {
     gap: 0.3rem;
 }
 
-.curve-playground:not(.type-curve) .curve-playground__segment {
+.curve-playground .curve-playground__segment {
     min-height: 2.15rem;
     padding: 0.3rem 0.65rem;
     border-color: rgba(100, 116, 139, 0.22);
@@ -640,57 +645,57 @@
     font-weight: 550;
 }
 
-.curve-playground:not(.type-curve) .curve-playground__segment:hover {
+.curve-playground .curve-playground__segment:hover {
     border-color: rgba(79, 70, 229, 0.55);
     transform: none;
 }
 
-.curve-playground:not(.type-curve) .curve-playground__segment.is-active {
+.curve-playground .curve-playground__segment.is-active {
     border-color: #6366f1;
     background: #6366f1;
     box-shadow: 0 2px 7px rgba(79, 70, 229, 0.18);
 }
 
-.curve-playground:not(.type-curve) .curve-playground__segment:focus-visible,
-.curve-playground:not(.type-curve) .curve-playground__reset:focus-visible {
+.curve-playground .curve-playground__segment:focus-visible,
+.curve-playground .curve-playground__reset:focus-visible {
     outline-width: 2px;
 }
 
-.curve-playground:not(.type-curve) .curve-playground__reset {
+.curve-playground .curve-playground__reset {
     min-height: 2.2rem;
     padding: 0.35rem 0.7rem;
     border-width: 1px;
     font-size: 0.82rem;
 }
 
-.curve-playground:not(.type-curve) .curve-playground__key {
+.curve-playground .curve-playground__key {
     border-width: 1px;
 }
 
-.curve-playground:not(.type-curve) .curve-playground__handle-key {
+.curve-playground .curve-playground__handle-key {
     width: 0.62rem;
     height: 0.62rem;
     border-width: 1px;
 }
 
-.curve-playground:not(.type-curve) .curve-playground__canvas {
+.curve-playground .curve-playground__canvas {
     border-color: rgba(100, 116, 139, 0.22);
     border-radius: 10px;
     box-shadow: 0 8px 25px rgba(15, 23, 42, 0.07);
 }
 
-.curve-playground:not(.type-curve) .curve-playground__canvas-hint {
+.curve-playground .curve-playground__canvas-hint {
     padding: 0.25rem 0.5rem;
     border-color: rgba(100, 116, 139, 0.14);
     font-size: 0.7rem;
 }
 
-.curve-playground:not(.type-curve) .curve-playground__stats {
+.curve-playground .curve-playground__stats {
     gap: 0.45rem;
     margin-top: 0.55rem;
 }
 
-.curve-playground:not(.type-curve) .curve-playground__stat {
+.curve-playground .curve-playground__stat {
     padding: 0.55rem 0.65rem;
     border-color: rgba(100, 116, 139, 0.15);
     border-radius: 7px;
@@ -762,7 +767,7 @@
 }
 
 .type-curve .curve-playground__key--selected {
-    border-width: 3px;
+    border-width: 1px;
     border-style: dotted;
     color: var(--curve-selected);
 }

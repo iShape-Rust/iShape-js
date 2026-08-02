@@ -1,5 +1,6 @@
 <div class="demo-shell demo-shell--wide curve-playground type-curve">
 <script type="text/javascript">
+document.documentElement.classList.add('curve-playground-page');
 // In different environments the path is different.
 const paths = [
   '../js/curve/type_curve.js',
