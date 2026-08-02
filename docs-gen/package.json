@@ -1,0 +1,14 @@
+{
+  "name": "ishape-docs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:ts": "tsc --project tsconfig.json",
+    "watch:ts": "tsc --project tsconfig.json --watch",
+    "build": "npm run build:ts && mdbook build",
+    "serve": "npm run build:ts && mdbook serve --open"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  }
+}

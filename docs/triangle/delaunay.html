@@ -193,8 +193,50 @@
 }
 
 #delaunayCanvas {
+    --delaunay-primary: #c2410c;
+    --delaunay-guide: rgba(154, 52, 18, 0.58);
+    --delaunay-fill: rgba(234, 88, 12, 0.10);
+    --delaunay-accent: #0369a1;
+    --delaunay-success: #047857;
+    --delaunay-danger: #be123c;
+
     display: block;
-    border: 2px dotted #80808080;
+    box-sizing: border-box;
+    background: #f8fafc;
+    border: 1px solid #94a3b8;
+    border-radius: 8px;
+    cursor: grab;
+    touch-action: none;
+}
+
+.ayu #delaunayCanvas,
+.coal #delaunayCanvas,
+.navy #delaunayCanvas {
+    --delaunay-primary: #fb923c;
+    --delaunay-guide: rgba(251, 146, 60, 0.58);
+    --delaunay-fill: rgba(251, 146, 60, 0.13);
+    --delaunay-accent: #38bdf8;
+    --delaunay-success: #4ade80;
+    --delaunay-danger: #fb7185;
+
+    background: rgba(15, 23, 42, 0.38);
+    border-color: #64748b;
+}
+
+.rust #delaunayCanvas {
+    --delaunay-primary: #9a3412;
+    --delaunay-guide: rgba(124, 45, 18, 0.58);
+    --delaunay-fill: rgba(194, 65, 12, 0.10);
+    --delaunay-accent: #075985;
+    --delaunay-success: #166534;
+    --delaunay-danger: #9f1239;
+
+    background: rgba(255, 247, 237, 0.42);
+    border-color: #a8a29e;
+}
+
+#delaunayCanvas:active {
+    cursor: grabbing;
 }
 </style>
 <script type="text/javascript">
@@ -216,6 +258,7 @@ window.addEventListener('DOMContentLoaded', function() {
     for (const path of paths) {
       if (await fileExists(path)) {
         const script = document.createElement('script');
+        script.type = 'module';
         script.src = path;
         document.head.appendChild(script);
         break;

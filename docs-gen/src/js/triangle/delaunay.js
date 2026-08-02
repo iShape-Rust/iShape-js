@@ -1,292 +1,258 @@
-const canvas = document.getElementById('delaunayCanvas');
-const ctx = canvas.getContext('2d');
-
-const twoPI = 2 * Math.PI;
-
-let selectedPoint = null;
-let candidatePoint = null;
-let isMousePressed = false;
-
-let mainColor = '#FF7400FF';
-let opacColor = '#FF740080';
-let fillColor = '#FF740015';
-
-let points = [[250, 450], [100, 250], [350, 50], [450, 250]];
-
-if (window.devicePixelRatio > 1) {
-    let canvasWidth = canvas.width;
-    let canvasHeight = canvas.height;
-
-    canvas.width = canvasWidth * window.devicePixelRatio;
-    canvas.height = canvasHeight * window.devicePixelRatio;
-    canvas.style.width = canvasWidth + "px";
-    canvas.style.height = canvasHeight + "px";
-
-    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-}
-
-requestAnimationFrame(draw);
-
-canvas.addEventListener('touchstart', function(event) {
-    event.preventDefault();
-    const touch = event.touches[0];
-    pressDown(touch.clientX, touch.clientY);
-});
-
-canvas.addEventListener('touchmove', function(event) {
-    event.preventDefault();
-    const touch = event.touches[0];
-    move(touch.clientX, touch.clientY);
-});
-
-canvas.addEventListener('touchend', function(event) {
-    event.preventDefault(); // Prevent click emulation and scrolling
-    selectedPoint = null;
-    isMousePressed = false;
-});
-
-canvas.addEventListener('mousedown', function(event) {
-    pressDown(event.clientX, event.clientY);
-});
-
-canvas.addEventListener('mousemove', function(event) {
-    move(event.clientX, event.clientY);
-});
-
-canvas.addEventListener('mouseup', function(event) {
-    selectedPoint = null;
-    isMousePressed = false;
-});
-
-canvas.addEventListener('mouseout', function(event) {
-    selectedPoint = null;
-    candidatePoint = null;
-    isMousePressed = false;
+import { Vector } from "../geometry/vector.js";
+(() => {
+    const canvasElement = document.getElementById("delaunayCanvas");
+    if (!(canvasElement instanceof HTMLCanvasElement)) {
+        throw new Error("Canvas #delaunayCanvas was not found");
+    }
+    const context = canvasElement.getContext("2d");
+    if (context === null) {
+        throw new Error("Canvas 2D context is unavailable");
+    }
+    const canvas = canvasElement;
+    const ctx = context;
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
+    const twoPI = 2 * Math.PI;
+    let selectedPoint = null;
+    let candidatePoint = null;
+    let isMousePressed = false;
+    let palette = readPalette();
+    const points = [
+        [250, 450],
+        [100, 250],
+        [350, 50],
+        [450, 250],
+    ];
+    const pixelRatio = window.devicePixelRatio;
+    if (pixelRatio > 1) {
+        canvas.width = canvasWidth * pixelRatio;
+        canvas.height = canvasHeight * pixelRatio;
+        canvas.style.width = `${canvasWidth}px`;
+        canvas.style.height = `${canvasHeight}px`;
+        ctx.scale(pixelRatio, pixelRatio);
+    }
+    const themeObserver = new MutationObserver(() => {
+        palette = readPalette();
+        requestAnimationFrame(draw);
+    });
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["class"],
+    });
     requestAnimationFrame(draw);
-});
-
-function pressDown(eX, eY) {
-    const x = eX - canvas.getBoundingClientRect().left;
-    const y = eY - canvas.getBoundingClientRect().top;
-  
-    isMousePressed = true;
-
-    selectedPoint = findPoint(x, y);
-    candidatePoint = null;
-  
-}
-
-function move(eX, eY) {
-    let x = eX - canvas.getBoundingClientRect().left;
-    let y = eY - canvas.getBoundingClientRect().top;
-
-    if (isMousePressed) {
+    canvas.addEventListener("touchstart", (event) => {
+        event.preventDefault();
+        const touch = event.touches[0];
+        if (touch !== undefined) {
+            pressDown(touch.clientX, touch.clientY);
+        }
+    });
+    canvas.addEventListener("touchmove", (event) => {
+        event.preventDefault();
+        const touch = event.touches[0];
+        if (touch !== undefined) {
+            move(touch.clientX, touch.clientY);
+        }
+    });
+    canvas.addEventListener("touchend", (event) => {
+        event.preventDefault();
+        selectedPoint = null;
+        isMousePressed = false;
+    });
+    canvas.addEventListener("mousedown", (event) => {
+        pressDown(event.clientX, event.clientY);
+    });
+    canvas.addEventListener("mousemove", (event) => {
+        move(event.clientX, event.clientY);
+    });
+    canvas.addEventListener("mouseup", () => {
+        selectedPoint = null;
+        isMousePressed = false;
+    });
+    canvas.addEventListener("mouseout", () => {
+        selectedPoint = null;
+        candidatePoint = null;
+        isMousePressed = false;
+        requestAnimationFrame(draw);
+    });
+    function pressDown(eventX, eventY) {
+        const bounds = canvas.getBoundingClientRect();
+        const x = eventX - bounds.left;
+        const y = eventY - bounds.top;
+        isMousePressed = true;
+        selectedPoint = findPoint(x, y);
+        candidatePoint = null;
+    }
+    function move(eventX, eventY) {
+        const bounds = canvas.getBoundingClientRect();
+        const x = eventX - bounds.left;
+        const y = eventY - bounds.top;
+        if (isMousePressed) {
+            if (selectedPoint !== null) {
+                const rect = workingArea();
+                selectedPoint[0] = Math.max(Math.min(x, rect.maxX), rect.minX);
+                selectedPoint[1] = Math.max(Math.min(y, rect.maxY), rect.minY);
+                requestAnimationFrame(draw);
+            }
+        }
+        else {
+            const wasCandidate = candidatePoint !== null;
+            candidatePoint = findPoint(x, y);
+            if (candidatePoint !== null) {
+                requestAnimationFrame(draw);
+                return;
+            }
+            if (wasCandidate) {
+                requestAnimationFrame(draw);
+            }
+        }
+    }
+    function findPoint(x, y) {
+        for (const point of points) {
+            const [pointX, pointY] = point;
+            if (Math.abs(pointX - x) < 10 && Math.abs(pointY - y) < 10) {
+                return point;
+            }
+        }
+        return null;
+    }
+    function draw() {
+        const [point0, point1, point2, point3] = points;
+        const alpha = angle(point1, point3, point0);
+        const beta = angle(point1, point3, point2);
+        const condition = alpha.angle + beta.angle < 180;
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        ctx.fillStyle = "#00000000";
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
         if (selectedPoint !== null) {
-            const rect = workingArea();
-
-            selectedPoint[0] = Math.max(Math.min(x, rect.maxX), rect.minX);
-            selectedPoint[1] = Math.max(Math.min(y, rect.maxY), rect.minY);
-            
-            requestAnimationFrame(draw);
+            drawPoint(ctx, 5, selectedPoint, palette.accent);
         }
-    } else {
-        const wasCandidate = candidatePoint !== null;
-
-        candidatePoint = findPoint(x, y);
         if (candidatePoint !== null) {
-            requestAnimationFrame(draw);
-            return;
+            drawPoint(ctx, 7, candidatePoint, palette.accent);
         }
-        
-
-        if (wasCandidate) {
-            requestAnimationFrame(draw);
-            candidatePoint = null;
+        drawCircle(ctx);
+        drawTriangles(ctx, condition);
+        drawAngles(ctx, alpha, beta, condition);
+    }
+    function drawPoint(context, radius, point, color) {
+        context.fillStyle = color;
+        context.beginPath();
+        context.arc(point[0], point[1], radius, 0, twoPI);
+        context.fill();
+    }
+    function drawTriangles(context, condition) {
+        const [point0, point1, point2, point3] = points;
+        context.fillStyle = palette.fill;
+        context.strokeStyle = palette.primary;
+        context.lineWidth = 2;
+        context.beginPath();
+        context.moveTo(point0[0], point0[1]);
+        context.lineTo(point1[0], point1[1]);
+        context.lineTo(point2[0], point2[1]);
+        context.lineTo(point3[0], point3[1]);
+        context.closePath();
+        context.stroke();
+        context.fill();
+        context.setLineDash([12, 8]);
+        context.beginPath();
+        if (condition) {
+            context.moveTo(point1[0], point1[1]);
+            context.lineTo(point3[0], point3[1]);
         }
-    }
-}
-
-function findPoint(x, y) {
-    for (let point of points) {
-        const [px, py] = point;
-        if (Math.abs(px - x) < 10 && Math.abs(py - y) < 10) {
-            return point;
+        else {
+            context.moveTo(point0[0], point0[1]);
+            context.lineTo(point2[0], point2[1]);
         }
+        context.stroke();
+        context.setLineDash([]);
     }
-    
-    return null;
-}
-
-function draw() {
-    const alpha = angle(points[1], points[3], points[0]);
-    const beta = angle(points[1], points[3], points[2]);
-    const condition = alpha.angle + beta.angle < 180;
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#00000000";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    if (selectedPoint !== null) {
-        drawPoint(ctx, 4, selectedPoint, mainColor);
+    function workingArea() {
+        return {
+            minX: 50,
+            minY: 50,
+            maxX: canvasWidth - 50,
+            maxY: canvasHeight - 50,
+        };
     }
-
-    if (candidatePoint !== null) {
-        drawPoint(ctx, 6, candidatePoint, mainColor);
+    function drawCircle(context) {
+        const [, point1, point2, point3] = points;
+        const [ax, ay] = point1;
+        const [bx, by] = point2;
+        const [cx, cy] = point3;
+        const magnitudeA = ax * ax + ay * ay;
+        const magnitudeB = bx * bx + by * by;
+        const magnitudeC = cx * cx + cy * cy;
+        const denominator = 2 * (ax * (by - cy) + bx * (cy - ay) + cx * (ay - by));
+        const x = (magnitudeA * (by - cy) + magnitudeB * (cy - ay) + magnitudeC * (ay - by)) /
+            denominator;
+        const y = (magnitudeA * (cx - bx) + magnitudeB * (ax - cx) + magnitudeC * (bx - ax)) /
+            denominator;
+        const radius = Math.hypot(ax - x, ay - y);
+        context.strokeStyle = palette.guide;
+        context.lineWidth = 2;
+        context.setLineDash([12, 8]);
+        context.beginPath();
+        context.arc(x, y, radius, 0, twoPI);
+        context.stroke();
+        context.setLineDash([]);
     }
-
-    drawCircle(ctx);
-    drawTriangles(ctx, condition);
-    drawAngles(ctx, alpha, beta, condition);
-}
-
-function drawPoint(ctx, r, p, color) {
-    ctx.fillStyle = color;
-    ctx.lineWidth = null;
-    ctx.beginPath();
-    ctx.arc(p[0], p[1], r, 0, twoPI);
-    ctx.fill();
-}
-
-function drawTriangles(ctx, condition) {
-    let p0 = points[0];
-    let p1 = points[1];
-    let p2 = points[2];
-    let p3 = points[3];
-
-    ctx.fillStyle = fillColor;
-    ctx.strokeStyle = mainColor;
-    ctx.lineWidth = 2;
-    
-    ctx.beginPath();
-    ctx.moveTo(p0[0], p0[1]);
-    ctx.lineTo(p1[0], p1[1]);
-    ctx.lineTo(p2[0], p2[1]);
-    ctx.lineTo(p3[0], p3[1]);
-    ctx.closePath()
-    
-    ctx.stroke();
-    ctx.fill();
-
-    ctx.setLineDash([12, 8]);
-    ctx.beginPath();
-    if (condition) {
-        ctx.moveTo(p1[0], p1[1]);
-        ctx.lineTo(p3[0], p3[1]);
-    } else {
-        ctx.moveTo(p0[0], p0[1]);
-        ctx.lineTo(p2[0], p2[1]);
+    function drawAngles(context, alpha, beta, condition) {
+        context.fillStyle = condition ? palette.success : palette.danger;
+        context.beginPath();
+        context.arc(alpha.px, alpha.py, 30, alpha.startAngle, alpha.endAngle);
+        context.stroke();
+        context.beginPath();
+        context.arc(beta.px, beta.py, 30, beta.endAngle, beta.startAngle);
+        context.stroke();
+        context.font = "26px Arial";
+        context.textAlign = "center";
+        context.textBaseline = "middle";
+        context.fillText(alpha.angle.toFixed(1), alpha.x, alpha.y);
+        context.fillText(beta.angle.toFixed(1), beta.x, beta.y);
+        const rect = workingArea();
+        const angleSum = (beta.angle + alpha.angle).toFixed(0);
+        context.fillText(`α + β = ${angleSum}`, 0.5 * rect.maxX + 30, rect.maxY + 30);
     }
-
-    ctx.stroke();
-    ctx.setLineDash([]);
-}
-
-function workingArea() {
-    const minX = 50;
-    const maxX = canvas.width - 50;
-    const maxY = canvas.height - 50;
-    const minY = 50;
-    return { minX, minY, maxX, maxY };
-}
-
-function drawCircle(ctx) {
-    const ax = points[1][0];
-    const ay = points[1][1];
-    const bx = points[2][0];
-    const by = points[2][1];
-    const cx = points[3][0];
-    const cy = points[3][1];
-
-    const ma = ax * ax + ay * ay;
-    const mb = bx * bx + by * by;
-    const mc = cx * cx + cy * cy;
-
-    const d = 2 * (ax * (by - cy) + bx * (cy - ay) + cx * (ay - by));
-    const x = (ma * (by - cy) + mb * (cy - ay) + mc * (ay - by)) / d;
-    const y = (ma * (cx - bx) + mb * (ax - cx) + mc * (bx - ax)) / d;
-    
-    const r = Math.sqrt((ax - x) * (ax - x) + (ay - y) * (ay - y));
-    
-    ctx.strokeStyle = opacColor;
-    ctx.lineWidth = 2;
-    ctx.setLineDash([12, 8]);
-    ctx.beginPath();
-    ctx.arc(x, y, r, 0, twoPI);
-    ctx.stroke();
-    ctx.setLineDash([]);
-}
-
-function drawAngles(ctx, alpha, beta, condition) {
-    if (condition) {
-        ctx.fillStyle = "green";
-    } else {
-        ctx.fillStyle = "red";
+    function readPalette() {
+        const styles = getComputedStyle(canvas);
+        return {
+            primary: readColor(styles, "--delaunay-primary"),
+            guide: readColor(styles, "--delaunay-guide"),
+            fill: readColor(styles, "--delaunay-fill"),
+            accent: readColor(styles, "--delaunay-accent"),
+            success: readColor(styles, "--delaunay-success"),
+            danger: readColor(styles, "--delaunay-danger"),
+        };
     }
-
-    ctx.beginPath();
-    ctx.arc(alpha.px, alpha.py, 30, alpha.startAngle, alpha.endAngle);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.arc(beta.px, beta.py, 30, beta.endAngle, beta.startAngle);
-
-    ctx.stroke();
-
-    ctx.font = "26px Arial";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(alpha.angle.toFixed(1), alpha.x, alpha.y);
-    ctx.fillText(beta.angle.toFixed(1), beta.x, beta.y);
-
-
-    const rect = workingArea();
-
-    ctx.fillText("α + β = "+(beta.angle + alpha.angle).toFixed(0), 0.5 * rect.maxX + 30, rect.maxY + 30);
-}
-
-function vec(p) {
-    return { x: p[0], y: p[1] };
-}
-
-function normalize(v) {
-    const m = Math.sqrt(v.x ** 2 + v.y ** 2);
-    return { x: v.x / m, y: v.y / m };
-}
-
-function add(a, b) {
-    return { x: a.x + b.x, y: a.y + b.y };
-}
-
-function sub(a, b) {
-    return { x: a.x - b.x, y: a.y - b.y };
-}
-
-function mul(v, s) {
-    return { x: v.x * s, y: v.y * s };
-}
-
-function dot(a, b) {
-    return a.x * b.x + a.y * b.y;
-}
-
-function angle(pa, pb, p) {
-    const a = sub(vec(pa), vec(p));
-    const b = sub(vec(pb), vec(p));
-
-    const na = normalize(a);
-    const nb = normalize(b);
-
-    const rad = Math.acos(dot(na, nb));
-    const grad = rad * 180 / Math.PI;
-
-    const startAngle = Math.atan2(na.y, na.x);
-    const endAngle = Math.atan2(nb.y, nb.x);
-
-    const la = add(mul(na, 60), vec(p));
-    const lb = add(mul(nb, 60), vec(p));
-
-    const x = 0.5 * (la.x + lb.x);
-    const y = 0.5 * (la.y + lb.y);
-
-    return { x: x, y: y, px: p[0], py: p[1], angle: grad, startAngle: startAngle, endAngle: endAngle };
-}
+    function readColor(styles, property) {
+        const color = styles.getPropertyValue(property).trim();
+        if (color.length === 0) {
+            throw new Error(`Missing CSS color ${property}`);
+        }
+        return color;
+    }
+    function angle(pointA, pointB, origin) {
+        const vectorA = Vector.between(origin, pointA);
+        const vectorB = Vector.between(origin, pointB);
+        const normalizedA = vectorA.normalized();
+        const normalizedB = vectorB.normalized();
+        const radians = vectorA.angleTo(vectorB);
+        const degrees = (radians * 180) / Math.PI;
+        const startAngle = Math.atan2(normalizedA.y, normalizedA.x);
+        const endAngle = Math.atan2(normalizedB.y, normalizedB.x);
+        const center = Vector.fromPoint(origin);
+        const labelA = center.add(normalizedA.scale(60));
+        const labelB = center.add(normalizedB.scale(60));
+        const label = labelA.lerp(labelB, 0.5);
+        return {
+            x: label.x,
+            y: label.y,
+            px: origin[0],
+            py: origin[1],
+            angle: degrees,
+            startAngle,
+            endAngle,
+        };
+    }
+})();
+//# sourceMappingURL=delaunay.js.map
