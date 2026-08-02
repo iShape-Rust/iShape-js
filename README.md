@@ -13,6 +13,7 @@ Try out iShape with an interactive demo.
 - [Path Offset](https://ishape-rust.github.io/iShape-js/overlay/stroke.html)
 - [Polygon Offset](https://ishape-rust.github.io/iShape-js/overlay/outline.html)
 - [Triangulation](https://ishape-rust.github.io/iShape-js/triangle/triangulation.html)
+- [iCurve Boolean Playground](https://ishape-rust.github.io/iShape-js/curve/boolean_playground.html)
 
 ## Features
 

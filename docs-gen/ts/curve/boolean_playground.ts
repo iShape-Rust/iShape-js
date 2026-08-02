@@ -1,0 +1,942 @@
+import init, {
+    CurveBuilder,
+    CurveOverlay,
+    FillRule,
+    OverlayRule,
+    type CurveGeometry,
+    type CurveShapeData,
+    type CurveShapesData,
+} from "../i_shape/ishape_wasm.js";
+import {requireCanvas2D, requireElement} from "../common/dom.js";
+
+type Point = [number, number];
+type OperationName = "Union" | "Intersect" | "Difference" | "InverseDifference" | "Xor";
+type FillRuleName = "EvenOdd" | "NonZero";
+type FigureName = "subject" | "clip";
+
+type LineSegment = {type: "line"; to: Point};
+type QuadSegment = {type: "quad"; ctrl: Point; to: Point};
+type CubicSegment = {type: "cubic"; ctrl0: Point; ctrl1: Point; to: Point};
+type PathSegment = LineSegment | QuadSegment | CubicSegment;
+
+type PathContour = {
+    start: Point;
+    segments: PathSegment[];
+};
+
+type PathFigure = {
+    kind: "path";
+    position: Point;
+    contours: PathContour[];
+};
+
+type EllipseFigure = {
+    kind: "ellipse";
+    position: Point;
+    radiusX: number;
+    radiusY: number;
+    rotation: number;
+    clockwise: boolean;
+};
+
+type Figure = PathFigure | EllipseFigure;
+
+type PointHandle = {
+    kind: "point";
+    figure: FigureName;
+    point: Point;
+    control: boolean;
+};
+
+type RadiusHandle = {
+    kind: "radius";
+    figure: FigureName;
+    axis: "x" | "y";
+    control: true;
+};
+
+type Handle = PointHandle | RadiusHandle;
+
+type DragState =
+    | {kind: "handle"; handle: Handle}
+    | {kind: "figure"; figure: FigureName; previous: Point};
+
+type TestFigures = {
+    subject: Figure;
+    clip: Figure;
+};
+
+type PlaygroundTest = {
+    name: string;
+    description: string;
+    operation: OperationName;
+    fillRule: FillRuleName;
+    create: () => TestFigures;
+};
+
+const WIDTH = 1000;
+const HEIGHT = 680;
+const HANDLE_RADIUS = 7;
+const HANDLE_HIT_RADIUS = 16;
+
+const tests: PlaygroundTest[] = [
+    {
+        name: "Bloom & Sun",
+        description: "A six-petal flower meets a warm elliptical sun.",
+        operation: "Union",
+        fillRule: "EvenOdd",
+        create: createBloomTest,
+    },
+    {
+        name: "Egg & Cracked Shell",
+        description: "An egg settles into a shell with a playful zig-zag crack.",
+        operation: "Difference",
+        fillRule: "NonZero",
+        create: createEggTest,
+    },
+    {
+        name: "Moon Behind a Cloud",
+        description: "Subtract the cloud to reveal a quiet crescent moon.",
+        operation: "Difference",
+        fillRule: "NonZero",
+        create: createMoonTest,
+    },
+    {
+        name: "Maple Leaf & Dewdrop",
+        description: "A sharp-lobed maple leaf meets a smooth drop of water.",
+        operation: "Union",
+        fillRule: "NonZero",
+        create: createMapleTest,
+    },
+];
+
+const {canvas, context: ctx} = requireCanvas2D("curve-canvas");
+const resetButton = requireElement("curve-reset", HTMLButtonElement);
+const previousTestButton = requireElement("curve-test-prev", HTMLButtonElement);
+const nextTestButton = requireElement("curve-test-next", HTMLButtonElement);
+const testIndexElement = requireElement("curve-test-index", HTMLElement);
+const testNameElement = requireElement("curve-test-name", HTMLElement);
+const testDescriptionElement = requireElement("curve-test-description", HTMLElement);
+const testDotsElement = requireElement("curve-test-dots", HTMLElement);
+const statusElement = requireElement("curve-status", HTMLElement);
+const operationStat = requireElement("curve-stat-operation", HTMLElement);
+const inputStat = requireElement("curve-stat-input", HTMLElement);
+const resultStat = requireElement("curve-stat-result", HTMLElement);
+const timeStat = requireElement("curve-stat-time", HTMLElement);
+
+const operationButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-operation]"));
+const fillRuleButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-fill-rule]"));
+
+let testIndex = 0;
+let {subject, clip} = tests[testIndex].create();
+let operationName = tests[testIndex].operation;
+let fillRuleName = tests[testIndex].fillRule;
+let dragState: DragState | null = null;
+let hoverHandle: Handle | null = null;
+let wasmReady = false;
+let frameId: number | null = null;
+
+operationButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+        operationName = button.dataset.operation as OperationName;
+        setActiveButton(operationButtons, button);
+        scheduleDraw();
+    });
+});
+
+fillRuleButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+        fillRuleName = button.dataset.fillRule as FillRuleName;
+        setActiveButton(fillRuleButtons, button);
+        scheduleDraw();
+    });
+});
+
+previousTestButton.addEventListener("click", () => selectTest(testIndex - 1));
+nextTestButton.addEventListener("click", () => selectTest(testIndex + 1));
+
+resetButton.addEventListener("click", () => {
+    ({subject, clip} = tests[testIndex].create());
+    hoverHandle = null;
+    scheduleDraw();
+});
+
+canvas.addEventListener("pointerdown", (event) => {
+    if (!wasmReady) {
+        return;
+    }
+
+    const point = clientToCanvasPoint(event);
+    const handle = findHandle(point);
+
+    if (handle !== null) {
+        dragState = {kind: "handle", handle};
+    } else {
+        const paths = createInputPaths();
+        if (ctx.isPointInPath(paths.clip, point[0], point[1], "nonzero")) {
+            dragState = {kind: "figure", figure: "clip", previous: point};
+        } else if (ctx.isPointInPath(paths.subject, point[0], point[1], "nonzero")) {
+            dragState = {kind: "figure", figure: "subject", previous: point};
+        }
+    }
+
+    if (dragState !== null) {
+        canvas.setPointerCapture(event.pointerId);
+        canvas.classList.add("is-dragging");
+        event.preventDefault();
+    }
+});
+
+canvas.addEventListener("pointermove", (event) => {
+    const point = clientToCanvasPoint(event);
+
+    if (dragState === null) {
+        hoverHandle = findHandle(point);
+        canvas.style.cursor = hoverHandle === null ? "grab" : "pointer";
+        scheduleDraw();
+        return;
+    }
+
+    if (dragState.kind === "figure") {
+        const dx = point[0] - dragState.previous[0];
+        const dy = point[1] - dragState.previous[1];
+        moveFigure(dragState.figure, dx, dy);
+        dragState.previous = point;
+    } else {
+        moveHandle(dragState.handle, point);
+    }
+
+    scheduleDraw();
+});
+
+canvas.addEventListener("pointerup", endDrag);
+canvas.addEventListener("pointercancel", endDrag);
+canvas.addEventListener("pointerleave", () => {
+    if (dragState === null && hoverHandle !== null) {
+        hoverHandle = null;
+        scheduleDraw();
+    }
+});
+
+createTestDots();
+updateTestUI();
+updateSelectedControls();
+void run();
+
+async function run(): Promise<void> {
+    try {
+        await init();
+        wasmReady = true;
+        statusElement.textContent = "Ready · automatic curve conversion scale";
+        scheduleDraw();
+    } catch (error) {
+        console.error(error);
+        statusElement.textContent = "Could not initialize the WebAssembly module.";
+        statusElement.classList.add("is-error");
+    }
+}
+
+function createTestDots(): void {
+    tests.forEach((test, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "curve-playground__test-dot";
+        button.textContent = String(index + 1);
+        button.setAttribute("aria-label", `Show ${test.name}`);
+        button.addEventListener("click", () => selectTest(index));
+        testDotsElement.appendChild(button);
+    });
+}
+
+function selectTest(index: number): void {
+    testIndex = (index + tests.length) % tests.length;
+    const test = tests[testIndex];
+    ({subject, clip} = test.create());
+    operationName = test.operation;
+    fillRuleName = test.fillRule;
+    dragState = null;
+    hoverHandle = null;
+    canvas.classList.remove("is-dragging");
+    updateTestUI();
+    updateSelectedControls();
+    scheduleDraw();
+}
+
+function updateTestUI(): void {
+    const test = tests[testIndex];
+    testIndexElement.textContent = `${testIndex + 1} / ${tests.length}`;
+    testNameElement.textContent = test.name;
+    testDescriptionElement.textContent = test.description;
+
+    const dots = Array.from(testDotsElement.querySelectorAll<HTMLButtonElement>("button"));
+    dots.forEach((dot, index) => {
+        const active = index === testIndex;
+        dot.classList.toggle("is-active", active);
+        dot.setAttribute("aria-pressed", String(active));
+    });
+}
+
+function updateSelectedControls(): void {
+    operationButtons.forEach((button) => {
+        const active = button.dataset.operation === operationName;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-pressed", String(active));
+    });
+    fillRuleButtons.forEach((button) => {
+        const active = button.dataset.fillRule === fillRuleName;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-pressed", String(active));
+    });
+}
+
+function scheduleDraw(): void {
+    if (!wasmReady || frameId !== null) {
+        return;
+    }
+    frameId = requestAnimationFrame(draw);
+}
+
+function draw(): void {
+    frameId = null;
+    let subjectGeometry: CurveGeometry | null = null;
+    let clipGeometry: CurveGeometry | null = null;
+    let overlay: CurveOverlay | null = null;
+    let resultGeometry: CurveGeometry | null = null;
+
+    try {
+        const startedAt = performance.now();
+        subjectGeometry = buildFigureGeometry(subject);
+        clipGeometry = buildFigureGeometry(clip);
+        overlay = new CurveOverlay(subjectGeometry, clipGeometry);
+        const scale = overlay.scale();
+        const report = overlay.conversionReport();
+        resultGeometry = overlay.overlay(selectedOverlayRule(), selectedFillRule());
+        const elapsed = performance.now() - startedAt;
+
+        drawScene(resultGeometry.toData());
+        operationStat.textContent = `${operationLabel(operationName)} · ${fillRuleLabel(fillRuleName)}`;
+        inputStat.textContent = `${subjectGeometry.segmentCount} + ${clipGeometry.segmentCount}`;
+        resultStat.textContent = `${resultGeometry.segmentCount} seg · ${resultGeometry.contourCount} contours`;
+        timeStat.textContent = `${elapsed.toFixed(2)} ms`;
+        statusElement.textContent = report.hasDegeneracies
+            ? `Scale ${formatScale(scale)} · conversion reported degeneracies`
+            : `Scale ${formatScale(scale)} · no conversion degeneracies`;
+        statusElement.classList.toggle("is-warning", report.hasDegeneracies);
+        statusElement.classList.remove("is-error");
+    } catch (error) {
+        console.error(error);
+        statusElement.textContent = error instanceof Error ? error.message : "Curve operation failed.";
+        statusElement.classList.add("is-error");
+    } finally {
+        resultGeometry?.free();
+        overlay?.free();
+        clipGeometry?.free();
+        subjectGeometry?.free();
+    }
+}
+
+function buildFigureGeometry(figure: Figure): CurveGeometry {
+    const builder = new CurveBuilder();
+    try {
+        if (figure.kind === "ellipse") {
+            builder.addEllipse(
+                figure.position[0],
+                figure.position[1],
+                figure.radiusX,
+                figure.radiusY,
+                figure.rotation,
+                figure.clockwise,
+            );
+        } else {
+            figure.contours.forEach((contour) => {
+                builder.moveTo(...toWorld(figure.position, contour.start));
+                contour.segments.forEach((segment) => addBuilderSegment(builder, figure.position, segment));
+                builder.closeContour();
+            });
+        }
+        return builder.build();
+    } finally {
+        builder.free();
+    }
+}
+
+function addBuilderSegment(builder: CurveBuilder, position: Point, segment: PathSegment): void {
+    if (segment.type === "line") {
+        builder.lineTo(...toWorld(position, segment.to));
+    } else if (segment.type === "quad") {
+        builder.quadraticCurveTo(...toWorld(position, segment.ctrl), ...toWorld(position, segment.to));
+    } else {
+        builder.bezierCurveTo(
+            ...toWorld(position, segment.ctrl0),
+            ...toWorld(position, segment.ctrl1),
+            ...toWorld(position, segment.to),
+        );
+    }
+}
+
+function drawScene(resultData: CurveShapesData): void {
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    drawBackground();
+
+    resultData.forEach((shape) => {
+        const path = curveShapeToPath(shape);
+        ctx.fillStyle = "rgba(16, 185, 129, 0.32)";
+        ctx.strokeStyle = "#047857";
+        ctx.lineWidth = 5;
+        ctx.setLineDash([]);
+        ctx.fill(path, "nonzero");
+        ctx.stroke(path);
+    });
+
+    const paths = createInputPaths();
+    drawInputPath(paths.subject, "rgba(249, 115, 22, 0.13)", "#ea580c");
+    drawInputPath(paths.clip, "rgba(37, 99, 235, 0.11)", "#2563eb");
+    ctx.setLineDash([]);
+    drawControlLines();
+    drawHandles();
+}
+
+function drawBackground(): void {
+    const gradient = ctx.createLinearGradient(0, 0, WIDTH, HEIGHT);
+    gradient.addColorStop(0, "#f8fafc");
+    gradient.addColorStop(1, "#eef2ff");
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+    ctx.beginPath();
+    for (let x = 20; x < WIDTH; x += 40) {
+        for (let y = 20; y < HEIGHT; y += 40) {
+            ctx.moveTo(x + 1.2, y);
+            ctx.arc(x, y, 1.2, 0, Math.PI * 2);
+        }
+    }
+    ctx.fillStyle = "rgba(100, 116, 139, 0.18)";
+    ctx.fill();
+}
+
+function drawInputPath(path: Path2D, fill: string, stroke: string): void {
+    ctx.fillStyle = fill;
+    ctx.strokeStyle = stroke;
+    ctx.lineWidth = 3;
+    ctx.setLineDash([11, 8]);
+    ctx.fill(path, selectedCanvasFillRule());
+    ctx.stroke(path);
+}
+
+function createInputPaths(): {subject: Path2D; clip: Path2D} {
+    return {
+        subject: figureToPath(subject),
+        clip: figureToPath(clip),
+    };
+}
+
+function figureToPath(figure: Figure): Path2D {
+    const path = new Path2D();
+    if (figure.kind === "ellipse") {
+        path.ellipse(
+            figure.position[0],
+            figure.position[1],
+            figure.radiusX,
+            figure.radiusY,
+            figure.rotation,
+            0,
+            Math.PI * 2,
+            figure.clockwise,
+        );
+        path.closePath();
+        return path;
+    }
+
+    figure.contours.forEach((contour) => {
+        path.moveTo(...toWorld(figure.position, contour.start));
+        contour.segments.forEach((segment) => addPathSegment(path, figure.position, segment));
+        path.closePath();
+    });
+    return path;
+}
+
+function addPathSegment(path: Path2D, position: Point, segment: PathSegment): void {
+    if (segment.type === "line") {
+        path.lineTo(...toWorld(position, segment.to));
+    } else if (segment.type === "quad") {
+        path.quadraticCurveTo(...toWorld(position, segment.ctrl), ...toWorld(position, segment.to));
+    } else {
+        path.bezierCurveTo(
+            ...toWorld(position, segment.ctrl0),
+            ...toWorld(position, segment.ctrl1),
+            ...toWorld(position, segment.to),
+        );
+    }
+}
+
+function curveShapeToPath(shape: CurveShapeData): Path2D {
+    const path = new Path2D();
+    shape.forEach((contour) => {
+        path.moveTo(...contour.start);
+        contour.segments.forEach((segment) => {
+            switch (segment.type) {
+                case "line":
+                    path.lineTo(...segment.to);
+                    break;
+                case "quad":
+                    path.quadraticCurveTo(...segment.ctrl, ...segment.to);
+                    break;
+                case "cubic":
+                    path.bezierCurveTo(...segment.ctrl0, ...segment.ctrl1, ...segment.to);
+                    break;
+                case "arc": {
+                    const {ellipse, startAngle, sweepAngle} = segment.arc;
+                    path.ellipse(
+                        ellipse.center[0],
+                        ellipse.center[1],
+                        ellipse.radiusX,
+                        ellipse.radiusY,
+                        ellipse.rotation,
+                        startAngle,
+                        startAngle + sweepAngle,
+                        sweepAngle < 0,
+                    );
+                    break;
+                }
+            }
+        });
+        path.closePath();
+    });
+    return path;
+}
+
+function drawControlLines(): void {
+    drawFigureControlLines(subject, "rgba(234, 88, 12, 0.45)");
+    drawFigureControlLines(clip, "rgba(37, 99, 235, 0.48)");
+    ctx.setLineDash([]);
+}
+
+function drawFigureControlLines(figure: Figure, color: string): void {
+    ctx.beginPath();
+    if (figure.kind === "ellipse") {
+        ctx.moveTo(...figure.position);
+        ctx.lineTo(...ellipseHandlePosition(figure, "x"));
+        ctx.moveTo(...figure.position);
+        ctx.lineTo(...ellipseHandlePosition(figure, "y"));
+    } else {
+        figure.contours.forEach((contour) => {
+            let current = contour.start;
+            contour.segments.forEach((segment) => {
+                if (segment.type === "quad") {
+                    drawControlLine(figure.position, current, segment.ctrl);
+                    drawControlLine(figure.position, segment.to, segment.ctrl);
+                } else if (segment.type === "cubic") {
+                    drawControlLine(figure.position, current, segment.ctrl0);
+                    drawControlLine(figure.position, segment.to, segment.ctrl1);
+                }
+                current = segment.to;
+            });
+        });
+    }
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1.4;
+    ctx.setLineDash([4, 5]);
+    ctx.stroke();
+}
+
+function drawControlLine(position: Point, from: Point, to: Point): void {
+    ctx.moveTo(...toWorld(position, from));
+    ctx.lineTo(...toWorld(position, to));
+}
+
+function drawHandles(): void {
+    allHandles().forEach((handle) => {
+        const color = handle.figure === "subject" ? "#ea580c" : "#2563eb";
+        drawHandle(handlePosition(handle), color, handle.control, isHighlighted(handle));
+    });
+
+    [subject, clip].forEach((figure, index) => {
+        if (figure.kind === "ellipse") {
+            ctx.beginPath();
+            ctx.arc(figure.position[0], figure.position[1], 4, 0, Math.PI * 2);
+            ctx.fillStyle = index === 0 ? "#ea580c" : "#2563eb";
+            ctx.fill();
+        }
+    });
+}
+
+function drawHandle(point: Point, color: string, control: boolean, highlighted: boolean): void {
+    const radius = highlighted ? HANDLE_RADIUS + 2 : HANDLE_RADIUS;
+    ctx.beginPath();
+    ctx.arc(point[0], point[1], radius, 0, Math.PI * 2);
+    ctx.fillStyle = control ? "#ffffff" : color;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = highlighted ? 4 : 3;
+    ctx.fill();
+    ctx.stroke();
+}
+
+function allHandles(): Handle[] {
+    return [
+        ...figureHandles("subject", subject),
+        ...figureHandles("clip", clip),
+    ];
+}
+
+function figureHandles(name: FigureName, figure: Figure): Handle[] {
+    if (figure.kind === "ellipse") {
+        return [
+            {kind: "radius", figure: name, axis: "x", control: true},
+            {kind: "radius", figure: name, axis: "y", control: true},
+        ];
+    }
+
+    const handles: PointHandle[] = [];
+    const seen = new Set<Point>();
+    const add = (point: Point, control: boolean): void => {
+        if (!seen.has(point)) {
+            seen.add(point);
+            handles.push({kind: "point", figure: name, point, control});
+        }
+    };
+
+    figure.contours.forEach((contour) => {
+        add(contour.start, false);
+        contour.segments.forEach((segment) => {
+            if (segment.type === "quad") {
+                add(segment.ctrl, true);
+            } else if (segment.type === "cubic") {
+                add(segment.ctrl0, true);
+                add(segment.ctrl1, true);
+            }
+            add(segment.to, false);
+        });
+    });
+    return handles;
+}
+
+function findHandle(point: Point): Handle | null {
+    let nearest: Handle | null = null;
+    let nearestDistance = HANDLE_HIT_RADIUS;
+
+    allHandles().forEach((handle) => {
+        const position = handlePosition(handle);
+        const distance = Math.hypot(position[0] - point[0], position[1] - point[1]);
+        if (distance <= nearestDistance) {
+            nearest = handle;
+            nearestDistance = distance;
+        }
+    });
+    return nearest;
+}
+
+function handlePosition(handle: Handle): Point {
+    const figure = figureByName(handle.figure);
+    if (handle.kind === "point") {
+        return toWorld(figure.position, handle.point);
+    }
+    if (figure.kind !== "ellipse") {
+        throw new Error("Radius handle requires an ellipse");
+    }
+    return ellipseHandlePosition(figure, handle.axis);
+}
+
+function ellipseHandlePosition(figure: EllipseFigure, axis: "x" | "y"): Point {
+    const angle = figure.rotation + (axis === "x" ? 0 : Math.PI / 2);
+    const radius = axis === "x" ? figure.radiusX : figure.radiusY;
+    return [
+        figure.position[0] + Math.cos(angle) * radius,
+        figure.position[1] + Math.sin(angle) * radius,
+    ];
+}
+
+function moveHandle(handle: Handle, point: Point): void {
+    const figure = figureByName(handle.figure);
+    const clamped = clampPoint(point, 24);
+    if (handle.kind === "point") {
+        handle.point[0] = clamped[0] - figure.position[0];
+        handle.point[1] = clamped[1] - figure.position[1];
+        return;
+    }
+    if (figure.kind !== "ellipse") {
+        return;
+    }
+
+    const dx = clamped[0] - figure.position[0];
+    const dy = clamped[1] - figure.position[1];
+    const cos = Math.cos(figure.rotation);
+    const sin = Math.sin(figure.rotation);
+    const localX = cos * dx + sin * dy;
+    const localY = -sin * dx + cos * dy;
+    if (handle.axis === "x") {
+        figure.radiusX = Math.min(250, Math.max(42, localX));
+    } else {
+        figure.radiusY = Math.min(210, Math.max(42, localY));
+    }
+}
+
+function moveFigure(name: FigureName, dx: number, dy: number): void {
+    const figure = figureByName(name);
+    figure.position[0] = Math.min(WIDTH - 70, Math.max(70, figure.position[0] + dx));
+    figure.position[1] = Math.min(HEIGHT - 70, Math.max(70, figure.position[1] + dy));
+}
+
+function figureByName(name: FigureName): Figure {
+    return name === "subject" ? subject : clip;
+}
+
+function endDrag(event: PointerEvent): void {
+    if (dragState === null) {
+        return;
+    }
+    dragState = null;
+    canvas.classList.remove("is-dragging");
+    canvas.style.cursor = "grab";
+    if (canvas.hasPointerCapture(event.pointerId)) {
+        canvas.releasePointerCapture(event.pointerId);
+    }
+}
+
+function clientToCanvasPoint(event: PointerEvent): Point {
+    const rect = canvas.getBoundingClientRect();
+    return [
+        (event.clientX - rect.left) * (canvas.width / rect.width),
+        (event.clientY - rect.top) * (canvas.height / rect.height),
+    ];
+}
+
+function selectedOverlayRule(): OverlayRule {
+    return OverlayRule[operationName];
+}
+
+function selectedFillRule(): FillRule {
+    return FillRule[fillRuleName];
+}
+
+function selectedCanvasFillRule(): CanvasFillRule {
+    return fillRuleName === "EvenOdd" ? "evenodd" : "nonzero";
+}
+
+function setActiveButton(buttons: HTMLButtonElement[], activeButton: HTMLButtonElement): void {
+    buttons.forEach((button) => {
+        const active = button === activeButton;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-pressed", String(active));
+    });
+}
+
+function operationLabel(name: OperationName): string {
+    if (name === "InverseDifference") {
+        return "Inverse Difference";
+    }
+    return name === "Xor" ? "Exclusion" : name;
+}
+
+function fillRuleLabel(name: FillRuleName): string {
+    return name === "EvenOdd" ? "Even–Odd" : "Non-Zero";
+}
+
+function formatScale(scale: number): string {
+    return scale >= 1000 ? scale.toExponential(2) : scale.toFixed(2);
+}
+
+function isHighlighted(handle: Handle): boolean {
+    const activeHandle = dragState?.kind === "handle" ? dragState.handle : null;
+    return sameHandle(hoverHandle, handle) || sameHandle(activeHandle, handle);
+}
+
+function sameHandle(a: Handle | null, b: Handle | null): boolean {
+    if (a === null || b === null || a.kind !== b.kind || a.figure !== b.figure) {
+        return false;
+    }
+    return a.kind === "point" && b.kind === "point"
+        ? a.point === b.point
+        : a.kind === "radius" && b.kind === "radius" && a.axis === b.axis;
+}
+
+function toWorld(position: Point, point: Point): Point {
+    return [position[0] + point[0], position[1] + point[1]];
+}
+
+function clampPoint(point: Point, padding: number): Point {
+    return [
+        Math.min(WIDTH - padding, Math.max(padding, point[0])),
+        Math.min(HEIGHT - padding, Math.max(padding, point[1])),
+    ];
+}
+
+function createBloomTest(): TestFigures {
+    const flowerStart = polarPoint(72, -Math.PI / 6);
+    const flowerSegments: PathSegment[] = [];
+    const step = Math.PI / 3;
+    for (let index = 0; index < 6; index += 1) {
+        const center = -Math.PI / 6 + (index + 0.5) * step;
+        const end = index === 5 ? flowerStart : polarPoint(72, -Math.PI / 6 + (index + 1) * step);
+        flowerSegments.push({
+            type: "cubic",
+            ctrl0: polarPoint(170, center - step * 0.22),
+            ctrl1: polarPoint(170, center + step * 0.22),
+            to: end,
+        });
+    }
+
+    const coreStart: Point = [-38, 0];
+    const core: PathContour = {
+        start: coreStart,
+        segments: [
+            {type: "quad", ctrl: [-38, -38], to: [0, -38]},
+            {type: "quad", ctrl: [38, -38], to: [38, 0]},
+            {type: "quad", ctrl: [38, 38], to: [0, 38]},
+            {type: "quad", ctrl: [-38, 38], to: coreStart},
+        ],
+    };
+
+    return {
+        subject: {
+            kind: "path",
+            position: [350, 340],
+            contours: [{start: flowerStart, segments: flowerSegments}, core],
+        },
+        clip: {
+            kind: "ellipse",
+            position: [620, 330],
+            radiusX: 132,
+            radiusY: 96,
+            rotation: 0.18,
+            clockwise: true,
+        },
+    };
+}
+
+function createEggTest(): TestFigures {
+    const eggStart: Point = [0, -172];
+    const shellStart: Point = [-118, 20];
+    return {
+        subject: {
+            kind: "path",
+            position: [500, 315],
+            contours: [{
+                start: eggStart,
+                segments: [
+                    {type: "cubic", ctrl0: [82, -150], ctrl1: [120, -55], to: [108, 35]},
+                    {type: "cubic", ctrl0: [98, 120], ctrl1: [45, 170], to: [0, 174]},
+                    {type: "cubic", ctrl0: [-45, 170], ctrl1: [-98, 120], to: [-108, 35]},
+                    {type: "cubic", ctrl0: [-120, -55], ctrl1: [-82, -150], to: eggStart},
+                ],
+            }],
+        },
+        clip: {
+            kind: "path",
+            position: [500, 330],
+            contours: [{
+                start: shellStart,
+                segments: [
+                    {type: "line", to: [-82, -2]},
+                    {type: "line", to: [-48, 28]},
+                    {type: "line", to: [-8, -7]},
+                    {type: "line", to: [30, 30]},
+                    {type: "line", to: [72, 0]},
+                    {type: "line", to: [118, 22]},
+                    {type: "cubic", ctrl0: [122, 92], ctrl1: [76, 148], to: [0, 155]},
+                    {type: "cubic", ctrl0: [-76, 148], ctrl1: [-122, 92], to: shellStart},
+                ],
+            }],
+        },
+    };
+}
+
+function createMoonTest(): TestFigures {
+    const cloudStart: Point = [-154, 54];
+    return {
+        subject: {
+            kind: "ellipse",
+            position: [365, 315],
+            radiusX: 135,
+            radiusY: 168,
+            rotation: -0.12,
+            clockwise: true,
+        },
+        clip: {
+            kind: "path",
+            position: [585, 385],
+            contours: [{
+                start: cloudStart,
+                segments: [
+                    {type: "cubic", ctrl0: [-172, 8], ctrl1: [-132, -38], to: [-86, -28]},
+                    {type: "cubic", ctrl0: [-72, -96], ctrl1: [24, -108], to: [56, -40]},
+                    {type: "cubic", ctrl0: [116, -58], ctrl1: [166, -12], to: [146, 36]},
+                    {type: "cubic", ctrl0: [136, 70], ctrl1: [102, 82], to: [56, 78]},
+                    {type: "line", to: [-96, 78]},
+                    {type: "cubic", ctrl0: [-126, 78], ctrl1: [-150, 70], to: cloudStart},
+                ],
+            }],
+        },
+    };
+}
+
+function createMapleTest(): TestFigures {
+    const mapleStart: Point = [0, -160];
+    const maplePoints: Point[] = [
+        [24, -104],
+        [70, -132],
+        [58, -72],
+        [120, -88],
+        [88, -32],
+        [148, -8],
+        [84, 20],
+        [104, 72],
+        [42, 52],
+        [18, 102],
+        [15, 170],
+        [-15, 170],
+        [-18, 102],
+        [-42, 52],
+        [-104, 72],
+        [-84, 20],
+        [-148, -8],
+        [-88, -32],
+        [-120, -88],
+        [-58, -72],
+        [-70, -132],
+        [-24, -104],
+        mapleStart,
+    ];
+    const mapleSegments: PathSegment[] = [];
+    let previous = mapleStart;
+    maplePoints.forEach((to) => {
+        const dx = to[0] - previous[0];
+        const dy = to[1] - previous[1];
+        const length = Math.hypot(dx, dy);
+        const bend = length > 60 ? 5 : 2.5;
+        const normalX = length === 0 ? 0 : dy / length;
+        const normalY = length === 0 ? 0 : -dx / length;
+        mapleSegments.push({
+            type: "cubic",
+            ctrl0: [previous[0] + dx * 0.32 + normalX * bend, previous[1] + dy * 0.32 + normalY * bend],
+            ctrl1: [previous[0] + dx * 0.68 + normalX * bend, previous[1] + dy * 0.68 + normalY * bend],
+            to,
+        });
+        previous = to;
+    });
+    const dropStart: Point = [0, -120];
+    return {
+        subject: {
+            kind: "path",
+            position: [390, 315],
+            contours: [{
+                start: mapleStart,
+                segments: mapleSegments,
+            }],
+        },
+        clip: {
+            kind: "path",
+            position: [610, 330],
+            contours: [{
+                start: dropStart,
+                segments: [
+                    {type: "cubic", ctrl0: [76, -34], ctrl1: [106, 52], to: [0, 126]},
+                    {type: "cubic", ctrl0: [-106, 52], ctrl1: [-76, -34], to: dropStart},
+                ],
+            }],
+        },
+    };
+}
+
+function polarPoint(radius: number, angle: number): Point {
+    return [Math.cos(angle) * radius, Math.sin(angle) * radius];
+}

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Extract Shapes - iShape</title>
+        <title>Boolean Playground - iShape</title>
 
 
         <!-- Custom HTML head -->
@@ -12,36 +12,36 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="../../favicon-de23e50b.svg">
-        <link rel="shortcut icon" href="../../favicon-8114d1fc.png">
-        <link rel="stylesheet" href="../../css/variables-8adf115d.css">
-        <link rel="stylesheet" href="../../css/general-2459343d.css">
-        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
-        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
+        <link rel="icon" href="../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-493f70e1.css">
-        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
-        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/demo-132b3357.css">
+        <link rel="stylesheet" href="../theme/demo-132b3357.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
         <!-- Provide site root and default themes to javascript -->
         <script>
-            const path_to_root = "../../";
+            const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-7364715f.js";
+            window.path_to_searchindex_js = "../searchindex-7364715f.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-16cbb077.js"></script>
+        <script src="../toc-16cbb077.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -108,7 +108,7 @@
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
-                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
             </noscript>
             <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -143,7 +143,7 @@
                     <h1 class="menu-title">iShape</h1>
 
                     <div class="right-buttons">
-                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
                         </a>
 
@@ -177,75 +177,150 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="extract-shapes"><a class="header" href="#extract-shapes">Extract Shapes</a></h1>
-<p>Once we apply boolean filter to <a href="../overlay_graph/overlay_graph.html">Overlay Graph</a>, we can begin extract contours.</p>
-<h2 id="build-contour"><a class="header" href="#build-contour">Build Contour</a></h2>
-<h3 id="outer-contour"><a class="header" href="#outer-contour">Outer Contour</a></h3>
-<p><img src="extract_outer_contour_clockwise.svg" alt="Extract Contour"></p>
-<h3 id="inner-contour"><a class="header" href="#inner-contour">Inner Contour</a></h3>
-<p><img src="extract_inner_clockwise.svg" alt="Extract Contour"></p>
-<p>The algorithm starts by selecting the leftmost node and proceeds by choosing the topmost segment connected to that node. The process continues by traversing to the next node along the selected segment.</p>
-<p>At each node, the algorithm selects the next segment by rotating around the current node in a clockwise/counterclockwise direction for outer/inner contours and taking the first nearest segment.</p>
-<p>To prevent segments from being visited twice, each segment is marked as visited upon traversal.</p>
-<p>This process continues until the contour is complete, forming either an <span style="color:#ff3333ff;"><strong>outer</strong></span> or <span style="color:#1a8effff;"><strong>inner</strong></span> contour.</p>
-<p>By following this approach, <span style="color:#ff3333ff;"><strong>outer</strong></span> contours are extracted in a counter-clockwise direction, while <span style="color:#1a8effff;"><strong>inner</strong></span> contours are extracted in a clockwise direction.</p>
-<h2 id="define-contour"><a class="header" href="#define-contour">Define Contour</a></h2>
-<p><img src="define_contour.svg" alt="Define Contour"></p>
-<p>To define a contour, the algorithm begins by identifying the leftmost and topmost segment in the contour. The classification of the contour is determined as follows:</p>
-<ul>
-<li>If the left-top side of the segment is classified as the <span style="color:#ff3333ff;"><strong>outer</strong></span> side, then the contour is an <span style="color:#ff3333ff;"><strong>outer</strong></span> contour.</li>
-<li>If the left-top side of the segment is classified as the <span style="color:#1a8effff;"><strong>inner</strong></span> side, then the contour is an <span style="color:#1a8effff;"><strong>inner</strong></span> contour.</li>
-</ul>
-<p>This method ensures each contour is correctly classified based on its orientation in 2D space.</p>
-<h2 id="define-shape"><a class="header" href="#define-shape">Define Shape</a></h2>
-<p><img src="define_shape.svg" alt="Define Shape"></p>
-<p>A shape is defined as a group of contours, where the first contour is always an <span style="color:#ff3333ff;"><strong>outer</strong></span> contour, and the subsequent contours (if any) are <span style="color:#1a8effff;"><strong>inner</strong></span> contours.</p>
-<h2 id="matching-contours"><a class="header" href="#matching-contours">Matching Contours</a></h2>
-<p><img src="matching_contours.svg" alt="Matching Contours">
-To match <span style="color:#1a8effff;"><strong>inner</strong></span> contours to their corresponding <span style="color:#ff3333ff;"><strong>outer</strong></span> contours:</p>
-<ol>
-<li>Draw a line <strong>downward</strong> from any point on the <span style="color:#1a8effff;"><strong>inner</strong></span> (<strong>target</strong>) contour.</li>
-<li>Identify the first segment encountered along the line that does not belong to the <strong>target</strong> contour.</li>
-</ol>
-<ul>
-<li>If the segment belongs to an <span style="color:#ff3333ff;"><strong>outer</strong></span> contour, that contour is the container for the <strong>target</strong> contour.</li>
-<li>If the segment belongs to another <span style="color:#1a8effff;"><strong>inner</strong></span> contour, the container of that <span style="color:#1a8effff;"><strong>inner</strong></span> contour is also the container for the <strong>target</strong> contour.</li>
-</ul>
-<h2 id="define-segment-under-point"><a class="header" href="#define-segment-under-point">Define Segment under Point</a></h2>
-<h2 id="segment-under-point"><a class="header" href="#segment-under-point">Segment under Point</a></h2>
-<p><img src="segment_under_point.svg" alt="Segment Under Point"></p>
-<p>To determine whether a segment <strong>AB</strong> is below a point <strong>P</strong>, one may be tempted to compute the value of y<sub>m</sub> at the point of intersection <strong>M</strong>, where a vertical line is dropped from <strong>P</strong> onto <strong>AB</strong> (i.e., x<sub>p</sub> = x<sub>m</sub>):</p>
-<p>$$
-y_{m} = \frac{y_{a} - y_{b}}{x_{a} - x_{b}}\cdot(x_{m} - x_{a}) + y_{a}
-$$</p>
-<p>However, this approach can introduce precision issues due to the division involved.</p>
-<p>A more reliable method involves using the order of traversal around the vertices of the triangle <strong>APB</strong>. If segment <strong>AB</strong> is below point <strong>P</strong>, the vertices <strong>A</strong>, <strong>P</strong>, and <strong>B</strong> will appear in a clockwise order.</p>
-<p>This method uses the cross product of vectors <strong>PA</strong> and <strong>PB</strong>:</p>
-<p>$$
-a \times b = a_x b_y - a_y b_x
-$$</p>
-<p>Since this method avoids division, it eliminates precision issues, making it stable for determining whether a segment is below a point.</p>
-<h2 id="selecting-the-closest-segment-under-point"><a class="header" href="#selecting-the-closest-segment-under-point">Selecting the Closest Segment under Point</a></h2>
-<p>When multiple segments are positioned below point <strong>P</strong>, we need to determine which segment is the closest to <strong>P</strong>. This scenario can be divided into three distinct cases based on the configuration of the segments relative to <strong>P</strong>.</p>
-<h3 id="left-case"><a class="header" href="#left-case">Left Case</a></h3>
-<p><img src="segment_under_segment_a.svg" alt="Left Case"></p>
-<p>When both segments share a common left vertex <strong>A</strong>, we check the positions of their right endpoints. If the vertices <strong>B<sub>0</sub></strong>, <strong>B<sub>1</sub></strong>, and <strong>A</strong> form a clockwise pattern, then <strong>AB<sub>0</sub></strong> is closer to <strong>P</strong> than <strong>AB<sub>1</sub></strong>.</p>
-<h3 id="right-case"><a class="header" href="#right-case">Right Case</a></h3>
-<p><img src="segment_under_segment_b.svg" alt="Right Case"></p>
-<p>When both segments share a common right vertex <strong>B</strong>, we check the positions of their left endpoints. If the vertices <strong>A<sub>0</sub></strong>, <strong>A<sub>1</sub></strong>, and <strong>B</strong> form a clockwise pattern, then <strong>A<sub>1</sub>B</strong> is closer to <strong>P</strong> than <strong>A<sub>0</sub>B</strong>.</p>
-<h3 id="middle-case"><a class="header" href="#middle-case">Middle Case</a></h3>
-<p><img src="segment_under_segment_ab.svg" alt="Middle Case"></p>
-<p>In this case, one of the vertices (e.g., <strong>A<sub>1</sub></strong> or <strong>B<sub>0</sub></strong>) lies inside the opposite segment. We use the point-segment comparison method to determine which of the segments is closer to <strong>P</strong>.</p>
+                        <div class="demo-shell demo-shell--wide curve-playground">
+<script type="text/javascript">
+// In different environments the path is different.
+const paths = [
+  '../js/curve/boolean_playground.js',
+  './js/curve/boolean_playground.js',
+  '/js/curve/boolean_playground.js'
+];
+async function fileExists(path) {
+  try {
+const response = await fetch(path, { method: 'HEAD' });
+return response.ok;
+  } catch (e) {
+return false;
+  }
+}
+(async () => {
+  for (const path of paths) {
+if (await fileExists(path)) {
+  const script = document.createElement('script');
+  script.type = 'module';
+  script.src = `${path}?v=${encodeURIComponent(document.lastModified)}`;
+  script.defer = true;
+  document.head.appendChild(script);
+  break;
+}
+  }
+})();
+</script>
+<header class="curve-playground__header">
+    
+<p class="curve-playground__eyebrow">iCurve · live WASM</p>
+
+    
+<h1 class="demo-title">Boolean Playground</h1>
+
+    
+<p class="curve-playground__intro">Move the shapes or edit their curve handles. Every change is rebuilt with <code>CurveBuilder</code> and resolved by <code>CurveOverlay</code>.</p>
+
+</header>
+<section class="curve-playground__test-switcher" aria-label="Playground examples">
+    <button type="button" class="demo-button curve-playground__test-arrow" id="curve-test-prev" aria-label="Previous example">←</button>
+    
+<div class="curve-playground__test-copy">
+        <span class="curve-playground__test-index" id="curve-test-index">1 / 4</span>
+        
+<h2 id="curve-test-name">Bloom &amp; Sun</h2>
+
+        
+<p id="curve-test-description">A six-petal flower meets a warm elliptical sun.</p>
+
+        
+<div class="curve-playground__test-dots" id="curve-test-dots" aria-label="Choose example"></div>
+
+    </div>
+
+    <button type="button" class="demo-button curve-playground__test-arrow" id="curve-test-next" aria-label="Next example">→</button>
+</section>
+<section class="curve-playground__panel" aria-label="Boolean playground controls">
+    
+<div class="curve-playground__control-block">
+        <span class="curve-playground__label" id="operation-label">Operation</span>
+        
+<div class="curve-playground__segments" role="group" aria-labelledby="operation-label">
+            <button type="button" class="curve-playground__segment is-active" data-operation="Union" aria-pressed="true">Union</button>
+            <button type="button" class="curve-playground__segment" data-operation="Intersect">Intersect</button>
+            <button type="button" class="curve-playground__segment" data-operation="Difference">Difference</button>
+            <button type="button" class="curve-playground__segment" data-operation="InverseDifference">Inverse Difference</button>
+            <button type="button" class="curve-playground__segment" data-operation="Xor">Exclusion</button>
+        </div>
+
+    </div>
+
+    
+<div class="curve-playground__toolbar">
+        
+<div class="curve-playground__control-block curve-playground__control-block--compact">
+            <span class="curve-playground__label" id="fill-rule-label">Fill rule</span>
+            
+<div class="curve-playground__segments" role="group" aria-labelledby="fill-rule-label">
+                <button type="button" class="curve-playground__segment is-active" data-fill-rule="EvenOdd" aria-pressed="true">Even–Odd</button>
+                <button type="button" class="curve-playground__segment" data-fill-rule="NonZero">Non-Zero</button>
+            </div>
+
+        </div>
+
+        <button type="button" class="demo-button curve-playground__reset" id="curve-reset">Reset shapes</button>
+    </div>
+
+</section>
+<div class="curve-playground__legend" aria-label="Canvas legend">
+    <span><i class="curve-playground__key curve-playground__key--subject"></i>Subject</span>
+    <span><i class="curve-playground__key curve-playground__key--clip"></i>Clip</span>
+    <span><i class="curve-playground__key curve-playground__key--result"></i>Boolean result</span>
+    <span><i class="curve-playground__handle-key"></i>Anchor / control</span>
+</div>
+
+<div class="curve-playground__stage">
+    <canvas class="demo-canvas demo-canvas--draggable curve-playground__canvas" id="curve-canvas" width="1000" height="680" aria-label="Interactive Boolean operation over two editable curve shapes"></canvas>
+    
+<p class="curve-playground__canvas-hint">Drag a filled shape to move it · drag any handle to reshape it</p>
+
+</div>
+
+<section class="curve-playground__stats" aria-label="Live operation statistics" aria-live="polite">
+    
+<div class="curve-playground__stat">
+        <span>Operation</span>
+        <strong id="curve-stat-operation">Intersect</strong>
+    </div>
+
+    
+<div class="curve-playground__stat">
+        <span>Input segments</span>
+        <strong id="curve-stat-input">—</strong>
+    </div>
+
+    
+<div class="curve-playground__stat">
+        <span>Result</span>
+        <strong id="curve-stat-result">—</strong>
+    </div>
+
+    
+<div class="curve-playground__stat">
+        <span>Compute</span>
+        <strong id="curve-stat-time">—</strong>
+    </div>
+
+</section>
+<p class="curve-playground__status" id="curve-status" role="status">Loading WebAssembly…</p>
+
+</div>
+
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../overlay/overlay_graph/overlay_graph.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../curve/curve.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="../../triangle/triangle.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../curve/getting_started.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -255,11 +330,11 @@ $$</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../overlay/overlay_graph/overlay_graph.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../curve/curve.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="../../triangle/triangle.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../curve/getting_started.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>
@@ -295,13 +370,13 @@ $$</p>
         </script>
 
 
-        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
-        <script src="../../mark-09e88c2c.min.js"></script>
-        <script src="../../searcher-c2a407aa.js"></script>
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-c2a407aa.js"></script>
 
-        <script src="../../clipboard-1626706a.min.js"></script>
-        <script src="../../highlight-abc7f01d.js"></script>
-        <script src="../../book-a0b12cfe.js"></script>
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-abc7f01d.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
 

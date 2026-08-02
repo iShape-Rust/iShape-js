@@ -24,3 +24,8 @@
 		- [Tessellation](./triangle/tessellation.md)
 	- [Performance Comparison](./triangle/performance/performance.md)
     - [Delaunay](./triangle/delaunay.md)
+
+- [iCurve](./curve/curve.md)
+	- [Boolean Playground](./curve/boolean_playground.md)
+	- [Getting Started](./curve/getting_started.md)
+	- [API Reference](./curve/api.md)

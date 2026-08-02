@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Extract Shapes - iShape</title>
+        <title>Getting Started - iShape</title>
 
 
         <!-- Custom HTML head -->
@@ -12,36 +12,36 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="../../favicon-de23e50b.svg">
-        <link rel="shortcut icon" href="../../favicon-8114d1fc.png">
-        <link rel="stylesheet" href="../../css/variables-8adf115d.css">
-        <link rel="stylesheet" href="../../css/general-2459343d.css">
-        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
-        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
+        <link rel="icon" href="../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-493f70e1.css">
-        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
-        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/demo-132b3357.css">
+        <link rel="stylesheet" href="../theme/demo-132b3357.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
         <!-- Provide site root and default themes to javascript -->
         <script>
-            const path_to_root = "../../";
+            const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-7364715f.js";
+            window.path_to_searchindex_js = "../searchindex-7364715f.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-16cbb077.js"></script>
+        <script src="../toc-16cbb077.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -108,7 +108,7 @@
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
-                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
             </noscript>
             <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -143,7 +143,7 @@
                     <h1 class="menu-title">iShape</h1>
 
                     <div class="right-buttons">
-                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
                         </a>
 
@@ -177,75 +177,115 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="extract-shapes"><a class="header" href="#extract-shapes">Extract Shapes</a></h1>
-<p>Once we apply boolean filter to <a href="../overlay_graph/overlay_graph.html">Overlay Graph</a>, we can begin extract contours.</p>
-<h2 id="build-contour"><a class="header" href="#build-contour">Build Contour</a></h2>
-<h3 id="outer-contour"><a class="header" href="#outer-contour">Outer Contour</a></h3>
-<p><img src="extract_outer_contour_clockwise.svg" alt="Extract Contour"></p>
-<h3 id="inner-contour"><a class="header" href="#inner-contour">Inner Contour</a></h3>
-<p><img src="extract_inner_clockwise.svg" alt="Extract Contour"></p>
-<p>The algorithm starts by selecting the leftmost node and proceeds by choosing the topmost segment connected to that node. The process continues by traversing to the next node along the selected segment.</p>
-<p>At each node, the algorithm selects the next segment by rotating around the current node in a clockwise/counterclockwise direction for outer/inner contours and taking the first nearest segment.</p>
-<p>To prevent segments from being visited twice, each segment is marked as visited upon traversal.</p>
-<p>This process continues until the contour is complete, forming either an <span style="color:#ff3333ff;"><strong>outer</strong></span> or <span style="color:#1a8effff;"><strong>inner</strong></span> contour.</p>
-<p>By following this approach, <span style="color:#ff3333ff;"><strong>outer</strong></span> contours are extracted in a counter-clockwise direction, while <span style="color:#1a8effff;"><strong>inner</strong></span> contours are extracted in a clockwise direction.</p>
-<h2 id="define-contour"><a class="header" href="#define-contour">Define Contour</a></h2>
-<p><img src="define_contour.svg" alt="Define Contour"></p>
-<p>To define a contour, the algorithm begins by identifying the leftmost and topmost segment in the contour. The classification of the contour is determined as follows:</p>
-<ul>
-<li>If the left-top side of the segment is classified as the <span style="color:#ff3333ff;"><strong>outer</strong></span> side, then the contour is an <span style="color:#ff3333ff;"><strong>outer</strong></span> contour.</li>
-<li>If the left-top side of the segment is classified as the <span style="color:#1a8effff;"><strong>inner</strong></span> side, then the contour is an <span style="color:#1a8effff;"><strong>inner</strong></span> contour.</li>
-</ul>
-<p>This method ensures each contour is correctly classified based on its orientation in 2D space.</p>
-<h2 id="define-shape"><a class="header" href="#define-shape">Define Shape</a></h2>
-<p><img src="define_shape.svg" alt="Define Shape"></p>
-<p>A shape is defined as a group of contours, where the first contour is always an <span style="color:#ff3333ff;"><strong>outer</strong></span> contour, and the subsequent contours (if any) are <span style="color:#1a8effff;"><strong>inner</strong></span> contours.</p>
-<h2 id="matching-contours"><a class="header" href="#matching-contours">Matching Contours</a></h2>
-<p><img src="matching_contours.svg" alt="Matching Contours">
-To match <span style="color:#1a8effff;"><strong>inner</strong></span> contours to their corresponding <span style="color:#ff3333ff;"><strong>outer</strong></span> contours:</p>
-<ol>
-<li>Draw a line <strong>downward</strong> from any point on the <span style="color:#1a8effff;"><strong>inner</strong></span> (<strong>target</strong>) contour.</li>
-<li>Identify the first segment encountered along the line that does not belong to the <strong>target</strong> contour.</li>
-</ol>
-<ul>
-<li>If the segment belongs to an <span style="color:#ff3333ff;"><strong>outer</strong></span> contour, that contour is the container for the <strong>target</strong> contour.</li>
-<li>If the segment belongs to another <span style="color:#1a8effff;"><strong>inner</strong></span> contour, the container of that <span style="color:#1a8effff;"><strong>inner</strong></span> contour is also the container for the <strong>target</strong> contour.</li>
-</ul>
-<h2 id="define-segment-under-point"><a class="header" href="#define-segment-under-point">Define Segment under Point</a></h2>
-<h2 id="segment-under-point"><a class="header" href="#segment-under-point">Segment under Point</a></h2>
-<p><img src="segment_under_point.svg" alt="Segment Under Point"></p>
-<p>To determine whether a segment <strong>AB</strong> is below a point <strong>P</strong>, one may be tempted to compute the value of y<sub>m</sub> at the point of intersection <strong>M</strong>, where a vertical line is dropped from <strong>P</strong> onto <strong>AB</strong> (i.e., x<sub>p</sub> = x<sub>m</sub>):</p>
-<p>$$
-y_{m} = \frac{y_{a} - y_{b}}{x_{a} - x_{b}}\cdot(x_{m} - x_{a}) + y_{a}
-$$</p>
-<p>However, this approach can introduce precision issues due to the division involved.</p>
-<p>A more reliable method involves using the order of traversal around the vertices of the triangle <strong>APB</strong>. If segment <strong>AB</strong> is below point <strong>P</strong>, the vertices <strong>A</strong>, <strong>P</strong>, and <strong>B</strong> will appear in a clockwise order.</p>
-<p>This method uses the cross product of vectors <strong>PA</strong> and <strong>PB</strong>:</p>
-<p>$$
-a \times b = a_x b_y - a_y b_x
-$$</p>
-<p>Since this method avoids division, it eliminates precision issues, making it stable for determining whether a segment is below a point.</p>
-<h2 id="selecting-the-closest-segment-under-point"><a class="header" href="#selecting-the-closest-segment-under-point">Selecting the Closest Segment under Point</a></h2>
-<p>When multiple segments are positioned below point <strong>P</strong>, we need to determine which segment is the closest to <strong>P</strong>. This scenario can be divided into three distinct cases based on the configuration of the segments relative to <strong>P</strong>.</p>
-<h3 id="left-case"><a class="header" href="#left-case">Left Case</a></h3>
-<p><img src="segment_under_segment_a.svg" alt="Left Case"></p>
-<p>When both segments share a common left vertex <strong>A</strong>, we check the positions of their right endpoints. If the vertices <strong>B<sub>0</sub></strong>, <strong>B<sub>1</sub></strong>, and <strong>A</strong> form a clockwise pattern, then <strong>AB<sub>0</sub></strong> is closer to <strong>P</strong> than <strong>AB<sub>1</sub></strong>.</p>
-<h3 id="right-case"><a class="header" href="#right-case">Right Case</a></h3>
-<p><img src="segment_under_segment_b.svg" alt="Right Case"></p>
-<p>When both segments share a common right vertex <strong>B</strong>, we check the positions of their left endpoints. If the vertices <strong>A<sub>0</sub></strong>, <strong>A<sub>1</sub></strong>, and <strong>B</strong> form a clockwise pattern, then <strong>A<sub>1</sub>B</strong> is closer to <strong>P</strong> than <strong>A<sub>0</sub>B</strong>.</p>
-<h3 id="middle-case"><a class="header" href="#middle-case">Middle Case</a></h3>
-<p><img src="segment_under_segment_ab.svg" alt="Middle Case"></p>
-<p>In this case, one of the vertices (e.g., <strong>A<sub>1</sub></strong> or <strong>B<sub>0</sub></strong>) lies inside the opposite segment. We use the point-segment comparison method to determine which of the segments is closer to <strong>P</strong>.</p>
+                        <h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
+<p>Install and initialize the WebAssembly package:</p>
+<pre><code class="language-bash">npm install ishape_wasm
+</code></pre>
+<h2 id="boolean-operation"><a class="header" href="#boolean-operation">Boolean operation</a></h2>
+<p>The builder uses familiar Canvas-style path methods. Every contour must be
+closed before <code>build()</code> is called.</p>
+<pre><code class="language-javascript">import init, {
+    CurveBuilder,
+    CurveOverlay,
+    FillRule,
+    OverlayRule,
+} from 'ishape_wasm';
+
+await init();
+
+const subjectBuilder = new CurveBuilder();
+subjectBuilder.moveTo(0, 0);
+subjectBuilder.bezierCurveTo(25, -30, 75, -30, 100, 0);
+subjectBuilder.lineTo(100, 80);
+subjectBuilder.lineTo(0, 80);
+subjectBuilder.closeContour();
+const subject = subjectBuilder.build();
+
+const clipBuilder = new CurveBuilder();
+clipBuilder.addEllipse(65, 35, 45, 30, 0, false);
+const clip = clipBuilder.build();
+
+const operation = new CurveOverlay(subject, clip);
+const result = operation.overlay(
+    OverlayRule.Intersect,
+    FillRule.NonZero,
+);
+
+console.log(result.shapeCount);
+console.log(result.contourCount);
+console.log(result.segmentCount);
+console.log(result.toData());
+</code></pre>
+<p><code>CurveOverlay</code> is a single-use operation object: <code>overlay()</code> consumes it. The
+input and result <code>CurveGeometry</code> objects remain reusable.</p>
+<h2 id="building-contours"><a class="header" href="#building-contours">Building contours</a></h2>
+<p>Available segment methods are:</p>
+<pre><code class="language-javascript">const builder = new CurveBuilder();
+
+builder.moveTo(10, 10);
+builder.lineTo(60, 10);
+builder.quadraticCurveTo(90, 40, 60, 70);
+builder.bezierCurveTo(40, 90, 20, 90, 10, 70);
+builder.lineTo(10, 10);
+builder.closeContour();
+
+// Angles and ellipse rotation are expressed in radians.
+builder.ellipticArcTo(
+    120, 60, // center
+    30, 20,  // radii
+    0,       // rotation
+    0,       // start angle
+    Math.PI, // sweep angle
+);
+builder.closeContour();
+
+// A complete ellipse is added as a new closed contour.
+builder.addEllipse(200, 60, 30, 20, 0, false);
+
+const geometry = builder.build();
+</code></pre>
+<p>Call <code>moveTo()</code> only after the previous contour has been closed. After a
+successful <code>build()</code>, the builder is reset and can be used for another shape.</p>
+<h2 id="resolving-self-intersections"><a class="header" href="#resolving-self-intersections">Resolving self-intersections</a></h2>
+<p>When there is no clip geometry, create a subject-only operation:</p>
+<pre><code class="language-javascript">const operation = CurveOverlay.fromSubject(subject);
+const resolved = operation.resolveSubject(FillRule.EvenOdd);
+</code></pre>
+<p>The fill rule determines which regions of overlapping or self-intersecting
+contours belong to the result.</p>
+<h2 id="precision-controls"><a class="header" href="#precision-controls">Precision controls</a></h2>
+<p>For most inputs, automatic scaling and the default approximation are sufficient.
+Advanced callers can inspect or override them before running the operation:</p>
+<pre><code class="language-javascript">const operation = new CurveOverlay(subject, clip);
+
+operation.setApproximation({
+    minChordLength: 0.001,
+    angleTolerance: 0.125,
+    maxDepth: 16,
+});
+
+console.log(operation.scale());
+console.log(operation.conversionReport());
+
+const result = operation.overlay(
+    OverlayRule.Union,
+    FillRule.NonZero,
+);
+</code></pre>
+<p>Use <code>CurveOverlay.withScale(subject, clip, scale)</code> only when the application
+needs an explicit float-to-integer conversion scale. A conversion report with
+<code>hasDegeneracies: true</code> indicates that some input geometry collapsed or an arc
+had to be linearized during conversion.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../overlay/overlay_graph/overlay_graph.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../curve/boolean_playground.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="../../triangle/triangle.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../curve/api.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -255,11 +295,11 @@ $$</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../overlay/overlay_graph/overlay_graph.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../curve/boolean_playground.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="../../triangle/triangle.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../curve/api.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>
@@ -295,13 +335,13 @@ $$</p>
         </script>
 
 
-        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
-        <script src="../../mark-09e88c2c.min.js"></script>
-        <script src="../../searcher-c2a407aa.js"></script>
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-c2a407aa.js"></script>
 
-        <script src="../../clipboard-1626706a.min.js"></script>
-        <script src="../../highlight-abc7f01d.js"></script>
-        <script src="../../book-a0b12cfe.js"></script>
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-abc7f01d.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
 
