@@ -669,7 +669,7 @@
 }
 
 .curve-playground .curve-playground__key {
-    border-width: 1px;
+    border-width: 0.75px;
 }
 
 .curve-playground .curve-playground__handle-key {
@@ -767,7 +767,7 @@
 }
 
 .type-curve .curve-playground__key--selected {
-    border-width: 1px;
+    border-width: 0.75px;
     border-style: dotted;
     color: var(--curve-selected);
 }

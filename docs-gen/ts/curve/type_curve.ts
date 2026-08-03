@@ -401,7 +401,11 @@ function addBuilderSegment(builder: CurveBuilder, object: EditorObject, segment:
 
 function drawScene(resultData: CurveShapesData): void {
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
     drawBackground();
+
+    glyphs.forEach(drawObject);
 
     resultData.forEach((shape) => {
         const path = curveShapeToPath(shape);
@@ -413,13 +417,11 @@ function drawScene(resultData: CurveShapesData): void {
         ctx.stroke(path);
     });
 
-    glyphs.forEach(drawObject);
-
     const selected = selectedObject();
     if (selected !== null) {
         const path = objectToPath(selected);
         ctx.strokeStyle = "#7c3aed";
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 1.1;
         ctx.setLineDash([3, 5]);
         ctx.stroke(path);
         drawControlLines(selected);
@@ -463,7 +465,7 @@ function drawObject(object: EditorObject): void {
     const isSubject = object.role === "subject";
     ctx.fillStyle = isSubject ? "rgba(249, 115, 22, 0.09)" : "rgba(37, 99, 235, 0.08)";
     ctx.strokeStyle = isSubject ? "#ea580c" : "#2563eb";
-    ctx.lineWidth = 1.5;
+    ctx.lineWidth = 0.75;
     ctx.setLineDash([4, 6]);
     ctx.fill(path, canvasFillRule());
     ctx.stroke(path);
@@ -545,7 +547,7 @@ function drawControlLines(object: EditorObject): void {
         });
     });
     ctx.strokeStyle = "rgba(124, 58, 237, 0.55)";
-    ctx.lineWidth = 0.8;
+    ctx.lineWidth = 0.45;
     ctx.setLineDash([3, 5]);
     ctx.stroke();
 }

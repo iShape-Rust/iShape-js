@@ -384,7 +384,13 @@ function addBuilderSegment(builder: CurveBuilder, position: Point, segment: Path
 
 function drawScene(resultData: CurveShapesData): void {
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
     drawBackground();
+
+    const paths = createInputPaths();
+    drawInputPath(paths.subject, "rgba(249, 115, 22, 0.09)", "#ea580c");
+    drawInputPath(paths.clip, "rgba(37, 99, 235, 0.08)", "#2563eb");
 
     resultData.forEach((shape) => {
         const path = curveShapeToPath(shape);
@@ -396,9 +402,6 @@ function drawScene(resultData: CurveShapesData): void {
         ctx.stroke(path);
     });
 
-    const paths = createInputPaths();
-    drawInputPath(paths.subject, "rgba(249, 115, 22, 0.09)", "#ea580c");
-    drawInputPath(paths.clip, "rgba(37, 99, 235, 0.08)", "#2563eb");
     ctx.setLineDash([]);
     drawControlLines();
     drawHandles();
@@ -425,7 +428,7 @@ function drawBackground(): void {
 function drawInputPath(path: Path2D, fill: string, stroke: string): void {
     ctx.fillStyle = fill;
     ctx.strokeStyle = stroke;
-    ctx.lineWidth = 1.5;
+    ctx.lineWidth = 0.75;
     ctx.setLineDash([7, 6]);
     ctx.fill(path, selectedCanvasFillRule());
     ctx.stroke(path);
@@ -550,7 +553,7 @@ function drawFigureControlLines(figure: Figure, color: string): void {
         });
     }
     ctx.strokeStyle = color;
-    ctx.lineWidth = 0.8;
+    ctx.lineWidth = 0.45;
     ctx.setLineDash([3, 5]);
     ctx.stroke();
 }
