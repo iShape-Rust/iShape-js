@@ -31,6 +31,14 @@ operation as reusable `CurveGeometry`.
 See [Getting Started](./getting_started.md) for a complete example and
 [API Reference](./api.md) for the available methods and output types.
 
+## Interactive Demos
+
+- [Boolean Playground](./boolean_playground.md) — edit curve shapes and their
+  control points by hand.
+- [Curve Motion Lab](./motion_lab.md) — animate many cubic contours while
+  measuring Boolean solve time and frame rate.
+- [TypeCurve](./type_curve.md) — run operations on editable font outlines.
+
 ## Source Code
 
 - Rust Version: [iShape-Rust/iCurve](https://github.com/iShape-Rust/iCurve)

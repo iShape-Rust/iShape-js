@@ -789,6 +789,58 @@
     text-align: center;
 }
 
+.curve-motion__control-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    gap: 0.8rem 1rem;
+}
+
+.curve-motion__field {
+    display: grid;
+    gap: 0.38rem;
+    min-width: 0;
+}
+
+.curve-motion__field .curve-playground__label {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.curve-motion__field output {
+    color: var(--links);
+    font-variant-numeric: tabular-nums;
+}
+
+.curve-motion__field input[type="range"] {
+    width: 100%;
+    margin: 0;
+}
+
+.curve-motion__field input[type="range"]:focus-visible {
+    outline: 3px solid rgba(99, 102, 241, 0.35);
+    outline-offset: 2px;
+}
+
+.curve-motion__toolbar {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.curve-motion__toolbar .curve-playground__control-block {
+    min-width: 0;
+}
+
+.curve-motion__canvas {
+    aspect-ratio: 50 / 31;
+}
+
+.curve-motion__stats {
+    grid-template-columns: 1.35fr 1.35fr repeat(3, 0.8fr);
+}
+
 @media (max-width: 700px) {
     .demo-controls {
         grid-template-columns: 1fr;
@@ -898,6 +950,19 @@
     .type-curve .curve-playground__stats {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+
+    .curve-motion__toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .curve-motion__toolbar .curve-playground__reset {
+        align-self: stretch;
+    }
+
+    .curve-motion__stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 
 @media (max-width: 420px) {
@@ -910,6 +975,10 @@
     }
 
     .type-curve .curve-playground__stats {
+        grid-template-columns: 1fr;
+    }
+
+    .curve-motion__stats {
         grid-template-columns: 1fr;
     }
 }
