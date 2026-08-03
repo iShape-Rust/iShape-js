@@ -18,7 +18,7 @@ crate-type = ["cdylib"]
 [dependencies]
 i_triangle = { version = "0.46.0", features = ["serde"] }
 #i_triangle = { path = "../iTriangle/iTriangle", features = ["serde"] }
-i_curve = "0.1.0"
+i_curve = "0.1.2"
 #i_curve = { path = "../iCurve/iCurve" }
 log = "0.4.22"
 console_log = "^1.0.0"
