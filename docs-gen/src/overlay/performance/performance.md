@@ -1,3 +1,5 @@
+<div class="benchmark-section">
+
 # Performance Comparison
 
 Benchmark project is [here](https://github.com/iShape-Rust/iOverlayPerformance).
@@ -19,9 +21,11 @@ All results are presented in seconds.
 
 ## Checkerboard Test
 
-![Checkerboard Test](test_0.svg)
+<div class="geometry-diagram-frame">
+{{#include test_0.svg}}
+</div>
 
-| Squares | Swift        | Rust (mt off) | Rust (mt on) | Clipper2      | Boost      |
+| Squares | <span class="benchmark-own">Swift</span> | <span class="benchmark-own">Rust (mt off)</span> | <span class="benchmark-own">Rust (mt on)</span> | Clipper2      | Boost      |
 |---------|--------------|---------------|--------------|---------------|------------|
 | 5       | 0.000014     | 0.000006      | 0.000006     | 0.000007      | 0.000045   |
 | 25      | 0.000100     | 0.000036      | 0.000036     | 0.000038      | 0.000595   |
@@ -38,9 +42,11 @@ All results are presented in seconds.
 
 ## Not Overlap Test
 
-![Not Overlap Test](test_1.svg)
+<div class="geometry-diagram-frame">
+{{#include test_1.svg}}
+</div>
 
-| Squares | Swift        | Rust (mt off)    |  Rust (mt on) | Clipper2     | Boost      |
+| Squares | <span class="benchmark-own">Swift</span> | <span class="benchmark-own">Rust (mt off)</span> | <span class="benchmark-own">Rust (mt on)</span> | Clipper2     | Boost      |
 |---------|--------------|------------------|---------------|--------------|------------|
 | 5       | 0.000009     | 0.000003         | 0.000003      | 0.000005     | 0.000003   |
 | 25      | 0.000041     | 0.000012         | 0.000011      | 0.000021     | 0.000021   |
@@ -57,9 +63,11 @@ All results are presented in seconds.
 
 ## Lines Net Test
 
-![Lines Net Test](test_2.svg)
+<div class="geometry-diagram-frame">
+{{#include test_2.svg}}
+</div>
 
-| Squares | Swift        | Rust (mt off)    | Rust (mt on) | Clipper2   | Boost      |
+| Squares | <span class="benchmark-own">Swift</span> | <span class="benchmark-own">Rust (mt off)</span> | <span class="benchmark-own">Rust (mt on)</span> | Clipper2   | Boost      |
 |---------|--------------|------------------|--------------|------------|------------|
 | 4       | 0.000014     | 0.000004         | 0.000004     | 0.000004   | 0.000014   |
 | 8       | 0.000049     | 0.000014         | 0.000014     | 0.000012   | 0.000054   |
@@ -76,10 +84,12 @@ All results are presented in seconds.
 
 ## Spiral Test
 
-![Spiral Test](test_3.svg)
+<div class="geometry-diagram-frame">
+{{#include test_3.svg}}
+</div>
 _* There is now boost results for this test_
 
-| Squares | Swift      | Rust (mt off) | Rust (mt on) | Clipper2    |
+| Squares | <span class="benchmark-own">Swift</span> | <span class="benchmark-own">Rust (mt off)</span> | <span class="benchmark-own">Rust (mt on)</span> | Clipper2    |
 |---------|------------|---------------|--------------|-------------|
 | 2       | 0.000006   | 0.000002      | 0.000002     | 0.000002    |
 | 4       | 0.000010   | 0.000005      | 0.000005     | 0.000004    |
@@ -104,9 +114,11 @@ _* There is now boost results for this test_
 
 ## Windows Test
 
-![Windows Test](test_4.svg)
+<div class="geometry-diagram-frame">
+{{#include test_4.svg}}
+</div>
 
-| Squares | Swift      | Rust (mt off) | Rust (mt on) | Clipper2    | Boost      |
+| Squares | <span class="benchmark-own">Swift</span> | <span class="benchmark-own">Rust (mt off)</span> | <span class="benchmark-own">Rust (mt on)</span> | Clipper2    | Boost      |
 |---------|------------|---------------|--------------|-------------|------------|
 | 8       | 0.000016   | 0.000006      | 0.000006     | 0.000008    | 0.000006   |
 | 32      | 0.000062   | 0.000021      | 0.000021     | 0.000028    | 0.000037   |
@@ -122,9 +134,11 @@ _* There is now boost results for this test_
 
 ## Nested Squares Test
 
-![Nested_Squares Test](test_5.svg)
+<div class="geometry-diagram-frame">
+{{#include test_5.svg}}
+</div>
 
-| Squares | Swift     | Rust (mt off) | Rust (mt on) | Clipper2    | Boost      |
+| Squares | <span class="benchmark-own">Swift</span> | <span class="benchmark-own">Rust (mt off)</span> | <span class="benchmark-own">Rust (mt on)</span> | Clipper2    | Boost      |
 |---------|-----------|---------------|--------------|-------------|------------|
 | 4       | 0.000022  | 0.000009      | 0.000009     | 0.000012    | 0.000153   |
 | 8       | 0.000045  | 0.000017      | 0.000017     | 0.000023    | 0.000387   |
@@ -143,3 +157,5 @@ _* There is now boost results for this test_
 | 65536   | 10.368794 | 4.031631      | 2.197493     | 3502.233611 | ----       |
 | 131072  | 23.250746 | 15.731705     | 8.194153     | ----        | ----       |
 | 262144  | 48.529555 | 30.809760     | 15.285741    | ----        | ----       |
+
+</div>

@@ -1,7 +1,7 @@
-use i_triangle::i_overlay::mesh::style::LineCap as RustLineCap;
-use i_triangle::i_overlay::mesh::style::LineJoin as RustLineJoin;
-use i_triangle::i_overlay::mesh::style::OutlineStyle as RustOutlineStyle;
-use i_triangle::i_overlay::mesh::style::StrokeStyle as RustStrokeStyle;
+use i_triangle::i_overlay::mesh::float::style::LineCap as RustLineCap;
+use i_triangle::i_overlay::mesh::float::style::LineJoin as RustLineJoin;
+use i_triangle::i_overlay::mesh::float::style::OutlineStyle as RustOutlineStyle;
+use i_triangle::i_overlay::mesh::float::style::StrokeStyle as RustStrokeStyle;
 use wasm_bindgen::prelude::wasm_bindgen;
 
 #[wasm_bindgen]
@@ -128,6 +128,7 @@ impl StrokeStyle {
             start_cap,
             end_cap,
             join,
+            ..Default::default()
         }
     }
 }
@@ -156,6 +157,7 @@ impl OutlineStyle {
             outer_offset: self.outer_offset,
             inner_offset: self.inner_offset,
             join,
+            ..Default::default()
         }
     }
 }

@@ -1,25 +1,64 @@
 import init, { WebApp } from './overlay_editor.js';
-async function loadText(url) {
+let app = null;
+function showError(message) {
+    const warning = document.getElementById('unsupported-warning');
+    const details = document.getElementById('overlay-editor-error');
+    const status = document.getElementById('overlay-editor-status');
+    const canvas = document.getElementById('overlay-editor-canvas');
+    if (details)
+        details.textContent = message;
+    if (warning)
+        warning.hidden = false;
+    if (status)
+        status.hidden = true;
+    if (canvas)
+        canvas.hidden = true;
+}
+function destroyApp() {
+    if (app) {
+        app.destroy();
+        app.free();
+        app = null;
+    }
+}
+async function loadText(name) {
+    const url = new URL(`./tests/${name}_tests.json`, import.meta.url);
     const response = await fetch(url);
     if (!response.ok) {
-        throw new Error(`Could not load ${url}: ${response.status} ${response.statusText}`);
+        throw new Error(`Could not load ${name} examples: ${response.status} ${response.statusText}`);
     }
     return response.text();
 }
 async function run() {
+    const canvas = document.getElementById('overlay-editor-canvas');
+    if (!(canvas instanceof HTMLCanvasElement)) {
+        throw new Error('The editor canvas could not be found.');
+    }
+    if (!('gpu' in navigator)) {
+        showError('Your browser does not support WebGPU. Open this editor in a browser with WebGPU enabled.');
+        return;
+    }
     await init();
-    console.log('wasm module loaded');
-    const [booleanData, stringData, strokeData, outlineData] = await Promise.all([
-        loadText('./../js/overlay_editor/tests/boolean_tests.json'),
-        loadText('./../js/overlay_editor/tests/string_tests.json'),
-        loadText('./../js/overlay_editor/tests/stroke_tests.json'),
-        loadText('./../js/overlay_editor/tests/outline_tests.json'),
+    const [booleanData, stringData, strokeData, variableStrokeData, outlineData] = await Promise.all([
+        loadText('boolean'),
+        loadText('string'),
+        loadText('stroke'),
+        loadText('variable_stroke'),
+        loadText('outline'),
     ]);
-    console.log('json files loaded');
-    const app = new WebApp();
-    console.log('WebApp starting');
-    app.start(booleanData, stringData, strokeData, outlineData);
-    console.log('WebApp started');
+    app = new WebApp();
+    await app.start(booleanData, stringData, strokeData, variableStrokeData, outlineData);
+    const status = document.getElementById('overlay-editor-status');
+    if (status)
+        status.hidden = true;
 }
-void run();
+window.addEventListener('pagehide', (event) => {
+    if (!event.persisted)
+        destroyApp();
+});
+void run().catch((error) => {
+    destroyApp();
+    console.error('Overlay Editor could not start:', error);
+    showError(error instanceof Error ? error.message : String(error));
+});
 //# sourceMappingURL=web_app.js.map

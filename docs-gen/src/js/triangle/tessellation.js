@@ -1,21 +1,26 @@
+import { clearGeometryCanvas, drawGeometryPoint, geometryPalette, geometryStrokeWidth, withOpacity, onGeometryThemeChange, } from "../common/geometry_style.js";
 import init, { Triangulator } from "../i_shape/ishape_wasm.js";
 import * as data from './triangulation_data.js';
 import { clientToCanvasPoint, requireCanvas2D, requireElement } from "../common/dom.js";
 import { bindRangeOutput, formatTestTitle } from "../common/demo.js";
 const modeSelect = requireElement("mode", HTMLSelectElement);
+const subdivisionSelect = requireElement("subdivision", HTMLSelectElement);
+const relaxationCheckbox = requireElement("relaxation", HTMLInputElement);
 const prevButton = requireElement("test-prev", HTMLButtonElement);
 const nextButton = requireElement("test-next", HTMLButtonElement);
 const testTitle = requireElement("test-name", HTMLElement);
 const { canvas, context: ctx } = requireCanvas2D("editorCanvas");
-const maxAreaSlider = requireElement("maxArea", HTMLInputElement);
-const maxAreaOutput = requireElement("maxAreaValue", HTMLOutputElement);
-bindRangeOutput(maxAreaSlider, maxAreaOutput);
-const twoPI = 2 * Math.PI;
-const subjStroke = "#ff0000";
-const pathStroke = "#d0d0d0";
-const pathFill = "#e8e8e8";
-const resultStroke = "rgba(39,182,0,1.0)";
-const resultFill = "rgba(45,214,0,0.13)";
+const meshSizeSlider = requireElement("meshSize", HTMLInputElement);
+const meshSizeOutput = requireElement("meshSizeValue", HTMLOutputElement);
+const meshSizeLabel = requireElement("meshSizeLabel", HTMLLabelElement);
+bindRangeOutput(meshSizeSlider, meshSizeOutput, value => String(subdivisionSelect.value === 'Uniform' ? value : value * value));
+function updateMeshSizeControl() {
+    const uniform = subdivisionSelect.value === 'Uniform';
+    meshSizeLabel.textContent = uniform ? 'Edge length:' : 'Max area:';
+    const size = Number(meshSizeSlider.value);
+    meshSizeOutput.value = String(uniform ? size : size * size);
+}
+updateMeshSizeControl();
 let testIndex = 0;
 let selectedPoint = null;
 let candidatePoint = null;
@@ -26,13 +31,12 @@ if (window.devicePixelRatio > 1) {
     const canvasHeight = canvas.height;
     canvas.width = canvasWidth * window.devicePixelRatio;
     canvas.height = canvasHeight * window.devicePixelRatio;
-    canvas.style.width = canvasWidth + "px";
-    canvas.style.height = canvasHeight + "px";
     ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
     scale = window.devicePixelRatio;
 }
 async function run() {
     await init();
+    onGeometryThemeChange(() => requestAnimationFrame(draw));
     testTitle.textContent = formatTestTitle(testIndex, data.tests.length, data.tests[testIndex].name);
     requestAnimationFrame(draw);
 }
@@ -52,13 +56,19 @@ nextButton.addEventListener('click', function () {
     requestAnimationFrame(draw);
     testTitle.textContent = formatTestTitle(testIndex, data.tests.length, data.tests[testIndex].name);
 });
-maxAreaSlider.addEventListener('change', updateFrame);
-maxAreaSlider.addEventListener('input', updateFrame);
+meshSizeSlider.addEventListener('change', updateFrame);
+meshSizeSlider.addEventListener('input', updateFrame);
+subdivisionSelect.addEventListener('change', () => {
+    updateMeshSizeControl();
+    updateFrame();
+});
 modeSelect.addEventListener('change', updateFrame);
+relaxationCheckbox.addEventListener('change', updateFrame);
 canvas.addEventListener('touchstart', function (event) {
     event.preventDefault();
     const touch = event.touches[0];
     pressDown(touch.clientX, touch.clientY);
+    requestAnimationFrame(draw);
 }, { passive: false });
 canvas.addEventListener('touchmove', function (event) {
     event.preventDefault();
@@ -69,9 +79,11 @@ canvas.addEventListener('touchend', function (event) {
     event.preventDefault();
     selectedPoint = null;
     isMousePressed = false;
+    requestAnimationFrame(draw);
 });
 canvas.addEventListener('mousedown', function (event) {
     pressDown(event.clientX, event.clientY);
+    requestAnimationFrame(draw);
 });
 canvas.addEventListener('mousemove', function (event) {
     move(event.clientX, event.clientY);
@@ -79,6 +91,7 @@ canvas.addEventListener('mousemove', function (event) {
 canvas.addEventListener('mouseup', function () {
     selectedPoint = null;
     isMousePressed = false;
+    requestAnimationFrame(draw);
 });
 canvas.addEventListener('mouseout', function () {
     selectedPoint = null;
@@ -145,48 +158,65 @@ function findPointInShape(shape, x, y) {
 function draw() {
     const test = data.tests[testIndex];
     const triangulator = new Triangulator();
-    const areaValue = parseInt(maxAreaSlider.value, 10);
-    const maxArea = areaValue * areaValue;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#FAFAFAF8";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    const size = Number(meshSizeSlider.value);
+    const maxArea = size * size;
+    const uniform = subdivisionSelect.value === 'Uniform';
+    clearGeometryCanvas(ctx, canvas.width / scale, canvas.height / scale);
     drawWorkingArea(ctx);
-    const delaunay = triangulator.triangulate(test.shapes).into_delaunay();
-    switch (modeSelect.value) {
-        case 'Triangles':
+    const delaunay = (() => {
+        try {
+            return uniform
+                ? triangulator.uniform_triangulate(test.shapes, size)
+                : triangulator.triangulate(test.shapes).into_delaunay();
+        }
+        finally {
+            triangulator.free();
+        }
+    })();
+    try {
+        if (!uniform) {
             delaunay.refine_with_circumcenters(maxArea);
-            drawTriangulation(ctx, delaunay.to_triangulation(), resultFill, resultStroke, 2.0);
-            break;
-        case 'Centroids':
-            delaunay.refine_with_circumcenters(maxArea);
-            const centroids = delaunay.to_centroid_net(maxArea);
-            centroids.forEach((polygon) => {
-                drawConvex(ctx, polygon, resultFill, resultStroke, 2.0);
-            });
-            break;
-        case 'Convex':
-            delaunay.refine_with_circumcenters(maxArea);
-            const polygons = delaunay.to_convex_polygons();
-            polygons.forEach((polygon) => {
-                drawConvex(ctx, polygon, resultFill, resultStroke, 2.0);
-            });
-            break;
+        }
+        if (relaxationCheckbox.checked) {
+            delaunay.relax_mut({ maxIterations: 24 });
+        }
+        switch (modeSelect.value) {
+            case 'Triangles':
+                drawTriangulation(ctx, delaunay.to_triangulation(), withOpacity(geometryPalette.result, 0.12), geometryPalette.result, geometryStrokeWidth);
+                break;
+            case 'Centroids':
+                // This argument filters out small cells; show the complete net.
+                const centroids = delaunay.to_centroid_net(0);
+                centroids.forEach((polygon) => {
+                    drawConvex(ctx, polygon, withOpacity(geometryPalette.result, 0.12), geometryPalette.result, geometryStrokeWidth);
+                });
+                break;
+            case 'Convex':
+                const polygons = delaunay.to_convex_polygons();
+                polygons.forEach((polygon) => {
+                    drawConvex(ctx, polygon, withOpacity(geometryPalette.result, 0.12), geometryPalette.result, geometryStrokeWidth);
+                });
+                break;
+        }
+    }
+    finally {
+        delaunay.free();
     }
     test.shapes.forEach((shape) => {
-        drawGroupOfPoints(ctx, shape, subjStroke);
+        drawGroupOfPoints(ctx, shape, geometryPalette.subject);
     });
     if (selectedPoint !== null) {
-        drawPoint(ctx, selectedPoint, subjStroke);
+        drawGeometryPoint(ctx, selectedPoint, geometryPalette.subject, "active");
     }
     if (candidatePoint !== null) {
-        drawPoint(ctx, candidatePoint, subjStroke);
+        drawGeometryPoint(ctx, candidatePoint, geometryPalette.subject, "hover");
     }
 }
 function drawWorkingArea(context) {
     const rect = workingArea();
     context.setLineDash([4, 10]);
     context.lineWidth = 1;
-    context.strokeStyle = 'gray';
+    context.strokeStyle = geometryPalette.border;
     context.beginPath();
     context.moveTo(rect.minX, rect.minY);
     context.lineTo(rect.minX, rect.maxY);
@@ -195,12 +225,6 @@ function drawWorkingArea(context) {
     context.closePath();
     context.stroke();
     context.setLineDash([]);
-}
-function drawPoint(context, point, color) {
-    context.fillStyle = color;
-    context.beginPath();
-    context.arc(point[0], point[1], 6, 0, twoPI);
-    context.fill();
 }
 function drawTriangulation(context, triangulation, fillColor, strokeColor, lineWidth) {
     const { points, indices } = triangulation;
@@ -252,10 +276,7 @@ function drawGroupOfPoints(context, group, color) {
 function drawPoints(context, points, color) {
     context.fillStyle = color;
     for (let i = 0; i < points.length; i++) {
-        const [x, y] = points[i];
-        context.beginPath();
-        context.arc(x, y, 3, 0, twoPI);
-        context.fill();
+        drawGeometryPoint(context, points[i], color);
     }
 }
 function workingArea() {

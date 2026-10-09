@@ -1,3 +1,5 @@
+<div class="benchmark-section">
+
 # Rust iOverlay Solver Benchmarks
 
 All results were measured on **Apple M4, 24 GB**. Values are seconds per operation. The benchmark project is in [`performance/rust_app`](https://github.com/iShape-Rust/iOverlay/tree/main/performance/rust_app) in the [iOverlay repository](https://github.com/iShape-Rust/iOverlay).
@@ -7,11 +9,15 @@ All results were measured on **Apple M4, 24 GB**. Values are seconds per operati
 
 ## Average Comparison
 
-![Average relative time](rust_i_overlay/average_relative_time.svg)
+<div class="geometry-diagram-frame geometry-diagram-frame--scroll">
+{{#include rust_i_overlay/average_relative_time.svg}}
+</div>
 
 ## Checkerboard Test
 
-![Checkerboard Test](test_0.svg)
+<div class="geometry-diagram-frame">
+{{#include test_0.svg}}
+</div>
 
 | N | i16 off | i32 off | i64 off | i16 on | i32 on | i64 on |
 |---:|---:|---:|---:|---:|---:|---:|
@@ -28,7 +34,9 @@ All results were measured on **Apple M4, 24 GB**. Values are seconds per operati
 
 ## Not Overlap Test
 
-![Not Overlap Test](test_1.svg)
+<div class="geometry-diagram-frame">
+{{#include test_1.svg}}
+</div>
 
 | N | i16 off | i32 off | i64 off | i16 on | i32 on | i64 on |
 |---:|---:|---:|---:|---:|---:|---:|
@@ -46,7 +54,9 @@ All results were measured on **Apple M4, 24 GB**. Values are seconds per operati
 
 ## Lines Net Test
 
-![Lines Net Test](test_2.svg)
+<div class="geometry-diagram-frame">
+{{#include test_2.svg}}
+</div>
 
 | N | i16 off | i32 off | i64 off | i16 on | i32 on | i64 on |
 |---:|---:|---:|---:|---:|---:|---:|
@@ -64,7 +74,9 @@ All results were measured on **Apple M4, 24 GB**. Values are seconds per operati
 
 ## Spiral Test
 
-![Spiral Test](test_3.svg)
+<div class="geometry-diagram-frame">
+{{#include test_3.svg}}
+</div>
 
 | N | i16 off | i32 off | i64 off | i16 on | i32 on | i64 on |
 |---:|---:|---:|---:|---:|---:|---:|
@@ -90,7 +102,9 @@ All results were measured on **Apple M4, 24 GB**. Values are seconds per operati
 
 ## Windows Test
 
-![Windows Test](test_4.svg)
+<div class="geometry-diagram-frame">
+{{#include test_4.svg}}
+</div>
 
 | N | i16 off | i32 off | i64 off | i16 on | i32 on | i64 on |
 |---:|---:|---:|---:|---:|---:|---:|
@@ -107,7 +121,9 @@ All results were measured on **Apple M4, 24 GB**. Values are seconds per operati
 
 ## Nested Squares Test
 
-![Nested Squares Test](test_5.svg)
+<div class="geometry-diagram-frame">
+{{#include test_5.svg}}
+</div>
 
 | N | i16 off | i32 off | i64 off | i16 on | i32 on | i64 on |
 |---:|---:|---:|---:|---:|---:|---:|
@@ -128,3 +144,4 @@ All results were measured on **Apple M4, 24 GB**. Values are seconds per operati
 | 65536 |  | 1.401006 | 2.059438 |  | 0.653741 | 0.933473 |
 | 131072 |  | 5.445065 | 8.138039 |  | 2.410910 | 3.822923 |
 
+</div>

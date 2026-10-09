@@ -1,16 +1,4 @@
-<style>
-table {
-    max-width: 550px;
-    table-layout: auto;
-    padding: 2px 2px;
-    margin-left: 0;      /* Aligns table to the left */
-    margin-right: auto;  /* Prevents centering */
-}
-
-td, th {
-    white-space: normal;
-}
-</style>
+<div class="benchmark-section">
 
 # Performance Comparison
 
@@ -38,14 +26,14 @@ All input shapes are clean (non-self-intersecting), and the logic was optimized 
 
 ## Star Test
 
-<p align="center">
-  <img src="test_0.svg" width="200"/>
-</p>
+<div class="geometry-diagram-frame geometry-diagram-frame--thumbnail">
+{{#include test_0.svg}}
+</div>
 
 
 ### Raw
 
-|Count | Earcut64 |Monotone      |Earcut Rust    |Earcut C++  |
+|Count | <span class="benchmark-own">Earcut64</span> | <span class="benchmark-own">Monotone</span> |Earcut Rust    |Earcut C++  |
 |------|----------|--------------|---------------|------------|
 |8     | 0.3      |0.5           |0.73           |0.42        |
 |16    | 0.66     |1.6           |1.23           |0.5         |
@@ -62,7 +50,7 @@ All input shapes are clean (non-self-intersecting), and the logic was optimized 
 
 ### Delaunay
 
-|Count |iTriangle     |Triangle      |
+|Count | <span class="benchmark-own">iTriangle</span> |Triangle      |
 |------|--------------|--------------|
 |8     |0.46          |4.3           |
 |16    |1.0           |8.3           |
@@ -79,14 +67,14 @@ All input shapes are clean (non-self-intersecting), and the logic was optimized 
 
 ## Spiral Test
 
-<p align="center">
-  <img src="test_1.svg" width="200"/>
-</p>
+<div class="geometry-diagram-frame geometry-diagram-frame--thumbnail">
+{{#include test_1.svg}}
+</div>
 
 
 ### Raw
 
-|Count | Earcut64 |Monotone      | Earcut Rust |Earcut C++  |
+|Count | <span class="benchmark-own">Earcut64</span> | <span class="benchmark-own">Monotone</span> | Earcut Rust |Earcut C++  |
 |------|----------|--------------|-------------|------------|
 |8     | 0.35     |0.7           | 0.77        |0.42        |
 |16    | 1.2      |1.4           | 1.66        |0.77        |
@@ -103,7 +91,7 @@ All input shapes are clean (non-self-intersecting), and the logic was optimized 
 
 ### Delaunay
 
-|Count | iTriangle |Triangle      |
+|Count | <span class="benchmark-own">iTriangle</span> |Triangle      |
 |------|-----------|--------------|
 |8     | 0.51      |3.2           |
 |16    | 1.54      |8.7           |
@@ -121,14 +109,14 @@ All input shapes are clean (non-self-intersecting), and the logic was optimized 
 
 ## Star with Hole Test
 
-<p align="center">
-  <img src="test_2.svg" width="200"/>
-</p>
+<div class="geometry-diagram-frame geometry-diagram-frame--thumbnail">
+{{#include test_2.svg}}
+</div>
 
 
 ### Raw
 
-|Count |Monotone      |Earcut Rust    |Earcut C++  |
+|Count | <span class="benchmark-own">Monotone</span> |Earcut Rust    |Earcut C++  |
 |------|--------------|---------------|------------|
 |128   |12.1          |31.9           |30.2        |
 |256   |22.4          |86.6           |78.8        |
@@ -141,7 +129,7 @@ All input shapes are clean (non-self-intersecting), and the logic was optimized 
 
 ### Delaunay
 
-|Count |iTriangle     |Triangle      |
+|Count | <span class="benchmark-own">iTriangle</span> |Triangle      |
 |------|--------------|--------------|
 |128   |16.8          |201           |
 |256   |32.8          |410           |
@@ -154,14 +142,14 @@ All input shapes are clean (non-self-intersecting), and the logic was optimized 
 
 ## Star with 8 holes Test
 
-<p align="center">
-  <img src="test_3.svg" width="200"/>
-</p>
+<div class="geometry-diagram-frame geometry-diagram-frame--thumbnail">
+{{#include test_3.svg}}
+</div>
 
 
 ### Raw
 
-|Count |Monotone      |Earcut Rust    |Earcut C++  |
+|Count | <span class="benchmark-own">Monotone</span> |Earcut Rust    |Earcut C++  |
 |------|--------------|---------------|------------|
 |256   |19.3          |117            |43          |
 |512   |30.3          |260            |107         |
@@ -173,7 +161,7 @@ All input shapes are clean (non-self-intersecting), and the logic was optimized 
 
 ### Delaunay
 
-|Count |iTriangle     |Triangle      |
+|Count | <span class="benchmark-own">iTriangle</span> |Triangle      |
 |------|--------------|--------------|
 |256   |23.7          |330           |
 |512   |41.6          |546           |
@@ -183,3 +171,4 @@ All input shapes are clean (non-self-intersecting), and the logic was optimized 
 |8192  |567           |6921          |
 |16384 |1539          |13748         |
 
+</div>

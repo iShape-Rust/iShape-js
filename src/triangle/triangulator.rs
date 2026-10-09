@@ -1,9 +1,11 @@
+use super::relaxation::{relaxation_options, relaxation_result, RelaxationOptionsJs, RelaxationResultJs};
+use super::uniform::uniform_mesh;
 use crate::data::{ContourDataJs, NestedData, PathDataJs, ShapeDataJs, TriangulationDataJs};
 use alloc::vec::Vec;
 use i_triangle::float::delaunay::Delaunay as RustDelaunay;
 use i_triangle::float::triangulatable::Triangulatable;
 use i_triangle::float::triangulation::{RawTriangulation as RustRawTriangulation, Triangulation};
-use wasm_bindgen::prelude::wasm_bindgen;
+use wasm_bindgen::prelude::{wasm_bindgen, JsError};
 
 #[wasm_bindgen]
 pub struct RawTriangulation {
@@ -23,6 +25,24 @@ impl Triangulator {
     #[wasm_bindgen(constructor)]
     pub fn create() -> Self {
         Self {}
+    }
+
+    /// Builds a Delaunay mesh with a target edge length, splitting boundaries
+    /// and adding interior grid points. Accepts a contour, shape, or shapes.
+    /// edge_length must be finite, positive, and above the integer precision.
+    #[wasm_bindgen]
+    pub fn uniform_triangulate(&self, path_js: PathDataJs, edge_length: f64) -> Result<Delaunay, JsError> {
+        if !edge_length.is_finite() || edge_length <= 0.0 {
+            return Err(JsError::new("edge_length must be finite and positive"));
+        }
+        let path_data: NestedData = serde_wasm_bindgen::from_value(path_js.into())
+            .map_err(|error| JsError::new(&alloc::format!("{error}")))?;
+        let delaunay = match path_data {
+            NestedData::Contour(contour) => uniform_mesh(&contour, edge_length)?,
+            NestedData::Shape(shape) => uniform_mesh(&shape, edge_length)?,
+            NestedData::Shapes(shapes) => uniform_mesh(&shapes, edge_length)?,
+        };
+        Ok(Delaunay { delaunay })
     }
 
     #[wasm_bindgen]
@@ -70,6 +90,15 @@ impl RawTriangulation {
 
 #[wasm_bindgen]
 impl Delaunay {
+    /// Moves interior vertices toward centroid-net area centroids in place.
+    /// Boundary and hole vertices stay fixed. Omitted options use 8 iterations
+    /// and zero tolerance. Invalid options throw before modifying the mesh.
+    #[wasm_bindgen]
+    pub fn relax_mut(&mut self, options: Option<RelaxationOptionsJs>) -> Result<RelaxationResultJs, JsError> {
+        let options = relaxation_options(options)?;
+        relaxation_result(self.delaunay.relax_mut(options))
+    }
+
     #[wasm_bindgen]
     pub fn to_triangulation(&self) -> TriangulationDataJs {
         let triangulation: Triangulation<[f64; 2], usize> = self.delaunay.to_triangulation();

@@ -1,3 +1,168 @@
+/* Shared with the Canvas renderers in ts/common/geometry_style.ts.
+   Dark colors follow overlay_editor/src/app/design.rs; light colors keep
+   the same Subject / Clip / Result roles with contrast on white. */
+:root {
+    --geometry-scheme: light;
+    --geometry-canvas: #ffffff;
+    --geometry-panel: #f5f6f8;
+    --geometry-border: #d5dbe3;
+    --geometry-control: #ffffff;
+    --geometry-hover: #e9ecf2;
+    --geometry-selection: #ede7fa;
+    --geometry-text: #303641;
+    --geometry-muted: #647084;
+    --geometry-subject: #c4515a;
+    --geometry-clip: #2c73b9;
+    --geometry-result: #218259;
+    --geometry-accent: #7654c2;
+    --geometry-warm: #aa7000;
+}
+
+.coal, .navy, .ayu {
+    --geometry-scheme: dark;
+    --geometry-canvas: #15181d;
+    --geometry-panel: #20242b;
+    --geometry-border: #303641;
+    --geometry-control: #2a2f39;
+    --geometry-hover: #373b49;
+    --geometry-selection: #40345b;
+    --geometry-text: #dee4ed;
+    --geometry-muted: #919bad;
+    --geometry-subject: #f08080;
+    --geometry-clip: #67aef7;
+    --geometry-result: #65d6a0;
+    --geometry-accent: #a78bfa;
+    --geometry-warm: #ffcc00;
+}
+
+.rust {
+    --geometry-canvas: #faf8f4;
+    --geometry-panel: #f0ede7;
+    --geometry-border: #d5cec4;
+    --geometry-control: #fffdf9;
+    --geometry-hover: #e9e4da;
+}
+
+.geometry-diagram-frame {
+    margin: 1rem 0;
+    overflow: hidden;
+    border: 1px solid var(--geometry-border);
+    border-radius: 10px;
+    background: var(--geometry-canvas);
+}
+
+.geometry-diagram-frame--compact {
+    width: 50%;
+}
+
+.geometry-diagram-frame--medium {
+    max-width: 512px;
+}
+
+.geometry-diagram-frame--thumbnail {
+    max-width: 240px;
+}
+
+.geometry-diagram-frame--scroll {
+    overflow-x: auto;
+}
+
+.geometry-diagram-frame--scroll .geometry-diagram {
+    min-width: 720px;
+}
+
+.geometry-diagram-frame--scroll:focus-visible,
+.benchmark-section .table-wrapper:focus-visible {
+    outline: 2px solid var(--geometry-accent);
+    outline-offset: 3px;
+}
+
+.geometry-scroll-hint {
+    display: none;
+    color: var(--geometry-muted);
+    font-size: 0.9em;
+}
+
+@media (max-width: 800px) {
+    .geometry-scroll-hint {
+        display: block;
+    }
+}
+
+.benchmark-section .table-wrapper {
+    margin: 1.25rem 0;
+    overflow-x: auto;
+    border: 1px solid var(--geometry-border);
+    border-radius: 10px;
+    background: var(--geometry-canvas);
+}
+
+.benchmark-section table {
+    --benchmark-row-background: var(--geometry-canvas);
+    display: table;
+    width: 100%;
+    margin: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    color: var(--geometry-text);
+    font-variant-numeric: tabular-nums lining-nums;
+}
+
+.benchmark-section :is(th, td) {
+    padding: 0.65rem 0.85rem;
+    border: 0;
+    border-bottom: 1px solid var(--geometry-border);
+    text-align: right;
+    white-space: nowrap;
+}
+
+.benchmark-section thead {
+    --benchmark-row-background: var(--geometry-panel);
+    background: var(--benchmark-row-background);
+}
+
+.benchmark-section th {
+    color: var(--geometry-muted);
+    font-weight: 600;
+}
+
+.benchmark-section tbody tr {
+    background: var(--benchmark-row-background);
+}
+
+.benchmark-section tbody tr:nth-child(2n) {
+    --benchmark-row-background: var(--geometry-panel);
+    background: var(--benchmark-row-background);
+}
+
+.benchmark-section tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.benchmark-section table:has(th:nth-child(2) .benchmark-own) tr > :nth-child(2),
+.benchmark-section table:has(th:nth-child(3) .benchmark-own) tr > :nth-child(3),
+.benchmark-section table:has(th:nth-child(4) .benchmark-own) tr > :nth-child(4) {
+    background: color-mix(in srgb, var(--geometry-result) 10%, var(--benchmark-row-background));
+}
+
+.benchmark-section th:has(.benchmark-own) {
+    color: var(--geometry-result);
+}
+
+@media (max-width: 600px) {
+    .geometry-diagram-frame--compact {
+        width: auto;
+    }
+}
+
+.geometry-subject {
+    color: var(--geometry-subject);
+}
+
+.geometry-clip {
+    color: var(--geometry-clip);
+}
+
 .demo-shell {
     width: 100%;
     max-width: 1000px;
@@ -29,13 +194,15 @@
 }
 
 .demo-controls {
+    color: var(--geometry-text);
+    color-scheme: var(--geometry-scheme);
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
     gap: 0.75rem 1.5rem;
     padding: 1rem;
-    border: 1px solid rgba(127, 127, 127, 0.32);
+    border: 1px solid var(--geometry-border);
     border-radius: 10px;
-    background: rgba(127, 127, 127, 0.08);
+    background: var(--geometry-panel);
 }
 
 .demo-control {
@@ -58,10 +225,12 @@
 }
 
 .demo-control select {
+    border: 1px solid var(--geometry-border);
+    border-radius: 5px;
     min-height: 2rem;
     padding-inline: 0.5rem;
     color: inherit;
-    background: var(--bg);
+    background: var(--geometry-control);
 }
 
 .demo-control--toggle {
@@ -90,7 +259,7 @@
     border-radius: 4px;
     font-variant-numeric: tabular-nums;
     text-align: right;
-    background: rgba(127, 127, 127, 0.14);
+    background: var(--geometry-control);
 }
 
 .demo-control-group {
@@ -120,12 +289,13 @@
     gap: 0.5rem;
     min-height: 2.75rem;
     padding: 0 0.5rem;
-    border-radius: 6px;
+    border-radius: 5px;
     cursor: pointer;
 }
 
 .demo-option:hover {
-    background: rgba(127, 127, 127, 0.14);
+    color: var(--geometry-text);
+    background: var(--geometry-hover);
 }
 
 .demo-option input {
@@ -151,12 +321,13 @@
 }
 
 .demo-button {
+    color-scheme: var(--geometry-scheme);
     min-height: 2.75rem;
     padding: 0.4rem 0.75rem;
-    border: 1px solid rgba(127, 127, 127, 0.45);
-    border-radius: 6px;
-    color: inherit;
-    background: rgba(127, 127, 127, 0.16);
+    border: 1px solid var(--geometry-border);
+    border-radius: 5px;
+    color: var(--geometry-text);
+    background: var(--geometry-control);
     cursor: pointer;
 }
 
@@ -179,6 +350,10 @@
 }
 
 .demo-legend {
+    padding: 0.65rem;
+    border-radius: 5px;
+    color: var(--geometry-text);
+    background: var(--geometry-panel);
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -194,28 +369,27 @@
 }
 
 .demo-swatch {
-    width: 1.1rem;
-    height: 0.7rem;
-    border: 2px solid currentColor;
-    border-radius: 3px;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
     background: currentColor;
-    opacity: 0.78;
 }
 
 .demo-swatch--subject {
-    color: #ef4444;
+    color: var(--geometry-subject);
 }
 
 .demo-swatch--clip {
-    color: #3b82f6;
+    color: var(--geometry-clip);
 }
 
 .demo-swatch--result {
-    color: #22c55e;
+    color: var(--geometry-result);
 }
 
 .demo-button:hover {
-    background: rgba(127, 127, 127, 0.28);
+    border-color: var(--geometry-accent);
+    background: var(--geometry-hover);
 }
 
 .demo-button:active {
@@ -225,7 +399,7 @@
 .demo-button:focus-visible,
 .demo-control :focus-visible,
 .demo-option :focus-visible {
-    outline: 2px solid var(--links);
+    outline: 2px solid var(--geometry-accent);
     outline-offset: 2px;
 }
 
@@ -236,9 +410,9 @@
     max-width: 800px;
     height: auto;
     margin: 0 auto;
-    border: 1px solid rgba(127, 127, 127, 0.5);
+    border: 1px solid var(--geometry-border);
     border-radius: 8px;
-    background: #fafafa;
+    background: var(--geometry-canvas);
     touch-action: none;
 }
 
@@ -273,11 +447,11 @@
 
 .demo-warning {
     padding: 1rem;
-    border: 1px solid #d4a5a5;
+    border: 1px solid var(--geometry-subject);
     border-radius: 8px;
-    color: #7f1d1d;
+    color: var(--geometry-subject);
     text-align: center;
-    background: #fef2f2;
+    background: var(--geometry-panel);
 }
 
 .demo-warning img {
@@ -287,9 +461,9 @@
 }
 
 .curve-playground {
-    --curve-subject: #ea580c;
-    --curve-clip: #2563eb;
-    --curve-result: #047857;
+    --curve-subject: var(--geometry-subject);
+    --curve-clip: var(--geometry-clip);
+    --curve-result: var(--geometry-result);
 }
 
 .curve-playground__header {
@@ -300,7 +474,7 @@
 
 .curve-playground__eyebrow {
     margin: 0 0 0.35rem;
-    color: var(--links);
+    color: var(--geometry-accent);
     font-size: 0.76rem;
     font-weight: 700;
     letter-spacing: 0.14em;
@@ -315,15 +489,16 @@
 }
 
 .curve-playground__test-switcher {
+    color: var(--geometry-text);
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
     gap: 1rem;
     margin-bottom: 0.85rem;
     padding: 0.85rem 1rem;
-    border: 1px solid rgba(100, 116, 139, 0.24);
+    border: 1px solid var(--geometry-border);
     border-radius: 14px;
-    background: linear-gradient(135deg, rgba(249, 115, 22, 0.08), rgba(37, 99, 235, 0.08));
+    background: var(--geometry-panel);
 }
 
 .curve-playground__test-copy {
@@ -334,7 +509,7 @@
 .curve-playground__test-index {
     display: block;
     margin-bottom: 0.1rem;
-    color: var(--links);
+    color: var(--geometry-accent);
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.12em;
@@ -377,29 +552,31 @@
     border: 0;
     border-radius: 999px;
     color: transparent;
-    background: rgba(100, 116, 139, 0.28);
+    background: var(--geometry-border);
     cursor: pointer;
     transition: width 140ms ease, background-color 140ms ease;
 }
 
 .curve-playground__test-dot.is-active {
     width: 2.8rem;
-    background: #4f46e5;
+    background: var(--geometry-accent);
 }
 
 .curve-playground__test-dot:focus-visible {
-    outline: 3px solid rgba(99, 102, 241, 0.45);
+    outline: 3px solid var(--geometry-accent);
     outline-offset: 3px;
 }
 
 .curve-playground__panel {
+    color: var(--geometry-text);
+    color-scheme: var(--geometry-scheme);
     display: grid;
     gap: 1rem;
     padding: 1rem;
-    border: 1px solid rgba(100, 116, 139, 0.28);
+    border: 1px solid var(--geometry-border);
     border-radius: 14px;
-    background: linear-gradient(135deg, rgba(127, 127, 127, 0.08), rgba(99, 102, 241, 0.06));
-    box-shadow: 0 12px 35px rgba(15, 23, 42, 0.06);
+    background: var(--geometry-panel);
+    box-shadow: none;
 }
 
 .curve-playground__control-block {
@@ -428,32 +605,32 @@
 .curve-playground__segment {
     min-height: 2.55rem;
     padding: 0.45rem 0.85rem;
-    border: 1px solid rgba(100, 116, 139, 0.3);
+    border: 1px solid var(--geometry-border);
     border-radius: 999px;
     color: inherit;
     font: inherit;
     font-size: 0.9rem;
     font-weight: 600;
-    background: var(--bg);
+    background: var(--geometry-control);
     cursor: pointer;
     transition: border-color 120ms ease, box-shadow 120ms ease, color 120ms ease, transform 120ms ease;
 }
 
 .curve-playground__segment:hover {
-    border-color: rgba(99, 102, 241, 0.75);
+    border-color: var(--geometry-accent);
     transform: translateY(-1px);
 }
 
 .curve-playground__segment.is-active {
-    border-color: #4f46e5;
-    color: #ffffff;
-    background: #4f46e5;
-    box-shadow: 0 5px 14px rgba(79, 70, 229, 0.28);
+    border-color: var(--geometry-accent);
+    color: var(--geometry-text);
+    background: var(--geometry-selection);
+    box-shadow: none;
 }
 
 .curve-playground__segment:focus-visible,
 .curve-playground__reset:focus-visible {
-    outline: 3px solid rgba(99, 102, 241, 0.45);
+    outline: 3px solid var(--geometry-accent);
     outline-offset: 2px;
 }
 
@@ -470,6 +647,10 @@
 }
 
 .curve-playground__legend {
+    padding: 0.65rem;
+    border-radius: 5px;
+    color: var(--geometry-text);
+    background: var(--geometry-panel);
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -510,9 +691,9 @@
 .curve-playground__handle-key {
     width: 0.75rem;
     height: 0.75rem;
-    border: 2px solid var(--curve-subject);
-    border-radius: 50%;
-    background: var(--bg);
+    border: 1px solid var(--geometry-subject);
+    transform: rotate(45deg);
+    background: var(--geometry-canvas);
 }
 
 .curve-playground__stage {
@@ -522,9 +703,9 @@
 .curve-playground__canvas {
     max-width: none;
     aspect-ratio: 50 / 34;
-    border-color: rgba(100, 116, 139, 0.36);
+    border-color: var(--geometry-border);
     border-radius: 14px;
-    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+    box-shadow: none;
 }
 
 .curve-playground__canvas.is-dragging {
@@ -537,11 +718,11 @@
     bottom: 0.7rem;
     margin: 0;
     padding: 0.35rem 0.6rem;
-    border: 1px solid rgba(100, 116, 139, 0.2);
+    border: 1px solid var(--geometry-border);
     border-radius: 999px;
-    color: #334155;
+    color: var(--geometry-text);
     font-size: 0.75rem;
-    background: rgba(255, 255, 255, 0.84);
+    background: var(--geometry-panel);
     backdrop-filter: blur(8px);
     pointer-events: none;
 }
@@ -554,11 +735,13 @@
 }
 
 .curve-playground__stat {
+    color: var(--geometry-text);
+    color-scheme: var(--geometry-scheme);
     min-width: 0;
     padding: 0.75rem 0.85rem;
-    border: 1px solid rgba(100, 116, 139, 0.24);
+    border: 1px solid var(--geometry-border);
     border-radius: 10px;
-    background: rgba(127, 127, 127, 0.06);
+    background: var(--geometry-panel);
 }
 
 .curve-playground__stat span {
@@ -589,12 +772,12 @@
 }
 
 .curve-playground__status.is-warning {
-    color: #b45309;
+    color: var(--geometry-warm);
     opacity: 1;
 }
 
 .curve-playground__status.is-error {
-    color: #b91c1c;
+    color: var(--geometry-subject);
     opacity: 1;
 }
 
@@ -603,9 +786,9 @@
 .curve-playground .curve-playground__test-switcher {
     gap: 0.75rem;
     padding: 0.6rem 0.75rem;
-    border-color: rgba(100, 116, 139, 0.16);
+    border-color: var(--geometry-border);
     border-radius: 10px;
-    background: linear-gradient(135deg, rgba(249, 115, 22, 0.045), rgba(37, 99, 235, 0.045));
+    background: var(--geometry-panel);
 }
 
 .curve-playground .curve-playground__test-arrow {
@@ -621,12 +804,14 @@
 }
 
 .curve-playground .curve-playground__panel {
+    color: var(--geometry-text);
+    color-scheme: var(--geometry-scheme);
     gap: 0.7rem;
     padding: 0.7rem;
-    border-color: rgba(100, 116, 139, 0.16);
+    border-color: var(--geometry-border);
     border-radius: 10px;
-    background: rgba(127, 127, 127, 0.045);
-    box-shadow: 0 5px 18px rgba(15, 23, 42, 0.035);
+    background: var(--geometry-panel);
+    box-shadow: none;
 }
 
 .curve-playground .curve-playground__control-block {
@@ -640,20 +825,21 @@
 .curve-playground .curve-playground__segment {
     min-height: 2.15rem;
     padding: 0.3rem 0.65rem;
-    border-color: rgba(100, 116, 139, 0.22);
+    border-color: var(--geometry-border);
     font-size: 0.82rem;
     font-weight: 550;
 }
 
 .curve-playground .curve-playground__segment:hover {
-    border-color: rgba(79, 70, 229, 0.55);
+    border-color: var(--geometry-accent);
     transform: none;
 }
 
 .curve-playground .curve-playground__segment.is-active {
-    border-color: #6366f1;
-    background: #6366f1;
-    box-shadow: 0 2px 7px rgba(79, 70, 229, 0.18);
+    border-color: var(--geometry-accent);
+    background: var(--geometry-selection);
+    color: var(--geometry-text);
+    box-shadow: none;
 }
 
 .curve-playground .curve-playground__segment:focus-visible,
@@ -679,14 +865,14 @@
 }
 
 .curve-playground .curve-playground__canvas {
-    border-color: rgba(100, 116, 139, 0.22);
+    border-color: var(--geometry-border);
     border-radius: 10px;
-    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.07);
+    box-shadow: none;
 }
 
 .curve-playground .curve-playground__canvas-hint {
     padding: 0.25rem 0.5rem;
-    border-color: rgba(100, 116, 139, 0.14);
+    border-color: var(--geometry-border);
     font-size: 0.7rem;
 }
 
@@ -696,16 +882,18 @@
 }
 
 .curve-playground .curve-playground__stat {
+    color: var(--geometry-text);
+    color-scheme: var(--geometry-scheme);
     padding: 0.55rem 0.65rem;
-    border-color: rgba(100, 116, 139, 0.15);
+    border-color: var(--geometry-border);
     border-radius: 7px;
-    background: rgba(127, 127, 127, 0.035);
+    background: var(--geometry-panel);
 }
 
 /* TypeCurve extends the Shapes Editor / Boolean Playground demo system without
    changing either existing demo's layout or interaction styles. */
 .type-curve {
-    --curve-selected: #7c3aed;
+    --curve-selected: var(--geometry-accent);
 }
 
 .type-curve .curve-playground__text-controls {
@@ -727,7 +915,7 @@
 }
 
 .type-curve .curve-playground__field output {
-    color: var(--links);
+    color: var(--geometry-accent);
     font-variant-numeric: tabular-nums;
 }
 
@@ -736,17 +924,17 @@
     min-height: 2.75rem;
     box-sizing: border-box;
     padding: 0.55rem 0.75rem;
-    border: 1px solid rgba(100, 116, 139, 0.34);
+    border: 1px solid var(--geometry-border);
     border-radius: 9px;
-    color: inherit;
+    color: var(--geometry-text);
     font: 600 1rem/1.2 inherit;
     letter-spacing: 0.04em;
-    background: var(--bg);
+    background: var(--geometry-control);
 }
 
 .type-curve .curve-playground__text-input:focus,
 .type-curve .curve-playground__field input[type="range"]:focus-visible {
-    outline: 3px solid rgba(99, 102, 241, 0.35);
+    outline: 3px solid var(--geometry-accent);
     outline-offset: 2px;
 }
 
@@ -808,7 +996,7 @@
 }
 
 .curve-motion__field output {
-    color: var(--links);
+    color: var(--geometry-accent);
     font-variant-numeric: tabular-nums;
 }
 
@@ -818,7 +1006,7 @@
 }
 
 .curve-motion__field input[type="range"]:focus-visible {
-    outline: 3px solid rgba(99, 102, 241, 0.35);
+    outline: 3px solid var(--geometry-accent);
     outline-offset: 2px;
 }
 
@@ -981,4 +1169,14 @@
     .curve-motion__stats {
         grid-template-columns: 1fr;
     }
+}
+
+.demo-control input,
+.demo-option input,
+.curve-playground input {
+    accent-color: var(--geometry-accent);
+}
+
+#delaunayCanvas {
+    max-width: 500px;
 }

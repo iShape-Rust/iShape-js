@@ -1,3 +1,11 @@
+import {
+    clearGeometryCanvas,
+    geometryPalette,
+    geometryStrokeWidth,
+    withOpacity,
+    drawGeometryPoint,
+    onGeometryThemeChange,
+} from "../common/geometry_style.js";
 import init, {
     CurveBuilder,
     CurveOverlay,
@@ -45,7 +53,6 @@ type DragState =
 
 const WIDTH = 1000;
 const HEIGHT = 520;
-const HANDLE_RADIUS = 5.5;
 const HANDLE_HIT_RADIUS = 24;
 const GLYPH_BASELINE = 390;
 const DEFAULT_FONT_SIZE = 240;
@@ -177,6 +184,7 @@ const canvasResizeObserver = new ResizeObserver(() => {
 canvasResizeObserver.observe(canvas);
 syncCanvasResolution();
 
+onGeometryThemeChange(scheduleDraw);
 void run();
 
 async function run(): Promise<void> {
@@ -400,7 +408,7 @@ function addBuilderSegment(builder: CurveBuilder, object: EditorObject, segment:
 }
 
 function drawScene(resultData: CurveShapesData): void {
-    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    clearGeometryCanvas(ctx, WIDTH, HEIGHT);
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
     drawBackground();
@@ -409,9 +417,9 @@ function drawScene(resultData: CurveShapesData): void {
 
     resultData.forEach((shape) => {
         const path = curveShapeToPath(shape);
-        ctx.fillStyle = "rgba(16, 185, 129, 0.24)";
-        ctx.strokeStyle = "#047857";
-        ctx.lineWidth = 2.25;
+        ctx.fillStyle = withOpacity(geometryPalette.result, 0.12);
+        ctx.strokeStyle = geometryPalette.result;
+        ctx.lineWidth = geometryStrokeWidth;
         ctx.setLineDash([]);
         ctx.fill(path, "nonzero");
         ctx.stroke(path);
@@ -420,7 +428,7 @@ function drawScene(resultData: CurveShapesData): void {
     const selected = selectedObject();
     if (selected !== null) {
         const path = objectToPath(selected);
-        ctx.strokeStyle = "#7c3aed";
+        ctx.strokeStyle = geometryPalette.accent;
         ctx.lineWidth = 1.1;
         ctx.setLineDash([3, 5]);
         ctx.stroke(path);
@@ -431,12 +439,6 @@ function drawScene(resultData: CurveShapesData): void {
 }
 
 function drawBackground(): void {
-    const gradient = ctx.createLinearGradient(0, 0, WIDTH, HEIGHT);
-    gradient.addColorStop(0, "#f8fafc");
-    gradient.addColorStop(1, "#eef2ff");
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, WIDTH, HEIGHT);
-
     ctx.beginPath();
     for (let x = 20; x < WIDTH; x += 40) {
         for (let y = 20; y < HEIGHT; y += 40) {
@@ -444,10 +446,10 @@ function drawBackground(): void {
             ctx.arc(x, y, 1.2, 0, Math.PI * 2);
         }
     }
-    ctx.fillStyle = "rgba(100, 116, 139, 0.17)";
+    ctx.fillStyle = withOpacity(geometryPalette.muted, 0.20);
     ctx.fill();
 
-    ctx.strokeStyle = "rgba(100, 116, 139, 0.22)";
+    ctx.strokeStyle = geometryPalette.border;
     ctx.lineWidth = 1;
     ctx.setLineDash([7, 9]);
     ctx.beginPath();
@@ -455,7 +457,7 @@ function drawBackground(): void {
     ctx.lineTo(WIDTH - 34, GLYPH_BASELINE);
     ctx.stroke();
 
-    ctx.fillStyle = "rgba(71, 85, 105, 0.62)";
+    ctx.fillStyle = geometryPalette.muted;
     ctx.font = "700 13px system-ui, sans-serif";
     ctx.fillText("ALTERNATING SUBJECT / CLIP GLYPHS", 34, 42);
 }
@@ -463,9 +465,9 @@ function drawBackground(): void {
 function drawObject(object: EditorObject): void {
     const path = objectToPath(object);
     const isSubject = object.role === "subject";
-    ctx.fillStyle = isSubject ? "rgba(249, 115, 22, 0.09)" : "rgba(37, 99, 235, 0.08)";
-    ctx.strokeStyle = isSubject ? "#ea580c" : "#2563eb";
-    ctx.lineWidth = 0.75;
+    ctx.fillStyle = isSubject ? withOpacity(geometryPalette.subject, 0.12) : withOpacity(geometryPalette.clip, 0.12);
+    ctx.strokeStyle = isSubject ? geometryPalette.subject : geometryPalette.clip;
+    ctx.lineWidth = geometryStrokeWidth;
     ctx.setLineDash([4, 6]);
     ctx.fill(path, canvasFillRule());
     ctx.stroke(path);
@@ -546,8 +548,8 @@ function drawControlLines(object: EditorObject): void {
             current = segment.to;
         });
     });
-    ctx.strokeStyle = "rgba(124, 58, 237, 0.55)";
-    ctx.lineWidth = 0.45;
+    ctx.strokeStyle = withOpacity(geometryPalette.accent, 0.55);
+    ctx.lineWidth = 1;
     ctx.setLineDash([3, 5]);
     ctx.stroke();
 }
@@ -562,14 +564,9 @@ function drawHandles(object: EditorObject): void {
         const point = toWorld(object, handle.point);
         const highlighted = handle.point === hoverHandle?.point
             || (dragState?.kind === "handle" && dragState.handle.point === handle.point);
-        const radius = highlighted ? HANDLE_RADIUS + 2 : HANDLE_RADIUS;
-        ctx.beginPath();
-        ctx.arc(point[0], point[1], radius, 0, Math.PI * 2);
-        ctx.fillStyle = handle.control ? "#ffffff" : "#7c3aed";
-        ctx.strokeStyle = "#7c3aed";
-        ctx.lineWidth = highlighted ? 2.25 : 1.4;
-        ctx.fill();
-        ctx.stroke();
+        const active = dragState?.kind === "handle" && dragState.handle.point === handle.point;
+        drawGeometryPoint(ctx, point, geometryPalette.accent,
+            active ? "active" : highlighted ? "hover" : "idle", handle.control);
     });
 }
 

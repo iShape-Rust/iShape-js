@@ -1,3 +1,10 @@
+import {
+    clearGeometryCanvas,
+    geometryPalette,
+    geometryStrokeWidth,
+    withOpacity,
+    onGeometryThemeChange,
+} from "../common/geometry_style.js";
 import init, {
     CurveBuilder,
     CurveOverlay,
@@ -116,6 +123,7 @@ const canvasResizeObserver = new ResizeObserver(() => {
 canvasResizeObserver.observe(canvas);
 syncCanvasResolution();
 updateToggleButton();
+onGeometryThemeChange(scheduleDraw);
 void run();
 
 async function run(): Promise<void> {
@@ -318,19 +326,19 @@ function buildGeometry(contours: CubicContour[]): CurveGeometry {
 }
 
 function drawScene(scene: {subject: CubicContour[]; clip: CubicContour[]}, result: CurveShapesData): void {
-    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    clearGeometryCanvas(ctx, WIDTH, HEIGHT);
     drawBackground();
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
 
-    drawInputContours(scene.subject, "rgba(249, 115, 22, 0.055)", "rgba(234, 88, 12, 0.68)");
-    drawInputContours(scene.clip, "rgba(37, 99, 235, 0.05)", "rgba(37, 99, 235, 0.66)");
+    drawInputContours(scene.subject, withOpacity(geometryPalette.subject, 0.10), withOpacity(geometryPalette.subject, 0.55));
+    drawInputContours(scene.clip, withOpacity(geometryPalette.clip, 0.10), withOpacity(geometryPalette.clip, 0.55));
 
     result.forEach((shape) => {
         const path = curveShapeToPath(shape);
-        ctx.fillStyle = "rgba(16, 185, 129, 0.26)";
-        ctx.strokeStyle = "#047857";
-        ctx.lineWidth = 1.65;
+        ctx.fillStyle = withOpacity(geometryPalette.result, 0.12);
+        ctx.strokeStyle = geometryPalette.result;
+        ctx.lineWidth = geometryStrokeWidth;
         ctx.setLineDash([]);
         ctx.fill(path, "nonzero");
         ctx.stroke(path);
@@ -338,12 +346,6 @@ function drawScene(scene: {subject: CubicContour[]; clip: CubicContour[]}, resul
 }
 
 function drawBackground(): void {
-    const gradient = ctx.createLinearGradient(0, 0, WIDTH, HEIGHT);
-    gradient.addColorStop(0, "#f8fafc");
-    gradient.addColorStop(1, "#eef2ff");
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, WIDTH, HEIGHT);
-
     ctx.beginPath();
     for (let x = 20; x < WIDTH; x += 40) {
         for (let y = 20; y < HEIGHT; y += 40) {
@@ -351,7 +353,7 @@ function drawBackground(): void {
             ctx.arc(x, y, 1, 0, TWO_PI);
         }
     }
-    ctx.fillStyle = "rgba(100, 116, 139, 0.15)";
+    ctx.fillStyle = withOpacity(geometryPalette.muted, 0.20);
     ctx.fill();
 }
 
@@ -360,7 +362,7 @@ function drawInputContours(contours: CubicContour[], fill: string, stroke: strin
     contours.forEach((contour) => addCubicContour(path, contour));
     ctx.fillStyle = fill;
     ctx.strokeStyle = stroke;
-    ctx.lineWidth = 0.8;
+    ctx.lineWidth = geometryStrokeWidth;
     ctx.setLineDash([5, 5]);
     ctx.fill(path, "nonzero");
     ctx.stroke(path);

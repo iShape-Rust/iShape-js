@@ -1,17 +1,30 @@
 # Filling Rules
 
+<p class="geometry-scroll-hint">Scroll sideways to see all examples.</p>
+
 ## Even-Odd
-![Even-Odd](even-odd.svg)
+
+<div class="geometry-diagram-frame geometry-diagram-frame--scroll" tabindex="0" role="region" aria-label="Filling rule examples">
+{{#include even-odd.svg}}
+</div>
 
 ## Non-Zero
-![Non-Zero](non-zero.svg)
+
+<div class="geometry-diagram-frame geometry-diagram-frame--scroll" tabindex="0" role="region" aria-label="Filling rule examples">
+{{#include non-zero.svg}}
+</div>
 
 ## Positive
-![Positive](positive.svg)
+
+<div class="geometry-diagram-frame geometry-diagram-frame--scroll" tabindex="0" role="region" aria-label="Filling rule examples">
+{{#include positive.svg}}
+</div>
 
 ## Negative
-![Negative](negative.svg)
 
+<div class="geometry-diagram-frame geometry-diagram-frame--scroll" tabindex="0" role="region" aria-label="Filling rule examples">
+{{#include negative.svg}}
+</div>
 
 ## Filling Rules:
 

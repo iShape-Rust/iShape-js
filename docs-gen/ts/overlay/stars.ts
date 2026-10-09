@@ -1,3 +1,10 @@
+import {
+    clearGeometryCanvas,
+    geometryPalette,
+    geometryStrokeWidth,
+    withOpacity,
+    onGeometryThemeChange,
+} from "../common/geometry_style.js";
 import init, { Overlay, FillRule, OverlayRule} from '../i_shape/ishape_wasm.js';
 import {requireCanvas2D, requireElement} from '../common/dom.js';
 import {bindRangeOutput} from '../common/demo.js';
@@ -80,25 +87,11 @@ motionPreference.addEventListener('change', (event) => {
     }
 });
 
-const colorStore = [
-    "#FF9500", // Orange
-    "#5856D6", // Purple
-    "#FF2D55", // Pink
-    "#5AC8FA", // Blue
-    "#4CD964", // Green
-    "#FFCC00", // Yellow
-    "#8E8E93", // Gray
-    "#FF3B30", // Red
-    "#34C759", // Green
-    "#007AFF", // Blue
-    "#AF52DE", // Indigo
-    "#FFD60A"  // Teal
-];
-
 void run();
 
 async function run(): Promise<void> {
   await init(); // Initialize the wasm module
+  onGeometryThemeChange(scheduleDraw);
 
   updateAnimationToggle();
   scheduleDraw();
@@ -117,7 +110,7 @@ function draw(currentTime: number): void {
 
     lastFrameTime = currentTime;
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    clearGeometryCanvas(ctx, canvas.width, canvas.height);
 
     const subjFirstRadius = a * parseInt(subjFirstRadiusSlider.value, 10);
     const subjSecondRadius = a * parseInt(subjSecondRadiusSlider.value, 10);
@@ -141,10 +134,9 @@ function draw(currentTime: number): void {
     let index = 0;
     result.forEach((shape) => {
       const stroke = getColorByIndex(index);
-      const fill = getColorByIndex(index, 0.5);
+      const fill = getColorByIndex(index, 0.12);
 
-
-      drawShape(ctx, shape, fill, stroke, 8);
+      drawShape(ctx, shape, fill, stroke, geometryStrokeWidth);
       index += 1;
     });
 
@@ -214,6 +206,14 @@ function drawShape(ctx: CanvasRenderingContext2D, shape: Shape, fillColor: strin
 }
 
 function getColorByIndex(index: number, opacity = 1): string {
+    const colorStore = [
+        geometryPalette.result,
+        geometryPalette.clip,
+        geometryPalette.subject,
+        geometryPalette.accent,
+        geometryPalette.warm,
+        geometryPalette.text,
+    ];
     const n = colorStore.length;
     const i = index % n;
     const color = colorStore[i];
@@ -222,8 +222,7 @@ function getColorByIndex(index: number, opacity = 1): string {
         return color;
     }
 
-    const alpha = Math.round(opacity * 255).toString(16).padStart(2, '0');
-    return color + alpha;
+    return withOpacity(color, opacity);
 }
 
 function selectedOverlayRule(): OverlayRule {

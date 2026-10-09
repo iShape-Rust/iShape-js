@@ -1,268 +1,185 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
+   xmlns="http://www.w3.org/2000/svg"
    width="768"
    height="768"
    viewBox="0 0 768 768"
-   version="1.1"
-   id="svg5"
-   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
-   sodipodi:docname="segment_under_point.svg"
-   inkscape:export-filename="segment_under_point.png"
-   inkscape:export-xdpi="192"
-   inkscape:export-ydpi="192"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <sodipodi:namedview
-     id="namedview7"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="true"
-     inkscape:deskcolor="#d1d1d1"
-     inkscape:document-units="px"
-     showgrid="true"
-     inkscape:zoom="1.2069935"
-     inkscape:cx="234.88114"
-     inkscape:cy="296.1905"
-     inkscape:window-width="1424"
-     inkscape:window-height="1348"
-     inkscape:window-x="98"
-     inkscape:window-y="25"
-     inkscape:window-maximized="0"
-     inkscape:current-layer="layer1">
-    <inkscape:grid
-       id="grid19"
-       units="px"
-       originx="0"
-       originy="0"
-       spacingx="128"
-       spacingy="128"
-       empcolor="#0099e5"
-       empopacity="0.30196078"
-       color="#0099e5"
-       opacity="0.14901961"
-       empspacing="5"
-       dotted="false"
-       gridanglex="30"
-       gridanglez="30"
-       visible="true" />
-  </sodipodi:namedview>
-  <defs
-     id="defs2" />
+   class="geometry-diagram"
+   role="img"
+   aria-labelledby="extract-segment-under-point-title extract-segment-under-point-description"
+   style="display:block;width:100%;height:auto;background:var(--geometry-canvas, #ffffff)">
+  <title id="extract-segment-under-point-title">Testing whether a segment is below a point</title>
+  <desc id="extract-segment-under-point-description">Green segment AB lies below point P. Dashed guides mark the projected intersection M; arrows show triangle traversal.</desc>
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1">
+     id="extract-segment-under-point-layer1">
     <g
-       id="g2">
-      <path
-         style="fill:#000000;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
+       id="extract-segment-under-point-g2">
+      <path vector-effect="non-scaling-stroke"
+         style="fill:var(--geometry-text, #303641);stroke:var(--geometry-border, #d5dbe3);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
          d="M 640,0 V 768"
-         id="path17-8"
-         sodipodi:nodetypes="cc" />
-      <path
-         style="fill:#000000;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
+         id="extract-segment-under-point-path17-8" />
+      <path vector-effect="non-scaling-stroke"
+         style="fill:var(--geometry-text, #303641);stroke:var(--geometry-border, #d5dbe3);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
          d="M 384,0 V 768"
-         id="path15"
-         sodipodi:nodetypes="cc" />
-      <path
-         style="fill:#000000;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
+         id="extract-segment-under-point-path15" />
+      <path vector-effect="non-scaling-stroke"
+         style="fill:var(--geometry-text, #303641);stroke:var(--geometry-border, #d5dbe3);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
          d="M 512,0 V 768"
-         id="path16"
-         sodipodi:nodetypes="cc" />
-      <path
-         style="fill:#000000;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
+         id="extract-segment-under-point-path16" />
+      <path vector-effect="non-scaling-stroke"
+         style="fill:var(--geometry-text, #303641);stroke:var(--geometry-border, #d5dbe3);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
          d="M 768,640 H 0"
-         id="path32"
-         sodipodi:nodetypes="cc" />
-      <path
-         style="fill:#000000;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
+         id="extract-segment-under-point-path32" />
+      <path vector-effect="non-scaling-stroke"
+         style="fill:var(--geometry-text, #303641);stroke:var(--geometry-border, #d5dbe3);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
          d="M 768,256 H 0"
-         id="path29-8"
-         sodipodi:nodetypes="cc" />
-      <path
-         style="opacity:0.942;fill:#000000;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
+         id="extract-segment-under-point-path29-8" />
+      <path vector-effect="non-scaling-stroke"
+         style="opacity:0.942;fill:var(--geometry-text, #303641);stroke:var(--geometry-border, #d5dbe3);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
          d="M 768,384 H 0"
-         id="path30"
-         sodipodi:nodetypes="cc" />
-      <path
-         style="opacity:0.942;fill:#000000;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
+         id="extract-segment-under-point-path30" />
+      <path vector-effect="non-scaling-stroke"
+         style="opacity:0.942;fill:var(--geometry-text, #303641);stroke:var(--geometry-border, #d5dbe3);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
          d="M 768,512 H 0"
-         id="path31"
-         sodipodi:nodetypes="cc" />
-      <path
-         style="fill:#000000;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
+         id="extract-segment-under-point-path31" />
+      <path vector-effect="non-scaling-stroke"
+         style="fill:var(--geometry-text, #303641);stroke:var(--geometry-border, #d5dbe3);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
          d="M 128,0 V 768"
-         id="path13"
-         sodipodi:nodetypes="cc" />
-      <path
-         style="fill:#20c720;fill-opacity:1;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.501961"
+         id="extract-segment-under-point-path13" />
+      <path vector-effect="non-scaling-stroke"
+         style="fill:var(--geometry-result, #218259);fill-opacity:1;stroke:var(--geometry-border, #d5dbe3);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.501961"
          d="M 128,0 V 768"
-         id="path11"
-         sodipodi:nodetypes="cc" />
-      <path
-         style="fill:#000000;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
+         id="extract-segment-under-point-path11" />
+      <path vector-effect="non-scaling-stroke"
+         style="fill:var(--geometry-text, #303641);stroke:var(--geometry-border, #d5dbe3);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
          d="M 256,0 V 768"
-         id="path14"
-         sodipodi:nodetypes="cc" />
-      <path
-         style="fill:#000000;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
+         id="extract-segment-under-point-path14" />
+      <path vector-effect="non-scaling-stroke"
+         style="fill:var(--geometry-text, #303641);stroke:var(--geometry-border, #d5dbe3);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
          d="M 768,128 H 0"
-         id="path7"
-         sodipodi:nodetypes="cc" />
+         id="extract-segment-under-point-path7" />
     </g>
     <text
        xml:space="preserve"
-       style="font-size:133.333px;line-height:1.25;font-family:'.Apple SD Gothic NeoI';-inkscape-font-specification:'.Apple SD Gothic NeoI';word-spacing:0px;direction:rtl"
+       style="font-size:133.333px;line-height:1.25;font-family:Arial,sans-serif;word-spacing:0px;direction:rtl"
        x="256"
        y="611.97223"
-       id="text26"><tspan
-         sodipodi:role="line"
-         id="tspan26"
+       id="extract-segment-under-point-text26"><tspan
+         id="extract-segment-under-point-tspan26"
          x="256"
          y="611.97223" /></text>
-    <path
-       style="fill:none;stroke:#696969;stroke-width:0.375;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+    <path vector-effect="non-scaling-stroke"
+       style="fill:none;stroke:var(--geometry-muted, #647084);stroke-width:0.375;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
        d="M 768,0 V 768"
-       id="path17"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;stroke:#c0c0c0;stroke-width:4;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:40, 40;stroke-dashoffset:0;stroke-opacity:1"
+       id="extract-segment-under-point-path17" />
+    <path vector-effect="non-scaling-stroke"
+       style="fill:none;stroke:var(--geometry-muted, #647084);stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:40, 40;stroke-dashoffset:0;stroke-opacity:1"
        d="M 384,128 V 576"
-       id="path21-5"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;stroke:#20c720;stroke-width:8;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-segment-under-point-path21-5" />
+    <path vector-effect="non-scaling-stroke"
+       style="fill:none;stroke:var(--geometry-result, #218259);stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
        d="M 128,512 640,640"
-       id="path8"
-       sodipodi:nodetypes="cc" />
+       id="extract-segment-under-point-path8" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:49.9999px;line-height:1.25;font-family:'Arial Rounded MT Bold';-inkscape-font-specification:'Arial Rounded MT Bold, ';word-spacing:0px;direction:rtl;fill:#808080;stroke-width:0.375"
+       style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:49.9999px;line-height:1.25;font-family:Arial,sans-serif;word-spacing:0px;direction:rtl;fill:var(--geometry-text, #303641);stroke-width:0.375"
        x="399.79587"
        y="99.91098"
-       id="text12"><tspan
-         sodipodi:role="line"
-         id="tspan12"
+       id="extract-segment-under-point-text12"><tspan
+         id="extract-segment-under-point-tspan12"
          x="399.79587"
          y="99.91098"
-         style="fill:#808080;stroke-width:0.375">P</tspan></text>
+         style="fill:var(--geometry-text, #303641);stroke-width:0.375">P</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:49.9999px;line-height:1.25;font-family:'Arial Rounded MT Bold';-inkscape-font-specification:'Arial Rounded MT Bold, ';word-spacing:0px;direction:rtl;fill:#808080;stroke-width:0.375"
+       style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:49.9999px;line-height:1.25;font-family:Arial,sans-serif;word-spacing:0px;direction:rtl;fill:var(--geometry-text, #303641);stroke-width:0.375"
        x="110.28271"
        y="525.01819"
-       id="text20"><tspan
-         sodipodi:role="line"
-         id="tspan20"
+       id="extract-segment-under-point-text20"><tspan
+         id="extract-segment-under-point-tspan20"
          x="110.28271"
          y="525.01819"
-         style="fill:#808080;stroke-width:0.375">A<tspan
-   style="font-size:32.4999px;baseline-shift:sub;fill:#808080;stroke-width:0.375"
-   id="tspan25" /></tspan></text>
+         style="fill:var(--geometry-text, #303641);stroke-width:0.375">A<tspan
+   style="font-size:32.4999px;baseline-shift:sub;fill:var(--geometry-text, #303641);stroke-width:0.375"
+   id="extract-segment-under-point-tspan25" /></tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:49.9999px;line-height:1.25;font-family:'Arial Rounded MT Bold';-inkscape-font-specification:'Arial Rounded MT Bold, ';word-spacing:0px;direction:rtl;fill:#808080;stroke-width:0.375"
+       style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:49.9999px;line-height:1.25;font-family:Arial,sans-serif;word-spacing:0px;direction:rtl;fill:var(--geometry-text, #303641);stroke-width:0.375"
        x="692.68408"
        y="657.89545"
-       id="text30"><tspan
-         sodipodi:role="line"
-         id="tspan30"
+       id="extract-segment-under-point-text30"><tspan
+         id="extract-segment-under-point-tspan30"
          x="692.68408"
          y="657.89545"
-         style="fill:#808080;stroke-width:0.375">B<tspan
-   style="font-size:32.4999px;baseline-shift:sub;fill:#808080;stroke-width:0.375"
-   id="tspan31" /></tspan></text>
+         style="fill:var(--geometry-text, #303641);stroke-width:0.375">B<tspan
+   style="font-size:32.4999px;baseline-shift:sub;fill:var(--geometry-text, #303641);stroke-width:0.375"
+   id="extract-segment-under-point-tspan31" /></tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:49.9999px;line-height:1.25;font-family:'Arial Rounded MT Bold';-inkscape-font-specification:'Arial Rounded MT Bold, ';word-spacing:0px;direction:rtl;fill:#808080;stroke-width:0.375"
+       style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:49.9999px;line-height:1.25;font-family:Arial,sans-serif;word-spacing:0px;direction:rtl;fill:var(--geometry-text, #303641);stroke-width:0.375"
        x="384"
        y="640"
-       id="text21"><tspan
-         sodipodi:role="line"
-         id="tspan21"
+       id="extract-segment-under-point-text21"><tspan
+         id="extract-segment-under-point-tspan21"
          x="384"
          y="640"
-         style="fill:#808080;stroke-width:0.375">M</tspan></text>
-    <path
-       style="fill:none;fill-opacity:1;stroke:#c0c0c0;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="path23"
-       sodipodi:type="arc"
-       sodipodi:cx="384"
-       sodipodi:cy="446.85422"
-       sodipodi:rx="100"
-       sodipodi:ry="100"
-       sodipodi:start="2.8972466"
-       sodipodi:end="6.0846042"
-       sodipodi:arc-type="arc"
-       d="m 286.97043,471.0464 a 100,100 0 0 1 28.66913,-97.17745 100,100 0 0 1 98.8437,-22.25533 100,100 0 0 1 67.55149,75.51275"
-       sodipodi:open="true" />
-    <circle
-       style="fill:#ff8c00;fill-opacity:1;stroke:none;stroke-width:1.451;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle23"
+         style="fill:var(--geometry-text, #303641);stroke-width:0.375">M</tspan></text>
+    <path vector-effect="non-scaling-stroke"
+       style="fill:none;fill-opacity:1;stroke:var(--geometry-muted, #647084);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="extract-segment-under-point-path23"
+       d="m 286.97043,471.0464 a 100,100 0 0 1 28.66913,-97.17745 100,100 0 0 1 98.8437,-22.25533 100,100 0 0 1 67.55149,75.51275" />
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:var(--geometry-warm, #aa7000);fill-opacity:1;stroke:none;stroke-width:1.451;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-segment-under-point-circle23"
        cx="384"
        cy="576"
        r="8" />
-    <path
-       style="fill:none;stroke:#c0c0c0;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+    <path vector-effect="non-scaling-stroke"
+       style="fill:none;stroke:var(--geometry-muted, #647084);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
        d="m 469.52563,415.33712 12.50912,11.78925 5.3374,-17.30545"
-       id="path24"
-       sodipodi:nodetypes="ccc" />
+       id="extract-segment-under-point-path24" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:49.9999px;line-height:1.25;font-family:'Arial Rounded MT Bold';-inkscape-font-specification:'Arial Rounded MT Bold, ';word-spacing:0px;direction:rtl;fill:#808080;stroke-width:0.375"
+       style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:49.9999px;line-height:1.25;font-family:Arial,sans-serif;word-spacing:0px;direction:rtl;fill:var(--geometry-text, #303641);stroke-width:0.375"
        x="256"
        y="308.78204"
-       id="text2"><tspan
-         sodipodi:role="line"
-         id="tspan2"
+       id="extract-segment-under-point-text2"><tspan
+         id="extract-segment-under-point-tspan2"
          x="256"
          y="308.78204"
-         style="fill:#808080;stroke-width:0.375">a</tspan></text>
+         style="fill:var(--geometry-text, #303641);stroke-width:0.375">a</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:49.9999px;line-height:1.25;font-family:'Arial Rounded MT Bold';-inkscape-font-specification:'Arial Rounded MT Bold, ';word-spacing:0px;direction:rtl;fill:#808080;stroke-width:0.375"
+       style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:49.9999px;line-height:1.25;font-family:Arial,sans-serif;word-spacing:0px;direction:rtl;fill:var(--geometry-text, #303641);stroke-width:0.375"
        x="552.19989"
        y="384"
-       id="text3"><tspan
-         sodipodi:role="line"
-         id="tspan3"
+       id="extract-segment-under-point-text3"><tspan
+         id="extract-segment-under-point-tspan3"
          x="552.19989"
          y="384"
-         style="fill:#808080;stroke-width:0.375">b</tspan></text>
-    <path
-       style="fill:#808080;fill-opacity:1;stroke:#808080;stroke-width:4;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:var(--geometry-text, #303641);stroke-width:0.375">b</tspan></text>
+    <path vector-effect="non-scaling-stroke"
+       style="fill:var(--geometry-text, #303641);fill-opacity:1;stroke:var(--geometry-muted, #647084);stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
        d="m 233,275 h 15"
-       id="path3"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:#808080;fill-opacity:1;stroke:#808080;stroke-width:4;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-segment-under-point-path3" />
+    <path vector-effect="non-scaling-stroke"
+       style="fill:var(--geometry-text, #303641);fill-opacity:1;stroke:var(--geometry-muted, #647084);stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
        d="m 530,342 h 15"
-       id="path4"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;stroke:#808080;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-segment-under-point-path4" />
+    <path vector-effect="non-scaling-stroke"
+       style="fill:none;stroke:var(--geometry-muted, #647084);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
        d="m 128,496 v 16 l 15.01178,-5.22346"
-       id="path5"
-       sodipodi:nodetypes="ccc" />
-    <path
-       style="fill:none;stroke:#808080;stroke-width:4;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-dasharray:none"
+       id="extract-segment-under-point-path5" />
+    <path vector-effect="non-scaling-stroke"
+       style="fill:none;stroke:var(--geometry-muted, #647084);stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-dasharray:none"
        d="M 128,512 384,128 640,640"
-       id="path21" />
-    <path
-       style="fill:none;stroke:#808080;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-segment-under-point-path21" />
+    <path vector-effect="non-scaling-stroke"
+       style="fill:none;stroke:var(--geometry-muted, #647084);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
        d="M 625.61926,632.98605 640,640 l 1.88591,-15.78231"
-       id="path6"
-       sodipodi:nodetypes="ccc" />
-    <circle
-       style="fill:#ff8c00;fill-opacity:1;stroke:none;stroke-width:1.451;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="path12"
+       id="extract-segment-under-point-path6" />
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:var(--geometry-warm, #aa7000);fill-opacity:1;stroke:none;stroke-width:1.451;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-segment-under-point-path12"
        cx="384"
        cy="128"
        r="8" />

@@ -37,12 +37,23 @@ async function fileExists(path) {
                 <option value="Convex">Convex</option>
             </select>
         </div>
-        <div class="demo-control demo-control--range">
-            <label for="maxArea">Max Area:</label>
-            <input type="range" id="maxArea" min="10" max="100" value="40">
-            <output class="demo-value" id="maxAreaValue" for="maxArea">40</output>
+<div class="demo-control">
+            <label for="subdivision">Subdivision:</label>
+            <select id="subdivision">
+                <option value="Uniform" selected>Uniform</option>
+                <option value="Circumcenters">Circumcenters</option>
+            </select>
         </div>
-    </div><p class="demo-hint">Drag a vertex to edit the shape.</p><div class="demo-navigation">
+<div class="demo-control demo-control--range">
+            <label id="meshSizeLabel" for="meshSize">Edge length:</label>
+            <input type="range" id="meshSize" min="10" max="100" value="40">
+            <output class="demo-value" id="meshSizeValue" for="meshSize">40</output>
+        </div>
+<div class="demo-control demo-control--toggle">
+            <label for="relaxation">Relaxation</label>
+            <input type="checkbox" id="relaxation" checked>
+        </div>
+    </div><p class="demo-hint">Drag a vertex to edit the shape. Uniform splits boundary edges and fills the interior; relaxation smooths the mesh while keeping its boundary vertices fixed.</p><div class="demo-navigation">
         <button type="button" class="demo-button" id="test-prev" aria-label="Previous test">← Prev</button>
         <h3 class="demo-test-title" id="test-name">Title</h3>
         <button type="button" class="demo-button" id="test-next" aria-label="Next test">Next →</button>

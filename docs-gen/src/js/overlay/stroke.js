@@ -1,3 +1,4 @@
+import { clearGeometryCanvas, drawGeometryPoint, geometryPalette, geometryStrokeWidth, withOpacity, onGeometryThemeChange, } from "../common/geometry_style.js";
 import init, { LineCap, LineJoin, StrokeStyle, StrokeBuilder } from '../i_shape/ishape_wasm.js';
 import { clientToCanvasPoint, requireCanvas2D, requireElement } from '../common/dom.js';
 import { bindRangeOutput, formatHundredths, formatTestTitle } from '../common/demo.js';
@@ -19,11 +20,6 @@ const prevButton = requireElement('test-prev', HTMLButtonElement);
 const nextButton = requireElement('test-next', HTMLButtonElement);
 const testTitle = requireElement('test-name', HTMLElement);
 const { canvas, context: ctx } = requireCanvas2D('editorCanvas');
-const twoPI = 2 * Math.PI;
-const subjStroke = "#ff0000";
-const pathStroke = "#d0d0d0";
-const resultStroke = "rgba(39,182,0,0.5)";
-const resultFill = "rgba(45,214,0,0.13)";
 let testIndex = 0;
 let selectedPoint = null;
 let candidatePoint = null;
@@ -34,13 +30,12 @@ if (window.devicePixelRatio > 1) {
     let canvasHeight = canvas.height;
     canvas.width = canvasWidth * window.devicePixelRatio;
     canvas.height = canvasHeight * window.devicePixelRatio;
-    canvas.style.width = canvasWidth + "px";
-    canvas.style.height = canvasHeight + "px";
     ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
     scale = window.devicePixelRatio;
 }
 async function run() {
     await init();
+    onGeometryThemeChange(() => requestAnimationFrame(draw));
     requestAnimationFrame(draw);
     testTitle.textContent = formatTestTitle(testIndex, data.tests.length, data.tests[testIndex].name);
 }
@@ -74,6 +69,7 @@ canvas.addEventListener('touchstart', function (event) {
     event.preventDefault();
     const touch = event.touches[0];
     pressDown(touch.clientX, touch.clientY);
+    requestAnimationFrame(draw);
 }, { passive: false });
 canvas.addEventListener('touchmove', function (event) {
     event.preventDefault();
@@ -84,9 +80,11 @@ canvas.addEventListener('touchend', function (event) {
     event.preventDefault();
     selectedPoint = null;
     isMousePressed = false;
+    requestAnimationFrame(draw);
 });
 canvas.addEventListener('mousedown', function (event) {
     pressDown(event.clientX, event.clientY);
+    requestAnimationFrame(draw);
 });
 canvas.addEventListener('mousemove', function (event) {
     move(event.clientX, event.clientY);
@@ -94,6 +92,7 @@ canvas.addEventListener('mousemove', function (event) {
 canvas.addEventListener('mouseup', function (event) {
     selectedPoint = null;
     isMousePressed = false;
+    requestAnimationFrame(draw);
 });
 canvas.addEventListener('mouseout', function (event) {
     selectedPoint = null;
@@ -166,29 +165,27 @@ function draw() {
     style.join = lineJoin;
     const builder = StrokeBuilder.with_style(style);
     const result = builder.build(test.paths, isClosedPath);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#FAFAFAF8";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    clearGeometryCanvas(ctx, canvas.width / scale, canvas.height / scale);
     drawWorkingArea(ctx);
-    drawPaths(ctx, test.paths, pathStroke, 4.0, isClosedPath);
+    drawPaths(ctx, test.paths, geometryPalette.subject, geometryStrokeWidth, isClosedPath);
     result.forEach((shape) => {
-        const stroke = resultStroke;
-        const fill = resultFill;
-        drawShape(ctx, shape, fill, stroke, 4.0);
+        const stroke = geometryPalette.result;
+        const fill = withOpacity(geometryPalette.result, 0.12);
+        drawShape(ctx, shape, fill, stroke, geometryStrokeWidth);
     });
-    drawPoints(ctx, test.paths, subjStroke);
+    drawPoints(ctx, test.paths, geometryPalette.subject);
     if (selectedPoint !== null) {
-        drawPoint(ctx, selectedPoint, subjStroke);
+        drawGeometryPoint(ctx, selectedPoint, geometryPalette.subject, "active");
     }
     if (candidatePoint !== null) {
-        drawPoint(ctx, candidatePoint, subjStroke);
+        drawGeometryPoint(ctx, candidatePoint, geometryPalette.subject, "hover");
     }
 }
 function drawWorkingArea(ctx) {
     const rect = workingArea();
     ctx.setLineDash([4, 10]);
     ctx.lineWidth = 1;
-    ctx.strokeStyle = 'gray';
+    ctx.strokeStyle = geometryPalette.border;
     ctx.beginPath();
     ctx.moveTo(rect.minX, rect.minY);
     ctx.lineTo(rect.minX, rect.maxY);
@@ -197,12 +194,6 @@ function drawWorkingArea(ctx) {
     ctx.closePath();
     ctx.stroke();
     ctx.setLineDash([]);
-}
-function drawPoint(ctx, point, color) {
-    ctx.fillStyle = color;
-    ctx.beginPath();
-    ctx.arc(point[0], point[1], 6, 0, twoPI);
-    ctx.fill();
 }
 function drawShape(ctx, shape, fillColor, strokeColor, lineWidth) {
     ctx.lineCap = 'round';
@@ -218,6 +209,7 @@ function drawShape(ctx, shape, fillColor, strokeColor, lineWidth) {
         region.closePath();
     });
     ctx.fillStyle = fillColor;
+    ctx.fill(region, "nonzero");
     if (lineWidth > 0 && strokeColor !== null) {
         ctx.strokeStyle = strokeColor;
         ctx.lineWidth = lineWidth;
@@ -249,10 +241,7 @@ function drawPoints(ctx, paths, color) {
     ctx.fillStyle = color;
     paths.forEach((points) => {
         for (let i = 0; i < points.length; i++) {
-            const [x, y] = points[i];
-            ctx.beginPath();
-            ctx.arc(x, y, 3, 0, twoPI);
-            ctx.fill();
+            drawGeometryPoint(ctx, points[i], color);
         }
     });
 }

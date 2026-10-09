@@ -1,3 +1,11 @@
+import {
+    clearGeometryCanvas,
+    geometryPalette,
+    geometryStrokeWidth,
+    withOpacity,
+    drawGeometryPoint,
+    onGeometryThemeChange,
+} from "../common/geometry_style.js";
 import init, {
     CurveBuilder,
     CurveOverlay,
@@ -76,7 +84,6 @@ type PlaygroundTest = {
 
 const WIDTH = 1000;
 const HEIGHT = 680;
-const HANDLE_RADIUS = 5.5;
 const HANDLE_HIT_RADIUS = 16;
 
 const tests: PlaygroundTest[] = [
@@ -228,6 +235,7 @@ syncCanvasResolution();
 createTestDots();
 updateTestUI();
 updateSelectedControls();
+onGeometryThemeChange(scheduleDraw);
 void run();
 
 async function run(): Promise<void> {
@@ -383,20 +391,20 @@ function addBuilderSegment(builder: CurveBuilder, position: Point, segment: Path
 }
 
 function drawScene(resultData: CurveShapesData): void {
-    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    clearGeometryCanvas(ctx, WIDTH, HEIGHT);
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
     drawBackground();
 
     const paths = createInputPaths();
-    drawInputPath(paths.subject, "rgba(249, 115, 22, 0.09)", "#ea580c");
-    drawInputPath(paths.clip, "rgba(37, 99, 235, 0.08)", "#2563eb");
+    drawInputPath(paths.subject, withOpacity(geometryPalette.subject, 0.12), geometryPalette.subject);
+    drawInputPath(paths.clip, withOpacity(geometryPalette.clip, 0.12), geometryPalette.clip);
 
     resultData.forEach((shape) => {
         const path = curveShapeToPath(shape);
-        ctx.fillStyle = "rgba(16, 185, 129, 0.24)";
-        ctx.strokeStyle = "#047857";
-        ctx.lineWidth = 2.25;
+        ctx.fillStyle = withOpacity(geometryPalette.result, 0.12);
+        ctx.strokeStyle = geometryPalette.result;
+        ctx.lineWidth = geometryStrokeWidth;
         ctx.setLineDash([]);
         ctx.fill(path, "nonzero");
         ctx.stroke(path);
@@ -408,12 +416,6 @@ function drawScene(resultData: CurveShapesData): void {
 }
 
 function drawBackground(): void {
-    const gradient = ctx.createLinearGradient(0, 0, WIDTH, HEIGHT);
-    gradient.addColorStop(0, "#f8fafc");
-    gradient.addColorStop(1, "#eef2ff");
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, WIDTH, HEIGHT);
-
     ctx.beginPath();
     for (let x = 20; x < WIDTH; x += 40) {
         for (let y = 20; y < HEIGHT; y += 40) {
@@ -421,14 +423,14 @@ function drawBackground(): void {
             ctx.arc(x, y, 1.2, 0, Math.PI * 2);
         }
     }
-    ctx.fillStyle = "rgba(100, 116, 139, 0.18)";
+    ctx.fillStyle = withOpacity(geometryPalette.muted, 0.20);
     ctx.fill();
 }
 
 function drawInputPath(path: Path2D, fill: string, stroke: string): void {
     ctx.fillStyle = fill;
     ctx.strokeStyle = stroke;
-    ctx.lineWidth = 0.75;
+    ctx.lineWidth = geometryStrokeWidth;
     ctx.setLineDash([7, 6]);
     ctx.fill(path, selectedCanvasFillRule());
     ctx.stroke(path);
@@ -525,8 +527,8 @@ function curveShapeToPath(shape: CurveShapeData): Path2D {
 }
 
 function drawControlLines(): void {
-    drawFigureControlLines(subject, "rgba(234, 88, 12, 0.45)");
-    drawFigureControlLines(clip, "rgba(37, 99, 235, 0.48)");
+    drawFigureControlLines(subject, withOpacity(geometryPalette.subject, 0.45));
+    drawFigureControlLines(clip, withOpacity(geometryPalette.clip, 0.45));
     ctx.setLineDash([]);
 }
 
@@ -553,7 +555,7 @@ function drawFigureControlLines(figure: Figure, color: string): void {
         });
     }
     ctx.strokeStyle = color;
-    ctx.lineWidth = 0.45;
+    ctx.lineWidth = 1;
     ctx.setLineDash([3, 5]);
     ctx.stroke();
 }
@@ -565,29 +567,18 @@ function drawControlLine(position: Point, from: Point, to: Point): void {
 
 function drawHandles(): void {
     allHandles().forEach((handle) => {
-        const color = handle.figure === "subject" ? "#ea580c" : "#2563eb";
-        drawHandle(handlePosition(handle), color, handle.control, isHighlighted(handle));
+        const color = handle.figure === "subject" ? geometryPalette.subject : geometryPalette.clip;
+        const active = dragState?.kind === "handle" && isHighlighted(handle);
+        drawGeometryPoint(ctx, handlePosition(handle), color,
+            active ? "active" : isHighlighted(handle) ? "hover" : "idle", handle.control);
     });
 
     [subject, clip].forEach((figure, index) => {
         if (figure.kind === "ellipse") {
-            ctx.beginPath();
-            ctx.arc(figure.position[0], figure.position[1], 4, 0, Math.PI * 2);
-            ctx.fillStyle = index === 0 ? "#ea580c" : "#2563eb";
-            ctx.fill();
+            drawGeometryPoint(ctx, figure.position,
+                index === 0 ? geometryPalette.subject : geometryPalette.clip);
         }
     });
-}
-
-function drawHandle(point: Point, color: string, control: boolean, highlighted: boolean): void {
-    const radius = highlighted ? HANDLE_RADIUS + 2 : HANDLE_RADIUS;
-    ctx.beginPath();
-    ctx.arc(point[0], point[1], radius, 0, Math.PI * 2);
-    ctx.fillStyle = control ? "#ffffff" : color;
-    ctx.strokeStyle = color;
-    ctx.lineWidth = highlighted ? 2.25 : 1.4;
-    ctx.fill();
-    ctx.stroke();
 }
 
 function allHandles(): Handle[] {

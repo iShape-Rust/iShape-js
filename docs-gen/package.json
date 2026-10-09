@@ -3,6 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build:i-shape": "bash scripts/update-i-shape.sh",
+    "build:overlay-editor": "bash scripts/update-overlay-editor.sh",
     "build:ts": "tsc --project tsconfig.json",
     "watch:ts": "tsc --project tsconfig.json --watch",
     "build": "npm run build:ts && mdbook build",

@@ -1,3 +1,4 @@
+import { clearGeometryCanvas, drawGeometryPoint, geometryPalette, geometryStrokeWidth, withOpacity, onGeometryThemeChange, } from "../common/geometry_style.js";
 import init, { Triangulator } from "../i_shape/ishape_wasm.js";
 import * as data from './triangulation_data.js';
 import { clientToCanvasPoint, requireCanvas2D, requireElement } from "../common/dom.js";
@@ -8,12 +9,6 @@ const nextButton = requireElement("test-next", HTMLButtonElement);
 const testTitle = requireElement("test-name", HTMLElement);
 const { canvas, context: ctx } = requireCanvas2D("editorCanvas");
 const pointsTextField = requireElement("points", HTMLInputElement);
-const twoPI = 2 * Math.PI;
-const subjStroke = "#ff0000";
-const pathStroke = "#d0d0d0";
-const pathFill = "#e8e8e8";
-const resultStroke = "rgba(39,182,0,1.0)";
-const resultFill = "rgba(45,214,0,0.13)";
 let testIndex = 0;
 let selectedPoint = null;
 let candidatePoint = null;
@@ -24,13 +19,12 @@ if (window.devicePixelRatio > 1) {
     const canvasHeight = canvas.height;
     canvas.width = canvasWidth * window.devicePixelRatio;
     canvas.height = canvasHeight * window.devicePixelRatio;
-    canvas.style.width = canvasWidth + "px";
-    canvas.style.height = canvasHeight + "px";
     ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
     scale = window.devicePixelRatio;
 }
 async function run() {
     await init();
+    onGeometryThemeChange(() => requestAnimationFrame(draw));
     testTitle.textContent = formatTestTitle(testIndex, data.tests.length, data.tests[testIndex].name);
     requestAnimationFrame(draw);
 }
@@ -56,6 +50,7 @@ canvas.addEventListener('touchstart', function (event) {
     event.preventDefault();
     const touch = event.touches[0];
     pressDown(touch.clientX, touch.clientY);
+    requestAnimationFrame(draw);
 }, { passive: false });
 canvas.addEventListener('touchmove', function (event) {
     event.preventDefault();
@@ -66,9 +61,11 @@ canvas.addEventListener('touchend', function (event) {
     event.preventDefault();
     selectedPoint = null;
     isMousePressed = false;
+    requestAnimationFrame(draw);
 });
 canvas.addEventListener('mousedown', function (event) {
     pressDown(event.clientX, event.clientY);
+    requestAnimationFrame(draw);
 });
 canvas.addEventListener('mousemove', function (event) {
     move(event.clientX, event.clientY);
@@ -76,6 +73,7 @@ canvas.addEventListener('mousemove', function (event) {
 canvas.addEventListener('mouseup', function () {
     selectedPoint = null;
     isMousePressed = false;
+    requestAnimationFrame(draw);
 });
 canvas.addEventListener('mouseout', function () {
     selectedPoint = null;
@@ -167,9 +165,7 @@ function findPoint(points, x, y) {
 function draw() {
     const test = data.tests[testIndex];
     const triangulator = new Triangulator();
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#FAFAFAF8";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    clearGeometryCanvas(ctx, canvas.width / scale, canvas.height / scale);
     drawWorkingArea(ctx);
     const isSteinerPoints = pointsTextField.checked;
     const raw = isSteinerPoints
@@ -178,37 +174,37 @@ function draw() {
     switch (modeSelect.value) {
         case 'Raw':
             const triangulation = raw.to_triangulation();
-            drawTriangulation(ctx, triangulation, resultFill, resultStroke, 2.0);
+            drawTriangulation(ctx, triangulation, withOpacity(geometryPalette.result, 0.12), geometryPalette.result, geometryStrokeWidth);
             break;
         case 'Delaunay':
             const delaunay = raw.into_delaunay().to_triangulation();
-            drawTriangulation(ctx, delaunay, resultFill, resultStroke, 2.0);
+            drawTriangulation(ctx, delaunay, withOpacity(geometryPalette.result, 0.12), geometryPalette.result, geometryStrokeWidth);
             break;
         case 'Convex':
             const polygons = raw.into_delaunay().to_convex_polygons();
             polygons.forEach((polygon) => {
-                drawConvex(ctx, polygon, resultFill, resultStroke, 2.0);
+                drawConvex(ctx, polygon, withOpacity(geometryPalette.result, 0.12), geometryPalette.result, geometryStrokeWidth);
             });
             break;
     }
     test.shapes.forEach((shape) => {
-        drawGroupOfPoints(ctx, shape, subjStroke);
+        drawGroupOfPoints(ctx, shape, geometryPalette.subject);
     });
     if (isSteinerPoints) {
-        drawPoints(ctx, test.points, subjStroke);
+        drawPoints(ctx, test.points, geometryPalette.subject);
     }
     if (selectedPoint !== null) {
-        drawPoint(ctx, selectedPoint, subjStroke);
+        drawGeometryPoint(ctx, selectedPoint, geometryPalette.subject, "active");
     }
     if (candidatePoint !== null) {
-        drawPoint(ctx, candidatePoint, subjStroke);
+        drawGeometryPoint(ctx, candidatePoint, geometryPalette.subject, "hover");
     }
 }
 function drawWorkingArea(context) {
     const rect = workingArea();
     context.setLineDash([4, 10]);
     context.lineWidth = 1;
-    context.strokeStyle = 'gray';
+    context.strokeStyle = geometryPalette.border;
     context.beginPath();
     context.moveTo(rect.minX, rect.minY);
     context.lineTo(rect.minX, rect.maxY);
@@ -217,12 +213,6 @@ function drawWorkingArea(context) {
     context.closePath();
     context.stroke();
     context.setLineDash([]);
-}
-function drawPoint(context, point, color) {
-    context.fillStyle = color;
-    context.beginPath();
-    context.arc(point[0], point[1], 6, 0, twoPI);
-    context.fill();
 }
 function drawTriangulation(context, triangulation, fillColor, strokeColor, lineWidth) {
     const { points, indices } = triangulation;
@@ -274,10 +264,7 @@ function drawGroupOfPoints(context, group, color) {
 function drawPoints(context, points, color) {
     context.fillStyle = color;
     for (let i = 0; i < points.length; i++) {
-        const [x, y] = points[i];
-        context.beginPath();
-        context.arc(x, y, 3, 0, twoPI);
-        context.fill();
+        drawGeometryPoint(context, points[i], color);
     }
 }
 function workingArea() {

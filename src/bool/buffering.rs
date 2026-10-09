@@ -1,7 +1,7 @@
 use crate::bool::style::{OutlineStyle, StrokeStyle};
 use crate::data::{NestedData, PathDataJs, ShapesDataJs};
-use i_triangle::i_overlay::mesh::outline::offset::OutlineOffset;
-use i_triangle::i_overlay::mesh::stroke::offset::StrokeOffset;
+use i_triangle::i_overlay::mesh::float::outline::offset::OutlineOffset;
+use i_triangle::i_overlay::mesh::float::stroke::offset::StrokeOffset;
 use wasm_bindgen::prelude::wasm_bindgen;
 
 #[wasm_bindgen]

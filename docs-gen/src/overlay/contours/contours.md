@@ -1,7 +1,12 @@
 # Contours
+
 ## Outer and Inner
-![Contour](contour.svg)
-In the context of the [Overlay Graph](../overlay_graph/overlay_graph.md), contours are used to represent the boundaries of geometric objects. These contours are classified into two types: <span style="color:#ff3333ff;">**outer**</span> contours and <span style="color:#1a8effff;">**inner**</span> contours.
+
+<div class="geometry-diagram-frame">
+{{#include contour.svg}}
+</div>
+
+In the context of the [Overlay Graph](../overlay_graph/overlay_graph.md), contours are used to represent the boundaries of geometric objects. These contours are classified into two types: <span class="geometry-subject">**outer**</span> contours and <span class="geometry-clip">**inner**</span> contours.
 
 ### Outer Contour:
 
@@ -12,5 +17,4 @@ In the context of the [Overlay Graph](../overlay_graph/overlay_graph.md), contou
  - An inner contour is a sequence of points ordered in a **clockwise** direction.
  - Inner contours represent enclosed areas within an outer contour, often referred to as "holes" or "caves."
 
-_Both <span style="color:#ff3333ff;">**outer**</span> and <span style="color:#1a8effff;">**inner**</span> contours must be simple, meaning they must not self-intersect and must not share edges with other contours._
-
+_Both <span class="geometry-subject">**outer**</span> and <span class="geometry-clip">**inner**</span> contours must be simple, meaning they must not self-intersect and must not share edges with other contours._

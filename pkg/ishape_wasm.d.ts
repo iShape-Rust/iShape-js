@@ -86,6 +86,22 @@ export type SeparatedVectors = {
 };
 
 
+export type RelaxationOptions = {
+    /** Maximum movement iterations, a non-negative integer. Default: 8. */
+    maxIterations?: number;
+    /** Absolute convergence tolerance in input coordinates, finite and non-negative. Default: 0. */
+    tolerance?: number;
+};
+
+export type RelaxationResult = {
+    /** Number of completed vertex-movement iterations. */
+    iterations: number;
+    /** True if tolerance or integer rounding stopped movement before the iteration limit. */
+    converged: boolean;
+};
+
+
+
 /**
  * Canvas-like builder for reusable closed curve geometry.
  */
@@ -180,6 +196,12 @@ export class Delaunay {
     [Symbol.dispose](): void;
     refine_with_circumcenters(min_area: number): void;
     refine_with_circumcenters_by_obtuse_angle(min_area: number): void;
+    /**
+     * Moves interior vertices toward centroid-net area centroids in place.
+     * Boundary and hole vertices stay fixed. Omitted options use 8 iterations
+     * and zero tolerance. Invalid options throw before modifying the mesh.
+     */
+    relax_mut(options?: RelaxationOptions | null): RelaxationResult;
     to_centroid_net(min_area: number): ShapeData;
     to_convex_polygons(): ShapeData;
     to_triangulation(): TriangulationData;
@@ -293,6 +315,12 @@ export class Triangulator {
     constructor();
     triangulate(path_js: PathData): RawTriangulation;
     triangulate_with_points(path_js: PathData, points_js: ContourData): RawTriangulation;
+    /**
+     * Builds a Delaunay mesh with a target edge length, splitting boundaries
+     * and adding interior grid points. Accepts a contour, shape, or shapes.
+     * edge_length must be finite, positive, and above the integer precision.
+     */
+    uniform_triangulate(path_js: PathData, edge_length: number): Delaunay;
 }
 
 export function simplify(contours_js: PathData, fill_rule: FillRule): ShapesData | undefined;
@@ -314,9 +342,14 @@ export interface InitOutput {
     readonly __wbg_get_strokebuilder_style: (a: number) => number;
     readonly __wbg_get_strokestyle_end_cap: (a: number) => number;
     readonly __wbg_get_strokestyle_join: (a: number) => number;
+    readonly __wbg_get_strokestyle_miter_limit: (a: number) => number;
+    readonly __wbg_get_strokestyle_round_angle: (a: number) => number;
     readonly __wbg_get_strokestyle_start_cap: (a: number) => number;
+    readonly __wbg_get_strokestyle_width: (a: number) => number;
     readonly __wbg_outlinebuilder_free: (a: number, b: number) => void;
+    readonly __wbg_outlinestyle_free: (a: number, b: number) => void;
     readonly __wbg_overlay_free: (a: number, b: number) => void;
+    readonly __wbg_rawtriangulation_free: (a: number, b: number) => void;
     readonly __wbg_set_outlinebuilder_style: (a: number, b: number) => void;
     readonly __wbg_set_outlinestyle_inner_offset: (a: number, b: number) => void;
     readonly __wbg_set_outlinestyle_join: (a: number, b: number) => void;
@@ -326,8 +359,12 @@ export interface InitOutput {
     readonly __wbg_set_strokebuilder_style: (a: number, b: number) => void;
     readonly __wbg_set_strokestyle_end_cap: (a: number, b: number) => void;
     readonly __wbg_set_strokestyle_join: (a: number, b: number) => void;
+    readonly __wbg_set_strokestyle_miter_limit: (a: number, b: number) => void;
+    readonly __wbg_set_strokestyle_round_angle: (a: number, b: number) => void;
     readonly __wbg_set_strokestyle_start_cap: (a: number, b: number) => void;
+    readonly __wbg_set_strokestyle_width: (a: number, b: number) => void;
     readonly __wbg_strokebuilder_free: (a: number, b: number) => void;
+    readonly __wbg_strokestyle_free: (a: number, b: number) => void;
     readonly __wbg_triangulator_free: (a: number, b: number) => void;
     readonly curvebuilder_addEllipse: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => [number, number];
     readonly curvebuilder_bezierCurveTo: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => [number, number];
@@ -352,6 +389,7 @@ export interface InitOutput {
     readonly curveoverlay_withScale: (a: number, b: number, c: number) => [number, number, number];
     readonly delaunay_refine_with_circumcenters: (a: number, b: number) => void;
     readonly delaunay_refine_with_circumcenters_by_obtuse_angle: (a: number, b: number) => void;
+    readonly delaunay_relax_mut: (a: number, b: number) => [number, number, number];
     readonly delaunay_to_centroid_net: (a: number, b: number) => any;
     readonly delaunay_to_convex_polygons: (a: number) => any;
     readonly delaunay_to_triangulation: (a: number) => any;
@@ -380,15 +418,7 @@ export interface InitOutput {
     readonly triangulator_create: () => number;
     readonly triangulator_triangulate: (a: number, b: any) => number;
     readonly triangulator_triangulate_with_points: (a: number, b: any, c: any) => number;
-    readonly __wbg_get_strokestyle_miter_limit: (a: number) => number;
-    readonly __wbg_get_strokestyle_round_angle: (a: number) => number;
-    readonly __wbg_get_strokestyle_width: (a: number) => number;
-    readonly __wbg_set_strokestyle_miter_limit: (a: number, b: number) => void;
-    readonly __wbg_set_strokestyle_round_angle: (a: number, b: number) => void;
-    readonly __wbg_set_strokestyle_width: (a: number, b: number) => void;
-    readonly __wbg_outlinestyle_free: (a: number, b: number) => void;
-    readonly __wbg_strokestyle_free: (a: number, b: number) => void;
-    readonly __wbg_rawtriangulation_free: (a: number, b: number) => void;
+    readonly triangulator_uniform_triangulate: (a: number, b: any, c: number) => [number, number, number];
     readonly __wbindgen_malloc: (a: number, b: number) => number;
     readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
     readonly __wbindgen_exn_store: (a: number) => void;

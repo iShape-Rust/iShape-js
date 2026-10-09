@@ -1,339 +1,258 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
+   xmlns="http://www.w3.org/2000/svg"
    width="768"
    height="768"
    viewBox="0 0 768 768"
-   version="1.1"
-   id="svg5"
-   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
-   sodipodi:docname="define_contour.svg"
-   inkscape:export-filename="extract_contour.png"
-   inkscape:export-xdpi="192"
-   inkscape:export-ydpi="192"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <sodipodi:namedview
-     id="namedview7"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="true"
-     inkscape:deskcolor="#d1d1d1"
-     inkscape:document-units="px"
-     showgrid="true"
-     inkscape:zoom="0.98330828"
-     inkscape:cx="700.18733"
-     inkscape:cy="363.56858"
-     inkscape:window-width="1872"
-     inkscape:window-height="1212"
-     inkscape:window-x="98"
-     inkscape:window-y="411"
-     inkscape:window-maximized="0"
-     inkscape:current-layer="layer1"
-     showguides="false">
-    <inkscape:grid
-       id="grid1"
-       units="px"
-       originx="0"
-       originy="0"
-       spacingx="8"
-       spacingy="8"
-       empcolor="#0099e5"
-       empopacity="0.30196078"
-       color="#0099e5"
-       opacity="0.14901961"
-       empspacing="8"
-       dotted="false"
-       gridanglex="30"
-       gridanglez="30"
-       visible="true"
-       enabled="true" />
-  </sodipodi:namedview>
-  <defs
-     id="defs2">
-    <inkscape:path-effect
-       effect="fillet_chamfer"
-       id="path-effect49"
-       is_visible="true"
-       lpeversion="1"
-       nodesatellites_param="F,0,0,1,0,5.2415627,0,1 @ F,0,0,1,0,0,0,1 @ F,0,0,1,0,4,0,1 @ F,0,0,1,0,4.2116687,0,1 @ F,0,0,1,0,0,0,1 @ F,0,0,1,0,5.6358588,0,1 @ F,0,0,1,0,0,0,1"
-       radius="0"
-       unit="px"
-       method="auto"
-       mode="F"
-       chamfer_steps="1"
-       flexible="false"
-       use_knot_distance="true"
-       apply_no_radius="true"
-       apply_with_radius="true"
-       only_selected="false"
-       hide_knots="false" />
-  </defs>
+   class="geometry-diagram"
+   role="img"
+   aria-labelledby="extract-define-contour-title extract-define-contour-description"
+   style="display:block;width:100%;height:auto;background:var(--geometry-canvas, #ffffff)">
+  <title id="extract-define-contour-title">Classifying a contour</title>
+  <desc id="extract-define-contour-description">Red and blue filled or hollow markers show outer and inner membership on each side of the selected green segments.</desc>
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1">
+     id="extract-define-contour-layer1">
     <g
-       id="g1">
-      <path
-         style="fill:#000000;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
+       id="extract-define-contour-g1">
+      <path vector-effect="non-scaling-stroke"
+         style="fill:var(--geometry-text, #303641);stroke:var(--geometry-border, #d5dbe3);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
          d="M 640,0 V 768"
-         id="path17"
-         sodipodi:nodetypes="cc" />
-      <path
-         style="fill:#000000;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
+         id="extract-define-contour-path17" />
+      <path vector-effect="non-scaling-stroke"
+         style="fill:var(--geometry-text, #303641);stroke:var(--geometry-border, #d5dbe3);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
          d="M 384,0 V 768"
-         id="path15"
-         sodipodi:nodetypes="cc" />
-      <path
-         style="fill:#000000;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
+         id="extract-define-contour-path15" />
+      <path vector-effect="non-scaling-stroke"
+         style="fill:var(--geometry-text, #303641);stroke:var(--geometry-border, #d5dbe3);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
          d="M 512,0 V 768"
-         id="path16"
-         sodipodi:nodetypes="cc" />
-      <path
-         style="fill:#000000;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
+         id="extract-define-contour-path16" />
+      <path vector-effect="non-scaling-stroke"
+         style="fill:var(--geometry-text, #303641);stroke:var(--geometry-border, #d5dbe3);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
          d="M 768,640 H 0"
-         id="path32"
-         sodipodi:nodetypes="cc" />
-      <path
-         style="fill:#000000;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
+         id="extract-define-contour-path32" />
+      <path vector-effect="non-scaling-stroke"
+         style="fill:var(--geometry-text, #303641);stroke:var(--geometry-border, #d5dbe3);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
          d="M 768,256 H 0"
-         id="path29"
-         sodipodi:nodetypes="cc" />
-      <path
-         style="opacity:0.942;fill:#000000;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
+         id="extract-define-contour-path29" />
+      <path vector-effect="non-scaling-stroke"
+         style="opacity:0.942;fill:var(--geometry-text, #303641);stroke:var(--geometry-border, #d5dbe3);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
          d="M 768,384 H 0"
-         id="path30"
-         sodipodi:nodetypes="cc" />
-      <path
-         style="opacity:0.942;fill:#000000;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
+         id="extract-define-contour-path30" />
+      <path vector-effect="non-scaling-stroke"
+         style="opacity:0.942;fill:var(--geometry-text, #303641);stroke:var(--geometry-border, #d5dbe3);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
          d="M 768,512 H 0"
-         id="path31"
-         sodipodi:nodetypes="cc" />
-      <path
-         style="fill:#000000;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
+         id="extract-define-contour-path31" />
+      <path vector-effect="non-scaling-stroke"
+         style="fill:var(--geometry-text, #303641);stroke:var(--geometry-border, #d5dbe3);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
          d="M 128,0 V 768"
-         id="path13"
-         sodipodi:nodetypes="cc" />
-      <path
-         style="fill:#20c720;fill-opacity:1;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.501961"
+         id="extract-define-contour-path13" />
+      <path vector-effect="non-scaling-stroke"
+         style="fill:var(--geometry-result, #218259);fill-opacity:1;stroke:var(--geometry-border, #d5dbe3);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.501961"
          d="M 128,0 V 768"
-         id="path11"
-         sodipodi:nodetypes="cc" />
-      <path
-         style="fill:#000000;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
+         id="extract-define-contour-path11" />
+      <path vector-effect="non-scaling-stroke"
+         style="fill:var(--geometry-text, #303641);stroke:var(--geometry-border, #d5dbe3);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
          d="M 256,0 V 768"
-         id="path14"
-         sodipodi:nodetypes="cc" />
-      <path
-         style="fill:#000000;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
+         id="extract-define-contour-path14" />
+      <path vector-effect="non-scaling-stroke"
+         style="fill:var(--geometry-text, #303641);stroke:var(--geometry-border, #d5dbe3);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.5"
          d="M 768,128 H 0"
-         id="path7"
-         sodipodi:nodetypes="cc" />
+         id="extract-define-contour-path7" />
     </g>
-    <path
-       id="path1"
-       style="fill:#1fc71f;fill-opacity:0.196078;stroke:#20c720;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+    <path vector-effect="non-scaling-stroke"
+       id="extract-define-contour-path1"
+       style="fill:var(--geometry-result, #218259);fill-opacity:0.196078;stroke:var(--geometry-result, #218259);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
        d="M 256 128 L 128 256 L 128 512 L 256 640 L 512 640 L 640 512 L 640 256 L 512 128 L 256 128 z M 384 256 L 512 384 L 384 512 L 256 384 L 384 256 z " />
-    <circle
-       style="fill:none;fill-opacity:1;stroke:#20c720;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle33"
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:none;fill-opacity:1;stroke:var(--geometry-result, #218259);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-define-contour-circle33"
        cx="384"
        cy="116"
        r="4" />
-    <circle
-       style="fill:#20c720;fill-opacity:1;stroke:#20c720;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle35"
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:var(--geometry-result, #218259);fill-opacity:1;stroke:var(--geometry-result, #218259);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-define-contour-circle35"
        cx="384"
        cy="140"
        r="4" />
-    <circle
-       style="fill:#20c720;fill-opacity:1;stroke:#20c720;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle41"
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:var(--geometry-result, #218259);fill-opacity:1;stroke:var(--geometry-result, #218259);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-define-contour-circle41"
        cx="-543.05798"
        cy="260.2153"
        r="4"
        transform="matrix(-0.70710678,-0.70710678,-0.70710678,0.70710678,0,0)" />
-    <circle
-       style="fill:none;fill-opacity:1;stroke:#20c720;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle43"
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:none;fill-opacity:1;stroke:var(--geometry-result, #218259);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-define-contour-circle43"
        cx="-543.05798"
        cy="282.84274"
        r="4"
        transform="matrix(-0.70710678,-0.70710678,-0.70710678,0.70710678,0,0)" />
-    <circle
-       style="fill:none;fill-opacity:1;stroke:#ff3333;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle49"
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:none;fill-opacity:1;stroke:var(--geometry-subject, #c4515a);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-define-contour-circle49"
        cx="-384"
        cy="116"
        r="4"
        transform="rotate(-90)" />
-    <circle
-       style="fill:#ff3333;fill-opacity:1;stroke:#ff3333;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle51"
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:var(--geometry-subject, #c4515a);fill-opacity:1;stroke:var(--geometry-subject, #c4515a);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-define-contour-circle51"
        cx="-384"
        cy="140"
        r="4"
        transform="rotate(-90)" />
-    <circle
-       style="fill:none;fill-opacity:1;stroke:#20c720;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle61"
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:none;fill-opacity:1;stroke:var(--geometry-result, #218259);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-define-contour-circle61"
        cx="-384"
        cy="-652"
        r="4"
        transform="matrix(0,-1,-1,0,0,0)" />
-    <circle
-       style="fill:#20c720;fill-opacity:1;stroke:#20c720;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle63"
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:var(--geometry-result, #218259);fill-opacity:1;stroke:var(--geometry-result, #218259);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-define-contour-circle63"
        cx="-384"
        cy="-628"
        r="4"
        transform="matrix(0,-1,-1,0,0,0)" />
-    <circle
-       style="fill:#20c720;fill-opacity:1;stroke:#20c720;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle90"
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:var(--geometry-result, #218259);fill-opacity:1;stroke:var(--geometry-result, #218259);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-define-contour-circle90"
        cx="-3.6137635e-09"
        cy="-282.84265"
        r="4"
        transform="matrix(0.70710678,-0.70710678,-0.70710678,-0.70710678,0,0)" />
-    <circle
-       style="fill:none;fill-opacity:1;stroke:#20c720;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle92"
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:none;fill-opacity:1;stroke:var(--geometry-result, #218259);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-define-contour-circle92"
        cx="-3.6137635e-09"
        cy="-260.21524"
        r="4"
        transform="matrix(0.70710678,-0.70710678,-0.70710678,-0.70710678,0,0)" />
-    <circle
-       style="fill:#20c720;fill-opacity:1;stroke:#20c720;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle102"
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:var(--geometry-result, #218259);fill-opacity:1;stroke:var(--geometry-result, #218259);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-define-contour-circle102"
        cx="543.05798"
        cy="260.21521"
        r="4"
        transform="matrix(0.70710678,0.70710678,0.70710678,-0.70710678,0,0)" />
-    <circle
-       style="fill:none;fill-opacity:1;stroke:#20c720;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle104"
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:none;fill-opacity:1;stroke:var(--geometry-result, #218259);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-define-contour-circle104"
        cx="543.05798"
        cy="282.84262"
        r="4"
        transform="matrix(0.70710678,0.70710678,0.70710678,-0.70710678,0,0)" />
-    <circle
-       style="fill:none;fill-opacity:1;stroke:#20c720;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle114"
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:none;fill-opacity:1;stroke:var(--geometry-result, #218259);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-define-contour-circle114"
        cx="-3.6138204e-09"
        cy="-825.90063"
        r="4"
        transform="matrix(0.70710678,-0.70710678,-0.70710678,-0.70710678,0,0)" />
-    <circle
-       style="fill:#20c720;fill-opacity:1;stroke:#20c720;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle116"
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:var(--geometry-result, #218259);fill-opacity:1;stroke:var(--geometry-result, #218259);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-define-contour-circle116"
        cx="-3.6137635e-09"
        cy="-803.27325"
        r="4"
        transform="matrix(0.70710678,-0.70710678,-0.70710678,-0.70710678,0,0)" />
-    <circle
-       style="fill:#20c720;fill-opacity:1;stroke:#20c720;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle122"
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:var(--geometry-result, #218259);fill-opacity:1;stroke:var(--geometry-result, #218259);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-define-contour-circle122"
        cx="384"
        cy="628"
        r="4" />
-    <circle
-       style="fill:none;fill-opacity:1;stroke:#20c720;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle124"
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:none;fill-opacity:1;stroke:var(--geometry-result, #218259);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-define-contour-circle124"
        cx="384"
        cy="652"
        r="4" />
-    <circle
-       style="fill:#1a8eff;fill-opacity:1;stroke:#1a8eff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle3"
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:var(--geometry-clip, #2c73b9);fill-opacity:1;stroke:var(--geometry-clip, #2c73b9);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-define-contour-circle3"
        cx="0"
        cy="441.23465"
        r="4"
        transform="matrix(-0.70710678,0.70710678,0.70710678,0.70710678,0,0)" />
-    <circle
-       style="fill:none;fill-opacity:1;stroke:#1a8eff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle4"
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:none;fill-opacity:1;stroke:var(--geometry-clip, #2c73b9);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-define-contour-circle4"
        cx="0"
        cy="463.86206"
        r="4"
        transform="matrix(-0.70710678,0.70710678,0.70710678,0.70710678,0,0)" />
-    <circle
-       style="fill:#20c720;fill-opacity:1;stroke:#20c720;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle5"
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:var(--geometry-result, #218259);fill-opacity:1;stroke:var(--geometry-result, #218259);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-define-contour-circle5"
        cx="0"
        cy="-644.88141"
        r="4"
        transform="matrix(0.70710678,-0.70710678,-0.70710678,-0.70710678,0,0)" />
-    <circle
-       style="fill:none;fill-opacity:1;stroke:#20c720;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle6"
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:none;fill-opacity:1;stroke:var(--geometry-result, #218259);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-define-contour-circle6"
        cx="0"
        cy="-622.25397"
        r="4"
        transform="matrix(0.70710678,-0.70710678,-0.70710678,-0.70710678,0,0)" />
-    <circle
-       style="fill:#20c720;fill-opacity:1;stroke:#20c720;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle7"
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:var(--geometry-result, #218259);fill-opacity:1;stroke:var(--geometry-result, #218259);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-define-contour-circle7"
        cx="-543.05804"
        cy="-101.82339"
        r="4"
        transform="matrix(-0.70710678,-0.70710678,-0.70710678,0.70710678,0,0)" />
-    <circle
-       style="fill:none;fill-opacity:1;stroke:#20c720;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle8"
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:none;fill-opacity:1;stroke:var(--geometry-result, #218259);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-define-contour-circle8"
        cx="-543.05804"
        cy="-79.195946"
        r="4"
        transform="matrix(-0.70710678,-0.70710678,-0.70710678,0.70710678,0,0)" />
-    <circle
-       style="fill:#20c720;fill-opacity:1;stroke:#20c720;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle9"
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:var(--geometry-result, #218259);fill-opacity:1;stroke:var(--geometry-result, #218259);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-define-contour-circle9"
        cx="543.05798"
        cy="-101.8234"
        r="4"
        transform="matrix(0.70710678,0.70710678,0.70710678,-0.70710678,0,0)" />
-    <circle
-       style="fill:none;fill-opacity:1;stroke:#20c720;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
-       id="circle10"
+    <circle vector-effect="non-scaling-stroke"
+       style="fill:none;fill-opacity:1;stroke:var(--geometry-result, #218259);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:16;stroke-dasharray:none;stroke-opacity:1"
+       id="extract-define-contour-circle10"
        cx="543.05798"
        cy="-79.195961"
        r="4"
        transform="matrix(0.70710678,0.70710678,0.70710678,-0.70710678,0,0)" />
-    <path
-       style="fill:none;stroke:#ff3333;stroke-width:8;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1;stroke-dasharray:none"
+    <path vector-effect="non-scaling-stroke"
+       style="fill:none;stroke:var(--geometry-subject, #c4515a);stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1;stroke-dasharray:none"
        d="M 128,512 V 256"
-       id="path2" />
-    <path
-       style="fill:none;stroke:#1a8eff;stroke-width:8;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1;stroke-dasharray:none"
+       id="extract-define-contour-path2" />
+    <path vector-effect="non-scaling-stroke"
+       style="fill:none;stroke:var(--geometry-clip, #2c73b9);stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1;stroke-dasharray:none"
        d="M 384,256 256,384"
-       id="path3" />
+       id="extract-define-contour-path3" />
     <text
        xml:space="preserve"
-       style="font-size:37.3333px;line-height:1.25;font-family:'.Apple SD Gothic NeoI';-inkscape-font-specification:'.Apple SD Gothic NeoI';word-spacing:0px;direction:rtl;fill:#ff3333;fill-opacity:1"
+       style="font-size:37.3333px;line-height:1.25;font-family:Arial,sans-serif;word-spacing:0px;direction:rtl;fill:var(--geometry-subject, #c4515a);fill-opacity:1"
        x="111.80595"
        y="357.04297"
-       id="text3"><tspan
-         sodipodi:role="line"
-         id="tspan3"
+       id="extract-define-contour-text3"><tspan
+         id="extract-define-contour-tspan3"
          x="111.80595"
          y="357.04297"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.3333px;font-family:'Arial Rounded MT Bold';-inkscape-font-specification:'Arial Rounded MT Bold, ';fill:#ff3333;fill-opacity:1">outer</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:37.3333px;font-family:Arial,sans-serif;fill:var(--geometry-subject, #c4515a);fill-opacity:1">outer</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:37.3333px;line-height:1.25;font-family:'.Apple SD Gothic NeoI';-inkscape-font-specification:'.Apple SD Gothic NeoI';word-spacing:0px;direction:rtl;fill:#1a8eff;fill-opacity:1"
+       style="font-size:37.3333px;line-height:1.25;font-family:Arial,sans-serif;word-spacing:0px;direction:rtl;fill:var(--geometry-clip, #2c73b9);fill-opacity:1"
        x="413.66403"
        y="373.25259"
-       id="text4"><tspan
-         sodipodi:role="line"
-         id="tspan4"
+       id="extract-define-contour-text4"><tspan
+         id="extract-define-contour-tspan4"
          x="413.66403"
          y="373.25259"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.3333px;font-family:'Arial Rounded MT Bold';-inkscape-font-specification:'Arial Rounded MT Bold, ';fill:#1a8eff;fill-opacity:1">inner</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:37.3333px;font-family:Arial,sans-serif;fill:var(--geometry-clip, #2c73b9);fill-opacity:1">inner</tspan></text>
   </g>
 </svg>

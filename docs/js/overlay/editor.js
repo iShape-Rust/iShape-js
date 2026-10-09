@@ -1,3 +1,4 @@
+import { clearGeometryCanvas, drawGeometryPoint, geometryPalette, geometryStrokeWidth, withOpacity, onGeometryThemeChange, } from "../common/geometry_style.js";
 import init, { Overlay, FillRule, OverlayRule } from '../i_shape/ishape_wasm.js';
 import { clientToCanvasPoint, requireCanvas2D, requireElement } from '../common/dom.js';
 import { findNearestPoint } from '../common/canvas_editor.js';
@@ -14,14 +15,6 @@ const nextButton = requireElement('test-next', HTMLButtonElement);
 const testTitle = requireElement('test-name', HTMLElement);
 const { canvas, context: ctx } = requireCanvas2D('editorCanvas');
 const twoPI = 2 * Math.PI;
-const subjStroke = "#ff0000";
-const subjStrokeOpacity = "#ff000040";
-const subjFill = "#FF3B3020";
-const clipStroke = "#0066ff";
-const clipStrokeOpacity = "#0066ff40";
-const clipFill = "#007AFF20";
-const resultStroke = "rgba(39,182,0,0.5)";
-const resultFill = "rgba(45,214,0,0.13)";
 const SegmentFill = {
     subjTop: 0b0001,
     subjBottom: 0b0010,
@@ -40,13 +33,12 @@ if (window.devicePixelRatio > 1) {
     let canvasHeight = canvas.height;
     canvas.width = canvasWidth * window.devicePixelRatio;
     canvas.height = canvasHeight * window.devicePixelRatio;
-    canvas.style.width = canvasWidth + "px";
-    canvas.style.height = canvasHeight + "px";
     ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
     scale = window.devicePixelRatio;
 }
 async function run() {
     await init();
+    onGeometryThemeChange(() => requestAnimationFrame(draw));
     requestAnimationFrame(draw);
     testTitle.textContent = formatTestTitle(testIndex, data.tests.length, data.tests[testIndex].name);
 }
@@ -79,6 +71,7 @@ canvas.addEventListener('touchstart', function (event) {
     event.preventDefault();
     const touch = event.touches[0];
     pressDown(touch.clientX, touch.clientY);
+    requestAnimationFrame(draw);
 });
 canvas.addEventListener('touchmove', function (event) {
     event.preventDefault();
@@ -89,9 +82,11 @@ canvas.addEventListener('touchend', function (event) {
     event.preventDefault(); // Prevent click emulation and scrolling
     selectedPoint = null;
     isMousePressed = false;
+    requestAnimationFrame(draw);
 });
 canvas.addEventListener('mousedown', function (event) {
     pressDown(event.clientX, event.clientY);
+    requestAnimationFrame(draw);
 });
 canvas.addEventListener('mousemove', function (event) {
     move(event.clientX, event.clientY);
@@ -99,6 +94,7 @@ canvas.addEventListener('mousemove', function (event) {
 canvas.addEventListener('mouseup', function (event) {
     selectedPoint = null;
     isMousePressed = false;
+    requestAnimationFrame(draw);
 });
 canvas.addEventListener('mouseout', function (event) {
     selectedPoint = null;
@@ -189,16 +185,14 @@ function draw() {
     const overlay_rule = overlayRule();
     const overlay = createOverlay(test.subj, test.clip);
     const result = overlay.overlay(overlay_rule, fill_rule);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#FAFAFAF8";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    clearGeometryCanvas(ctx, canvas.width / scale, canvas.height / scale);
     drawWorkingAreaSplitLine(ctx);
     const isArrows = arrowsTextField.checked;
     test.subj.forEach((shape) => {
-        drawShape(ctx, shape, subjFill, subjStrokeOpacity, 4.0, 0.0, fill_rule, isArrows);
+        drawShape(ctx, shape, withOpacity(geometryPalette.subject, 0.12), withOpacity(geometryPalette.subject, 0.55), geometryStrokeWidth, 0.0, fill_rule, isArrows);
     });
     test.clip.forEach((shape) => {
-        drawShape(ctx, shape, clipFill, clipStrokeOpacity, 4.0, 0.0, fill_rule, isArrows);
+        drawShape(ctx, shape, withOpacity(geometryPalette.clip, 0.12), withOpacity(geometryPalette.clip, 0.55), geometryStrokeWidth, 0.0, fill_rule, isArrows);
     });
     const isFill = fillTextField.checked;
     if (isFill) {
@@ -206,28 +200,28 @@ function draw() {
         const vectors = overlay.separate_vectors(fill_rule);
         drawFill(ctx, vectors);
     }
-    drawPoints(ctx, test.subj, subjStroke);
-    drawPoints(ctx, test.clip, clipStroke);
+    drawPoints(ctx, test.subj, geometryPalette.subject);
+    drawPoints(ctx, test.clip, geometryPalette.clip);
     if (selectedPoint !== null) {
-        const color = isSubjSelected ? subjStroke : clipStroke;
-        drawPoint(ctx, selectedPoint, color);
+        const color = isSubjSelected ? geometryPalette.subject : geometryPalette.clip;
+        drawGeometryPoint(ctx, selectedPoint, color, "active");
     }
     if (candidatePoint !== null) {
-        const color = isSubjCandidate ? subjStroke : clipStroke;
-        drawPoint(ctx, candidatePoint, color);
+        const color = isSubjCandidate ? geometryPalette.subject : geometryPalette.clip;
+        drawGeometryPoint(ctx, candidatePoint, color, "hover");
     }
     const maxY = 0.5 * canvas.height / scale;
     result.forEach((shape) => {
-        const stroke = resultStroke;
-        const fill = resultFill;
-        drawShape(ctx, shape, fill, stroke, 4.0, maxY, fill_rule, false);
+        const stroke = geometryPalette.result;
+        const fill = withOpacity(geometryPalette.result, 0.12);
+        drawShape(ctx, shape, fill, stroke, geometryStrokeWidth, maxY, fill_rule, false);
     });
 }
 function drawWorkingAreaSplitLine(ctx) {
     const rect = workingArea();
     ctx.setLineDash([4, 10]);
     ctx.lineWidth = 1;
-    ctx.strokeStyle = 'gray';
+    ctx.strokeStyle = geometryPalette.border;
     ctx.beginPath();
     ctx.moveTo(rect.minX, rect.minY);
     ctx.lineTo(rect.minX, rect.maxY);
@@ -245,31 +239,16 @@ function drawFill(ctx, data) {
         const isFillClipTop = (fill & SegmentFill.clipTop) === SegmentFill.clipTop;
         const isFillSubjBottom = (fill & SegmentFill.subjBottom) === SegmentFill.subjBottom;
         const isFillClipBottom = (fill & SegmentFill.clipBottom) === SegmentFill.clipBottom;
-        drawCircle(ctx, seg.subjTopPos, isFillSubjTop, subjStroke);
-        drawCircle(ctx, seg.clipTopPos, isFillClipTop, clipStroke);
-        drawCircle(ctx, seg.subjBottomPos, isFillSubjBottom, subjStroke);
-        drawCircle(ctx, seg.clipBottomPos, isFillClipBottom, clipStroke);
+        drawCircle(ctx, seg.subjTopPos, isFillSubjTop, geometryPalette.subject);
+        drawCircle(ctx, seg.clipTopPos, isFillClipTop, geometryPalette.clip);
+        drawCircle(ctx, seg.subjBottomPos, isFillSubjBottom, geometryPalette.subject);
+        drawCircle(ctx, seg.clipBottomPos, isFillClipBottom, geometryPalette.clip);
     });
 }
 function drawCircle(ctx, p, isFill, color) {
     ctx.beginPath();
-    if (isFill) {
-        ctx.arc(p.x, p.y, 3, 0, twoPI);
-        ctx.fillStyle = color;
-        ctx.fill();
-    }
-    else {
-        ctx.arc(p.x, p.y, 2.6, 0, twoPI);
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = color;
-        ctx.stroke();
-    }
-    ctx.closePath();
-}
-function drawPoint(ctx, point, color) {
-    ctx.fillStyle = color;
-    ctx.beginPath();
-    ctx.arc(point[0], point[1], 6, 0, twoPI);
+    ctx.arc(p.x, p.y, 2 * geometryStrokeWidth, 0, twoPI);
+    ctx.fillStyle = isFill ? color : withOpacity(color, 0.05);
     ctx.fill();
 }
 function drawShape(ctx, shape, fillColor, strokeColor, lineWidth, dy, fillRule, showArrows) {
@@ -316,10 +295,7 @@ function drawPoints(ctx, shapes, color) {
     shapes.forEach((shape) => {
         shape.forEach((points) => {
             for (let i = 0; i < points.length; i++) {
-                const [x, y] = points[i];
-                ctx.beginPath();
-                ctx.arc(x, y, 3, 0, twoPI);
-                ctx.fill();
+                drawGeometryPoint(ctx, points[i], color);
             }
         });
     });
@@ -362,12 +338,21 @@ function workingArea() {
     return { minX, minY, maxX, maxY };
 }
 function drawArrow(arrows, fromX, fromY, toX, toY) {
-    const headLength = 10;
-    const angle = Math.atan2(toY - fromY, toX - fromX);
-    arrows.moveTo(toX, toY);
-    arrows.lineTo(toX - headLength * Math.cos(angle - Math.PI / 6), toY - headLength * Math.sin(angle - Math.PI / 6));
-    arrows.moveTo(toX, toY);
-    arrows.lineTo(toX - headLength * Math.cos(angle + Math.PI / 6), toY - headLength * Math.sin(angle + Math.PI / 6));
+    const dx = toX - fromX;
+    const dy = toY - fromY;
+    const length = Math.hypot(dx, dy);
+    if (length < 1e-5)
+        return;
+    const nx = dx / length;
+    const ny = dy / length;
+    const tipX = 0.5 * (fromX + toX);
+    const tipY = 0.5 * (fromY + toY);
+    const baseX = tipX - nx * 4 * geometryStrokeWidth;
+    const baseY = tipY - ny * 4 * geometryStrokeWidth;
+    const side = 2 * geometryStrokeWidth;
+    arrows.moveTo(baseX - ny * side, baseY + nx * side);
+    arrows.lineTo(tipX, tipY);
+    arrows.lineTo(baseX + ny * side, baseY - nx * side);
 }
 function createOverlay(subj, clip) {
     const overlay = Overlay.new_with_subj_and_clip(subj, clip);

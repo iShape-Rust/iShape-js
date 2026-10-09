@@ -1,3 +1,5 @@
+import { clientToCanvasPoint } from "../common/dom.js";
+import { clearGeometryCanvas, drawGeometryPoint, geometryPalette, geometryStrokeWidth, withOpacity, onGeometryThemeChange, } from "../common/geometry_style.js";
 import { Vector } from "../geometry/vector.js";
 (() => {
     const canvasElement = document.getElementById("delaunayCanvas");
@@ -16,35 +18,33 @@ import { Vector } from "../geometry/vector.js";
     let selectedPoint = null;
     let candidatePoint = null;
     let isMousePressed = false;
-    let palette = readPalette();
+    const palette = {
+        get primary() { return geometryPalette.subject; },
+        get guide() { return withOpacity(geometryPalette.clip, 0.55); },
+        get fill() { return withOpacity(geometryPalette.subject, 0.12); },
+        get success() { return geometryPalette.result; },
+        get danger() { return geometryPalette.subject; },
+    };
     const points = [
         [250, 450],
         [100, 250],
         [350, 50],
         [450, 250],
     ];
-    const pixelRatio = window.devicePixelRatio;
+    const pixelRatio = Math.max(1, window.devicePixelRatio);
     if (pixelRatio > 1) {
         canvas.width = canvasWidth * pixelRatio;
         canvas.height = canvasHeight * pixelRatio;
-        canvas.style.width = `${canvasWidth}px`;
-        canvas.style.height = `${canvasHeight}px`;
         ctx.scale(pixelRatio, pixelRatio);
     }
-    const themeObserver = new MutationObserver(() => {
-        palette = readPalette();
-        requestAnimationFrame(draw);
-    });
-    themeObserver.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ["class"],
-    });
+    onGeometryThemeChange(() => requestAnimationFrame(draw));
     requestAnimationFrame(draw);
     canvas.addEventListener("touchstart", (event) => {
         event.preventDefault();
         const touch = event.touches[0];
         if (touch !== undefined) {
             pressDown(touch.clientX, touch.clientY);
+            requestAnimationFrame(draw);
         }
     });
     canvas.addEventListener("touchmove", (event) => {
@@ -58,9 +58,11 @@ import { Vector } from "../geometry/vector.js";
         event.preventDefault();
         selectedPoint = null;
         isMousePressed = false;
+        requestAnimationFrame(draw);
     });
     canvas.addEventListener("mousedown", (event) => {
         pressDown(event.clientX, event.clientY);
+        requestAnimationFrame(draw);
     });
     canvas.addEventListener("mousemove", (event) => {
         move(event.clientX, event.clientY);
@@ -68,6 +70,7 @@ import { Vector } from "../geometry/vector.js";
     canvas.addEventListener("mouseup", () => {
         selectedPoint = null;
         isMousePressed = false;
+        requestAnimationFrame(draw);
     });
     canvas.addEventListener("mouseout", () => {
         selectedPoint = null;
@@ -76,17 +79,13 @@ import { Vector } from "../geometry/vector.js";
         requestAnimationFrame(draw);
     });
     function pressDown(eventX, eventY) {
-        const bounds = canvas.getBoundingClientRect();
-        const x = eventX - bounds.left;
-        const y = eventY - bounds.top;
+        const [x, y] = clientToCanvasPoint(canvas, eventX, eventY, pixelRatio);
         isMousePressed = true;
         selectedPoint = findPoint(x, y);
         candidatePoint = null;
     }
     function move(eventX, eventY) {
-        const bounds = canvas.getBoundingClientRect();
-        const x = eventX - bounds.left;
-        const y = eventY - bounds.top;
+        const [x, y] = clientToCanvasPoint(canvas, eventX, eventY, pixelRatio);
         if (isMousePressed) {
             if (selectedPoint !== null) {
                 const rect = workingArea();
@@ -121,30 +120,23 @@ import { Vector } from "../geometry/vector.js";
         const alpha = angle(point1, point3, point0);
         const beta = angle(point1, point3, point2);
         const condition = alpha.angle + beta.angle < 180;
-        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-        ctx.fillStyle = "#00000000";
-        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-        if (selectedPoint !== null) {
-            drawPoint(ctx, 5, selectedPoint, palette.accent);
-        }
-        if (candidatePoint !== null) {
-            drawPoint(ctx, 7, candidatePoint, palette.accent);
-        }
+        clearGeometryCanvas(ctx, canvasWidth, canvasHeight);
         drawCircle(ctx);
         drawTriangles(ctx, condition);
         drawAngles(ctx, alpha, beta, condition);
-    }
-    function drawPoint(context, radius, point, color) {
-        context.fillStyle = color;
-        context.beginPath();
-        context.arc(point[0], point[1], radius, 0, twoPI);
-        context.fill();
+        points.forEach((point) => drawGeometryPoint(ctx, point, palette.primary));
+        if (candidatePoint !== null) {
+            drawGeometryPoint(ctx, candidatePoint, palette.primary, "hover");
+        }
+        if (selectedPoint !== null) {
+            drawGeometryPoint(ctx, selectedPoint, palette.primary, "active");
+        }
     }
     function drawTriangles(context, condition) {
         const [point0, point1, point2, point3] = points;
         context.fillStyle = palette.fill;
         context.strokeStyle = palette.primary;
-        context.lineWidth = 2;
+        context.lineWidth = geometryStrokeWidth;
         context.beginPath();
         context.moveTo(point0[0], point0[1]);
         context.lineTo(point1[0], point1[1]);
@@ -189,7 +181,7 @@ import { Vector } from "../geometry/vector.js";
             denominator;
         const radius = Math.hypot(ax - x, ay - y);
         context.strokeStyle = palette.guide;
-        context.lineWidth = 2;
+        context.lineWidth = geometryStrokeWidth;
         context.setLineDash([12, 8]);
         context.beginPath();
         context.arc(x, y, radius, 0, twoPI);
@@ -198,6 +190,7 @@ import { Vector } from "../geometry/vector.js";
     }
     function drawAngles(context, alpha, beta, condition) {
         context.fillStyle = condition ? palette.success : palette.danger;
+        context.strokeStyle = context.fillStyle;
         context.beginPath();
         context.arc(alpha.px, alpha.py, 30, alpha.startAngle, alpha.endAngle);
         context.stroke();
@@ -212,24 +205,6 @@ import { Vector } from "../geometry/vector.js";
         const rect = workingArea();
         const angleSum = (beta.angle + alpha.angle).toFixed(0);
         context.fillText(`α + β = ${angleSum}`, 0.5 * rect.maxX + 30, rect.maxY + 30);
-    }
-    function readPalette() {
-        const styles = getComputedStyle(canvas);
-        return {
-            primary: readColor(styles, "--delaunay-primary"),
-            guide: readColor(styles, "--delaunay-guide"),
-            fill: readColor(styles, "--delaunay-fill"),
-            accent: readColor(styles, "--delaunay-accent"),
-            success: readColor(styles, "--delaunay-success"),
-            danger: readColor(styles, "--delaunay-danger"),
-        };
-    }
-    function readColor(styles, property) {
-        const color = styles.getPropertyValue(property).trim();
-        if (color.length === 0) {
-            throw new Error(`Missing CSS color ${property}`);
-        }
-        return color;
     }
     function angle(pointA, pointB, origin) {
         const vectorA = Vector.between(origin, pointA);

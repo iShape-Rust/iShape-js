@@ -129,6 +129,37 @@ Full example is available [here](https://github.com/iShape-Rust/iShape-js/tree/m
 Import classes and initialize the WebAssembly module using init().
 Use the imported classes to perform geometric operations.
 
+## Uniform Triangulation and Mesh Relaxation
+
+Build a Delaunay mesh with a target edge length, then relax its interior vertices
+while keeping outer and hole boundaries fixed:
+
+```javascript
+import init, { Triangulator } from 'ishape_wasm';
+
+await init();
+const triangulator = new Triangulator();
+const delaunay = triangulator.uniform_triangulate(shape, 40);
+triangulator.free();
+
+const relaxation = delaunay.relax_mut({ maxIterations: 24, tolerance: 0 });
+const mesh = delaunay.to_triangulation();
+delaunay.free();
+```
+
+`uniform_triangulate(path, edgeLength)` accepts a contour, shape, or multiple
+shapes and returns `Delaunay` directly. It splits boundary edges and adds an
+interior lattice. The target edge length must be finite, positive, and above the
+integer engine's coordinate precision. For the previous refinement method, use
+`triangulate(path).into_delaunay()` and `refine_with_circumcenters(maxArea)`.
+
+`relax_mut()` modifies the mesh in place and returns `{ iterations, converged }`.
+Both options are optional: `maxIterations` defaults to 8, and `tolerance` to 0.
+Invalid options throw before modifying the mesh. The
+[Tessellation demo](https://ishape-rust.github.io/iShape-js/triangle/tessellation.html)
+defaults to Uniform with relaxation enabled. Both subdivision methods can be
+compared using the same triangle, centroid-net, and convex-polygon views.
+
 ## Curve Boolean Operations
 
 `CurveBuilder` uses the familiar Canvas-style path methods. Every contour must

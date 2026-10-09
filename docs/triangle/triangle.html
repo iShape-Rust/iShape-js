@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../theme/demo-2f2112ec.css">
+        <link rel="stylesheet" href="../theme/demo-f1d3536a.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -38,7 +38,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-5712c804.js";
+            window.path_to_searchindex_js = "../searchindex-cd06bc39.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-d616ba19.js"></script>
@@ -186,10 +186,42 @@
 <h2 id="features"><a class="header" href="#features">Features</a></h2>
 <ul>
 <li>Delaunay triangulation</li>
+<li>Uniform triangulation with a target edge length</li>
+<li>Interior vertex relaxation with fixed boundaries</li>
 <li>Break into convex polygons</li>
 <li>Support any kind of polygons</li>
 <li>Self-Intersection Resolving</li>
 </ul>
+<h2 id="uniform-triangulation-and-mesh-relaxation"><a class="header" href="#uniform-triangulation-and-mesh-relaxation">Uniform Triangulation and Mesh Relaxation</a></h2>
+<p><code>uniform_triangulate(path, edgeLength)</code> splits boundary edges and adds an interior
+lattice to build a Delaunay mesh with a target edge length. It accepts a contour,
+shape, or multiple shapes and returns <code>Delaunay</code> directly. The edge length must
+be finite, positive, and above the integer engine’s coordinate precision.</p>
+<p>After building the mesh, <code>relax_mut()</code> moves its interior vertices toward
+the area centroids of their centroid-net cells. Outer and hole boundary vertices
+remain fixed. The same relaxed mesh can produce triangles, convex polygons, or
+a centroid net. Try the <strong>Relaxation</strong> checkbox in <a href="tessellation.html">Tessellation</a>,
+enabled by default with up to 24 iterations. <strong>Subdivision</strong> defaults to Uniform;
+choose Circumcenters to compare it with the previous refinement method. The
+slider controls target edge length for Uniform and maximum area for Circumcenters.</p>
+<pre><code class="language-javascript">const triangulator = new Triangulator();
+const delaunay = triangulator.uniform_triangulate(shape, 40);
+triangulator.free();
+
+const relaxation = delaunay.relax_mut({ maxIterations: 24 });
+const mesh = delaunay.to_triangulation();
+const cells = delaunay.to_centroid_net(0);
+delaunay.free();
+</code></pre>
+<p><code>RelaxationOptions</code> accepts <code>maxIterations</code> (a non-negative integer, default 8)
+and <code>tolerance</code> (a finite, non-negative distance in input coordinates, default 0).
+Options may be omitted. The returned <code>RelaxationResult</code> contains <code>iterations</code>
+and <code>converged</code>. Invalid options throw an error before modifying the mesh.</p>
+<p>To use the previous subdivision method, create a mesh with
+<code>triangulate(shape).into_delaunay()</code> and call <code>refine_with_circumcenters(maxArea)</code>
+before relaxation.</p>
+<p>Use <code>to_centroid_net(0)</code> to return every cell. Its argument is a minimum cell
+area filter, independent of the area threshold used to refine the triangles.</p>
 <h2 id="source-code"><a class="header" href="#source-code">Source Code</a></h2>
 <ul>
 <li>Swift Version: <a href="https://github.com/iShape-Swift/iTriangle">iShape-Swift/iTriangle</a></li>
@@ -263,6 +295,7 @@
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
+        <script src="../theme/geometry-diagrams-6a5517cb.js"></script>
 
 
 
