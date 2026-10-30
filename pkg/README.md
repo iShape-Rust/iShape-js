@@ -13,12 +13,14 @@ Try out iShape with an interactive demo.
 - [Path Offset](https://ishape-rust.github.io/iShape-js/overlay/stroke.html)
 - [Polygon Offset](https://ishape-rust.github.io/iShape-js/overlay/outline.html)
 - [Triangulation](https://ishape-rust.github.io/iShape-js/triangle/triangulation.html)
+- [Minkowski Operations](https://ishape-rust.github.io/iShape-js/triangle/minkowski.html)
 - [iCurve Boolean Playground](https://ishape-rust.github.io/iShape-js/curve/boolean_playground.html)
 - [iCurve TypeCurve](https://ishape-rust.github.io/iShape-js/curve/type_curve.html)
 
 ## Features
 
 - **Boolean Operations**: union, intersection, difference, and exclusion.
+- **Minkowski Operations**: sum and difference of filled polygon regions, including holes.
 - **Curves**: Boolean operations on lines, quadratic and cubic Bézier curves, and elliptic arcs.
 - **Polygons**: with holes, self-intersections, and multiple paths.
 - **Simplification**: removes degenerate vertices and merges collinear edges.

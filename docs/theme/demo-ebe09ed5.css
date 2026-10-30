@@ -1180,3 +1180,46 @@
 #delaunayCanvas {
     max-width: 500px;
 }
+
+.minkowski-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    margin: 0.75rem 0;
+}
+
+.minkowski-toolbar .demo-hint {
+    flex: 1 1 18rem;
+    margin: 0;
+    text-align: left;
+}
+
+.minkowski-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 1.5rem;
+    margin: 0.75rem 0;
+}
+
+.minkowski-result {
+    color: var(--geometry-result);
+}
+
+.minkowski-canvas {
+    aspect-ratio: 5 / 4;
+    touch-action: none;
+}
+
+.minkowski-status {
+    color: var(--geometry-muted);
+    min-height: 1.5em;
+    font-size: 0.85em;
+    text-align: right;
+}
+
+.minkowski-status.is-error {
+    color: var(--geometry-subject);
+}

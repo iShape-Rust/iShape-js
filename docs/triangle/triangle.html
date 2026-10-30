@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../theme/demo-f1d3536a.css">
+        <link rel="stylesheet" href="../theme/demo-ebe09ed5.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -38,10 +38,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-cd06bc39.js";
+            window.path_to_searchindex_js = "../searchindex-a2e388c5.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-d616ba19.js"></script>
+        <script src="../toc-2ff2174f.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -189,6 +189,7 @@
 <li>Uniform triangulation with a target edge length</li>
 <li>Interior vertex relaxation with fixed boundaries</li>
 <li>Break into convex polygons</li>
+<li>Minkowski sum and difference, including shapes with holes</li>
 <li>Support any kind of polygons</li>
 <li>Self-Intersection Resolving</li>
 </ul>
@@ -222,6 +223,22 @@ and <code>converged</code>. Invalid options throw an error before modifying the 
 before relaxation.</p>
 <p>Use <code>to_centroid_net(0)</code> to return every cell. Its argument is a minimum cell
 area filter, independent of the area threshold used to refine the triangles.</p>
+<h2 id="minkowski-operations"><a class="header" href="#minkowski-operations">Minkowski Operations</a></h2>
+<p><code>minkowski_sum(a, b, fillRule)</code> and <code>minkowski_difference(a, b, fillRule)</code> accept
+a contour, a shape with holes, or multiple shapes for either operand and return
+<code>ShapesData</code>. Both operands use the same fill rule. Empty regions produce an
+empty result; malformed paths and invalid coordinates throw an error.</p>
+<pre><code class="language-javascript">import init, { FillRule, minkowski_sum, minkowski_difference } from './ishape_wasm.js';
+
+await init();
+const a = [[0, 0], [2, 0], [2, 2], [0, 2]];
+const b = [[0, 0], [1, 0], [0, 1]];
+const sum = minkowski_sum(a, b, FillRule.NonZero);
+const difference = minkowski_difference(a, b, FillRule.NonZero);
+</code></pre>
+<p>The sum contains all point sums <code>a + b</code>. The difference contains all <code>a − b</code>,
+equivalently <code>A + (−B)</code>, reflecting B through the origin. It is not erosion or
+Boolean subtraction. Try both operations in the <a href="minkowski.html">Minkowski demo</a>.</p>
 <h2 id="source-code"><a class="header" href="#source-code">Source Code</a></h2>
 <ul>
 <li>Swift Version: <a href="https://github.com/iShape-Swift/iTriangle">iShape-Swift/iTriangle</a></li>

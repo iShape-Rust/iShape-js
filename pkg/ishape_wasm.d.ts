@@ -323,6 +323,10 @@ export class Triangulator {
     uniform_triangulate(path_js: PathData, edge_length: number): Delaunay;
 }
 
+export function minkowski_difference(a: PathData, b: PathData, fill_rule: FillRule): ShapesData;
+
+export function minkowski_sum(a: PathData, b: PathData, fill_rule: FillRule): ShapesData;
+
 export function simplify(contours_js: PathData, fill_rule: FillRule): ShapesData | undefined;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -393,6 +397,8 @@ export interface InitOutput {
     readonly delaunay_to_centroid_net: (a: number, b: number) => any;
     readonly delaunay_to_convex_polygons: (a: number) => any;
     readonly delaunay_to_triangulation: (a: number) => any;
+    readonly minkowski_difference: (a: any, b: any, c: number) => [number, number, number];
+    readonly minkowski_sum: (a: any, b: any, c: number) => [number, number, number];
     readonly outlinebuilder_build: (a: number, b: any) => any;
     readonly outlinebuilder_with_style: (a: number) => number;
     readonly outlinestyle_create: () => number;

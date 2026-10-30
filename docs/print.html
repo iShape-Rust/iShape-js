@@ -29,7 +29,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="theme/demo-f1d3536a.css">
+        <link rel="stylesheet" href="theme/demo-ebe09ed5.css">
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -39,10 +39,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-cd06bc39.js";
+            window.path_to_searchindex_js = "searchindex-a2e388c5.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-d616ba19.js"></script>
+        <script src="toc-2ff2174f.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -3400,6 +3400,7 @@ $$</p>
 <li>Uniform triangulation with a target edge length</li>
 <li>Interior vertex relaxation with fixed boundaries</li>
 <li>Break into convex polygons</li>
+<li>Minkowski sum and difference, including shapes with holes</li>
 <li>Support any kind of polygons</li>
 <li>Self-Intersection Resolving</li>
 </ul>
@@ -3433,6 +3434,22 @@ and <code>converged</code>. Invalid options throw an error before modifying the 
 before relaxation.</p>
 <p>Use <code>to_centroid_net(0)</code> to return every cell. Its argument is a minimum cell
 area filter, independent of the area threshold used to refine the triangles.</p>
+<h2 id="minkowski-operations"><a class="header" href="#minkowski-operations">Minkowski Operations</a></h2>
+<p><code>minkowski_sum(a, b, fillRule)</code> and <code>minkowski_difference(a, b, fillRule)</code> accept
+a contour, a shape with holes, or multiple shapes for either operand and return
+<code>ShapesData</code>. Both operands use the same fill rule. Empty regions produce an
+empty result; malformed paths and invalid coordinates throw an error.</p>
+<pre><code class="language-javascript">import init, { FillRule, minkowski_sum, minkowski_difference } from './ishape_wasm.js';
+
+await init();
+const a = [[0, 0], [2, 0], [2, 2], [0, 2]];
+const b = [[0, 0], [1, 0], [0, 1]];
+const sum = minkowski_sum(a, b, FillRule.NonZero);
+const difference = minkowski_difference(a, b, FillRule.NonZero);
+</code></pre>
+<p>The sum contains all point sums <code>a + b</code>. The difference contains all <code>a − b</code>,
+equivalently <code>A + (−B)</code>, reflecting B through the origin. It is not erosion or
+Boolean subtraction. Try both operations in the <a href="#minkowski">Minkowski demo</a>.</p>
 <h2 id="source-code-1"><a class="header" href="#source-code-1">Source Code</a></h2>
 <ul>
 <li>Swift Version: <a href="https://github.com/iShape-Swift/iTriangle">iShape-Swift/iTriangle</a></li>
@@ -3440,10 +3457,11 @@ area filter, independent of the area threshold used to refine the triangles.</p>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="demo-1"><a class="header" href="#demo-1">Demo</a></h1>
-<p>This section contains interactive examples that demonstrate how <strong>iTriangle</strong> performs triangulation and tessellation.</p>
+<p>This section contains interactive examples of <strong>iTriangle</strong> triangulation, tessellation, and Minkowski operations.</p>
 <ul>
 <li><strong><a href="#triangulation">Triangulation</a></strong> – Basic polygon triangulation.</li>
 <li><strong><a href="#tessellation">Tessellation</a></strong> – Subdivision of polygons into smaller.</li>
+<li><strong><a href="#minkowski">Minkowski</a></strong> – Sum and difference of two shapes with selectable presets and draggable vertices.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="triangulation"><a href="#triangulation" class="header">Triangulation</a></h1>
@@ -3586,6 +3604,62 @@ async function fileExists(path) {
     </div>
 
     <canvas class="demo-canvas demo-canvas--draggable" id="editorCanvas-4" width="800" height="800"></canvas>
+</div>
+
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="minkowski"><a href="#minkowski" class="header">Minkowski</a></h1>
+<div class="demo-shell minkowski-demo">
+<script type="module">
+const paths = ['../js/triangle/minkowski.js', './js/triangle/minkowski.js', '/js/triangle/minkowski.js'];
+for (const path of paths) {
+    let response;
+    try { response = await fetch(path, { method: 'HEAD' }); } catch { continue; }
+    if (response.ok) {
+        await import(path);
+        break;
+    }
+}
+</script>
+<h1 class="demo-title">Minkowski Operations</h1>
+
+<div class="demo-controls">
+<div class="demo-control">
+<label class="geometry-subject" for="minkowski-a">Shape A:</label>
+<select id="minkowski-a" disabled=""></select>
+</div>
+
+<div class="demo-control">
+<label class="geometry-clip" for="minkowski-b">Shape B:</label>
+<select id="minkowski-b" disabled=""></select>
+</div>
+
+<div class="demo-control">
+<label for="minkowski-operation">Operation:</label>
+<select id="minkowski-operation" disabled="">
+<option value="sum">Sum: A + B</option>
+<option value="difference">Difference: A − B</option>
+</select>
+</div>
+
+</div>
+
+<div class="minkowski-toolbar">
+<p class="demo-hint">Drag the vertices of either shape, including the hole, to update the result.</p>
+
+<button class="demo-button" id="minkowski-reset" type="button" disabled="">Reset shapes</button>
+</div>
+
+<div class="minkowski-legend" aria-label="Shape colors">
+<span class="geometry-subject">■ A</span>
+<span class="geometry-clip">■ B</span>
+<span class="minkowski-result">■ Result: <strong id="minkowski-formula">A + B</strong></span>
+</div>
+
+<canvas class="demo-canvas minkowski-canvas" id="minkowski-canvas" width="800" height="640" aria-label="Minkowski result and editable vertices of shapes A and B on a shared coordinate grid"></canvas>
+<p class="minkowski-status" id="minkowski-status" role="status" aria-live="polite">Loading Minkowski operations…</p>
+
+<p class="demo-hint">Both shapes share the same origin. The sum contains all point sums a + b; the difference contains all a − b and reflects B through the origin. Minkowski difference is not Boolean subtraction or erosion. Shapes use the Non-Zero fill rule. Circle is a 24-sided polygon.</p>
+
 </div>
 
 <div style="break-before: page; page-break-before: always;"></div>

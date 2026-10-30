@@ -13,6 +13,7 @@
 - Uniform triangulation with a target edge length
 - Interior vertex relaxation with fixed boundaries
 - Break into convex polygons
+- Minkowski sum and difference, including shapes with holes
 - Support any kind of polygons
 - Self-Intersection Resolving
 
@@ -53,6 +54,27 @@ before relaxation.
 
 Use `to_centroid_net(0)` to return every cell. Its argument is a minimum cell
 area filter, independent of the area threshold used to refine the triangles.
+
+## Minkowski Operations
+
+`minkowski_sum(a, b, fillRule)` and `minkowski_difference(a, b, fillRule)` accept
+a contour, a shape with holes, or multiple shapes for either operand and return
+`ShapesData`. Both operands use the same fill rule. Empty regions produce an
+empty result; malformed paths and invalid coordinates throw an error.
+
+```javascript
+import init, { FillRule, minkowski_sum, minkowski_difference } from './ishape_wasm.js';
+
+await init();
+const a = [[0, 0], [2, 0], [2, 2], [0, 2]];
+const b = [[0, 0], [1, 0], [0, 1]];
+const sum = minkowski_sum(a, b, FillRule.NonZero);
+const difference = minkowski_difference(a, b, FillRule.NonZero);
+```
+
+The sum contains all point sums `a + b`. The difference contains all `a − b`,
+equivalently `A + (−B)`, reflecting B through the origin. It is not erosion or
+Boolean subtraction. Try both operations in the [Minkowski demo](minkowski.md).
 
 ## Source Code
 

@@ -911,6 +911,34 @@ export class Triangulator {
 if (Symbol.dispose) Triangulator.prototype[Symbol.dispose] = Triangulator.prototype.free;
 
 /**
+ * @param {PathData} a
+ * @param {PathData} b
+ * @param {FillRule} fill_rule
+ * @returns {ShapesData}
+ */
+export function minkowski_difference(a, b, fill_rule) {
+    const ret = wasm.minkowski_difference(a, b, fill_rule);
+    if (ret[2]) {
+        throw takeFromExternrefTable0(ret[1]);
+    }
+    return takeFromExternrefTable0(ret[0]);
+}
+
+/**
+ * @param {PathData} a
+ * @param {PathData} b
+ * @param {FillRule} fill_rule
+ * @returns {ShapesData}
+ */
+export function minkowski_sum(a, b, fill_rule) {
+    const ret = wasm.minkowski_sum(a, b, fill_rule);
+    if (ret[2]) {
+        throw takeFromExternrefTable0(ret[1]);
+    }
+    return takeFromExternrefTable0(ret[0]);
+}
+
+/**
  * @param {PathData} contours_js
  * @param {FillRule} fill_rule
  * @returns {ShapesData | undefined}

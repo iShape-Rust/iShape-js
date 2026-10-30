@@ -18,7 +18,8 @@ npm run build
 Set `WASM_BINDGEN_BIN` to use an existing compatible wasm-bindgen executable.
 The command checks its version against Cargo.lock and updates `pkg` alongside
 the demo assets. Run `node --test tests/triangle_relaxation.mjs` from the repository
-root to check relaxation against the generated WASM.
+root to check relaxation against the generated WASM. Run
+`node --test tests/minkowski.mjs` to check Minkowski operations and demo presets.
 
 ## Updating Overlay Editor
 

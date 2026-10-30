@@ -16,9 +16,9 @@ codegen-units = 1
 crate-type = ["cdylib"]
 
 [dependencies]
-i_triangle = { version = "0.49.0", features = ["serde"] }
+i_triangle = { version = "0.51.0", features = ["serde"] }
 #i_triangle = { path = "../iTriangle/iTriangle", features = ["serde"] }
-i_curve = "0.2.0"
+i_curve = "0.2.1"
 #i_curve = { path = "../iCurve/iCurve" }
 
 
